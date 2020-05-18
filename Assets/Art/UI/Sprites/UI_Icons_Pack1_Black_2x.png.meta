@@ -1,0 +1,3890 @@
+fileFormatVersion: 2
+guid: 7813dbb4d36d3e84aa9b1a0e0222681a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4610831543924070889
+    second: sheet_black2x_0
+  - first:
+      213: 9068676445157225168
+    second: sheet_black2x_1
+  - first:
+      213: 1035534976813895219
+    second: sheet_black2x_2
+  - first:
+      213: -2458868773236547990
+    second: sheet_black2x_3
+  - first:
+      213: 8702370113614735453
+    second: sheet_black2x_4
+  - first:
+      213: 2900805566667253839
+    second: sheet_black2x_5
+  - first:
+      213: 3380032895078457927
+    second: sheet_black2x_6
+  - first:
+      213: -6564445850224024574
+    second: sheet_black2x_7
+  - first:
+      213: 1947345967234025383
+    second: sheet_black2x_8
+  - first:
+      213: -7730265259061465956
+    second: sheet_black2x_9
+  - first:
+      213: 8594826091080997730
+    second: sheet_black2x_10
+  - first:
+      213: 2475659480052814479
+    second: sheet_black2x_11
+  - first:
+      213: -1063867292857098295
+    second: sheet_black2x_12
+  - first:
+      213: 4125874371968747288
+    second: sheet_black2x_13
+  - first:
+      213: -6460699705631649556
+    second: sheet_black2x_14
+  - first:
+      213: -3419221798541287675
+    second: sheet_black2x_15
+  - first:
+      213: -7324238611830465183
+    second: sheet_black2x_16
+  - first:
+      213: 8479831054567134493
+    second: sheet_black2x_17
+  - first:
+      213: -1393934000544827388
+    second: sheet_black2x_18
+  - first:
+      213: 5431992065381586461
+    second: sheet_black2x_19
+  - first:
+      213: 6138235060276796002
+    second: sheet_black2x_20
+  - first:
+      213: 3442378338690507321
+    second: sheet_black2x_21
+  - first:
+      213: -4179619861167846807
+    second: sheet_black2x_22
+  - first:
+      213: -2896471996513609226
+    second: sheet_black2x_23
+  - first:
+      213: -5210985277296775384
+    second: sheet_black2x_24
+  - first:
+      213: -6601140450095581521
+    second: sheet_black2x_25
+  - first:
+      213: -7467063340555171044
+    second: sheet_black2x_26
+  - first:
+      213: 5001068032419020682
+    second: sheet_black2x_27
+  - first:
+      213: -2879501336460266586
+    second: sheet_black2x_28
+  - first:
+      213: -4425626650328724733
+    second: sheet_black2x_29
+  - first:
+      213: -7965377287780274236
+    second: sheet_black2x_30
+  - first:
+      213: -5691938136737694438
+    second: sheet_black2x_31
+  - first:
+      213: -1739520746544820336
+    second: sheet_black2x_32
+  - first:
+      213: -6266835374072735755
+    second: sheet_black2x_33
+  - first:
+      213: 1678909017372441216
+    second: sheet_black2x_34
+  - first:
+      213: -5715488632515507675
+    second: sheet_black2x_35
+  - first:
+      213: 4246452179809465788
+    second: sheet_black2x_36
+  - first:
+      213: -4938516661549951868
+    second: sheet_black2x_37
+  - first:
+      213: -9014586510382169293
+    second: sheet_black2x_38
+  - first:
+      213: -4255568214768235197
+    second: sheet_black2x_39
+  - first:
+      213: -1613365264567515113
+    second: sheet_black2x_40
+  - first:
+      213: -4941010800870631121
+    second: sheet_black2x_41
+  - first:
+      213: 4133069147620146767
+    second: sheet_black2x_42
+  - first:
+      213: -2223161673160228312
+    second: sheet_black2x_43
+  - first:
+      213: -4654008843394711317
+    second: sheet_black2x_44
+  - first:
+      213: -7815688069281353651
+    second: sheet_black2x_45
+  - first:
+      213: -6812147022706793351
+    second: sheet_black2x_46
+  - first:
+      213: -6272674440240453173
+    second: sheet_black2x_47
+  - first:
+      213: -6831168874137314830
+    second: sheet_black2x_48
+  - first:
+      213: 6123065322829081341
+    second: sheet_black2x_49
+  - first:
+      213: -2007096145091953548
+    second: sheet_black2x_50
+  - first:
+      213: 755389990754444182
+    second: sheet_black2x_51
+  - first:
+      213: 4893528997357600474
+    second: sheet_black2x_52
+  - first:
+      213: 6580187331087412626
+    second: sheet_black2x_53
+  - first:
+      213: 1939018556149601345
+    second: sheet_black2x_54
+  - first:
+      213: -3373669797233763168
+    second: sheet_black2x_55
+  - first:
+      213: 1759645954955387637
+    second: sheet_black2x_56
+  - first:
+      213: 4854156148854198680
+    second: sheet_black2x_57
+  - first:
+      213: -2262391161077665200
+    second: sheet_black2x_58
+  - first:
+      213: -6038425388156640569
+    second: sheet_black2x_59
+  - first:
+      213: 5017911409966909733
+    second: sheet_black2x_60
+  - first:
+      213: -5454258772696485298
+    second: sheet_black2x_61
+  - first:
+      213: -3264824776593828334
+    second: sheet_black2x_62
+  - first:
+      213: 3885821169492368993
+    second: sheet_black2x_63
+  - first:
+      213: -6174362629160821217
+    second: sheet_black2x_64
+  - first:
+      213: 8340219774080354486
+    second: sheet_black2x_65
+  - first:
+      213: -6666036692524477959
+    second: sheet_black2x_66
+  - first:
+      213: -5261141999803525542
+    second: sheet_black2x_67
+  - first:
+      213: -5642467311788024021
+    second: sheet_black2x_68
+  - first:
+      213: 143700733826535927
+    second: sheet_black2x_69
+  - first:
+      213: 6209692014943457938
+    second: sheet_black2x_70
+  - first:
+      213: 7636090215893977001
+    second: sheet_black2x_71
+  - first:
+      213: -5477726825976652997
+    second: sheet_black2x_72
+  - first:
+      213: 6045616581677594482
+    second: sheet_black2x_73
+  - first:
+      213: 8451030765613692208
+    second: sheet_black2x_74
+  - first:
+      213: -6057174681152134454
+    second: sheet_black2x_75
+  - first:
+      213: -2802947523979538192
+    second: sheet_black2x_76
+  - first:
+      213: -9071017085418560295
+    second: sheet_black2x_77
+  - first:
+      213: 4813430625917598827
+    second: sheet_black2x_78
+  - first:
+      213: 2930060120064704355
+    second: sheet_black2x_79
+  - first:
+      213: 1832304834027635811
+    second: sheet_black2x_80
+  - first:
+      213: -3723876954042724644
+    second: sheet_black2x_81
+  - first:
+      213: -1732935174639588760
+    second: sheet_black2x_82
+  - first:
+      213: -5202436249698676820
+    second: sheet_black2x_83
+  - first:
+      213: 6366304332201048586
+    second: sheet_black2x_84
+  - first:
+      213: 5539380252394657335
+    second: sheet_black2x_85
+  - first:
+      213: 387025760409391880
+    second: sheet_black2x_86
+  - first:
+      213: -1522822361246860734
+    second: sheet_black2x_87
+  - first:
+      213: 4700262759229639083
+    second: sheet_black2x_88
+  - first:
+      213: 5150055686027493544
+    second: sheet_black2x_89
+  - first:
+      213: 1421038848775371581
+    second: sheet_black2x_90
+  - first:
+      213: -3906603841516763913
+    second: sheet_black2x_91
+  - first:
+      213: -90777943618057507
+    second: sheet_black2x_92
+  - first:
+      213: 8098154735309940213
+    second: sheet_black2x_93
+  - first:
+      213: -6151304073756195871
+    second: sheet_black2x_94
+  - first:
+      213: -1518292111510281579
+    second: sheet_black2x_95
+  - first:
+      213: -8046199136991754709
+    second: sheet_black2x_96
+  - first:
+      213: 4263823333786078758
+    second: sheet_black2x_97
+  - first:
+      213: 8531013299343006121
+    second: sheet_black2x_98
+  - first:
+      213: -4699258667649603243
+    second: sheet_black2x_99
+  - first:
+      213: -8842945640182468984
+    second: sheet_black2x_100
+  - first:
+      213: 7131681634604386179
+    second: sheet_black2x_101
+  - first:
+      213: -6417003560962499250
+    second: sheet_black2x_102
+  - first:
+      213: -8558294939859477911
+    second: sheet_black2x_103
+  - first:
+      213: 6634949439302792908
+    second: sheet_black2x_104
+  - first:
+      213: 2310872595132582417
+    second: sheet_black2x_105
+  - first:
+      213: -8136358380205384689
+    second: sheet_black2x_106
+  - first:
+      213: 7305652911804950547
+    second: sheet_black2x_107
+  - first:
+      213: -3237318614777192302
+    second: sheet_black2x_108
+  - first:
+      213: -96147526042170006
+    second: sheet_black2x_109
+  - first:
+      213: -5740181961735291673
+    second: sheet_black2x_110
+  - first:
+      213: -2705655355697242157
+    second: sheet_black2x_111
+  - first:
+      213: -1563066141275851935
+    second: sheet_black2x_112
+  - first:
+      213: -9140083110031866199
+    second: sheet_black2x_113
+  - first:
+      213: -5881974400928337660
+    second: sheet_black2x_114
+  - first:
+      213: 205450399332334319
+    second: sheet_black2x_115
+  - first:
+      213: 4543783123507985739
+    second: sheet_black2x_116
+  - first:
+      213: 1075577697623852202
+    second: sheet_black2x_117
+  - first:
+      213: -96727895148665983
+    second: sheet_black2x_118
+  - first:
+      213: -6017320212451304926
+    second: sheet_black2x_119
+  - first:
+      213: -3101510528093456996
+    second: sheet_black2x_120
+  - first:
+      213: 2973198516550946831
+    second: sheet_black2x_121
+  - first:
+      213: -4189003669051008365
+    second: sheet_black2x_122
+  - first:
+      213: -945997047950888246
+    second: sheet_black2x_123
+  - first:
+      213: -1792609540180916234
+    second: sheet_black2x_124
+  - first:
+      213: -2521518566768889965
+    second: sheet_black2x_125
+  - first:
+      213: -3466908717642501034
+    second: sheet_black2x_126
+  - first:
+      213: 8560592746238979767
+    second: sheet_black2x_127
+  - first:
+      213: 3326846341071897952
+    second: sheet_black2x_128
+  - first:
+      213: 4356676532505882091
+    second: sheet_black2x_129
+  - first:
+      213: -678578188584718506
+    second: sheet_black2x_130
+  - first:
+      213: 7526252443594301946
+    second: sheet_black2x_131
+  - first:
+      213: 781510826007832320
+    second: sheet_black2x_132
+  - first:
+      213: 4875924240694693671
+    second: sheet_black2x_133
+  - first:
+      213: 2414248438939047198
+    second: sheet_black2x_134
+  - first:
+      213: 4822009442578649001
+    second: sheet_black2x_135
+  - first:
+      213: -3439612331564827298
+    second: sheet_black2x_136
+  - first:
+      213: -9104180332499473564
+    second: sheet_black2x_137
+  - first:
+      213: 1648350547956114571
+    second: sheet_black2x_138
+  - first:
+      213: 5477225068347813098
+    second: sheet_black2x_139
+  - first:
+      213: 6661306380474221158
+    second: sheet_black2x_140
+  - first:
+      213: 5926841699958033636
+    second: sheet_black2x_141
+  - first:
+      213: 3476767319194256301
+    second: sheet_black2x_142
+  - first:
+      213: 8079846399605132842
+    second: sheet_black2x_143
+  - first:
+      213: 4421063027887334052
+    second: sheet_black2x_144
+  - first:
+      213: -7896407593052071473
+    second: sheet_black2x_145
+  - first:
+      213: 6526766475477950723
+    second: sheet_black2x_146
+  - first:
+      213: -5026644693158697133
+    second: sheet_black2x_147
+  - first:
+      213: 579440403393000145
+    second: sheet_black2x_148
+  - first:
+      213: -3750030219856378306
+    second: sheet_black2x_149
+  - first:
+      213: 7316577693919221921
+    second: sheet_black2x_150
+  - first:
+      213: -3034547760154548894
+    second: sheet_black2x_151
+  - first:
+      213: -7974723103497780801
+    second: sheet_black2x_152
+  - first:
+      213: -6239476019995286744
+    second: sheet_black2x_153
+  - first:
+      213: 1395930958085057668
+    second: sheet_black2x_154
+  - first:
+      213: -5843345807183168282
+    second: sheet_black2x_155
+  - first:
+      213: -5504858216878802048
+    second: sheet_black2x_156
+  - first:
+      213: 6235720381598610457
+    second: sheet_black2x_157
+  - first:
+      213: -4854538018985188595
+    second: sheet_black2x_158
+  - first:
+      213: -8301085668682129667
+    second: sheet_black2x_159
+  - first:
+      213: 7050569039465449416
+    second: sheet_black2x_160
+  - first:
+      213: 44108630135510930
+    second: sheet_black2x_161
+  - first:
+      213: -7546730570024461781
+    second: sheet_black2x_162
+  - first:
+      213: 2862265911028150928
+    second: sheet_black2x_163
+  - first:
+      213: 8060255659212936711
+    second: sheet_black2x_164
+  - first:
+      213: 5404485984908412729
+    second: sheet_black2x_165
+  - first:
+      213: 6483826375481258835
+    second: sheet_black2x_166
+  - first:
+      213: 2182638733712534556
+    second: sheet_black2x_167
+  - first:
+      213: 6137648543826934006
+    second: sheet_black2x_168
+  - first:
+      213: -2313543693452359216
+    second: sheet_black2x_169
+  - first:
+      213: -8924335728694657218
+    second: sheet_black2x_170
+  - first:
+      213: 846804529357497039
+    second: sheet_black2x_171
+  - first:
+      213: -2593590920663100156
+    second: sheet_black2x_172
+  - first:
+      213: 7000918170127669551
+    second: sheet_black2x_173
+  - first:
+      213: 8865526198556162527
+    second: sheet_black2x_174
+  - first:
+      213: -5818758688766483809
+    second: sheet_black2x_175
+  - first:
+      213: -5333551384015236358
+    second: sheet_black2x_176
+  - first:
+      213: -2933278586846253212
+    second: sheet_black2x_177
+  - first:
+      213: -5956491277795379544
+    second: sheet_black2x_178
+  - first:
+      213: 3557187322269307769
+    second: sheet_black2x_179
+  - first:
+      213: -5445207447727134303
+    second: sheet_black2x_180
+  - first:
+      213: -1870427302316913659
+    second: sheet_black2x_181
+  - first:
+      213: -3553506111120930352
+    second: sheet_black2x_182
+  - first:
+      213: 4741587012213692006
+    second: sheet_black2x_183
+  - first:
+      213: -6399483822513096449
+    second: sheet_black2x_184
+  - first:
+      213: -1175217851627667421
+    second: sheet_black2x_185
+  - first:
+      213: -2730701958967176576
+    second: sheet_black2x_186
+  - first:
+      213: 360671398882660176
+    second: sheet_black2x_187
+  - first:
+      213: 8317514043785146030
+    second: sheet_black2x_188
+  - first:
+      213: -8885243358241721155
+    second: sheet_black2x_189
+  - first:
+      213: 3576317999671061441
+    second: sheet_black2x_190
+  - first:
+      213: -1973258620425325419
+    second: sheet_black2x_191
+  - first:
+      213: 6916505826869058593
+    second: sheet_black2x_192
+  - first:
+      213: 9113249655031541065
+    second: sheet_black2x_193
+  - first:
+      213: -2417036497338536453
+    second: sheet_black2x_194
+  - first:
+      213: -8713106631168351399
+    second: sheet_black2x_195
+  - first:
+      213: 3711500690594999583
+    second: sheet_black2x_196
+  - first:
+      213: 7521012283056508706
+    second: sheet_black2x_197
+  - first:
+      213: 1622726174772591023
+    second: sheet_black2x_198
+  - first:
+      213: -3417416761990529687
+    second: sheet_black2x_199
+  - first:
+      213: 7075207052265445648
+    second: sheet_black2x_200
+  - first:
+      213: 3415317689176709620
+    second: sheet_black2x_201
+  - first:
+      213: 797949840553360886
+    second: sheet_black2x_202
+  - first:
+      213: -7191026073889050439
+    second: sheet_black2x_203
+  - first:
+      213: 3769834781942608212
+    second: sheet_black2x_204
+  - first:
+      213: -4797696703538660811
+    second: sheet_black2x_205
+  - first:
+      213: -1206905583869020145
+    second: sheet_black2x_206
+  - first:
+      213: -3529354429796803514
+    second: sheet_black2x_207
+  - first:
+      213: 1621359187472039196
+    second: sheet_black2x_208
+  - first:
+      213: 5479664722332096565
+    second: sheet_black2x_209
+  - first:
+      213: 6705611478715677841
+    second: sheet_black2x_210
+  - first:
+      213: -365473578407550766
+    second: sheet_black2x_211
+  - first:
+      213: -3250352969773390760
+    second: sheet_black2x_212
+  - first:
+      213: 6925716817044878296
+    second: sheet_black2x_213
+  - first:
+      213: -1188872637280816885
+    second: sheet_black2x_214
+  - first:
+      213: -3920719434730099384
+    second: sheet_black2x_215
+  - first:
+      213: -3255648352137252843
+    second: sheet_black2x_216
+  - first:
+      213: -8865517997157878498
+    second: sheet_black2x_217
+  - first:
+      213: -7226313248096019948
+    second: sheet_black2x_218
+  - first:
+      213: 7737050288551313325
+    second: sheet_black2x_219
+  - first:
+      213: -5232650729701472066
+    second: sheet_black2x_220
+  - first:
+      213: 4856515803269750795
+    second: sheet_black2x_221
+  - first:
+      213: 5071721308750436860
+    second: sheet_black2x_222
+  - first:
+      213: -1741682929404414353
+    second: sheet_black2x_223
+  - first:
+      213: -6390073366487002926
+    second: sheet_black2x_224
+  - first:
+      213: -3425004870185760390
+    second: sheet_black2x_225
+  - first:
+      213: 2963721751312226541
+    second: sheet_black2x_226
+  - first:
+      213: -2462025072021663524
+    second: sheet_black2x_227
+  - first:
+      213: 1259187802379550909
+    second: sheet_black2x_228
+  - first:
+      213: 8168789726565818712
+    second: sheet_black2x_229
+  - first:
+      213: 920479719380457038
+    second: sheet_black2x_230
+  - first:
+      213: 2438479065831666342
+    second: sheet_black2x_231
+  - first:
+      213: 8225440578225630354
+    second: sheet_black2x_232
+  - first:
+      213: 1866296225660780080
+    second: sheet_black2x_233
+  - first:
+      213: 7545291665749820195
+    second: sheet_black2x_234
+  - first:
+      213: -3295634323202355905
+    second: sheet_black2x_235
+  - first:
+      213: -5029429440419808699
+    second: sheet_black2x_236
+  - first:
+      213: 5517502674760550273
+    second: sheet_black2x_237
+  - first:
+      213: 2270555898586799044
+    second: sheet_black2x_238
+  - first:
+      213: -5839486247439343131
+    second: sheet_black2x_239
+  - first:
+      213: 6125923830885447625
+    second: sheet_black2x_240
+  - first:
+      213: 5814610532231790413
+    second: sheet_black2x_241
+  - first:
+      213: -9100632927550566171
+    second: sheet_black2x_242
+  - first:
+      213: -4097534251975909755
+    second: sheet_black2x_243
+  - first:
+      213: -3023435183704722944
+    second: sheet_black2x_244
+  - first:
+      213: -5465751731780356031
+    second: sheet_black2x_245
+  - first:
+      213: 8876031672506894464
+    second: sheet_black2x_246
+  - first:
+      213: -7152850701789922641
+    second: sheet_black2x_247
+  - first:
+      213: 2908732668550253765
+    second: sheet_black2x_248
+  - first:
+      213: -1545712738166847738
+    second: sheet_black2x_249
+  - first:
+      213: 4650782950716615298
+    second: sheet_black2x_250
+  - first:
+      213: 4809054991370474717
+    second: sheet_black2x_251
+  - first:
+      213: -6043178421423264273
+    second: sheet_black2x_252
+  - first:
+      213: -2216732582798942960
+    second: sheet_black2x_253
+  - first:
+      213: 3310688532626404085
+    second: sheet_black2x_254
+  - first:
+      213: -8418003365775822445
+    second: sheet_black2x_255
+  - first:
+      213: -4403873321950594259
+    second: sheet_black2x_256
+  - first:
+      213: 9031207276467114397
+    second: sheet_black2x_257
+  - first:
+      213: -5929778181537770657
+    second: sheet_black2x_258
+  - first:
+      213: 3246070787758443343
+    second: sheet_black2x_259
+  - first:
+      213: 6124476683432734561
+    second: sheet_black2x_260
+  - first:
+      213: 2678958961869366832
+    second: sheet_black2x_261
+  - first:
+      213: -911548450205124819
+    second: sheet_black2x_262
+  - first:
+      213: 1355457848143051878
+    second: sheet_black2x_263
+  - first:
+      213: 1293386296327580918
+    second: sheet_black2x_264
+  - first:
+      213: 1129322665479254512
+    second: sheet_black2x_265
+  - first:
+      213: -1777778769990142211
+    second: sheet_black2x_266
+  - first:
+      213: -1192833681550277460
+    second: sheet_black2x_267
+  - first:
+      213: -3970105155338743513
+    second: sheet_black2x_268
+  - first:
+      213: -2473667492514549811
+    second: sheet_black2x_269
+  - first:
+      213: 7525997888757437556
+    second: sheet_black2x_270
+  - first:
+      213: -5382817296513033349
+    second: sheet_black2x_271
+  - first:
+      213: 1844128679786737030
+    second: sheet_black2x_272
+  - first:
+      213: -536686391777107993
+    second: sheet_black2x_273
+  - first:
+      213: 3038196289840036287
+    second: sheet_black2x_274
+  - first:
+      213: -6565872230910197213
+    second: sheet_black2x_275
+  - first:
+      213: 3185951626550811263
+    second: sheet_black2x_276
+  - first:
+      213: 6078786531573913778
+    second: sheet_black2x_277
+  - first:
+      213: -1575364551954190943
+    second: sheet_black2x_278
+  - first:
+      213: 8774557012588100829
+    second: sheet_black2x_279
+  - first:
+      213: -2049715036975083499
+    second: sheet_black2x_280
+  - first:
+      213: -6455925771908014457
+    second: sheet_black2x_281
+  - first:
+      213: -7969122863214840085
+    second: sheet_black2x_282
+  - first:
+      213: 183920638287878507
+    second: sheet_black2x_283
+  - first:
+      213: 7687068105634567997
+    second: sheet_black2x_284
+  - first:
+      213: -1958892989047029081
+    second: sheet_black2x_285
+  - first:
+      213: 6758391758843455217
+    second: sheet_black2x_286
+  - first:
+      213: 8833218249795059518
+    second: sheet_black2x_287
+  - first:
+      213: 8469263008476066449
+    second: sheet_black2x_288
+  - first:
+      213: -513968191268254677
+    second: sheet_black2x_289
+  - first:
+      213: 8960731130126303663
+    second: sheet_black2x_290
+  - first:
+      213: 8709291964033481935
+    second: sheet_black2x_291
+  - first:
+      213: 7385071950249433655
+    second: sheet_black2x_292
+  - first:
+      213: -8000998450375097178
+    second: sheet_black2x_293
+  - first:
+      213: 2213022193579682675
+    second: sheet_black2x_294
+  - first:
+      213: 719120787410149164
+    second: sheet_black2x_295
+  - first:
+      213: 5724092242463170579
+    second: sheet_black2x_296
+  - first:
+      213: -8730718997796531721
+    second: sheet_black2x_297
+  - first:
+      213: -259008409903846632
+    second: sheet_black2x_298
+  - first:
+      213: 2105763799122208025
+    second: sheet_black2x_299
+  - first:
+      213: -7428308649130694787
+    second: sheet_black2x_300
+  - first:
+      213: -6027861289726683417
+    second: sheet_black2x_301
+  - first:
+      213: -3544868743931155083
+    second: sheet_black2x_302
+  - first:
+      213: -520144377790687979
+    second: sheet_black2x_303
+  - first:
+      213: 6613546429270281435
+    second: sheet_black2x_304
+  - first:
+      213: 8907191164799980216
+    second: sheet_black2x_305
+  - first:
+      213: 7308811465446443248
+    second: sheet_black2x_306
+  - first:
+      213: 8897085935410640313
+    second: sheet_black2x_307
+  - first:
+      213: -7952477940722937135
+    second: sheet_black2x_308
+  - first:
+      213: -4856525550041765213
+    second: sheet_black2x_309
+  - first:
+      213: -7525383463541907641
+    second: sheet_black2x_310
+  - first:
+      213: 9132800659934732738
+    second: sheet_black2x_311
+  - first:
+      213: 1223322394534343982
+    second: sheet_black2x_312
+  - first:
+      213: 2076219205988450075
+    second: sheet_black2x_313
+  - first:
+      213: -65053915854730796
+    second: sheet_black2x_314
+  - first:
+      213: 3859787708252069597
+    second: sheet_black2x_315
+  - first:
+      213: -1703971184153434015
+    second: sheet_black2x_316
+  - first:
+      213: 8138421265443280130
+    second: sheet_black2x_317
+  - first:
+      213: -2726084799780054648
+    second: sheet_black2x_318
+  - first:
+      213: 7659983000862587446
+    second: sheet_black2x_319
+  - first:
+      213: -4017222392214584340
+    second: sheet_black2x_320
+  - first:
+      213: 6114131925623374740
+    second: sheet_black2x_321
+  - first:
+      213: -7234428324052460001
+    second: sheet_black2x_322
+  - first:
+      213: -2471560258923253062
+    second: sheet_black2x_323
+  - first:
+      213: 1023322148091704894
+    second: sheet_black2x_324
+  - first:
+      213: 4053075296032718593
+    second: sheet_black2x_325
+  - first:
+      213: -278088126176250259
+    second: sheet_black2x_326
+  - first:
+      213: -14082022171222177
+    second: sheet_black2x_327
+  - first:
+      213: 2299434639371228072
+    second: sheet_black2x_328
+  - first:
+      213: -2038691489229859137
+    second: sheet_black2x_329
+  - first:
+      213: 5841098130519522701
+    second: sheet_black2x_330
+  - first:
+      213: 6060297814659775224
+    second: sheet_black2x_331
+  - first:
+      213: -8952273669887991993
+    second: sheet_black2x_332
+  - first:
+      213: 3049907817836689050
+    second: sheet_black2x_333
+  - first:
+      213: -1188951566809361870
+    second: sheet_black2x_334
+  - first:
+      213: -3661347778342856724
+    second: sheet_black2x_335
+  - first:
+      213: -3021193711660802392
+    second: sheet_black2x_336
+  - first:
+      213: 7374795694290720207
+    second: sheet_black2x_337
+  - first:
+      213: -8178044753121531781
+    second: sheet_black2x_338
+  - first:
+      213: 4487122923580078369
+    second: sheet_black2x_339
+  - first:
+      213: 4874017750079174384
+    second: sheet_black2x_340
+  - first:
+      213: -3135225341199916904
+    second: sheet_black2x_341
+  - first:
+      213: 4562853973281783094
+    second: sheet_black2x_342
+  - first:
+      213: -8104520372194900928
+    second: sheet_black2x_343
+  - first:
+      213: 8617682591883942185
+    second: sheet_black2x_344
+  - first:
+      213: -5967411561285496191
+    second: sheet_black2x_345
+  - first:
+      213: -1801530658919247168
+    second: sheet_black2x_346
+  - first:
+      213: -8881280340789690843
+    second: sheet_black2x_347
+  - first:
+      213: -8681468087303472227
+    second: sheet_black2x_348
+  - first:
+      213: -2777311107026601076
+    second: sheet_black2x_349
+  - first:
+      213: -2335661565209016898
+    second: sheet_black2x_350
+  - first:
+      213: -296253205864612285
+    second: sheet_black2x_351
+  - first:
+      213: 8437552303918254037
+    second: sheet_black2x_352
+  - first:
+      213: 3977716616041646808
+    second: sheet_black2x_353
+  - first:
+      213: 7144477091244703579
+    second: sheet_black2x_354
+  - first:
+      213: 6673324969162848553
+    second: sheet_black2x_355
+  - first:
+      213: 8493589149590909708
+    second: sheet_black2x_356
+  - first:
+      213: -7929986076691331448
+    second: sheet_black2x_357
+  - first:
+      213: 3991457636103670606
+    second: sheet_black2x_358
+  - first:
+      213: -7103768155127372449
+    second: sheet_black2x_359
+  - first:
+      213: 1635924082440510846
+    second: sheet_black2x_360
+  - first:
+      213: -5314936939734514542
+    second: sheet_black2x_361
+  - first:
+      213: -8331084069316753623
+    second: sheet_black2x_362
+  - first:
+      213: 9151446076988180318
+    second: sheet_black2x_363
+  - first:
+      213: 7659141331849154281
+    second: sheet_black2x_364
+  - first:
+      213: -236564510747037341
+    second: sheet_black2x_365
+  - first:
+      213: -6423845013625971781
+    second: sheet_black2x_366
+  - first:
+      213: 6565178672000737250
+    second: sheet_black2x_367
+  - first:
+      213: -2599101162249919139
+    second: sheet_black2x_368
+  - first:
+      213: 2345191759833406990
+    second: sheet_black2x_369
+  - first:
+      213: -8064002077910197275
+    second: sheet_black2x_370
+  - first:
+      213: -3156100556696680562
+    second: sheet_black2x_371
+  - first:
+      213: -5014466349983492677
+    second: sheet_black2x_372
+  - first:
+      213: 6415745872348918963
+    second: sheet_black2x_373
+  - first:
+      213: 5900079569043338047
+    second: sheet_black2x_374
+  - first:
+      213: 3083373746281652705
+    second: sheet_black2x_375
+  - first:
+      213: 7897858593291194599
+    second: sheet_black2x_376
+  - first:
+      213: -1445618491440319369
+    second: sheet_black2x_377
+  - first:
+      213: 5224071130981711028
+    second: sheet_black2x_378
+  - first:
+      213: -9184789503922945073
+    second: sheet_black2x_379
+  - first:
+      213: -3729225733246634252
+    second: sheet_black2x_380
+  - first:
+      213: -4459713488515645158
+    second: sheet_black2x_381
+  - first:
+      213: 1689624062965517781
+    second: sheet_black2x_382
+  - first:
+      213: -2393520784138639972
+    second: sheet_black2x_383
+  - first:
+      213: 3529685279365417512
+    second: sheet_black2x_384
+  - first:
+      213: 202906110601644039
+    second: sheet_black2x_385
+  - first:
+      213: -1417424900417435170
+    second: sheet_black2x_386
+  - first:
+      213: 3104599641360594511
+    second: sheet_black2x_387
+  - first:
+      213: 265608893613214531
+    second: sheet_black2x_388
+  - first:
+      213: 2390860546169532323
+    second: sheet_black2x_389
+  - first:
+      213: -3670019725822136280
+    second: sheet_black2x_390
+  - first:
+      213: 8933071280082551146
+    second: sheet_black2x_391
+  - first:
+      213: 2310647049158007806
+    second: sheet_black2x_392
+  - first:
+      213: 6081891236992276452
+    second: sheet_black2x_393
+  - first:
+      213: 7304179221689323044
+    second: sheet_black2x_394
+  - first:
+      213: 8021331008137672462
+    second: sheet_black2x_395
+  - first:
+      213: 6467029175550623087
+    second: sheet_black2x_396
+  - first:
+      213: 8486839878174192454
+    second: sheet_black2x_397
+  - first:
+      213: 3817855116800061331
+    second: sheet_black2x_398
+  - first:
+      213: -9160995510712500329
+    second: sheet_black2x_399
+  - first:
+      213: -400319367603506917
+    second: sheet_black2x_400
+  - first:
+      213: 6060696570286552169
+    second: sheet_black2x_401
+  - first:
+      213: 4319399241953757200
+    second: sheet_black2x_402
+  - first:
+      213: 8751890391021536937
+    second: sheet_black2x_403
+  - first:
+      213: 9004756424281772899
+    second: sheet_black2x_404
+  - first:
+      213: -2110746883259064493
+    second: sheet_black2x_405
+  - first:
+      213: -6333418696558038488
+    second: sheet_black2x_406
+  - first:
+      213: -4300193243809068825
+    second: sheet_black2x_407
+  - first:
+      213: 1089508711824102284
+    second: sheet_black2x_408
+  - first:
+      213: 2258426211067321381
+    second: sheet_black2x_409
+  - first:
+      213: -4689477686794242474
+    second: sheet_black2x_410
+  - first:
+      213: -7850790696235599134
+    second: sheet_black2x_411
+  - first:
+      213: -8655769914134048485
+    second: sheet_black2x_412
+  - first:
+      213: -7859728173873187580
+    second: sheet_black2x_413
+  - first:
+      213: 5628827762418032249
+    second: sheet_black2x_414
+  - first:
+      213: -4507976786315612593
+    second: sheet_black2x_415
+  - first:
+      213: -2153268503432032660
+    second: sheet_black2x_416
+  - first:
+      213: 690380211582707986
+    second: sheet_black2x_417
+  - first:
+      213: -5649313272368664600
+    second: UI_Icons_Pack1_Black_2x_0
+  - first:
+      213: 2855314286322528787
+    second: UI_Icons_Pack1_Black_2x_1
+  - first:
+      213: -7109850111529700166
+    second: UI_Icons_Pack1_Black_2x_2
+  - first:
+      213: 438854110378006520
+    second: UI_Icons_Pack1_Black_2x_3
+  - first:
+      213: -7909323830368055111
+    second: UI_Icons_Pack1_Black_2x_4
+  - first:
+      213: -421764449626050948
+    second: UI_Icons_Pack1_Black_2x_5
+  - first:
+      213: 2208091561314691702
+    second: UI_Icons_Pack1_Black_2x_6
+  - first:
+      213: -5700796040394865347
+    second: UI_Icons_Pack1_Black_2x_7
+  - first:
+      213: -8950508425805458691
+    second: UI_Icons_Pack1_Black_2x_8
+  - first:
+      213: 6197134194762080876
+    second: UI_Icons_Pack1_Black_2x_9
+  - first:
+      213: 4844230694177457031
+    second: UI_Icons_Pack1_Black_2x_10
+  - first:
+      213: -8138971784256734613
+    second: UI_Icons_Pack1_Black_2x_11
+  - first:
+      213: 3649882702190872390
+    second: UI_Icons_Pack1_Black_2x_12
+  - first:
+      213: 5750381845494655862
+    second: UI_Icons_Pack1_Black_2x_13
+  - first:
+      213: 6919682735892819030
+    second: UI_Icons_Pack1_Black_2x_14
+  - first:
+      213: -2165790581286388763
+    second: UI_Icons_Pack1_Black_2x_15
+  - first:
+      213: -8006308113692367926
+    second: UI_Icons_Pack1_Black_2x_16
+  - first:
+      213: -2736231352218206350
+    second: UI_Icons_Pack1_Black_2x_17
+  - first:
+      213: 4528527145652402829
+    second: UI_Icons_Pack1_Black_2x_18
+  - first:
+      213: -5700072849874565587
+    second: UI_Icons_Pack1_Black_2x_19
+  - first:
+      213: -4437837813949808475
+    second: UI_Icons_Pack1_Black_2x_20
+  - first:
+      213: -6607648461730717449
+    second: UI_Icons_Pack1_Black_2x_21
+  - first:
+      213: -5077209824259345581
+    second: UI_Icons_Pack1_Black_2x_22
+  - first:
+      213: -6130798774671730473
+    second: UI_Icons_Pack1_Black_2x_23
+  - first:
+      213: 2899161384175361103
+    second: UI_Icons_Pack1_Black_2x_24
+  - first:
+      213: -4190669070760411434
+    second: UI_Icons_Pack1_Black_2x_25
+  - first:
+      213: 6949966749988699634
+    second: UI_Icons_Pack1_Black_2x_26
+  - first:
+      213: -5956467581606873483
+    second: UI_Icons_Pack1_Black_2x_27
+  - first:
+      213: 4499120507393379493
+    second: UI_Icons_Pack1_Black_2x_28
+  - first:
+      213: 1165866097518478719
+    second: UI_Icons_Pack1_Black_2x_29
+  - first:
+      213: -2759783415075729996
+    second: UI_Icons_Pack1_Black_2x_30
+  - first:
+      213: -7432916577000965832
+    second: UI_Icons_Pack1_Black_2x_31
+  - first:
+      213: 4341466574887090661
+    second: UI_Icons_Pack1_Black_2x_32
+  - first:
+      213: 3352319446642956924
+    second: UI_Icons_Pack1_Black_2x_33
+  - first:
+      213: -6524196299831321762
+    second: UI_Icons_Pack1_Black_2x_34
+  - first:
+      213: 517049208221781964
+    second: UI_Icons_Pack1_Black_2x_35
+  - first:
+      213: 2063685963832907766
+    second: UI_Icons_Pack1_Black_2x_36
+  - first:
+      213: -2082419758514261873
+    second: UI_Icons_Pack1_Black_2x_37
+  - first:
+      213: 6498252192061081873
+    second: UI_Icons_Pack1_Black_2x_38
+  - first:
+      213: 104742111691659927
+    second: UI_Icons_Pack1_Black_2x_39
+  - first:
+      213: -4609655555155976373
+    second: UI_Icons_Pack1_Black_2x_40
+  - first:
+      213: -5184495554242721593
+    second: UI_Icons_Pack1_Black_2x_41
+  - first:
+      213: -4562716639981341813
+    second: UI_Icons_Pack1_Black_2x_42
+  - first:
+      213: 6292338434695869798
+    second: UI_Icons_Pack1_Black_2x_43
+  - first:
+      213: 7759575621947453016
+    second: UI_Icons_Pack1_Black_2x_44
+  - first:
+      213: -7255568611059334103
+    second: UI_Icons_Pack1_Black_2x_45
+  - first:
+      213: 1532336733017350250
+    second: UI_Icons_Pack1_Black_2x_46
+  - first:
+      213: 4625576973899285042
+    second: UI_Icons_Pack1_Black_2x_47
+  - first:
+      213: 7784277838980678371
+    second: UI_Icons_Pack1_Black_2x_48
+  - first:
+      213: 1789856896727347485
+    second: UI_Icons_Pack1_Black_2x_49
+  - first:
+      213: 1018825781488976529
+    second: UI_Icons_Pack1_Black_2x_50
+  - first:
+      213: -3135669439089070909
+    second: UI_Icons_Pack1_Black_2x_51
+  - first:
+      213: 8364815982093122385
+    second: UI_Icons_Pack1_Black_2x_52
+  - first:
+      213: -6095501794037255095
+    second: UI_Icons_Pack1_Black_2x_53
+  - first:
+      213: -8143317298303134609
+    second: UI_Icons_Pack1_Black_2x_54
+  - first:
+      213: -3532799486152666562
+    second: UI_Icons_Pack1_Black_2x_55
+  - first:
+      213: 4032345440264482296
+    second: UI_Icons_Pack1_Black_2x_56
+  - first:
+      213: -1408034487513779753
+    second: UI_Icons_Pack1_Black_2x_57
+  - first:
+      213: 9020003402375816031
+    second: UI_Icons_Pack1_Black_2x_58
+  - first:
+      213: 1989384713650454997
+    second: UI_Icons_Pack1_Black_2x_59
+  - first:
+      213: -2695827202411096071
+    second: UI_Icons_Pack1_Black_2x_60
+  - first:
+      213: -6497541888707393049
+    second: UI_Icons_Pack1_Black_2x_61
+  - first:
+      213: -3255266552095788509
+    second: UI_Icons_Pack1_Black_2x_62
+  - first:
+      213: 8646586699500512587
+    second: UI_Icons_Pack1_Black_2x_63
+  - first:
+      213: 1224504942425544016
+    second: UI_Icons_Pack1_Black_2x_64
+  - first:
+      213: 7362125562271930816
+    second: UI_Icons_Pack1_Black_2x_65
+  - first:
+      213: -2903216794385516750
+    second: UI_Icons_Pack1_Black_2x_66
+  - first:
+      213: -8199515893741934824
+    second: UI_Icons_Pack1_Black_2x_67
+  - first:
+      213: -6367971050339254732
+    second: UI_Icons_Pack1_Black_2x_68
+  - first:
+      213: 2708598702852610027
+    second: UI_Icons_Pack1_Black_2x_69
+  - first:
+      213: -5667964171646675238
+    second: UI_Icons_Pack1_Black_2x_70
+  - first:
+      213: -5933961973558860030
+    second: UI_Icons_Pack1_Black_2x_71
+  - first:
+      213: 5884304936412511441
+    second: UI_Icons_Pack1_Black_2x_72
+  - first:
+      213: 2593165215782830211
+    second: UI_Icons_Pack1_Black_2x_73
+  - first:
+      213: -241966359872091725
+    second: UI_Icons_Pack1_Black_2x_74
+  - first:
+      213: -8404462947733134969
+    second: UI_Icons_Pack1_Black_2x_75
+  - first:
+      213: 456004678801163136
+    second: UI_Icons_Pack1_Black_2x_76
+  - first:
+      213: -1631474050901266237
+    second: UI_Icons_Pack1_Black_2x_77
+  - first:
+      213: -5013009627452022118
+    second: UI_Icons_Pack1_Black_2x_78
+  - first:
+      213: 8323241251585652546
+    second: UI_Icons_Pack1_Black_2x_79
+  - first:
+      213: -4077026064491441585
+    second: UI_Icons_Pack1_Black_2x_80
+  - first:
+      213: -7870391923538346332
+    second: UI_Icons_Pack1_Black_2x_81
+  - first:
+      213: -5860739322552445985
+    second: UI_Icons_Pack1_Black_2x_82
+  - first:
+      213: -3667469779896602800
+    second: UI_Icons_Pack1_Black_2x_83
+  - first:
+      213: 2989993346086597365
+    second: UI_Icons_Pack1_Black_2x_84
+  - first:
+      213: -707517098880836824
+    second: UI_Icons_Pack1_Black_2x_85
+  - first:
+      213: 3805952651635974513
+    second: UI_Icons_Pack1_Black_2x_86
+  - first:
+      213: 2872851056414649911
+    second: UI_Icons_Pack1_Black_2x_87
+  - first:
+      213: 8837249182515921914
+    second: UI_Icons_Pack1_Black_2x_88
+  - first:
+      213: 2566889221771814029
+    second: UI_Icons_Pack1_Black_2x_89
+  - first:
+      213: -2011052309336119115
+    second: UI_Icons_Pack1_Black_2x_90
+  - first:
+      213: 6797030723445781802
+    second: UI_Icons_Pack1_Black_2x_91
+  - first:
+      213: 5449181739030269621
+    second: UI_Icons_Pack1_Black_2x_92
+  - first:
+      213: -367278392942635282
+    second: UI_Icons_Pack1_Black_2x_93
+  - first:
+      213: -1795769040779037706
+    second: UI_Icons_Pack1_Black_2x_94
+  - first:
+      213: -1585843636931933281
+    second: UI_Icons_Pack1_Black_2x_95
+  - first:
+      213: -5081541214988105378
+    second: UI_Icons_Pack1_Black_2x_96
+  - first:
+      213: 1137213854385988861
+    second: UI_Icons_Pack1_Black_2x_97
+  - first:
+      213: -1081261253847157892
+    second: UI_Icons_Pack1_Black_2x_98
+  - first:
+      213: -3599266456597280752
+    second: UI_Icons_Pack1_Black_2x_99
+  - first:
+      213: 117299349113723429
+    second: UI_Icons_Pack1_Black_2x_100
+  - first:
+      213: -7394603843045788367
+    second: UI_Icons_Pack1_Black_2x_101
+  - first:
+      213: 6121658591850560789
+    second: UI_Icons_Pack1_Black_2x_102
+  - first:
+      213: -2987245919875316514
+    second: UI_Icons_Pack1_Black_2x_103
+  - first:
+      213: -8910083343206402415
+    second: UI_Icons_Pack1_Black_2x_104
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 0
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 50
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 0
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1948
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8efe097928b9991b0800000000000000
+      internalID: -5649313272368664600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_1
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 1948
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3123a5e173d10a720800000000000000
+      internalID: 2855314286322528787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_2
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1948
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab430004efcb45d90800000000000000
+      internalID: -7109850111529700166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_3
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1948
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f71d4dfc7f171600800000000000000
+      internalID: 438854110378006520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_4
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1948
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b05165b1ef6c3290800000000000000
+      internalID: -7909323830368055111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_5
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1948
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7ea629b777952af0800000000000000
+      internalID: -421764449626050948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1848
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67a23b77397b4ae10800000000000000
+      internalID: 2208091561314691702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_7
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 1848
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d358f439434b2e0b0800000000000000
+      internalID: -5700796040394865347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_8
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1848
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df299b0320869c380800000000000000
+      internalID: -8950508425805458691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_9
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1848
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c62683067b4a00650800000000000000
+      internalID: 6197134194762080876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_10
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1848
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 783cd78862a2a3340800000000000000
+      internalID: 4844230694177457031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_11
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1848
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6a337ac8409c0f80800000000000000
+      internalID: -8138971784256734613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1748
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6470eefcafcf6a230800000000000000
+      internalID: 3649882702190872390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_13
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 1748
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67b609752d57dcf40800000000000000
+      internalID: 5750381845494655862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_14
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1748
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65c6b4749c6a70060800000000000000
+      internalID: 6919682735892819030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_15
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1748
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ebb980f0f091f1e0800000000000000
+      internalID: -2165790581286388763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_16
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1748
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac3e9099031e3e090800000000000000
+      internalID: -8006308113692367926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_17
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1748
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27f3fb31514f60ad0800000000000000
+      internalID: -2736231352218206350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1648
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8a3350227f88de30800000000000000
+      internalID: 4528527145652402829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_19
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 1648
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d26c06d71f545e0b0800000000000000
+      internalID: -5700072849874565587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_20
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1648
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a0c9b85502a962c0800000000000000
+      internalID: -4437837813949808475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_21
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1648
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f062ed9bbaec44a0800000000000000
+      internalID: -6607648461730717449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_22
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1648
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 353f5e6a0902a89b0800000000000000
+      internalID: -5077209824259345581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_23
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1648
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d89a4e2ff60beaa0800000000000000
+      internalID: -6130798774671730473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1548
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4c5d422be3eb3820800000000000000
+      internalID: 2899161384175361103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_25
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 1548
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6defb1aeea0c7d5c0800000000000000
+      internalID: -4190669070760411434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_26
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1548
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fd3ad5cfed337060800000000000000
+      internalID: 6949966749988699634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_27
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1548
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57631321b40665da0800000000000000
+      internalID: -5956467581606873483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_28
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1548
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ac8bdc9346107e30800000000000000
+      internalID: 4499120507393379493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_29
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1548
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f758246e90dfd2010800000000000000
+      internalID: 1165866097518478719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1448
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bd856f1b9743b9d0800000000000000
+      internalID: -2759783415075729996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_31
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 1448
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 839beb621c9f8d890800000000000000
+      internalID: -7432916577000965832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_32
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1448
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e9706809dcff3c30800000000000000
+      internalID: 4341466574887090661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_33
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1448
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7a99ce76c4d58e20800000000000000
+      internalID: 3352319446642956924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_34
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1448
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5bd2af28066575a0800000000000000
+      internalID: -6524196299831321762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1348
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccfc473f38dec2700800000000000000
+      internalID: 517049208221781964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_36
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 1348
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f75832437fa3ac10800000000000000
+      internalID: 2063685963832907766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_37
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1348
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f80b0844342c913e0800000000000000
+      internalID: -2082419758514261873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_38
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1348
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11944b080fd6e2a50800000000000000
+      internalID: 6498252192061081873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_39
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1348
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79ad768456e147100800000000000000
+      internalID: 104742111691659927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4f950212b63700c0800000000000000
+      internalID: -4609655555155976373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_41
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 1248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c845c513c8fc08b0800000000000000
+      internalID: -5184495554242721593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_42
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b83f527e369fda0c0800000000000000
+      internalID: -4562716639981341813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_43
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 665b596d770e25750800000000000000
+      internalID: 6292338434695869798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_44
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85e65f98aec8fab60800000000000000
+      internalID: 7759575621947453016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92485563aca0f4b90800000000000000
+      internalID: -7255568611059334103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_46
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 1148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6028c7d324f34510800000000000000
+      internalID: 1532336733017350250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_47
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2324e7a10c9513040800000000000000
+      internalID: 4625576973899285042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_48
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e28361a37f470c60800000000000000
+      internalID: 7784277838980678371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_49
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1177305d59d6d810800000000000000
+      internalID: 1789856896727347485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_50
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1048
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19209a976a8932e00800000000000000
+      internalID: 1018825781488976529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_51
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 1048
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cc2c06324ddb74d0800000000000000
+      internalID: -3135669439089070909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_52
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1048
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15bbb2821dbc51470800000000000000
+      internalID: 8364815982093122385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_53
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1048
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94437a6e96d686ba0800000000000000
+      internalID: -6095501794037255095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_54
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1048
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f641955ff002dfe80800000000000000
+      internalID: -8143317298303134609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_55
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 948
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e32103db599f8fec0800000000000000
+      internalID: -3532799486152666562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_56
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 948
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fd61aa40d4c5f730800000000000000
+      internalID: 4032345440264482296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_57
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 948
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d1fd3cf718a57ce0800000000000000
+      internalID: -1408034487513779753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_58
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 948
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f53ec6fed4d7d2d70800000000000000
+      internalID: 9020003402375816031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_59
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 948
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d14aba5bd6bb9b10800000000000000
+      internalID: 1989384713650454997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_60
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 848
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f79378417f769ad0800000000000000
+      internalID: -2695827202411096071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_61
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 848
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e90062e31814d5a0800000000000000
+      internalID: -6497541888707393049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_62
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 848
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 322be196158f2d2d0800000000000000
+      internalID: -3255266552095788509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_63
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 848
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b456857aac8def770800000000000000
+      internalID: 8646586699500512587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_64
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 848
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0551cf6e1c05ef010800000000000000
+      internalID: 1224504942425544016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_65
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 748
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c99a0351368b2660800000000000000
+      internalID: 7362125562271930816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_66
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 748
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 237f3b815b3b5b7d0800000000000000
+      internalID: -2903216794385516750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_67
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 748
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 817a75fccb7753e80800000000000000
+      internalID: -8199515893741934824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_68
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 748
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43ebe84911c60a7a0800000000000000
+      internalID: -6367971050339254732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_69
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 748
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be71d926b20e69520800000000000000
+      internalID: 2708598702852610027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_70
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 648
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad6db55bd985751b0800000000000000
+      internalID: -5667964171646675238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_71
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 648
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2072957460556ada0800000000000000
+      internalID: -5933961973558860030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_72
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 648
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1dcf1fcc92049a150800000000000000
+      internalID: 5884304936412511441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_73
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 648
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38082aa4606ccf320800000000000000
+      internalID: 2593165215782830211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_74
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 648
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b9ca30b0ec54acf0800000000000000
+      internalID: -241966359872091725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_75
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 548
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7812f605a795d5b80800000000000000
+      internalID: -8404462947733134969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_76
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 548
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0830cdfd6dd045600800000000000000
+      internalID: 456004678801163136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_77
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 548
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c033cf9ef6db59e0800000000000000
+      internalID: -1631474050901266237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_78
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 548
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a92eb1ccd463e6ab0800000000000000
+      internalID: -5013009627452022118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_79
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 548
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 247f3a4e1d7128370800000000000000
+      internalID: 8323241251585652546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_80
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 448
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f429af5356e7b67c0800000000000000
+      internalID: -4077026064491441585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_81
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 448
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4aeb462ae30c6c290800000000000000
+      internalID: -7870391923538346332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_82
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 448
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd3191e33a87aaea0800000000000000
+      internalID: -5860739322552445985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_83
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 448
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05f68c09aa78a1dc0800000000000000
+      internalID: -3667469779896602800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_84
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 448
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f2f54a4b179e7920800000000000000
+      internalID: 2989993346086597365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_85
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 348
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82b51b872f46e26f0800000000000000
+      internalID: -707517098880836824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_86
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 348
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 171e7b895c571d430800000000000000
+      internalID: 3805952651635974513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_87
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 348
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73e633690da6ed720800000000000000
+      internalID: 2872851056414649911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_88
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 348
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af3097b4f4734aa70800000000000000
+      internalID: 8837249182515921914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_89
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 348
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d84ec71b52c6f9320800000000000000
+      internalID: 2566889221771814029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_90
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b8aa45649e4714e0800000000000000
+      internalID: -2011052309336119115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_91
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a25f6664e67e35e50800000000000000
+      internalID: 6797030723445781802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_92
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bec17fabe16f9b40800000000000000
+      internalID: 5449181739030269621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_93
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee65afe5f3a27eaf0800000000000000
+      internalID: -367278392942635282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_94
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f3b8b162952417e0800000000000000
+      internalID: -1795769040779037706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_95
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9bcb574d93fdf9e0800000000000000
+      internalID: -1585843636931933281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_96
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e598029203dba79b0800000000000000
+      internalID: -5081541214988105378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_97
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df46450b9f138cf00800000000000000
+      internalID: 1137213854385988861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_98
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c73fb0f4e969ef0f0800000000000000
+      internalID: -1081261253847157892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_99
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0184a8a3a36dc0ec0800000000000000
+      internalID: -3599266456597280752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_100
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52ade44f22bb0a100800000000000000
+      internalID: 117299349113723429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_101
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1357488abf6116990800000000000000
+      internalID: -7394603843045788367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_102
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51d787b2e0084f450800000000000000
+      internalID: 6121658591850560789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_103
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed4c819b9ab2b86d0800000000000000
+      internalID: -2987245919875316514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icons_Pack1_Black_2x_104
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 196be013866095480800000000000000
+      internalID: -8910083343206402415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

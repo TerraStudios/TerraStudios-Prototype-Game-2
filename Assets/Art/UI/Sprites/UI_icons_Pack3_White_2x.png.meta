@@ -1,0 +1,914 @@
+fileFormatVersion: 2
+guid: 8a977d94c02fb194c850fca97f6994b1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8164357741962237101
+    second: UI_icons_Pack3_White_2x_0
+  - first:
+      213: 5679356096046642102
+    second: UI_icons_Pack3_White_2x_1
+  - first:
+      213: 6377599978975435846
+    second: UI_icons_Pack3_White_2x_2
+  - first:
+      213: 8169114727876364282
+    second: UI_icons_Pack3_White_2x_3
+  - first:
+      213: 4182663764183870717
+    second: UI_icons_Pack3_White_2x_4
+  - first:
+      213: -1983049764893422414
+    second: UI_icons_Pack3_White_2x_5
+  - first:
+      213: -2494592222312122704
+    second: UI_icons_Pack3_White_2x_6
+  - first:
+      213: -7582463177567307256
+    second: UI_icons_Pack3_White_2x_7
+  - first:
+      213: 7175809199025013391
+    second: UI_icons_Pack3_White_2x_8
+  - first:
+      213: -1149241169224588971
+    second: UI_icons_Pack3_White_2x_9
+  - first:
+      213: 5305650395723874338
+    second: UI_icons_Pack3_White_2x_10
+  - first:
+      213: 8619539363581822844
+    second: UI_icons_Pack3_White_2x_11
+  - first:
+      213: 5094968745191339318
+    second: UI_icons_Pack3_White_2x_12
+  - first:
+      213: 8568761464816815883
+    second: UI_icons_Pack3_White_2x_13
+  - first:
+      213: 4902021635259745482
+    second: UI_icons_Pack3_White_2x_14
+  - first:
+      213: -5542399531423713129
+    second: UI_icons_Pack3_White_2x_15
+  - first:
+      213: 488553854693866301
+    second: UI_icons_Pack3_White_2x_16
+  - first:
+      213: 1072313354037874243
+    second: UI_icons_Pack3_White_2x_17
+  - first:
+      213: -6919534137980105876
+    second: UI_icons_Pack3_White_2x_18
+  - first:
+      213: -7633852248035519920
+    second: UI_icons_Pack3_White_2x_19
+  - first:
+      213: -3661314319256668518
+    second: UI_icons_Pack3_White_2x_20
+  - first:
+      213: -5190785172159001470
+    second: UI_icons_Pack3_White_2x_21
+  - first:
+      213: 1182713567269252897
+    second: UI_icons_Pack3_White_2x_22
+  - first:
+      213: 8778648583104419685
+    second: UI_icons_Pack3_White_2x_23
+  - first:
+      213: -1558328668052440550
+    second: UI_icons_Pack3_White_2x_24
+  - first:
+      213: 3487110637179770454
+    second: UI_icons_Pack3_White_2x_25
+  - first:
+      213: 6447250919620447842
+    second: UI_icons_Pack3_White_2x_26
+  - first:
+      213: -8850485037409370883
+    second: UI_icons_Pack3_White_2x_27
+  - first:
+      213: 7797042995842953678
+    second: UI_icons_Pack3_White_2x_28
+  - first:
+      213: 2431073350576879647
+    second: UI_icons_Pack3_White_2x_29
+  - first:
+      213: 5395766776619511140
+    second: UI_icons_Pack3_White_2x_30
+  - first:
+      213: -4239346053746088534
+    second: UI_icons_Pack3_White_2x_0
+  - first:
+      213: 6927768900021661969
+    second: UI_icons_Pack3_White_2x_1
+  - first:
+      213: 4347299960305574985
+    second: UI_icons_Pack3_White_2x_2
+  - first:
+      213: -7687499123899540582
+    second: UI_icons_Pack3_White_2x_3
+  - first:
+      213: 8326334811978241418
+    second: UI_icons_Pack3_White_2x_4
+  - first:
+      213: 432190477558780559
+    second: UI_icons_Pack3_White_2x_5
+  - first:
+      213: 4774864305448493435
+    second: UI_icons_Pack3_White_2x_6
+  - first:
+      213: 6815339622670090069
+    second: UI_icons_Pack3_White_2x_7
+  - first:
+      213: 1160025754324350031
+    second: UI_icons_Pack3_White_2x_8
+  - first:
+      213: -731877337375945439
+    second: UI_icons_Pack3_White_2x_9
+  - first:
+      213: 5352272860388783309
+    second: UI_icons_Pack3_White_2x_10
+  - first:
+      213: -1258441701123332950
+    second: UI_icons_Pack3_White_2x_11
+  - first:
+      213: -8478042005358290971
+    second: UI_icons_Pack3_White_2x_12
+  - first:
+      213: -5174645951889468258
+    second: UI_icons_Pack3_White_2x_13
+  - first:
+      213: 8083187561275842704
+    second: UI_icons_Pack3_White_2x_14
+  - first:
+      213: -5114625579829629136
+    second: UI_icons_Pack3_White_2x_15
+  - first:
+      213: -4135779176134912603
+    second: UI_icons_Pack3_White_2x_16
+  - first:
+      213: -1104587383057677278
+    second: UI_icons_Pack3_White_2x_17
+  - first:
+      213: -151530897390572921
+    second: UI_icons_Pack3_White_2x_18
+  - first:
+      213: 603367661760758129
+    second: UI_icons_Pack3_White_2x_19
+  - first:
+      213: -4127216251370219297
+    second: UI_icons_Pack3_White_2x_20
+  - first:
+      213: -4236342019785122295
+    second: UI_icons_Pack3_White_2x_21
+  - first:
+      213: -5786956238385432675
+    second: UI_icons_Pack3_White_2x_22
+  - first:
+      213: 5917190301899215130
+    second: UI_icons_Pack3_White_2x_23
+  - first:
+      213: -514829100013055130
+    second: UI_icons_Pack3_White_2x_24
+  - first:
+      213: 1268640934195227471
+    second: UI_icons_Pack3_White_2x_25
+  - first:
+      213: -7890458164211131547
+    second: UI_icons_Pack3_White_2x_26
+  - first:
+      213: 5644049228173059880
+    second: UI_icons_Pack3_White_2x_27
+  - first:
+      213: -4847862956740594934
+    second: UI_icons_Pack3_White_2x_28
+  - first:
+      213: 3754645875274806043
+    second: UI_icons_Pack3_White_2x_29
+  - first:
+      213: -4055957300804053848
+    second: UI_icons_Pack3_White_2x_30
+  - first:
+      213: 8899297302462134889
+    second: UI_icons_Pack3_White_2x_31
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 0
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 412
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa5a282a931da25c0800000000000000
+      internalID: -4239346053746088534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_1
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 412
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1113ac31c11642060800000000000000
+      internalID: 6927768900021661969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_2
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 412
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 944651ae746b45c30800000000000000
+      internalID: 4347299960305574985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_3
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 412
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9b57d4e644805590800000000000000
+      internalID: -7687499123899540582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_4
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 412
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a859eec85651d8370800000000000000
+      internalID: 8326334811978241418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_5
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 412
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f82923213f27ff500800000000000000
+      internalID: 432190477558780559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 312
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7123f899c9b34240800000000000000
+      internalID: 4774864305448493435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_7
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 312
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55f35e01743f49e50800000000000000
+      internalID: 6815339622670090069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_8
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 312
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f44bec8074d391010800000000000000
+      internalID: 1160025754324350031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_9
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 312
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12d4c867079d7d5f0800000000000000
+      internalID: -731877337375945439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_10
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 312
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc4ff681fc7174a40800000000000000
+      internalID: 5352272860388783309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_11
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 312
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa4610ab0fd198ee0800000000000000
+      internalID: -1258441701123332950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 212
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e757c7f6b1f75a80800000000000000
+      internalID: -8478042005358290971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_13
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 212
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9417375ce6ff28b0800000000000000
+      internalID: -5174645951889468258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_14
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 212
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 090e3baa2404d2070800000000000000
+      internalID: 8083187561275842704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_15
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 212
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03fe02332233509b0800000000000000
+      internalID: -5114625579829629136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_16
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 212
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a5550960c2ca96c0800000000000000
+      internalID: -4135779176134912603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_17
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 212
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2240871a0a7bba0f0800000000000000
+      internalID: -1104587383057677278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 112
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78ae980a377a5edf0800000000000000
+      internalID: -151530897390572921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_19
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 112
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 171453c01b79f5800800000000000000
+      internalID: 603367661760758129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_20
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 112
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd8dbd1bfae29b6c0800000000000000
+      internalID: -4127216251370219297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_21
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 112
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90e95abc06d7535c0800000000000000
+      internalID: -4236342019785122295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_22
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 112
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d973e4836f990bfa0800000000000000
+      internalID: -5786956238385432675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_23
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 112
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a11d61d9a351e1250800000000000000
+      internalID: 5917190301899215130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 12
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66310b549a5fad8f0800000000000000
+      internalID: -514829100013055130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_25
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 12
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4be936453e1b9110800000000000000
+      internalID: 1268640934195227471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_26
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 12
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56b5d17ea167f7290800000000000000
+      internalID: -7890458164211131547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_27
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 12
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 827a21c9ed0b35e40800000000000000
+      internalID: 5644049228173059880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_icons_Pack3_White_2x_28
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 12
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a03b3bf635ee8bcb0800000000000000
+      internalID: -4847862956740594934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

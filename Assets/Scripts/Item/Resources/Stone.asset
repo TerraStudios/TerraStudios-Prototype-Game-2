@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d84c2ccd75158a94fb59e4b5c9db65f3, type: 3}
+  m_Name: Stone
+  m_EditorClassIdentifier: 
+  ID: 0
+  name: 
+  description: 
+  obj: {fileID: 0}
+  ItemCategory: 0
+  startingPriceInShop: 0
+  isBuyable: 0
+  ecoTax: 0
+  demandCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxProductPrice: 0
+  maxConsumersAmount: 0
+  seasonalPopularityOfProduct: []
+  Dependencies: []
+  materialHardness: 0
+  meltTemperature: 0
+  secondsToMelt: 0
+  solidFormTemperature: 0
+  secondsToFreeze: 0
