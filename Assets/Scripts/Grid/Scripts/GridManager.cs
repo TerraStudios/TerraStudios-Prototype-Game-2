@@ -16,8 +16,19 @@ public struct Grid
     public Vector2Int size;
 }
 
+public struct GridLayer
+{
+    public bool[,] tiles;
+}
+
 public class GridManager : MonoBehaviour
 {
+    private GridLayer[] GridLayers = new GridLayer[1];
+    
+
+
+
+
     [Header("Grid Properties")]
     public List<Grid> GridData = new List<Grid>();
     private List<GridPoint> GridPoints = new List<GridPoint>();
@@ -45,6 +56,8 @@ public class GridManager : MonoBehaviour
     public Building building;
     public Building conveyor;
 
+  
+
     [Header("Controls / Shortcuts")]
     public KeyCode flipBuildingRight = KeyCode.R;
     public KeyCode flipBuildingLeft = KeyCode.F;
@@ -53,6 +66,7 @@ public class GridManager : MonoBehaviour
     private Transform visualization;
     //private List<Vector2Int> visualizeOccupiedTiles = new List<Vector2Int>();
 
+    
     private Quaternion rotationChange = Quaternion.identity;
 
     public Quaternion RotationChange
@@ -112,8 +126,15 @@ public class GridManager : MonoBehaviour
     {
         Vector3 center = DoRay(Input.mousePosition);
 
+        if (!center.Equals(lastVisualize))
+        {
+            CanPlace();
+        }
+
         if (center == Vector3.zero && !forceVisualize)
             return;
+
+        
 
         if (visualization == null)
         {
@@ -122,7 +143,7 @@ public class GridManager : MonoBehaviour
         else if (forceVisualize)
         {
             Destroy(visualization.gameObject);
-            visualization = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
+            //visualization = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
             hasRotationChanged = false;
         }
         else if (lastVisualize == center)
@@ -132,51 +153,55 @@ public class GridManager : MonoBehaviour
         else
         {
             Destroy(visualization.gameObject);
-            visualization = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
+            visualization.transform.position = center + GetBuildingOffset(currentBuilding);
+            visualization.transform.rotation = RotationChange;
+            //visualization = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
         }
 
         lastVisualize = center;
         //ShowOccupiedTiles(currentBuilding, center);
     }
 
-    /*private void DevisualizeBuild()
+    private int gridSize = 1;
+    private Vector3 gride;
+
+
+    private bool CanPlace()
     {
-        if (visualization != null)
+        RaycastHit hit;
+        if (Physics.Raycast(MainCamera.ScreenPointToRay(Input.mousePosition), out hit, 30000f, LayerMask.GetMask("GridFloor")))
         {
-            Destroy(visualization.gameObject);
+            Debug.DrawRay(Input.mousePosition, hit.point);
+
+            Vector3 location = hit.point;
+
+            Vector3 size = hit.collider.bounds.size;
+
+            Vector3 grid = GetGridPosition(location);
+            gride = grid;
+
+          
+            ExtDebug.DrawBox(grid + GetBuildingOffset(currentBuilding), new Vector3(3*0.5f, 1f*0.5f, 4f*0.5f), RotationChange * Quaternion.Euler(0, -90, 0), Color.red);
+
+            //Debug.Log("Grid Slot: " + grid);
+
+            LayerMask colliderMask = ~(1 << LayerMask.NameToLayer("Machine"));
+            
+            if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding), new Vector3(3 * 0.5f * 0.999f, 1f * 0.5f * 0.999f, 4f * 0.5f * 0.999f), RotationChange * Quaternion.Euler(0, -90, 0))) {
+                //Debug.Log("very bad");
+            } else
+            {
+                //Debug.Log("gucci");
+            }
+
+            
         }
 
-        DevisualizeAll();
-    }*/
 
-    /*public void Build()
-    {
-        Vector3 center = DoRay(Input.mousePosition);
-        if (!OccupyTilesCheck(currentBuilding, center))
-        {
-            if (center == Vector3.zero)
-                return;
 
-            if (OccupyTiles(currentBuilding, center))
-            {
-                if (EconomyManager.CheckForSufficientFunds(currentBuilding.price))
-                {
-                    Building instantiated = Instantiate(currentBuilding, center + GetBuildingOffset(currentBuilding), RotationChange);
-                    EconomyManager.Balance -= currentBuilding.price;
-                    BuildingManager.SetUpBuilding(instantiated);
-                    StartCoroutine(StopBuildMode());
-                }
-                else
-                {
-                    Debug.LogError("Insufficient Funds!");
-                }
-            }
-            else
-            {
-                Debug.LogError("Space check requirements failed!");
-            }
-        }
-    }*/
+
+        return false;
+    }
 
     IEnumerator StopBuildMode()
     {
@@ -184,48 +209,10 @@ public class GridManager : MonoBehaviour
         IsInBuildMode = false;
     }
 
-    /*private void ShowOccupiedTiles(Building b, Vector3 center)
-    {
-        for (int i = 0; i < visualizeOccupiedTiles.Count; i++)
-        {
-            visualizeOccupiedTiles[i].OnDevisualize();
-        }
-
-        List<Tile> visualizeTiles = GetTileFromSize(b, center);
-
-        if (visualizeTiles != null)
-        {
-            visualizeOccupiedTiles = visualizeTiles;
-            for (int i = 0; i < visualizeTiles.Count; i++)
-            {
-                visualizeTiles[i].OnVisualize();
-            }
-        }
-    }*/
-
-    /*public void DevisualizeAll()
-    {
-        for (int i = 0; i < visualizeOccupiedTiles.Count; i++)
-        {
-            visualizeOccupiedTiles[i].OnDevisualize();
-        }
-        visualizeOccupiedTiles.Clear();
-    }*/
-/*
-        if (isFlipped)
-        {
-            //size = new Vector3(b.buildSize.y / 2f - .5f, 1, b.buildSize.x / 2f - .5f);
-            size = new Vector3(b.buildSize.y, 1, b.buildSize.x);
-        }
-        else
-        {
-            //size = new Vector3(b.buildSize.x / 2f - .5f, 1, b.buildSize.y / 2f - .5f);
-            size = new Vector3(b.buildSize.x, 1, b.buildSize.y);
-        }
-        */
-
     public Vector3 DoRay(Vector3 mousePos)
     {
+
+
         RaycastHit[] hits = Physics.RaycastAll(MainCamera.ScreenPointToRay(mousePos));
 
         for (int i = 0; i < hits.Length; i++)
@@ -267,7 +254,6 @@ public class GridManager : MonoBehaviour
     {
         if (!value)
         {
-            //DevisualizeBuild();
             for (int i = 0; i < BuildingManager.RegisteredBuildings.Count; i++)
             {
                 BuildingManager.RegisteredBuildings[i].BuildingIOManager.DevisualizeAll();
