@@ -143,7 +143,8 @@ public class GridManager : MonoBehaviour
             return;
         if (CanPlace())
         {
-            Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
+            Transform newMachine = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
+            newMachine.gameObject.AddComponent<BoxCollider>();
         }
         else
             Debug.Log("Nop nop, not here");
@@ -174,12 +175,12 @@ public class GridManager : MonoBehaviour
 
             if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding), new Vector3(3 * 0.5f * 0.999f, 1f * 0.5f * 0.999f, 4f * 0.5f * 0.999f), RotationChange * Quaternion.Euler(0, -90, 0)))
             {
-                //Debug.Log("very bad");
+                Debug.Log("very bad");
                 return false;
             }
             else
             {
-                //Debug.Log("gucci");
+                Debug.Log("gucci");
                 return true;
             }
         }
