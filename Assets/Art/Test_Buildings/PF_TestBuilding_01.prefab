@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4634393557155958876}
   - component: {fileID: 1399534307330501797}
   - component: {fileID: 8507123884359886536}
-  - component: {fileID: 7959312909193273208}
   m_Layer: 0
   m_Name: PF_TestBuilding_01
   m_TagString: Untagged
@@ -99,6 +98,9 @@ MonoBehaviour:
   hasCentricTile: 1
   offsetFromCenter: {x: 0, y: 0, z: 0}
   buildSize: {x: 3, y: 3}
+  BuildingIOManager: {fileID: 0}
+  allowAllInputs: 0
+  inputsAllowed: []
   price: 500
   healthPercent: 100
   monthsLifespanMin: 1
@@ -109,19 +111,6 @@ MonoBehaviour:
   wattsPerHourWork: 500
   TimeManager: {fileID: 0}
   EconomyManager: {fileID: 0}
---- !u!65 &7959312909193273208
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 815418735941261433}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3, y: 1, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5471682770773337923
 GameObject:
   m_ObjectHideFlags: 0

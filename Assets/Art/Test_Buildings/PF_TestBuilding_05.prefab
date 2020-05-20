@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3670162800833582574}
   - component: {fileID: 7049119629226158359}
   - component: {fileID: 1188363696577860992}
-  - component: {fileID: 3027505108366064548}
   - component: {fileID: 2829206149473396702}
   m_Layer: 0
   m_Name: PF_TestBuilding_05
@@ -114,19 +113,6 @@ MonoBehaviour:
   wattsPerHourWork: 500
   TimeManager: {fileID: 0}
   EconomyManager: {fileID: 0}
---- !u!65 &3027505108366064548
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8786337024443424203}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.9791608, y: 1, z: 4.0001}
-  m_Center: {x: 0.00000029802322, y: 0, z: 0.00000047683716}
 --- !u!114 &2829206149473396702
 MonoBehaviour:
   m_ObjectHideFlags: 0

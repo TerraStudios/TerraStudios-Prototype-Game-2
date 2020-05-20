@@ -97,13 +97,14 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    bool canPlace = false;
     private void VisualizeBuild(bool forceVisualize = false)
     {
         Vector3 center = DoRay(Input.mousePosition);
 
         if (!center.Equals(lastVisualize))
         {
-            CanPlace();
+            canPlace = CanPlace();
         }
 
         if (center == Vector3.zero && !forceVisualize)
@@ -132,12 +133,15 @@ public class GridManager : MonoBehaviour
         }
 
         lastVisualize = center;
-        //ShowOccupiedTiles(currentBuilding, center);
+
+        if (canPlace)
+            visualization.GetComponent<MeshRenderer>().material.color = Color.green;
+        else
+            visualization.GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
     private void Build()
     {
-        Debug.Log("Build");
         Vector3 center = DoRay(Input.mousePosition);
         if (center == Vector3.zero)
             return;
@@ -145,9 +149,11 @@ public class GridManager : MonoBehaviour
         {
             Transform newMachine = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
             newMachine.gameObject.AddComponent<BoxCollider>();
+            Building b = newMachine.GetComponent<Building>();
+            BuildingManager.SetUpBuilding(b);
         }
         else
-            Debug.Log("Nop nop, not here");
+            Debug.Log("Not allowed to place here!");
     }
 
     //private int gridSize = 1;
@@ -174,17 +180,10 @@ public class GridManager : MonoBehaviour
             //LayerMask colliderMask = ~(1 << LayerMask.NameToLayer("Machine"));
 
             if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding), new Vector3(3 * 0.5f * 0.999f, 1f * 0.5f * 0.999f, 4f * 0.5f * 0.999f), RotationChange * Quaternion.Euler(0, -90, 0)))
-            {
-                Debug.Log("very bad");
                 return false;
-            }
             else
-            {
-                Debug.Log("gucci");
                 return true;
-            }
         }
-        Debug.Log("Nop nop, not here");
         return false;
     }
 
