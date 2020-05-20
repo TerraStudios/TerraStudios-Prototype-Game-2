@@ -1,20 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-
-public class GridPoint 
-{
-    public int gridID;
-    public Vector2Int point;
-    public bool isOccupied;
-}
-
-[System.Serializable]
-public struct Grid
-{
-    public Vector2Int size;
-}
 
 public struct GridLayer
 {
@@ -23,15 +8,9 @@ public struct GridLayer
 
 public class GridManager : MonoBehaviour
 {
-    private GridLayer[] GridLayers = new GridLayer[1];
-    
-
-
-
-
-    [Header("Grid Properties")]
-    public List<Grid> GridData = new List<Grid>();
-    private List<GridPoint> GridPoints = new List<GridPoint>();
+    //[Header("Grid Properties")]
+    //public List<Grid> GridData = new List<Grid>();
+    //private GridLayer[] GridLayers = new GridLayer[1];
     [Header("Components")]
     public BuildingManager BuildingManager;
     public EconomyManager EconomyManager;
@@ -56,8 +35,6 @@ public class GridManager : MonoBehaviour
     public Building building;
     public Building conveyor;
 
-  
-
     [Header("Controls / Shortcuts")]
     public KeyCode flipBuildingRight = KeyCode.R;
     public KeyCode flipBuildingLeft = KeyCode.F;
@@ -65,8 +42,6 @@ public class GridManager : MonoBehaviour
     private Vector3 lastVisualize;
     private Transform visualization;
     //private List<Vector2Int> visualizeOccupiedTiles = new List<Vector2Int>();
-
-    
     private Quaternion rotationChange = Quaternion.identity;
 
     public Quaternion RotationChange
@@ -92,8 +67,8 @@ public class GridManager : MonoBehaviour
         {
             HandleRotation();
             VisualizeBuild(hasRotationChanged);
-            //if (Input.GetMouseButtonDown(0))
-                //Build();
+            if (Input.GetMouseButtonDown(0))
+                Build();
         }
     }
 
@@ -134,8 +109,6 @@ public class GridManager : MonoBehaviour
         if (center == Vector3.zero && !forceVisualize)
             return;
 
-        
-
         if (visualization == null)
         {
             visualization = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
@@ -162,44 +135,55 @@ public class GridManager : MonoBehaviour
         //ShowOccupiedTiles(currentBuilding, center);
     }
 
-    private int gridSize = 1;
-    private Vector3 gride;
+    private void Build()
+    {
+        Debug.Log("Build");
+        Vector3 center = DoRay(Input.mousePosition);
+        if (center == Vector3.zero)
+            return;
+        if (CanPlace())
+        {
+            Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
+        }
+        else
+            Debug.Log("Nop nop, not here");
+    }
 
+    //private int gridSize = 1;
+    //private Vector3 gride;
 
     private bool CanPlace()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(MainCamera.ScreenPointToRay(Input.mousePosition), out hit, 30000f, LayerMask.GetMask("GridFloor")))
+        if (Physics.Raycast(MainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 30000f, LayerMask.GetMask("GridFloor")))
         {
             Debug.DrawRay(Input.mousePosition, hit.point);
 
             Vector3 location = hit.point;
 
-            Vector3 size = hit.collider.bounds.size;
+            //Vector3 size = hit.collider.bounds.size;
 
             Vector3 grid = GetGridPosition(location);
-            gride = grid;
+            //gride = grid;
 
-          
-            ExtDebug.DrawBox(grid + GetBuildingOffset(currentBuilding), new Vector3(3*0.5f, 1f*0.5f, 4f*0.5f), RotationChange * Quaternion.Euler(0, -90, 0), Color.red);
+
+            ExtDebug.DrawBox(grid + GetBuildingOffset(currentBuilding), new Vector3(3 * 0.5f, 1f * 0.5f, 4f * 0.5f), RotationChange * Quaternion.Euler(0, -90, 0), Color.red);
 
             //Debug.Log("Grid Slot: " + grid);
 
-            LayerMask colliderMask = ~(1 << LayerMask.NameToLayer("Machine"));
-            
-            if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding), new Vector3(3 * 0.5f * 0.999f, 1f * 0.5f * 0.999f, 4f * 0.5f * 0.999f), RotationChange * Quaternion.Euler(0, -90, 0))) {
+            //LayerMask colliderMask = ~(1 << LayerMask.NameToLayer("Machine"));
+
+            if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding), new Vector3(3 * 0.5f * 0.999f, 1f * 0.5f * 0.999f, 4f * 0.5f * 0.999f), RotationChange * Quaternion.Euler(0, -90, 0)))
+            {
                 //Debug.Log("very bad");
-            } else
+                return false;
+            }
+            else
             {
                 //Debug.Log("gucci");
+                return true;
             }
-
-            
         }
-
-
-
-
+        Debug.Log("Nop nop, not here");
         return false;
     }
 
@@ -211,8 +195,6 @@ public class GridManager : MonoBehaviour
 
     public Vector3 DoRay(Vector3 mousePos)
     {
-
-
         RaycastHit[] hits = Physics.RaycastAll(MainCamera.ScreenPointToRay(mousePos));
 
         for (int i = 0; i < hits.Length; i++)
