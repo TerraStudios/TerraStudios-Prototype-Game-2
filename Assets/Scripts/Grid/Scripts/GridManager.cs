@@ -147,6 +147,7 @@ public class GridManager : MonoBehaviour
             return;
         if (CanPlace())
         {
+            IsInBuildMode = false;
             Transform newMachine = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
             newMachine.gameObject.AddComponent<BoxCollider>();
             Building b = newMachine.GetComponent<Building>();
@@ -236,16 +237,18 @@ public class GridManager : MonoBehaviour
     {
         if (!value)
         {
-            for (int i = 0; i < BuildingManager.RegisteredBuildings.Count; i++)
+            foreach(Building b in BuildingManager.RegisteredBuildings)
             {
-                BuildingManager.RegisteredBuildings[i].BuildingIOManager.DevisualizeAll();
+                if (b.BuildingIOManager != null)
+                    b.BuildingIOManager.DevisualizeAll();
             }
         }
         else
         {
-            for (int i = 0; i < BuildingManager.RegisteredBuildings.Count; i++)
+            foreach (Building b in BuildingManager.RegisteredBuildings)
             {
-                BuildingManager.RegisteredBuildings[i].BuildingIOManager.VisualizeAll();
+                if (b.BuildingIOManager != null)
+                    b.BuildingIOManager.VisualizeAll();
             }
         }
     }

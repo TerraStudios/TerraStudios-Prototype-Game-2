@@ -5467,17 +5467,17 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.46490163
+      value: 0.46490166
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000014256534
+      value: -0.000000046139213
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000009348056
+      value: 0.000000022365608
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -5502,17 +5502,17 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.46490163
+      value: 0.46490166
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000014256534
+      value: -0.000000046139213
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000009348056
+      value: 0.000000022365608
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -8755,7 +8755,7 @@ MonoBehaviour:
   buildLayer:
     serializedVersion: 2
     m_Bits: 55
-  building: {fileID: 4208761697820460715, guid: ef7d49ba5712ea34ab5f156ad62cf5e0,
+  building: {fileID: 1188363696577860992, guid: 233e5b40efc04bf4b932403f4c632c9c,
     type: 3}
   conveyor: {fileID: 4378883302509727022, guid: 9cb1a69290fafd144b7cc398af254f7e,
     type: 3}
