@@ -164,7 +164,6 @@ public class GridManager : MonoBehaviour
     {
         if (Physics.Raycast(MainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 30000f, LayerMask.GetMask("GridFloor")))
         {
-            Debug.DrawRay(Input.mousePosition, hit.point);
 
             Vector3 location = hit.point;
 
@@ -173,14 +172,18 @@ public class GridManager : MonoBehaviour
             Vector3 grid = GetGridPosition(location);
             //gride = grid;
 
+            Vector2 buildingSize = currentBuilding.buildSize;
 
-            ExtDebug.DrawBox(grid + GetBuildingOffset(currentBuilding), new Vector3(3 * 0.5f, 1f * 0.5f, 4f * 0.5f), RotationChange * Quaternion.Euler(0, -90, 0), Color.red);
+
+            ExtDebug.DrawBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0)  + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.999f, 0.999f, buildingSize.y * 0.5f * 0.999f), RotationChange * Quaternion.Euler(0, -90, 0), Color.red);
 
             //Debug.Log("Grid Slot: " + grid);
 
-            //LayerMask colliderMask = ~(1 << LayerMask.NameToLayer("Machine"));
+            LayerMask colliderMask = ~(1 << LayerMask.NameToLayer("IOPort"));
 
-            if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding), new Vector3(3 * 0.5f * 0.999f, 1f * 0.5f * 0.999f, 4f * 0.5f * 0.999f), RotationChange * Quaternion.Euler(0, -90, 0)))
+            
+
+            if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.999f, 0.999f, buildingSize.y * 0.5f * 0.999f), RotationChange * Quaternion.Euler(0, -90, 0), colliderMask))
                 return false;
             else
                 return true;
