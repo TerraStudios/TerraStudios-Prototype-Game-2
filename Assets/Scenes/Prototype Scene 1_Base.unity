@@ -8757,7 +8757,7 @@ MonoBehaviour:
     m_Bits: 55
   building: {fileID: 1188363696577860992, guid: 233e5b40efc04bf4b932403f4c632c9c,
     type: 3}
-  conveyor: {fileID: 4378883302509727022, guid: 9cb1a69290fafd144b7cc398af254f7e,
+  conveyor: {fileID: 3826658444029601288, guid: 32643e6fe435b6543a6342d0a31649d1,
     type: 3}
   flipBuildingRight: 114
   flipBuildingLeft: 102
