@@ -148,6 +148,7 @@ public class GridManager : MonoBehaviour
         if (CanPlace())
         {
             IsInBuildMode = false;
+            Destroy(visualization.gameObject);
             Transform newMachine = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
             newMachine.gameObject.AddComponent<BoxCollider>();
             Building b = newMachine.GetComponent<Building>();
