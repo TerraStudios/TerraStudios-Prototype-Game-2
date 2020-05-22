@@ -175,7 +175,7 @@ public class GridManager : MonoBehaviour
             Vector2 buildingSize = currentBuilding.buildSize;
 
 
-            ExtDebug.DrawBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0)  + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.999f, 0.999f, buildingSize.y * 0.5f * 0.999f), RotationChange * Quaternion.Euler(0, -90, 0), Color.red);
+            ExtDebug.DrawBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0)  + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), Color.red);
 
             //Debug.Log("Grid Slot: " + grid);
 
@@ -183,7 +183,7 @@ public class GridManager : MonoBehaviour
 
             
 
-            if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.999f, 0.999f, buildingSize.y * 0.5f * 0.999f), RotationChange * Quaternion.Euler(0, -90, 0), colliderMask))
+            if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), colliderMask))
                 return false;
             else
                 return true;
