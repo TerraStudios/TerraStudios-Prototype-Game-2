@@ -22,6 +22,10 @@ public class GridManager : MonoBehaviour
 
     [Header("Dynamic variables")]
     private bool isInBuildMode;
+
+    /// <summary>
+    /// Returns whether the GridManager is currently in the building mode.
+    /// </summary>
     public bool IsInBuildMode
     {
         get => isInBuildMode;
@@ -62,6 +66,9 @@ public class GridManager : MonoBehaviour
     private bool isFlipped;
     private bool click = false;
 
+    /// <summary>
+    /// Main update loop handles the visualization and rotation, as well as the building procedure. 
+    /// </summary>
     private void Update()
     {
 
@@ -101,19 +108,27 @@ public class GridManager : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Event for when the building build button is pressed. Currently turns on IsInBuildMode and sets the current structure.
+    /// </summary>
     public void OnBuildButtonPressed()
     {
         currentBuilding = building;
         IsInBuildMode = true;
     }
 
+    /// <summary>
+    /// Event for when the conveyor build button is pressed. Currently turns on IsInBuildMode and sets the current structure.
+    /// </summary>
     public void OnConveyorBuildButtonPressed()
     {
         currentBuilding = conveyor;
         IsInBuildMode = true;
     }
 
+    /// <summary>
+    /// Checks if the input sends a rotation request to the building, applying Quaternions if necessary
+    /// </summary>
     private void HandleRotation()
     {
         if (Input.GetKeyDown(flipBuildingRight))
@@ -129,6 +144,10 @@ public class GridManager : MonoBehaviour
 
     bool canPlace = false;
 
+    /// <summary>
+    /// Attempts to visualize the currently selected structure, showing as green or red depending on the return of CanPlace
+    /// </summary>
+    /// <param name="forceVisualize">Forces the building to be visualized, used when rotating</param>
     private void VisualizeBuild(bool forceVisualize = false)
     {
 
@@ -173,6 +192,9 @@ public class GridManager : MonoBehaviour
             visualization.GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
+    /// <summary>
+    /// Attempts to build the currently selected structure 
+    /// </summary>
     private void Build()
     {
         //Vector3 center = DoRay(Input.mousePosition);
@@ -197,7 +219,12 @@ public class GridManager : MonoBehaviour
             Debug.Log("Not allowed to place here!");
     }
 
-   
+   /// <summary>
+   /// Returns whether the currently selected building can be placed with a pivot point from a RaycastHit. 
+   /// </summary>
+   /// <param name="hit">The returned RaycastHit (most likely from FindGridHit())</param>
+   /// <param name="grid">The grid position of the vector3 returned by the RaycastHit</param>
+   /// <returns></returns>
     private bool CanPlace(RaycastHit hit, Vector3 grid)
     {
 
@@ -221,7 +248,11 @@ public class GridManager : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// Retreives the appropriate locked grid position from a Vector3
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <returns>A locked grid position</returns>
     private Vector3 GetGridPosition(Vector3 pos)
     {
         if (currentBuilding.hasCentricTile)
@@ -236,6 +267,11 @@ public class GridManager : MonoBehaviour
                 Mathf.FloorToInt(pos.z));
     }
 
+    /// <summary>
+    /// Returns the offset of the building configured in the inspector (in case the model isn't centered)
+    /// </summary>
+    /// <param name="b">Building in order to retrieve the information from</param>
+    /// <returns>The building offset (x, y, z)</returns>
     private Vector3 GetBuildingOffset(Building b)
     {
         if (isFlipped)
@@ -248,6 +284,10 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Attempts to Raycast from the mouse position in order to find the grid. 
+    /// </summary>
+    /// <returns>The RayCastHit of the floor, or null if nothing is found.</returns>
     private RaycastHit? FindGridHit()
     {
         if (Physics.Raycast(MainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 30000f, LayerMask.GetMask("GridFloor")))
@@ -260,6 +300,10 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Method called when IsInBuildMode is changed. Currently visualizes IO Ports for convenience. 
+    /// </summary>
+    /// <param name="value">The new value for IsInBuildMode</param>
     private void OnBuildModeChanged(bool value)
     {
         if (!value)
