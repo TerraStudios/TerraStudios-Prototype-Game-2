@@ -15,11 +15,19 @@ public class BuildingSystem : MonoBehaviour
 
     private bool click = false;
 
+
+    /// <summary>
+    /// Main update loop for the BuildingSystem, refreshes the UI with OnBuildingUpdateUI
+    /// </summary>
     private void Update()
     {
         OnBuildingUpdateUI();
     }
 
+    /// <summary>
+    /// Initializes all of the needed data for the building in question
+    /// </summary>
+    /// <param name="b"></param>
     public void SetUpBuilding(Building b)
     {
         b.TimeManager = TimeManager;
@@ -28,6 +36,10 @@ public class BuildingSystem : MonoBehaviour
         b.Init();
     }
 
+    /// <summary>
+    /// Checks if a hit finds a building and if necessary calls the OnBuildingSelected event
+    /// </summary>
+    /// <param name="mousePos">The Vector3 to start the Raycast from</param>
     public void CheckForHit(Vector3 mousePos)
     {
         Ray ray = MainCamera.ScreenPointToRay(mousePos);

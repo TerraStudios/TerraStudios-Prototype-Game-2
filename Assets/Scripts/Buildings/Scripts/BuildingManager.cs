@@ -11,18 +11,29 @@ public class BuildingManager : BuildingSystem
     public TMP_Text offTime;
     public TMP_Text itemInsideName;
 
+
+    /// <summary>
+    /// Event called when the building is selected, sets the UI to active and calls the OnBuildingSelected event
+    /// </summary>
     public override void OnBuildingSelected(Building b)
     {
         base.OnBuildingSelected(b);
         BuildingInfo.SetActive(true);
     }
 
+
+    /// <summary>
+    /// Event called when the building is deselected, sets the UI to inactive and calls the OnBuildingDeselected event
+    /// </summary>
     public override void OnBuildingDeselected()
     {
         base.OnBuildingDeselected();
         BuildingInfo.SetActive(false);
     }
 
+    /// <summary>
+    /// Updates the Building UI with all of the correct information
+    /// </summary>
     public override void OnBuildingUpdateUI()
     {
         base.OnBuildingUpdateUI();
@@ -36,6 +47,9 @@ public class BuildingManager : BuildingSystem
         }
     }
 
+    /// <summary>
+    /// Event called when the fix button is pressed, checks if the health is below optimal standards and tries to fix it 
+    /// </summary>
     public void OnFixButtonPressed()
     {
         if (FocusedBuilding.healthPercent != 100)
@@ -44,6 +58,10 @@ public class BuildingManager : BuildingSystem
         }
     }
 
+    /// <summary>
+    /// Sets the appropriate WorkState of the machine based off of button input
+    /// </summary>
+    /// <param name="buttonID">The button pressed</param>
     public void OnStateButtonPressed(int buttonID)
     {
         switch (buttonID)
