@@ -5,6 +5,7 @@ public class BuildingSystem : MonoBehaviour
 {
     [HideInInspector] public Building FocusedBuilding;
     public List<Building> RegisteredBuildings = new List<Building>();
+    public LayerMask allowedFocusLayers;
 
     [Header("Components")]
     public TimeManager TimeManager;
@@ -30,9 +31,8 @@ public class BuildingSystem : MonoBehaviour
     private void CheckForHit(Vector3 mousePos)
     {
         Ray ray = MainCamera.ScreenPointToRay(mousePos);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ~allowedFocusLayers))
         {
             Building b = hit.transform.GetComponent<Building>();
             if (b)
