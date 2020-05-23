@@ -60,17 +60,47 @@ public class GridManager : MonoBehaviour
 
     private bool hasRotationChanged;
     private bool isFlipped;
+    private bool click = false;
 
     private void Update()
     {
+
+
         if (IsInBuildMode)
         {
             HandleRotation();
             VisualizeBuild(hasRotationChanged);
-            if (Input.GetMouseButtonDown(0))
-                Build();
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!click)
+            {
+                if (IsInBuildMode)
+                {
+                    Build();
+                }
+                else
+                {
+                    BuildingManager.CheckForHit(Input.mousePosition);
+                }
+
+
+                click = true;
+
+            }
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (click)
+            {
+                click = false;
+            }
+        }
+
     }
+
+
 
     public void OnBuildButtonPressed()
     {
@@ -98,13 +128,18 @@ public class GridManager : MonoBehaviour
     }
 
     bool canPlace = false;
+
     private void VisualizeBuild(bool forceVisualize = false)
     {
-        Vector3 center = DoRay(Input.mousePosition);
+
+
+        RaycastHit? hit = FindGridHit();
+        if (hit == null) return;
+        Vector3 center = GetGridPosition(hit.Value.point);
 
         if (!center.Equals(lastVisualize))
         {
-            canPlace = CanPlace();
+            canPlace = CanPlace(hit.Value, center);
         }
 
         if (center == Vector3.zero && !forceVisualize)
@@ -117,7 +152,6 @@ public class GridManager : MonoBehaviour
         else if (forceVisualize)
         {
             Destroy(visualization.gameObject);
-            //visualization = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
             hasRotationChanged = false;
         }
         else if (lastVisualize == center)
@@ -129,7 +163,6 @@ public class GridManager : MonoBehaviour
             Destroy(visualization.gameObject);
             visualization.transform.position = center + GetBuildingOffset(currentBuilding);
             visualization.transform.rotation = RotationChange;
-            //visualization = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
         }
 
         lastVisualize = center;
@@ -142,10 +175,16 @@ public class GridManager : MonoBehaviour
 
     private void Build()
     {
-        Vector3 center = DoRay(Input.mousePosition);
+        //Vector3 center = DoRay(Input.mousePosition);
+
+        RaycastHit? hit = FindGridHit();
+        if (hit == null) return;
+
+        Vector3 center = GetGridPosition(hit.Value.point);
+
         if (center == Vector3.zero)
             return;
-        if (CanPlace())
+        if (CanPlace(hit.Value, center))
         {
             IsInBuildMode = false;
             Destroy(visualization.gameObject);
@@ -158,58 +197,30 @@ public class GridManager : MonoBehaviour
             Debug.Log("Not allowed to place here!");
     }
 
-    //private int gridSize = 1;
-    //private Vector3 gride;
-
-    private bool CanPlace()
+   
+    private bool CanPlace(RaycastHit hit, Vector3 grid)
     {
-        if (Physics.Raycast(MainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 30000f, LayerMask.GetMask("GridFloor")))
-        {
-
-            Vector3 location = hit.point;
-
-            //Vector3 size = hit.collider.bounds.size;
-
-            Vector3 grid = GetGridPosition(location);
-            //gride = grid;
-
-            Vector2 buildingSize = currentBuilding.buildSize;
 
 
-            ExtDebug.DrawBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0)  + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), Color.red);
+        Vector3 location = hit.point;
 
-            //Debug.Log("Grid Slot: " + grid);
 
-            LayerMask colliderMask = ~(1 << LayerMask.NameToLayer("IOPort"));
+        Vector2 buildingSize = currentBuilding.buildSize;
 
-            
 
-            if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), colliderMask))
-                return false;
-            else
-                return true;
-        }
-        return false;
+        //ExtDebug.DrawBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), Color.red);
+
+        LayerMask colliderMask = ~(1 << LayerMask.NameToLayer("IOPort"));
+
+
+
+        if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), colliderMask))
+            return false;
+        else
+            return true;
+
     }
 
-    IEnumerator StopBuildMode()
-    {
-        yield return new WaitForSeconds(.1f);
-        IsInBuildMode = false;
-    }
-
-    public Vector3 DoRay(Vector3 mousePos)
-    {
-        RaycastHit[] hits = Physics.RaycastAll(MainCamera.ScreenPointToRay(mousePos));
-
-        for (int i = 0; i < hits.Length; i++)
-        {
-            if (hits[i].transform.gameObject.layer == 8)
-                return GetGridPosition(hits[i].point);
-        }
-
-        return Vector3.zero;
-    }
 
     private Vector3 GetGridPosition(Vector3 pos)
     {
@@ -237,11 +248,23 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    private RaycastHit? FindGridHit()
+    {
+        if (Physics.Raycast(MainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 30000f, LayerMask.GetMask("GridFloor")))
+        {
+            return hit;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     private void OnBuildModeChanged(bool value)
     {
         if (!value)
         {
-            foreach(Building b in BuildingManager.RegisteredBuildings)
+            foreach (Building b in BuildingManager.RegisteredBuildings)
             {
                 if (b.BuildingIOManager != null)
                     b.BuildingIOManager.DevisualizeAll();

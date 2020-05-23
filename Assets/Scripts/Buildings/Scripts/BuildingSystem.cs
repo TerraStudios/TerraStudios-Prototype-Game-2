@@ -13,10 +13,10 @@ public class BuildingSystem : MonoBehaviour
     public GridManager GridManager;
     public EconomyManager EconomyManager;
 
+    private bool click = false;
+
     private void Update()
     {
-        if (!GridManager.IsInBuildMode && Input.GetMouseButtonDown(0))
-            CheckForHit(Input.mousePosition);
         OnBuildingUpdateUI();
     }
 
@@ -28,7 +28,7 @@ public class BuildingSystem : MonoBehaviour
         b.Init();
     }
 
-    private void CheckForHit(Vector3 mousePos)
+    public void CheckForHit(Vector3 mousePos)
     {
         Ray ray = MainCamera.ScreenPointToRay(mousePos);
 
