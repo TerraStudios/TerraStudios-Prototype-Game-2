@@ -64,8 +64,6 @@ public class GridManager : MonoBehaviour
 
     private void Update()
     {
-
-
         if (IsInBuildMode)
         {
             HandleRotation();
@@ -100,8 +98,6 @@ public class GridManager : MonoBehaviour
 
     }
 
-
-
     public void OnBuildButtonPressed()
     {
         currentBuilding = building;
@@ -131,8 +127,6 @@ public class GridManager : MonoBehaviour
 
     private void VisualizeBuild(bool forceVisualize = false)
     {
-
-
         RaycastHit? hit = FindGridHit();
         if (hit == null) return;
         Vector3 center = GetGridPosition(hit.Value.point);
@@ -196,31 +190,20 @@ public class GridManager : MonoBehaviour
         else
             Debug.Log("Not allowed to place here!");
     }
-
    
     private bool CanPlace(RaycastHit hit, Vector3 grid)
     {
-
-
         Vector3 location = hit.point;
-
-
         Vector2 buildingSize = currentBuilding.buildSize;
 
-
         //ExtDebug.DrawBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), Color.red);
-
         LayerMask colliderMask = ~(1 << LayerMask.NameToLayer("IOPort"));
-
-
 
         if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), colliderMask))
             return false;
         else
             return true;
-
     }
-
 
     private Vector3 GetGridPosition(Vector3 pos)
     {
