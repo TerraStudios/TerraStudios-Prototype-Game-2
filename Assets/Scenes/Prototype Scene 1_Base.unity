@@ -8777,7 +8777,7 @@ MonoBehaviour:
   RegisteredBuildings: []
   allowedFocusLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1024
   TimeManager: {fileID: 1384009078}
   MainCamera: {fileID: 1794220192}
   GridManager: {fileID: 1384009082}
