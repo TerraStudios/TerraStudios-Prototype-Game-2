@@ -67,12 +67,10 @@ public class GridManager : MonoBehaviour
     private bool click = false;
 
     /// <summary>
-    /// Main update loop handles the visualization and rotation, as well as the building procedure. 
+    /// Main update loop handles the visualization and rotation, as well as the building procedure.
     /// </summary>
     private void Update()
     {
-
-
         if (IsInBuildMode)
         {
             HandleRotation();
@@ -150,8 +148,6 @@ public class GridManager : MonoBehaviour
     /// <param name="forceVisualize">Forces the building to be visualized, used when rotating</param>
     private void VisualizeBuild(bool forceVisualize = false)
     {
-
-
         RaycastHit? hit = FindGridHit();
         if (hit == null) return;
         Vector3 center = GetGridPosition(hit.Value.point);
@@ -193,7 +189,7 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Attempts to build the currently selected structure 
+    /// Attempts to build the currently selected structure
     /// </summary>
     private void Build()
     {
@@ -220,32 +216,23 @@ public class GridManager : MonoBehaviour
     }
 
    /// <summary>
-   /// Returns whether the currently selected building can be placed with a pivot point from a RaycastHit. 
+   /// Returns whether the currently selected building can be placed with a pivot point from a RaycastHit.
    /// </summary>
    /// <param name="hit">The returned RaycastHit (most likely from FindGridHit())</param>
    /// <param name="grid">The grid position of the vector3 returned by the RaycastHit</param>
    /// <returns></returns>
     private bool CanPlace(RaycastHit hit, Vector3 grid)
     {
-
-
         Vector3 location = hit.point;
-
-
         Vector2 buildingSize = currentBuilding.buildSize;
 
-
         //ExtDebug.DrawBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), Color.red);
-
         LayerMask colliderMask = ~(1 << LayerMask.NameToLayer("IOPort"));
-
-
 
         if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), colliderMask))
             return false;
         else
             return true;
-
     }
 
     /// <summary>
@@ -285,7 +272,7 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Attempts to Raycast from the mouse position in order to find the grid. 
+    /// Attempts to Raycast from the mouse position in order to find the grid.
     /// </summary>
     /// <returns>The RayCastHit of the floor, or null if nothing is found.</returns>
     private RaycastHit? FindGridHit()
@@ -301,7 +288,7 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Method called when IsInBuildMode is changed. Currently visualizes IO Ports for convenience. 
+    /// Method called when IsInBuildMode is changed. Currently visualizes IO Ports for convenience.
     /// </summary>
     /// <param name="value">The new value for IsInBuildMode</param>
     private void OnBuildModeChanged(bool value)
