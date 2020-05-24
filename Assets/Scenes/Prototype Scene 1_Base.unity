@@ -8752,12 +8752,12 @@ MonoBehaviour:
   EconomyManager: {fileID: 1384009080}
   MainCamera: {fileID: 1794220192}
   tileSize: 1
-  buildLayer:
+  canPlaceIgnoreLayers:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 512
   building: {fileID: 1188363696577860992, guid: 233e5b40efc04bf4b932403f4c632c9c,
     type: 3}
-  conveyor: {fileID: 4499327881019407246, guid: 238be4ee5f46817479bcbee8c6f82848,
+  conveyor: {fileID: 3826658444029601288, guid: 32643e6fe435b6543a6342d0a31649d1,
     type: 3}
   flipBuildingRight: 114
   flipBuildingLeft: 102
