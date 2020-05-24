@@ -12,6 +12,7 @@ public class BuildingIO : MonoBehaviour
 
     [Header("Input Configuration")]
     public ItemData[] itemsAllowedToEnter;
+    public ItemCategories[] itemCategoriesAllowedToEnter;
 
     [Header("Dynamic variables")]
     public BuildingIO attachedIO;
@@ -78,11 +79,23 @@ public class BuildingIO : MonoBehaviour
 
     public void OnItemEnter(ItemBehaviour item)
     {
+        bool allowedToEnter = false;
+
         foreach(ItemData data in itemsAllowedToEnter)
         {
-            if (item.data.ID != data.ID)
-                return;
+            if (item.data.ID == data.ID)
+                allowedToEnter = true;
         }
+
+        foreach(ItemCategories data in itemCategoriesAllowedToEnter)
+        {
+            if (item.data.ItemCategory == data)
+                allowedToEnter = true;
+        }
+
+        if (!allowedToEnter)
+            return;
+
         myManager.ProceedItemEnter(item.gameObject, item.data);
     }
 

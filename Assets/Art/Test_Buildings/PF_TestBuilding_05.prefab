@@ -327,6 +327,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9183637379809750852, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
         type: 3}
+      propertyPath: itemCategoriesAllowedToEnter.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9183637379809750852, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
+        type: 3}
       propertyPath: myManager
       value: 
       objectReference: {fileID: 2829206149473396702}
@@ -336,6 +341,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 86b86008a5ba2fc46adbbc59ff507414,
         type: 2}
+    - target: {fileID: 9183637379809750852, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
+        type: 3}
+      propertyPath: itemCategoriesAllowedToEnter.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64, type: 3}
 --- !u!4 &5703973211847303162 stripped
