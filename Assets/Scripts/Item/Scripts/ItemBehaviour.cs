@@ -9,7 +9,7 @@ public class ItemBehaviour : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         BuildingIO bIO = other.GetComponent<BuildingIO>();
-        if (bIO != null && IsFullySubmerged(other) && bIO.isInput)
+        if (bIO != null && IsFullySubmerged(bIO) && bIO.isInput)
             bIO.OnItemEnter(this);
     }
 
@@ -20,11 +20,11 @@ public class ItemBehaviour : MonoBehaviour
             bIO.OnItemExit(this);
     }
 
-    private bool IsFullySubmerged(Collider bc) 
+    private bool IsFullySubmerged(BuildingIO io) 
     {
         Mesh mesh = GetComponent<MeshFilter>().mesh;
         Vector3[] vertices = mesh.vertices;
-        Bounds bounds = bc.bounds;
+        Bounds bounds = io.itemIO.bounds;
         foreach (Vector3 vec in vertices)
         {
             Vector3 worldPos = transform.TransformPoint(vec);

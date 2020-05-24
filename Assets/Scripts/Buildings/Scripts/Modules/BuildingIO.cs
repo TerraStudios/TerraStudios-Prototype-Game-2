@@ -8,9 +8,11 @@ public class BuildingIO : MonoBehaviour
     public bool isOutput;
     public MeshRenderer MeshRenderer;
     public Collider coll;
+    public BoxCollider itemIO;
     public BuildingIOManager myManager;
 
     [Header("Input Configuration")]
+    public bool isTrashcanOutput;
     public ItemData[] itemsAllowedToEnter;
     public ItemCategories[] itemCategoriesAllowedToEnter;
 
@@ -31,6 +33,12 @@ public class BuildingIO : MonoBehaviour
     public void Init()
     {
         visualizeIO = false;
+    }
+
+    public void SpawnItemObj(ItemData itemToSpawn)
+    {
+        Vector3 spawnPos = itemIO.transform.position;
+        Instantiate(itemToSpawn.obj, spawnPos, Quaternion.identity);
     }
 
     public void Visualize()

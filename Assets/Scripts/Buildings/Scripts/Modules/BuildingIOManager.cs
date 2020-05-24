@@ -35,6 +35,13 @@ public class BuildingIOManager : MonoBehaviour
         Debug.Log("Item fully in me! Item is " + item.name);
     }
 
+    public void TrashItem(GameObject sceneInstance, ItemData item)
+    {
+        Destroy(sceneInstance, 1f);
+        BuildingIO trashOutput = GetTrashOutput();
+        trashOutput.SpawnItemObj(item);
+    }
+
     public void VisualizeAll() 
     {
         foreach (BuildingIO io in inputs)
@@ -67,5 +74,15 @@ public class BuildingIOManager : MonoBehaviour
             return itemInside.name;
         else
             return "None";
+    }
+
+    public BuildingIO GetTrashOutput()
+    {
+        foreach(BuildingIO output in outputs)
+        {
+            if (output.isTrashcanOutput)
+                return output;
+        }
+        return null;
     }
 }
