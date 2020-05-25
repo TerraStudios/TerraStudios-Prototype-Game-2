@@ -50,7 +50,27 @@ public class BuildingSystem : MonoBehaviour
             if (b)
             {
                 if (b.isSetUp)
+                {
+                    if (FocusedBuilding && !(b.Equals(FocusedBuilding)))
+                    {
+                        OnBuildingDeselected();
+                    }
                     OnBuildingSelected(b);
+                }
+            } else
+            {
+                if (FocusedBuilding)
+                {
+                    OnBuildingDeselected();
+
+                }
+            }
+        } else
+        {
+            if (FocusedBuilding)
+            {
+                OnBuildingDeselected();
+
             }
         }
     }

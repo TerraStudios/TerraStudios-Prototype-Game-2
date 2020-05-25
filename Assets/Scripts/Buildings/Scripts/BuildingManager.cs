@@ -39,6 +39,7 @@ public class BuildingManager : BuildingSystem
     public override void OnBuildingSelected(Building b)
     {
         base.OnBuildingSelected(b);
+        b.BuildingIOManager.VisualizeAll();
         BuildingInfo.SetActive(true);
     }
 
@@ -48,6 +49,7 @@ public class BuildingManager : BuildingSystem
     /// </summary>
     public override void OnBuildingDeselected()
     {
+        FocusedBuilding.BuildingIOManager.DevisualizeAll();
         base.OnBuildingDeselected();
         BuildingInfo.SetActive(false);
     }
