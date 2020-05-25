@@ -11,6 +11,27 @@ public class BuildingManager : BuildingSystem
     public TMP_Text offTime;
     public TMP_Text itemInsideName;
 
+    [Header("IO Rendering")]
+    public Transform ArrowPrefab;
+
+
+    private static BuildingManager s_Instance = null;
+    
+    public static BuildingManager instance
+    {
+        get
+        {
+            if (s_Instance == null)
+            {
+                s_Instance = FindObjectOfType(typeof(BuildingManager)) as BuildingManager;
+            }
+
+            return s_Instance;
+        }
+    }
+    
+    //Static because the building manager doesn't have access to BuildingManager, and it doesn't make sense to put it in BuildingIOManager (multiple instances)
+
 
     /// <summary>
     /// Event called when the building is selected, sets the UI to active and calls the OnBuildingSelected event

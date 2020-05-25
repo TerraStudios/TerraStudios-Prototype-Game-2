@@ -19,6 +19,7 @@ public class BuildingIO : MonoBehaviour
     [Header("Dynamic variables")]
     public BuildingIO attachedIO;
     [HideInInspector] public bool visualizeIO = true;
+    private Transform arrow;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -115,12 +116,43 @@ public class BuildingIO : MonoBehaviour
 
     private void Visualize(Color color)
     {
-        MeshRenderer.enabled = true;
-        MeshRenderer.material.color = color;
+        //Old cube render
+        //MeshRenderer.enabled = true;
+        //MeshRenderer.material.color = color;
+
+        //New arrow render
+        //TODO: Have the arrow part of the IO system before to remove instantiates
+        if (arrow != null) Destroy(arrow.gameObject);
+
+        arrow = Instantiate(BuildingManager.instance.ArrowPrefab, gameObject.transform.position, gameObject.transform.rotation);
+        arrow.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        arrow.transform.position += new Vector3(0, 1, 0);
+        arrow.GetComponent<MeshRenderer>().material.color = color;
+        
     }
 
     public void Devisualize()
     {
+        if (arrow != null)
+        {
+            Destroy(arrow.gameObject);
+            arrow = null;
+        }
         MeshRenderer.enabled = false;
+    }
+
+    /// <summary>
+    /// Draws an arrow where the building is faced in the editor. Used for setting the correct rotation (IO)
+    /// </summary>
+    private void OnDrawGizmosSelected()
+    {
+        
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(transform.position, transform.forward * 0.5f);
+
+        Vector3 right = Quaternion.LookRotation(transform.forward) * Quaternion.Euler(0, 180 + 20.0f, 0) * new Vector3(0, 0, 1);
+        Vector3 left = Quaternion.LookRotation(transform.forward) * Quaternion.Euler(0, 180 - 20.0f, 0) * new Vector3(0, 0, 1);
+        Gizmos.DrawRay(transform.position + transform.forward * 0.5f, right * 0.15f);
+        Gizmos.DrawRay(transform.position + transform.forward * 0.5f, left * 0.15f);
     }
 }

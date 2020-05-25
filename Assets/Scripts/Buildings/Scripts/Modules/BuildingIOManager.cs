@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BuildingIOManager : MonoBehaviour
 {
+
+
     public ItemData itemInside;
 
     public BuildingIO[] inputs;
