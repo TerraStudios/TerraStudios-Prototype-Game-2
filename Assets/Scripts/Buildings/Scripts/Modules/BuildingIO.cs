@@ -28,6 +28,7 @@ public class BuildingIO : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("Exit");
         OnUpdateIO(other, true);
     }
 
@@ -50,25 +51,43 @@ public class BuildingIO : MonoBehaviour
 
     private void OnUpdateIO(Collider other, bool exit = false) 
     {
-        BuildingIO hit = other.GetComponent<BuildingIO>();
-
-        if (hit == null || hit == this)
-            return;
-
-        bool isInputUnsupported = IsInputUnsupported(hit);
-
-        if (visualizeIO) 
+        if (!exit)
         {
-            if (isInputUnsupported)
-                Visualize(Color.red);
-            else
-                Visualize(Color.green);
+            BuildingIO hit = other.GetComponent<BuildingIO>();
+
+            if (hit == null || hit == this)
+                return;
+
+            bool isInputUnsupported = IsInputUnsupported(hit);
+
+            if (visualizeIO)
+            {
+                if (isInputUnsupported)
+                    Visualize(Color.red);
+                else
+                    Visualize(Color.green);
+            }
+
+            else if (!hit.visualizeIO && !isInputUnsupported)
+            {
+                Debug.Log("Attached " + hit);
+                attachedIO = hit;
+            }
         }
-            
-        else if (!hit.visualizeIO && !isInputUnsupported)
+        else
         {
-            Debug.Log("Attached " + hit);
-            attachedIO = hit;
+            BuildingIO hit = other.GetComponent<BuildingIO>();
+
+            if (hit == null || hit == this)
+                return;
+
+            if (visualizeIO)
+            {
+                // subject of change
+                Devisualize();
+                hit.Devisualize();
+                Debug.Log("Devisualized");
+            }
         }
     }
 
