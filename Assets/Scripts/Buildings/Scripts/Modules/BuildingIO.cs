@@ -12,6 +12,7 @@ public class BuildingIO : MonoBehaviour
     public BuildingIOManager myManager;
 
     [Header("Input Configuration")]
+    public bool enableDebug;
     public bool isTrashcanOutput;
     public ItemData[] itemsAllowedToEnter;
     public ItemCategories[] itemCategoriesAllowedToEnter;
@@ -19,7 +20,7 @@ public class BuildingIO : MonoBehaviour
     [Header("Dynamic variables")]
     public BuildingIO attachedIO;
     [HideInInspector] public bool visualizeIO = true;
-    private Transform arrow;
+    public Transform arrow;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -28,7 +29,6 @@ public class BuildingIO : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Exit");
         OnUpdateIO(other, true);
     }
 
@@ -46,11 +46,18 @@ public class BuildingIO : MonoBehaviour
     public void Visualize()
     {
         if (!visualizeIO)
+        {
             Visualize(Color.blue);
+            visualizeIO = true;
+        }
     }
 
-    private void OnUpdateIO(Collider other, bool exit = false) 
+    private void OnUpdateIO(Collider other, bool exit = false)
     {
+       if (gameObject.name == "Input")
+        {
+            if (enableDebug) Debug.Log("Am input, exit is " + exit);
+        }
         if (!exit)
         {
             BuildingIO hit = other.GetComponent<BuildingIO>();
@@ -60,22 +67,41 @@ public class BuildingIO : MonoBehaviour
 
             bool isInputUnsupported = IsInputUnsupported(hit);
 
+            if (enableDebug) Debug.Log(1);
+
             if (visualizeIO)
             {
+                if (enableDebug) Debug.Log(2);
                 if (isInputUnsupported)
-                    Visualize(Color.red);
+                {
+                    if (enableDebug) Debug.Log(3);
+                    if (arrow != null)
+                    {
+                        arrow.GetComponent<MeshRenderer>().material.color = Color.red;
+                    }
+                }
                 else
-                    Visualize(Color.green);
+                {
+                    if (arrow != null)
+                    {
+                        arrow.GetComponent<MeshRenderer>().material.color = Color.green;
+                    }
+                
+                }
             }
 
             else if (!hit.visualizeIO && !isInputUnsupported)
             {
-                Debug.Log("Attached " + hit);
                 attachedIO = hit;
+                if (arrow && arrow.gameObject)
+                Destroy(arrow.gameObject);
             }
         }
         else
         {
+            if (enableDebug) Debug.Log("Resetting arrows");
+            if (arrow != null) arrow.GetComponent<MeshRenderer>().material.color = Color.blue; //reset arrow
+
             BuildingIO hit = other.GetComponent<BuildingIO>();
 
             if (hit == null || hit == this)
@@ -84,14 +110,14 @@ public class BuildingIO : MonoBehaviour
             if (visualizeIO)
             {
                 // subject of change
-                Devisualize();
-                hit.Devisualize();
+                if (hit.arrow != null) hit.arrow.GetComponent<MeshRenderer>().material.color = Color.blue;
+                //hit.Devisualize();
                 Debug.Log("Devisualized");
             }
         }
     }
 
-    private bool IsInputUnsupported(BuildingIO other) 
+    private bool IsInputUnsupported(BuildingIO other)
     {
         bool toReturn = false;
 
@@ -109,13 +135,13 @@ public class BuildingIO : MonoBehaviour
     {
         bool allowedToEnter = false;
 
-        foreach(ItemData data in itemsAllowedToEnter)
+        foreach (ItemData data in itemsAllowedToEnter)
         {
             if (item.data.ID == data.ID)
                 allowedToEnter = true;
         }
 
-        foreach(ItemCategories data in itemCategoriesAllowedToEnter)
+        foreach (ItemCategories data in itemCategoriesAllowedToEnter)
         {
             if (item.data.ItemCategory == data)
                 allowedToEnter = true;
@@ -133,28 +159,38 @@ public class BuildingIO : MonoBehaviour
         //! probably not needed
     }
 
+
     private void Visualize(Color color)
     {
-        //Old cube render
+
+        if (attachedIO) return;
+;        //Old cube render
         //MeshRenderer.enabled = true;
         //MeshRenderer.material.color = color;
 
         //New arrow render
         //TODO: Have the arrow part of the IO system before to remove instantiates
-        if (arrow != null) Destroy(arrow.gameObject);
-
-        arrow = Instantiate(BuildingManager.instance.ArrowPrefab, gameObject.transform.position, gameObject.transform.rotation);
-        arrow.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        arrow.transform.position += new Vector3(0, 1, 0);
-        arrow.GetComponent<MeshRenderer>().material.color = color;
-        
+        if (arrow != null)
+        {
+            arrow.GetComponent<MeshRenderer>().material.color = color;
+        }
+        else
+        {
+            arrow = Instantiate(BuildingManager.instance.ArrowPrefab, gameObject.transform.position, gameObject.transform.rotation);
+            arrow.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            arrow.transform.position += new Vector3(0, 1, 0);
+            arrow.GetComponent<MeshRenderer>().material.color = color;
+        }
     }
+
 
     public void Devisualize()
     {
         if (arrow != null)
         {
+            Debug.Log("Destroying ;)");
             Destroy(arrow.gameObject);
+            visualizeIO = false;
             arrow = null;
         }
         MeshRenderer.enabled = false;
@@ -165,7 +201,7 @@ public class BuildingIO : MonoBehaviour
     /// </summary>
     private void OnDrawGizmosSelected()
     {
-        
+
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, transform.forward * 0.5f);
 
