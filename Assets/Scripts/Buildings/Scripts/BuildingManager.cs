@@ -41,6 +41,7 @@ public class BuildingManager : BuildingSystem
         base.OnBuildingSelected(b);
         b.BuildingIOManager.VisualizeAll();
         BuildingInfo.SetActive(true);
+        b.BuildingIOManager.GetInputConveyorGroup(0);
     }
 
 

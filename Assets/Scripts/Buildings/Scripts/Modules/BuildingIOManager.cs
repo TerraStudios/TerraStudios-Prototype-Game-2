@@ -87,4 +87,34 @@ public class BuildingIOManager : MonoBehaviour
         }
         return null;
     }
+
+    public BuildingIOManager[] GetInputConveyorGroup(int inputID) 
+    {
+        List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
+
+        if (!isConveyor || inputs.Length <= inputID || !inputs[inputID].attachedIO)
+            return null;
+
+        BuildingIOManager next = inputs[inputID].attachedIO.myManager;
+
+        for (; ;)
+        {
+            if (next.isConveyor)
+            {
+                foreach (BuildingIO io in next.inputs) 
+                {
+                    if (io.attachedIO.myManager.isConveyor)
+                    {
+                        next = io.myManager;
+                        toReturn.Add(next);
+                    }
+                }
+            }
+            else
+                break;
+        }
+
+        Debug.Log("Found " + toReturn.Count);
+        return toReturn.ToArray();
+    }
 }
