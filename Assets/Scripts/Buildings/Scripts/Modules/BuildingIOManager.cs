@@ -88,7 +88,30 @@ public class BuildingIOManager : MonoBehaviour
         return null;
     }
 
-    public BuildingIOManager[] GetInputConveyorGroup(int inputID) 
+    //a, b, c
+
+    //A: a, b, c
+    //B: d, e, f
+    //C: g, h, i
+
+    public List<BuildingIOManager> GetInputConveyorGroup()
+    {
+        List<BuildingIOManager> list = new List<BuildingIOManager>();
+
+        foreach(BuildingIO io in inputs)
+        {
+            if (io.attachedIO)
+            {
+                list.Add(io.attachedIO.myManager);
+                list.AddRange(io.attachedIO.myManager.GetInputConveyorGroup());
+            }
+        }
+
+
+        return list;
+    }
+
+    public BuildingIOManager[] GetManagers(int inputID) 
     {
         List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
 
