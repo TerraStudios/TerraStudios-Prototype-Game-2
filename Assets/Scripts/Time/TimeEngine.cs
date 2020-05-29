@@ -6,7 +6,7 @@ using System;
 
 public class TimeEngine : MonoBehaviour
 {
-    private Thread thread;
+    private Thread thread = null;
 
     [Header("Components")]
     public GameManger GameManager;
@@ -52,6 +52,7 @@ public class TimeEngine : MonoBehaviour
 
     private void OnDisable()
     {
-        thread.Abort();
+        if (thread != null)
+            thread.Abort();
     }
 }
