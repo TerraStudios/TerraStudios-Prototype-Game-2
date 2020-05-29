@@ -15,9 +15,6 @@ public class BuildingSystem : MonoBehaviour
     public EconomyManager EconomyManager;
     public EventSystem EventSystem;
 
-    private bool click = false;
-
-
     /// <summary>
     /// Main update loop for the BuildingSystem, refreshes the UI with OnBuildingUpdateUI
     /// </summary>
