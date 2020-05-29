@@ -12,9 +12,8 @@ public class Building : MonoBehaviour
     [HideInInspector] public bool isSetUp;
     [Header("Grid Building Properties")]
     public Transform prefab;
-    public bool hasCentricTile;
     public Vector3 offsetFromCenter;
-    public UnityEngine.Vector2Int buildSize;
+    public Vector2Int buildSize;
     public BuildingIOManager BuildingIOManager;
 
     [Header("Input / Outputs")]
@@ -66,6 +65,14 @@ public class Building : MonoBehaviour
 
         StartWorkStateCounters();
         GenerateBuildingHealth();
+    }
+
+    public bool HasCentricTile() 
+    {
+        if (buildSize.x % 2 == 0 || buildSize.y % 2 == 0)
+            return false;
+        else
+            return true;
     }
 
     #region Health Submodule
@@ -169,6 +176,9 @@ public class Building : MonoBehaviour
                 TimeManager.ContinueTimeCounter(value); // count new WS
             }
         }
+
+        if (BuildingIOManager == null)
+            return;
 
         if (newValue == WorkStateEnum.Off)
         {

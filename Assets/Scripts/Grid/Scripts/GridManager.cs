@@ -242,7 +242,7 @@ public class GridManager : MonoBehaviour
     /// <returns>A locked grid position</returns>
     private Vector3 GetGridPosition(Vector3 pos)
     {
-        if (currentBuilding.hasCentricTile)
+        if (currentBuilding.HasCentricTile())
             return new Vector3(
                 Mathf.FloorToInt(pos.x) + tileSize / 2,
                 Mathf.FloorToInt(pos.y) + .5f,
