@@ -169,6 +169,25 @@ public class Building : MonoBehaviour
                 TimeManager.ContinueTimeCounter(value); // count new WS
             }
         }
+
+        if (newValue == WorkStateEnum.Off)
+        {
+            if (!BuildingIOManager.isConveyor)
+                BuildingIOManager.ModifyConveyorState(null, false);
+            else
+            {
+                BuildingIOManager.ConveyorManager.speed = 0;
+            }
+        }
+        else
+        {
+            if (!BuildingIOManager.isConveyor)
+                BuildingIOManager.ModifyConveyorState(null, true);
+            else
+            {
+                BuildingIOManager.ConveyorManager.speed = 1;
+            }
+        }
     }
     #endregion
 

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2732519319348429501}
   - component: {fileID: 7939558541560465964}
   m_Layer: 0
-  m_Name: MS_Building_Conveyor
+  m_Name: PF_Building_Conveyor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52780f752ea9fa44a579c403a2d0479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Building: {fileID: 4378883302509727022}
   itemInside: {fileID: 0}
   inputs:
   - {fileID: 2300121638678919407}
@@ -151,6 +152,7 @@ MonoBehaviour:
   outputs:
   - {fileID: 5616119273722810161}
   isConveyor: 1
+  ConveyorManager: {fileID: -6701170580486413419}
 --- !u!54 &7939558541560465964
 Rigidbody:
   m_ObjectHideFlags: 0

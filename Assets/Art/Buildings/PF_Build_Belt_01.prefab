@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52780f752ea9fa44a579c403a2d0479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Building: {fileID: 3826658444029601288}
   itemInside: {fileID: 0}
   inputs:
   - {fileID: 4061978205861541308}
@@ -138,6 +139,7 @@ MonoBehaviour:
   outputs:
   - {fileID: 5363519669770500868}
   isConveyor: 1
+  ConveyorManager: {fileID: -8356760522624039762}
 --- !u!114 &-8356760522624039762
 MonoBehaviour:
   m_ObjectHideFlags: 0

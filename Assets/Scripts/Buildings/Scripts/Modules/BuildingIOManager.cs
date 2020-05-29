@@ -1,17 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class BuildingIOManager : MonoBehaviour
 {
-
-
+    public Building Building;
     public ItemData itemInside;
 
     public BuildingIO[] inputs;
     public BuildingIO[] outputs;
 
+    [Header("Conveyor Properties")]
     public bool isConveyor;
+    public Conveyor ConveyorManager;
 
     public void Init()
     {
@@ -26,7 +26,7 @@ public class BuildingIOManager : MonoBehaviour
         }
     }
 
-    public void ProceedItemEnter(GameObject sceneInstance, ItemData item) 
+    public void ProceedItemEnter(GameObject sceneInstance, ItemData item)
     {
         if (item == itemInside)
             return;
@@ -44,7 +44,7 @@ public class BuildingIOManager : MonoBehaviour
         trashOutput.SpawnItemObj(item);
     }
 
-    public void VisualizeAll() 
+    public void VisualizeAll()
     {
         foreach (BuildingIO io in inputs)
         {
@@ -70,7 +70,7 @@ public class BuildingIOManager : MonoBehaviour
         }
     }
 
-    public string GetItemInsideName() 
+    public string GetItemInsideName()
     {
         if (itemInside)
             return itemInside.name;
@@ -80,7 +80,7 @@ public class BuildingIOManager : MonoBehaviour
 
     public BuildingIO GetTrashOutput()
     {
-        foreach(BuildingIO output in outputs)
+        foreach (BuildingIO output in outputs)
         {
             if (output.isTrashcanOutput)
                 return output;
@@ -88,56 +88,40 @@ public class BuildingIOManager : MonoBehaviour
         return null;
     }
 
-    //a, b, c
+    public void ModifyConveyorState(int? inputID, bool state)
+    {
+        foreach (BuildingIOManager bIO in GetInputConveyorGroup(inputID))
+        {
+            if (state)
+            {
+                bIO.Building.WorkState = WorkStateEnum.On;
+            }
+            else
+            {
+                bIO.Building.WorkState = WorkStateEnum.Off;
+            }
+        }
+    }
 
-    //A: a, b, c
-    //B: d, e, f
-    //C: g, h, i
-
-    public List<BuildingIOManager> GetInputConveyorGroup()
+    private List<BuildingIOManager> GetInputConveyorGroup(int? inputID)
     {
         List<BuildingIOManager> list = new List<BuildingIOManager>();
 
-        foreach(BuildingIO io in inputs)
+        BuildingIOManager next;
+        if (inputID != null)
+            next = inputs[inputID.Value].myManager;
+        else
+            next = this;
+
+        foreach (BuildingIO io in next.inputs)
         {
             if (io.attachedIO)
             {
                 list.Add(io.attachedIO.myManager);
-                list.AddRange(io.attachedIO.myManager.GetInputConveyorGroup());
+                list.AddRange(io.attachedIO.myManager.GetInputConveyorGroup(null));
             }
         }
-
 
         return list;
-    }
-
-    public BuildingIOManager[] GetManagers(int inputID) 
-    {
-        List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
-
-        if (!isConveyor || inputs.Length <= inputID || !inputs[inputID].attachedIO)
-            return null;
-
-        BuildingIOManager next = inputs[inputID].attachedIO.myManager;
-
-        for (; ;)
-        {
-            if (next.isConveyor)
-            {
-                foreach (BuildingIO io in next.inputs) 
-                {
-                    if (io.attachedIO.myManager.isConveyor)
-                    {
-                        next = io.myManager;
-                        toReturn.Add(next);
-                    }
-                }
-            }
-            else
-                break;
-        }
-
-        Debug.Log("Found " + toReturn.Count);
-        return toReturn.ToArray();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BuildingSystem : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class BuildingSystem : MonoBehaviour
     public Camera MainCamera;
     public GridManager GridManager;
     public EconomyManager EconomyManager;
+    public EventSystem EventSystem;
 
     private bool click = false;
 
@@ -42,6 +44,9 @@ public class BuildingSystem : MonoBehaviour
     /// <param name="mousePos">The Vector3 to start the Raycast from</param>
     public void CheckForHit(Vector3 mousePos)
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
         Ray ray = MainCamera.ScreenPointToRay(mousePos);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ~allowedFocusLayers))
