@@ -8777,11 +8777,12 @@ MonoBehaviour:
   RegisteredBuildings: []
   allowedFocusLayers:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 1536
   TimeManager: {fileID: 1384009078}
   MainCamera: {fileID: 1794220192}
   GridManager: {fileID: 1384009082}
   EconomyManager: {fileID: 1384009080}
+  EventSystem: {fileID: 0}
   BuildingInfo: {fileID: 474815118}
   buildHealth: {fileID: 639346749}
   onTime: {fileID: 174944705}
