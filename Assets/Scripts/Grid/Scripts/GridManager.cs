@@ -166,10 +166,9 @@ public class GridManager : MonoBehaviour
         }
         else if (forceVisualize)
         {
-            //visualization.transform.rotation = rotationChange;
-            Destroy(visualization.gameObject);
+            visualization.transform.rotation = rotationChange;
+            visualization.transform.position = center + GetBuildingOffset(currentBuilding);
             hasRotationChanged = false;
-            VisualizeBuild();
         }
         else if (lastVisualize == center)
         {
