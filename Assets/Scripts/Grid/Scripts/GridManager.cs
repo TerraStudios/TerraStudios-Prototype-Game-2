@@ -148,9 +148,12 @@ public class GridManager : MonoBehaviour
     /// <param name="forceVisualize">Forces the building to be visualized, used when rotating</param>
     private void VisualizeBuild(bool forceVisualize = false)
     {
+        
         RaycastHit? hit = FindGridHit();
         if (hit == null) return;
         Vector3 center = GetGridPosition(hit.Value.point);
+
+        CanPlace(hit.Value, center);
 
         if (!center.Equals(lastVisualize))
         {
@@ -162,12 +165,12 @@ public class GridManager : MonoBehaviour
 
         if (visualization == null)
         {
-            visualization = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
+            visualization = Instantiate(currentBuilding.prefab, center, RotationChange);// + GetBuildingOffset(currentBuilding), RotationChange);
         }
         else if (forceVisualize)
         {
             visualization.transform.rotation = rotationChange;
-            visualization.transform.position = center + GetBuildingOffset(currentBuilding);
+            visualization.transform.position = center; //+ GetBuildingOffset(currentBuilding);
             hasRotationChanged = false;
         }
         else if (lastVisualize == center)
@@ -199,6 +202,8 @@ public class GridManager : MonoBehaviour
         RaycastHit? hit = FindGridHit();
         if (hit == null) return;
 
+
+
         Vector3 center = GetGridPosition(hit.Value.point);
 
         if (center == Vector3.zero)
@@ -227,7 +232,13 @@ public class GridManager : MonoBehaviour
         Vector3 location = hit.point;
         Vector2 buildingSize = currentBuilding.buildSize;
 
-        //ExtDebug.DrawBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), Color.red);
+        Vector3 buildingBounds = currentBuilding.GetComponent<MeshRenderer>().bounds.size;
+
+        Debug.Log("Render Size: " + buildingBounds);
+        Debug.Log("X: " + buildingBounds.x + ", " + (buildingBounds.x % 1));
+        Debug.Log("Z: " + buildingBounds.z + ", " + (buildingBounds.z % 1));
+
+        ExtDebug.DrawBox(grid - new Vector3(buildingBounds.x % 1, 0, buildingBounds.z % 1) + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f, 1f, buildingSize.y * 0.5f), RotationChange, Color.red);
 
         if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), ~canPlaceIgnoreLayers))
             return false;
@@ -242,16 +253,10 @@ public class GridManager : MonoBehaviour
     /// <returns>A locked grid position</returns>
     private Vector3 GetGridPosition(Vector3 pos)
     {
-        if (currentBuilding.HasCentricTile())
-            return new Vector3(
-                Mathf.FloorToInt(pos.x) + tileSize / 2,
-                Mathf.FloorToInt(pos.y) + .5f,
-                Mathf.FloorToInt(pos.z) + tileSize / 2);
-        else
-            return new Vector3(
-                Mathf.FloorToInt(pos.x),
-                Mathf.FloorToInt(pos.y + .5f) + .5f,
-                Mathf.FloorToInt(pos.z));
+        float x = currentBuilding.buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
+        float z = currentBuilding.buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
+
+        return new Vector3(x, pos.y, z);
     }
 
     /// <summary>
@@ -261,6 +266,7 @@ public class GridManager : MonoBehaviour
     /// <returns>The building offset (x, y, z)</returns>
     private Vector3 GetBuildingOffset(Building b)
     {
+
         if (isFlipped)
         {
             return new Vector3(b.offsetFromCenter.z, b.offsetFromCenter.y, b.offsetFromCenter.x);

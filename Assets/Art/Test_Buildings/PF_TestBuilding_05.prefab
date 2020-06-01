@@ -98,7 +98,7 @@ MonoBehaviour:
   isSetUp: 0
   prefab: {fileID: 5743232055677218776}
   offsetFromCenter: {x: 0, y: 0, z: 0}
-  buildSize: {x: 4, y: 4}
+  buildSize: {x: 3, y: 4}
   BuildingIOManager: {fileID: 2829206149473396702}
   allowAllInputs: 1
   inputsAllowed: []

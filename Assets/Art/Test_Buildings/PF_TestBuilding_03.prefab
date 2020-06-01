@@ -125,8 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSetUp: 0
   prefab: {fileID: 5150382910928581853}
-  hasCentricTile: 0
-  offsetFromCenter: {x: 0, y: 0, z: 0.5}
+  offsetFromCenter: {x: 0, y: 0, z: 0}
   buildSize: {x: 4, y: 3}
   BuildingIOManager: {fileID: 0}
   allowAllInputs: 0

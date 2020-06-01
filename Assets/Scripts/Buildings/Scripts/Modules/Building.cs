@@ -69,7 +69,7 @@ public class Building : MonoBehaviour
 
     public bool HasCentricTile() 
     {
-        if (buildSize.x % 2 == 0 || buildSize.y % 2 == 0)
+        if (buildSize.x % 2 == 0 && buildSize.y % 2 == 0)
             return false;
         else
             return true;
