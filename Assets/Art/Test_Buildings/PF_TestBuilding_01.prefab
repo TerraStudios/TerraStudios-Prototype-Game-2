@@ -95,7 +95,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSetUp: 0
   prefab: {fileID: 4398797330668382826}
-  hasCentricTile: 1
   offsetFromCenter: {x: 0, y: 0, z: 0}
   buildSize: {x: 3, y: 3}
   BuildingIOManager: {fileID: 0}

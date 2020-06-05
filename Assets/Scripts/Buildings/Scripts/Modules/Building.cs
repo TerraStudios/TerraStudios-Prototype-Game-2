@@ -12,7 +12,6 @@ public class Building : MonoBehaviour
     [HideInInspector] public bool isSetUp;
     [Header("Grid Building Properties")]
     public Transform prefab;
-    public Vector3 offsetFromCenter;
     public Vector2Int buildSize;
     public BuildingIOManager BuildingIOManager;
 

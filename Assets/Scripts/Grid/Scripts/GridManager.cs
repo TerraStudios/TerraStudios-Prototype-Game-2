@@ -180,7 +180,7 @@ public class GridManager : MonoBehaviour
         else
         {
             //Destroy(visualization.gameObject);
-            visualization.transform.position = center + GetBuildingOffset(currentBuilding);
+            visualization.transform.position = center;
             visualization.transform.rotation = RotationChange;
         }
 
@@ -212,7 +212,7 @@ public class GridManager : MonoBehaviour
         {
             IsInBuildMode = false;
             Destroy(visualization.gameObject);
-            Transform newMachine = Instantiate(currentBuilding.prefab, center + GetBuildingOffset(currentBuilding), RotationChange);
+            Transform newMachine = Instantiate(currentBuilding.prefab, center, RotationChange);
             newMachine.gameObject.AddComponent<BoxCollider>();
             Building b = newMachine.GetComponent<Building>();
             BuildingManager.SetUpBuilding(b);
@@ -238,9 +238,9 @@ public class GridManager : MonoBehaviour
         Debug.Log("X: " + buildingBounds.x + ", " + (buildingBounds.x % 1));
         Debug.Log("Z: " + buildingBounds.z + ", " + (buildingBounds.z % 1));
 
-        ExtDebug.DrawBox(grid - new Vector3(buildingBounds.x % 1, 0, buildingBounds.z % 1) + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f, 1f, buildingSize.y * 0.5f), RotationChange, Color.red);
+        ExtDebug.DrawBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f, 1f, buildingSize.y * 0.5f), RotationChange, Color.red);
 
-        if (Physics.CheckBox(grid + GetBuildingOffset(currentBuilding) - new Vector3(0, GetBuildingOffset(currentBuilding).y, 0) + new Vector3(0, 0.5f, 0), new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), ~canPlaceIgnoreLayers))
+        if (Physics.CheckBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), ~canPlaceIgnoreLayers))
             return false;
         else
             return true;
@@ -257,24 +257,6 @@ public class GridManager : MonoBehaviour
         float z = currentBuilding.buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
 
         return new Vector3(x, pos.y, z);
-    }
-
-    /// <summary>
-    /// Returns the offset of the building configured in the inspector (in case the model isn't centered)
-    /// </summary>
-    /// <param name="b">Building in order to retrieve the information from</param>
-    /// <returns>The building offset (x, y, z)</returns>
-    private Vector3 GetBuildingOffset(Building b)
-    {
-
-        if (isFlipped)
-        {
-            return new Vector3(b.offsetFromCenter.z, b.offsetFromCenter.y, b.offsetFromCenter.x);
-        }
-        else
-        {
-            return b.offsetFromCenter;
-        }
     }
 
     /// <summary>

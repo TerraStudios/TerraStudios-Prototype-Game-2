@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4746425084474043165, guid: ea0e9f57a46ef164f99757327ef56020, type: 3}
+  - {fileID: -4746425084474043165, guid: 3412b939c6afa0c46bfce02f862047b4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,7 +95,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSetUp: 0
   prefab: {fileID: 2747766475637994033}
-  hasCentricTile: 0
   offsetFromCenter: {x: 0, y: 0, z: 0.5}
   buildSize: {x: 4, y: 3}
   BuildingIOManager: {fileID: 0}
