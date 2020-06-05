@@ -148,7 +148,7 @@ public class GridManager : MonoBehaviour
     /// <param name="forceVisualize">Forces the building to be visualized, used when rotating</param>
     private void VisualizeBuild(bool forceVisualize = false)
     {
-        
+
         RaycastHit? hit = FindGridHit();
         if (hit == null) return;
         Vector3 center = GetGridPosition(hit.Value.point);
@@ -221,12 +221,12 @@ public class GridManager : MonoBehaviour
             Debug.Log("Not allowed to place here!");
     }
 
-   /// <summary>
-   /// Returns whether the currently selected building can be placed with a pivot point from a RaycastHit.
-   /// </summary>
-   /// <param name="hit">The returned RaycastHit (most likely from FindGridHit())</param>
-   /// <param name="grid">The grid position of the vector3 returned by the RaycastHit</param>
-   /// <returns></returns>
+    /// <summary>
+    /// Returns whether the currently selected building can be placed with a pivot point from a RaycastHit.
+    /// </summary>
+    /// <param name="hit">The returned RaycastHit (most likely from FindGridHit())</param>
+    /// <param name="grid">The grid position of the vector3 returned by the RaycastHit</param>
+    /// <returns></returns>
     private bool CanPlace(RaycastHit hit, Vector3 grid)
     {
         Vector3 location = hit.point;
@@ -253,8 +253,21 @@ public class GridManager : MonoBehaviour
     /// <returns>A locked grid position</returns>
     private Vector3 GetGridPosition(Vector3 pos)
     {
-        float x = currentBuilding.buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
-        float z = currentBuilding.buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
+        float x;
+        float z;
+
+        if (isFlipped)
+        {
+            x = currentBuilding.buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
+            z = currentBuilding.buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
+
+        }
+        else
+        {
+            x = currentBuilding.buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
+            z = currentBuilding.buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
+        }
+
 
         return new Vector3(x, pos.y, z);
     }
