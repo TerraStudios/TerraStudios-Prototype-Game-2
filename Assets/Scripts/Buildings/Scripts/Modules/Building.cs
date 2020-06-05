@@ -12,7 +12,7 @@ public class Building : MonoBehaviour
     [HideInInspector] public bool isSetUp;
     [Header("Grid Building Properties")]
     public Transform prefab;
-    public Vector2Int buildSize;
+    [HideInInspector] public Vector2Int buildSize;
     public BuildingIOManager BuildingIOManager;
 
     [Header("Input / Outputs")]
@@ -55,6 +55,8 @@ public class Building : MonoBehaviour
 
     public void Init()
     {
+        buildSize = new Vector2Int((int) GetComponent<MeshRenderer>().bounds.size.x, (int) GetComponent<MeshRenderer>().bounds.size.z);
+
         if (BuildingIOManager != null)
             BuildingIOManager.Init();
         else

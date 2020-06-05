@@ -251,6 +251,7 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="pos"></param>
     /// <returns>A locked grid position</returns>
+    /// 
     private Vector3 GetGridPosition(Vector3 pos)
     {
         float x;
