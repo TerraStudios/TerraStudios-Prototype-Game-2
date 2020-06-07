@@ -8755,7 +8755,7 @@ MonoBehaviour:
   canPlaceIgnoreLayers:
     serializedVersion: 2
     m_Bits: 512
-  building: {fileID: 4208761697820460715, guid: ef7d49ba5712ea34ab5f156ad62cf5e0,
+  building: {fileID: 1188363696577860992, guid: 233e5b40efc04bf4b932403f4c632c9c,
     type: 3}
   conveyor: {fileID: 3826658444029601288, guid: 32643e6fe435b6543a6342d0a31649d1,
     type: 3}
@@ -8790,6 +8790,8 @@ MonoBehaviour:
   offTime: {fileID: 1903736173}
   itemInsideName: {fileID: 576281744}
   ArrowPrefab: {fileID: 2207163310772959274, guid: 97e90c42e9d7beb42a5bc0e010444381,
+    type: 3}
+  BuildingDirectionPrefab: {fileID: 4593096153047956324, guid: 7fa4b77d129366b4f909908888c32137,
     type: 3}
 --- !u!114 &1384009084
 MonoBehaviour:
