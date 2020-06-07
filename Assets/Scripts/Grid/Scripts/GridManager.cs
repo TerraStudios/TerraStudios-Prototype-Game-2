@@ -186,6 +186,11 @@ public class GridManager : MonoBehaviour
 
         lastVisualize = center;
 
+        if (building.GetIndicator() == null)
+        { 
+            building.SetIndicator(BuildingManager.instance.ArrowIndicator);
+        }
+
         if (canPlace)
             visualization.GetComponent<MeshRenderer>().material.color = Color.green;
         else
@@ -218,6 +223,7 @@ public class GridManager : MonoBehaviour
             newMachine.gameObject.AddComponent<BoxCollider>();
             Building b = newMachine.GetComponent<Building>();
             BuildingManager.SetUpBuilding(b);
+            b.RemoveIndicator();
         }
         else
             Debug.Log("Not allowed to place here!");

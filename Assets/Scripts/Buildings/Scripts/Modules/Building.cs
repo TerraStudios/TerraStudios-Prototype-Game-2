@@ -20,6 +20,8 @@ public class Building : MonoBehaviour
     public ItemData[] inputsAllowed;
     public bool showDirectionOnVisualize = true;
 
+    private GameObject currentIndicator;
+
     [Header("Economics")]
     public int price;
 
@@ -125,7 +127,10 @@ public class Building : MonoBehaviour
 
     public virtual void OnBuildingBrake()
     {
-        Debug.Log("I broke!");
+        Debug.Log("I misspelled the word break! (it broke)");
+        SetIndicator(BuildingManager.instance.BrokenIndicator);
+
+        
     }
 
     public void Fix()
@@ -135,6 +140,7 @@ public class Building : MonoBehaviour
         {
             WorkState = WorkStateEnum.Off;
             EconomyManager.Balance -= priceForFix;
+            SetIndicator(BuildingManager.instance.FixingIndicator);
             foreach (TimeWaitEvent ev in healthWaitEvents) { TimeManager.UnregisterTimeWaiter(ev); }
         }
         else
@@ -156,6 +162,7 @@ public class Building : MonoBehaviour
             healthPercent = 100;
             WorkState = WorkStateEnum.On;
             DepleteHealthEvent();
+            RemoveIndicator();
         }
     }
     #endregion
@@ -240,4 +247,25 @@ public class Building : MonoBehaviour
         return wattsUsed;
     }
     #endregion
+
+    public void SetIndicator(Transform prefab)
+    {
+        RemoveIndicator();
+        currentIndicator = Instantiate(prefab, gameObject.transform.position + new Vector3(0, gameObject.GetComponent<MeshRenderer>().bounds.size.y + 1, 0), gameObject.transform.rotation).gameObject;
+        //currentIndicator.transform.parent = this.transform;
+    }
+
+    public void RemoveIndicator()
+    {
+        if (currentIndicator != null)
+        {
+            Destroy(currentIndicator);
+            currentIndicator = null;
+        }
+    }
+
+    public GameObject GetIndicator()
+    {
+        return currentIndicator;
+    }
 }

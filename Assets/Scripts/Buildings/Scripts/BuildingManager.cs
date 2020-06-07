@@ -15,6 +15,12 @@ public class BuildingManager : BuildingSystem
     public Transform ArrowPrefab;
     public Transform BuildingDirectionPrefab;
 
+    [Header("Indicators")]
+    public Transform ArrowIndicator;
+    public Transform BrokenIndicator;
+    public Transform ErrorIndicator;
+    public Transform FixingIndicator;
+
     private static BuildingManager s_Instance = null;
     
     public static BuildingManager instance
