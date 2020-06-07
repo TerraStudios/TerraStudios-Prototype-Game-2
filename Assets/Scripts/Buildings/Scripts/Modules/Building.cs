@@ -18,6 +18,7 @@ public class Building : MonoBehaviour
     [Header("Input / Outputs")]
     public bool allowAllInputs;
     public ItemData[] inputsAllowed;
+    public bool showDirectionOnVisualize = true;
 
     [Header("Economics")]
     public int price;
@@ -62,6 +63,8 @@ public class Building : MonoBehaviour
         else
             Debug.LogWarning("Skipping Building IO Initialization");
 
+        HideBuildingDirection();
+
         isSetUp = true;
 
         StartWorkStateCounters();
@@ -75,6 +78,20 @@ public class Building : MonoBehaviour
         else
             return true;
     }
+
+    private Transform directionArrow;
+
+    public void ShowBuildingDirection()
+    {
+        if (directionArrow || !showDirectionOnVisualize)
+            return;
+
+        directionArrow = Instantiate(BuildingManager.instance.BuildingDirectionPrefab, gameObject.transform.position + Vector3.up, transform.rotation);
+        directionArrow.parent = transform;
+        directionArrow.rotation = new Quaternion(0, 180, 0, 1);
+    }
+
+    public void HideBuildingDirection() { if (directionArrow && showDirectionOnVisualize) Destroy(directionArrow.gameObject); }
 
     #region Health Submodule
     public void GenerateBuildingHealth()

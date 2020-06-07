@@ -13,7 +13,7 @@ public class BuildingManager : BuildingSystem
 
     [Header("IO Rendering")]
     public Transform ArrowPrefab;
-
+    public Transform BuildingDirectionPrefab;
 
     private static BuildingManager s_Instance = null;
     

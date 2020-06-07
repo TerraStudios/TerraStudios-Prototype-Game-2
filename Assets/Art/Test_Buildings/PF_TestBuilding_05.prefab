@@ -97,7 +97,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSetUp: 0
   prefab: {fileID: 5743232055677218776}
-  offsetFromCenter: {x: 0, y: 0, z: 0}
   buildSize: {x: 3, y: 4}
   BuildingIOManager: {fileID: 2829206149473396702}
   allowAllInputs: 1
@@ -124,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52780f752ea9fa44a579c403a2d0479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Building: {fileID: 0}
+  Building: {fileID: 1188363696577860992}
   itemInside: {fileID: 0}
   inputs:
   - {fileID: 6622337927083192665}

@@ -190,6 +190,8 @@ public class GridManager : MonoBehaviour
             visualization.GetComponent<MeshRenderer>().material.color = Color.green;
         else
             visualization.GetComponent<MeshRenderer>().material.color = Color.red;
+
+        visualization.GetComponent<Building>().ShowBuildingDirection();
     }
 
     /// <summary>
