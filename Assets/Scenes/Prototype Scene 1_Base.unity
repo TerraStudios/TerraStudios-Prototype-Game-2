@@ -5467,17 +5467,17 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.46490166
+      value: 0.46490163
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000046139213
+      value: 0.000000014256534
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000022365608
+      value: -0.000000009348056
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -5502,17 +5502,17 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.46490166
+      value: 0.46490163
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000046139213
+      value: 0.000000014256534
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000022365608
+      value: -0.000000009348056
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -8792,6 +8792,14 @@ MonoBehaviour:
   ArrowPrefab: {fileID: 2207163310772959274, guid: 97e90c42e9d7beb42a5bc0e010444381,
     type: 3}
   BuildingDirectionPrefab: {fileID: 4593096153047956324, guid: 7fa4b77d129366b4f909908888c32137,
+    type: 3}
+  ArrowIndicator: {fileID: 2207163310772959274, guid: 97e90c42e9d7beb42a5bc0e010444381,
+    type: 3}
+  BrokenIndicator: {fileID: 2391133962614016067, guid: ea00c913d29ab3e469d5f36d272a37a9,
+    type: 3}
+  ErrorIndicator: {fileID: 1948360420630236868, guid: e4af70bed530f3646a81c04f8185b682,
+    type: 3}
+  FixingIndicator: {fileID: 2530370576172192279, guid: 0bd1059d01fc3fd40beab9fdce757540,
     type: 3}
 --- !u!114 &1384009084
 MonoBehaviour:

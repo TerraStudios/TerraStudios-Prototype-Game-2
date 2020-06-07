@@ -252,7 +252,6 @@ public class Building : MonoBehaviour
     {
         RemoveIndicator();
         currentIndicator = Instantiate(prefab, gameObject.transform.position + new Vector3(0, gameObject.GetComponent<MeshRenderer>().bounds.size.y + 1, 0), gameObject.transform.rotation).gameObject;
-        //currentIndicator.transform.parent = this.transform;
     }
 
     public void RemoveIndicator()
