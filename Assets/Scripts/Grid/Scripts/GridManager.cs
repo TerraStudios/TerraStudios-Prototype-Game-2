@@ -48,6 +48,7 @@ public class GridManager : MonoBehaviour
 
     private Quaternion rotationChange = Quaternion.identity;
 
+
     public Quaternion RotationChange
     {
         get => rotationChange;
@@ -123,7 +124,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    
+
     #region Visualization
 
     /// <summary>
@@ -149,6 +150,10 @@ public class GridManager : MonoBehaviour
         if (visualization == null)
         {
             visualization = Instantiate(currentBuilding.prefab, center, RotationChange);// + GetBuildingOffset(currentBuilding), RotationChange);
+
+            
+            
+            
         }
         else if (forceVisualize)
         {
@@ -165,21 +170,21 @@ public class GridManager : MonoBehaviour
             //Destroy(visualization.gameObject);
             visualization.transform.position = center;
             visualization.transform.rotation = RotationChange;
+
+            
         }
 
         lastVisualize = center;
 
-        if (building.GetIndicator() == null)
-        { 
-            building.SetIndicator(BuildingManager.instance.ArrowIndicator);
-        }
+
 
         if (canPlace)
             visualization.GetComponent<MeshRenderer>().material.color = Color.green;
         else
             visualization.GetComponent<MeshRenderer>().material.color = Color.red;
 
-        visualization.GetComponent<Building>().ShowBuildingDirection();
+        visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.ArrowIndicator);
+
     }
 
     #endregion 
