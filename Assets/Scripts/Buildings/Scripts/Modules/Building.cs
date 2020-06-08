@@ -12,7 +12,8 @@ public class Building : MonoBehaviour
     [HideInInspector] public bool isSetUp;
     [Header("Grid Building Properties")]
     public Transform prefab;
-    [HideInInspector] public Vector2Int buildSize;
+
+
     public BuildingIOManager BuildingIOManager;
 
     [Header("Input / Outputs")]
@@ -56,9 +57,11 @@ public class Building : MonoBehaviour
     [HideInInspector] public TimeManager TimeManager;
     [HideInInspector] public EconomyManager EconomyManager;
 
+
+
+
     public void Init()
     {
-        buildSize = new Vector2Int((int) GetComponent<MeshRenderer>().bounds.size.x, (int) GetComponent<MeshRenderer>().bounds.size.z);
 
         if (BuildingIOManager != null)
             BuildingIOManager.Init();
@@ -73,8 +76,10 @@ public class Building : MonoBehaviour
         GenerateBuildingHealth();
     }
 
-    public bool HasCentricTile() 
+    public bool HasCentricTile()
     {
+        Vector2Int buildSize = GetBuildSize();
+
         if (buildSize.x % 2 == 0 && buildSize.y % 2 == 0)
             return false;
         else
@@ -130,7 +135,7 @@ public class Building : MonoBehaviour
         Debug.Log("I misspelled the word break! (it broke)");
         SetIndicator(BuildingManager.instance.BrokenIndicator);
 
-        
+
     }
 
     public void Fix()
@@ -266,5 +271,11 @@ public class Building : MonoBehaviour
     public GameObject GetIndicator()
     {
         return currentIndicator;
+    }
+
+    public Vector2Int GetBuildSize()
+    {
+        Vector3 e =  GetComponent<MeshRenderer>().bounds.size;
+        return new Vector2Int((int) Math.Round(e.x), (int) Math.Round(e.z));
     }
 }

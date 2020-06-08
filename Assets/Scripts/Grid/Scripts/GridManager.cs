@@ -238,7 +238,7 @@ public class GridManager : MonoBehaviour
     private bool CanPlace(RaycastHit hit, Vector3 grid)
     {
         Vector3 location = hit.point;
-        Vector2 buildingSize = currentBuilding.buildSize;
+        Vector2 buildingSize = currentBuilding.GetBuildSize();
 
         Vector3 buildingBounds = currentBuilding.GetComponent<MeshRenderer>().bounds.size;
 
@@ -248,7 +248,7 @@ public class GridManager : MonoBehaviour
 
         ExtDebug.DrawBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f, 1f, buildingSize.y * 0.5f), RotationChange, Color.red);
 
-        if (Physics.CheckBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange * Quaternion.Euler(0, -90, 0), ~canPlaceIgnoreLayers))
+        if (Physics.CheckBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange, ~canPlaceIgnoreLayers))
             return false;
         else
             return true;
@@ -262,19 +262,24 @@ public class GridManager : MonoBehaviour
     /// 
     private Vector3 GetGridPosition(Vector3 pos)
     {
+        Vector2Int buildSize = currentBuilding.GetBuildSize();
+
+        Debug.Log("Pos was  " + pos);
+        Debug.Log("Buildsize was " + buildSize);
+
         float x;
         float z;
 
         if (isFlipped)
         {
-            x = currentBuilding.buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
-            z = currentBuilding.buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
+            x = buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
+            z = buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
 
         }
         else
         {
-            x = currentBuilding.buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
-            z = currentBuilding.buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
+            x = buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
+            z = buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
         }
 
 
