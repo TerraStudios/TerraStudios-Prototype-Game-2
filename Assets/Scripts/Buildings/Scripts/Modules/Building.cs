@@ -93,7 +93,7 @@ public class Building : MonoBehaviour
         if (directionArrow || !showDirectionOnVisualize)
             return;
 
-        directionArrow = Instantiate(BuildingManager.instance.BuildingDirectionPrefab, gameObject.transform.position + Vector3.up, transform.rotation);
+        directionArrow = Instantiate(BuildingManager.instance.BuildingDirectionPrefab, gameObject.transform.position + new Vector3(0, gameObject.GetComponent<MeshRenderer>().bounds.size.y + 1, 0), transform.rotation);
         directionArrow.parent = transform;
         directionArrow.rotation = transform.rotation * new Quaternion(0, 180, 0, 1);
     }
