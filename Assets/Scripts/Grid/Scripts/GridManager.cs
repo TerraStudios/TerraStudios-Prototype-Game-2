@@ -45,7 +45,7 @@ public class GridManager : MonoBehaviour
 
     private Vector3 lastVisualize;
     private Transform visualization;
-    //private List<Vector2Int> visualizeOccupiedTiles = new List<Vector2Int>();
+
     private Quaternion rotationChange = Quaternion.identity;
 
     public Quaternion RotationChange
@@ -65,6 +65,8 @@ public class GridManager : MonoBehaviour
     private bool hasRotationChanged;
     private bool isFlipped;
     private bool click = false;
+
+    private bool canPlace = false;
 
     /// <summary>
     /// Main update loop handles the visualization and rotation, as well as the building procedure.
@@ -105,25 +107,6 @@ public class GridManager : MonoBehaviour
 
     }
 
-
-    /// <summary>
-    /// Event for when the building build button is pressed. Currently turns on IsInBuildMode and sets the current structure.
-    /// </summary>
-    public void OnBuildButtonPressed()
-    {
-        currentBuilding = building;
-        IsInBuildMode = true;
-    }
-
-    /// <summary>
-    /// Event for when the conveyor build button is pressed. Currently turns on IsInBuildMode and sets the current structure.
-    /// </summary>
-    public void OnConveyorBuildButtonPressed()
-    {
-        currentBuilding = conveyor;
-        IsInBuildMode = true;
-    }
-
     /// <summary>
     /// Checks if the input sends a rotation request to the building, applying Quaternions if necessary
     /// </summary>
@@ -140,20 +123,20 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    bool canPlace = false;
+    
+    #region Visualization
 
     /// <summary>
     /// Attempts to visualize the currently selected structure, showing as green or red depending on the return of CanPlace
     /// </summary>
     /// <param name="forceVisualize">Forces the building to be visualized, used when rotating</param>
     private void VisualizeBuild(bool forceVisualize = false)
+
     {
 
         RaycastHit? hit = FindGridHit();
         if (hit == null) return;
         Vector3 center = GetGridPosition(hit.Value.point);
-
-        CanPlace(hit.Value, center);
 
         if (!center.Equals(lastVisualize))
         {
@@ -199,6 +182,10 @@ public class GridManager : MonoBehaviour
         visualization.GetComponent<Building>().ShowBuildingDirection();
     }
 
+    #endregion 
+
+    #region Building
+
     /// <summary>
     /// Attempts to build the currently selected structure
     /// </summary>
@@ -229,6 +216,10 @@ public class GridManager : MonoBehaviour
             Debug.Log("Not allowed to place here!");
     }
 
+    #endregion 
+
+    #region Grid Utilities
+
     /// <summary>
     /// Returns whether the currently selected building can be placed with a pivot point from a RaycastHit.
     /// </summary>
@@ -241,10 +232,6 @@ public class GridManager : MonoBehaviour
         Vector2 buildingSize = currentBuilding.GetBuildSize();
 
         Vector3 buildingBounds = currentBuilding.GetComponent<MeshRenderer>().bounds.size;
-
-        Debug.Log("Render Size: " + buildingBounds);
-        Debug.Log("X: " + buildingBounds.x + ", " + (buildingBounds.x % 1));
-        Debug.Log("Z: " + buildingBounds.z + ", " + (buildingBounds.z % 1));
 
         ExtDebug.DrawBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f, 1f, buildingSize.y * 0.5f), RotationChange, Color.red);
 
@@ -263,9 +250,6 @@ public class GridManager : MonoBehaviour
     private Vector3 GetGridPosition(Vector3 pos)
     {
         Vector2Int buildSize = currentBuilding.GetBuildSize();
-
-        Debug.Log("Pos was  " + pos);
-        Debug.Log("Buildsize was " + buildSize);
 
         float x;
         float z;
@@ -302,6 +286,10 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Events
+
     /// <summary>
     /// Method called when IsInBuildMode is changed. Currently visualizes IO Ports for convenience.
     /// </summary>
@@ -325,4 +313,25 @@ public class GridManager : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Event for when the building build button is pressed. Currently turns on IsInBuildMode and sets the current structure.
+    /// </summary>
+    public void OnBuildButtonPressed()
+    {
+        currentBuilding = building;
+        IsInBuildMode = true;
+    }
+
+    /// <summary>
+    /// Event for when the conveyor build button is pressed. Currently turns on IsInBuildMode and sets the current structure.
+    /// </summary>
+    public void OnConveyorBuildButtonPressed()
+    {
+        currentBuilding = conveyor;
+        IsInBuildMode = true;
+    }
+
+
+    #endregion 
 }
