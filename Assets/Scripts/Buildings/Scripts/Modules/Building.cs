@@ -90,7 +90,7 @@ public class Building : MonoBehaviour
 
         directionArrow = Instantiate(BuildingManager.instance.BuildingDirectionPrefab, gameObject.transform.position + Vector3.up, transform.rotation);
         directionArrow.parent = transform;
-        directionArrow.rotation = new Quaternion(0, 180, 0, 1);
+        directionArrow.rotation = transform.rotation * new Quaternion(0, 180, 0, 1);
     }
 
     public void HideBuildingDirection() { if (directionArrow && showDirectionOnVisualize) Destroy(directionArrow.gameObject); }
