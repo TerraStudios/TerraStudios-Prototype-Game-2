@@ -88,6 +88,16 @@ public class Building : MonoBehaviour
 
     private Transform directionArrow;
 
+    public void ShowBuildingDirection()
+    {
+        if (directionArrow || !showDirectionOnVisualize)
+            return;
+
+        directionArrow = Instantiate(BuildingManager.instance.BuildingDirectionPrefab, gameObject.transform.position + new Vector3(0, gameObject.GetComponent<MeshRenderer>().bounds.size.y + 1, 0), transform.rotation);
+        directionArrow.parent = transform;
+        directionArrow.rotation = transform.rotation * new Quaternion(0, 180, 0, 1);
+    }
+
     public void HideBuildingDirection() { if (directionArrow && showDirectionOnVisualize) Destroy(directionArrow.gameObject); }
 
     #region Health Submodule
@@ -250,8 +260,8 @@ public class Building : MonoBehaviour
         RemoveIndicator();
         currentIndicator = Instantiate(indicator, transform.position + new Vector3(0, GetComponent<MeshFilter>().mesh.bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
         currentIndicator.transform.parent = this.transform;
-        
-        
+
+
     }
 
 
