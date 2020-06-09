@@ -183,7 +183,7 @@ public class GridManager : MonoBehaviour
         else
             visualization.GetComponent<MeshRenderer>().material.color = Color.red;
 
-        visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.ArrowIndicator);
+        visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.BuildingDirectionPrefab);
 
     }
 
