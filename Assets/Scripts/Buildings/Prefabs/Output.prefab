@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 819036271789939543}
   - component: {fileID: 7484273326581358418}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: ItemIO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3406406539551150261}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 7310242112588905785}
   - component: {fileID: 6490637231877732785}
   - component: {fileID: 3271609749678947473}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Output
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,11 +98,13 @@ MonoBehaviour:
   coll: {fileID: 6490637231877732785}
   itemIO: {fileID: 7484273326581358418}
   myManager: {fileID: 0}
+  enableDebug: 0
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: 
   attachedIO: {fileID: 0}
   visualizeIO: 1
+  arrow: {fileID: 0}
 --- !u!54 &8419287566688055455
 Rigidbody:
   m_ObjectHideFlags: 0

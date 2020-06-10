@@ -8,9 +8,12 @@ public class ItemBehaviour : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        BuildingIO bIO = other.GetComponent<BuildingIO>();
-        if (bIO != null && IsFullySubmerged(bIO) && bIO.isInput)
-            bIO.OnItemEnter(this);
+        if (other.gameObject.layer.Equals(12)) 
+        {
+            BuildingIO bIO = other.transform.parent.GetComponent<BuildingIO>();
+            if (bIO.isInput && !bIO.myManager.isConveyor && IsFullySubmerged(bIO))
+                bIO.OnItemEnter(this);
+        } 
     }
 
     private void OnTriggerExit(Collider other)

@@ -138,11 +138,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3452264032521393986}
     m_Modifications:
+    - target: {fileID: 819036271789939543, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 819036271789939543, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1960481988754174890, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
       propertyPath: myManager
       value: 
       objectReference: {fileID: 5726986251613548450}
+    - target: {fileID: 3406406539551150261, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5571085036058034170, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
       propertyPath: m_Name
@@ -265,6 +280,21 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 3645276291110056084, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645276291110056084, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7351285261431388912, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
+        type: 3}
+      propertyPath: 
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7763367528070136295, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -334,6 +364,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051359873361960414, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9183637379809750852, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
         type: 3}

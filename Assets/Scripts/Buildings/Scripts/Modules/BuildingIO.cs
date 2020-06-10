@@ -147,9 +147,13 @@ public class BuildingIO : MonoBehaviour
                 allowedToEnter = true;
         }
 
+        if (itemsAllowedToEnter.Length == 0 && itemCategoriesAllowedToEnter.Length == 0)
+            allowedToEnter = true;
+
         if (!allowedToEnter)
             return;
 
+        Debug.Log("imma hop in");
         myManager.ProceedItemEnter(item.gameObject, item.data);
     }
 
