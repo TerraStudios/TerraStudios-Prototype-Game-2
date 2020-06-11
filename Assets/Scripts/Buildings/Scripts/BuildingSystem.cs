@@ -13,7 +13,6 @@ public class BuildingSystem : MonoBehaviour
     public Camera MainCamera;
     public GridManager GridManager;
     public EconomyManager EconomyManager;
-    public EventSystem EventSystem;
 
     /// <summary>
     /// Main update loop for the BuildingSystem, refreshes the UI with OnBuildingUpdateUI

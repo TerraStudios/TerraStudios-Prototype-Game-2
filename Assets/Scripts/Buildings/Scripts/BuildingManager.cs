@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class BuildingManager : BuildingSystem
 {
+    public ItemData testItemToSpawn;
     [Header("UI Components")]
     public GameObject BuildingInfo;
     public TMP_Text buildHealth;
@@ -47,6 +48,7 @@ public class BuildingManager : BuildingSystem
         base.OnBuildingSelected(b);
         b.BuildingIOManager.VisualizeAll();
         BuildingInfo.SetActive(true);
+        b.BuildingIOManager.outputs[0].SpawnItemObj(testItemToSpawn);
     }
 
 
