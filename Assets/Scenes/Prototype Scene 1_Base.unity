@@ -8782,7 +8782,7 @@ MonoBehaviour:
   MainCamera: {fileID: 1794220192}
   GridManager: {fileID: 1384009082}
   EconomyManager: {fileID: 1384009080}
-  EventSystem: {fileID: 0}
+  testItemToSpawn: {fileID: 11400000, guid: 86b86008a5ba2fc46adbbc59ff507414, type: 2}
   BuildingInfo: {fileID: 474815118}
   buildHealth: {fileID: 639346749}
   onTime: {fileID: 174944705}
