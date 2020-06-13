@@ -129,6 +129,7 @@ MonoBehaviour:
   - {fileID: 3397535779446911964}
   outputs:
   - {fileID: 3922343640977857340}
+  debug: 1
   isConveyor: 0
   ConveyorManager: {fileID: 0}
 --- !u!1001 &3268471185448446102

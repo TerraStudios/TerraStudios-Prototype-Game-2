@@ -9,6 +9,8 @@ public class BuildingIOManager : MonoBehaviour
     public BuildingIO[] inputs;
     public BuildingIO[] outputs;
 
+    public bool debug;
+
     [Header("Conveyor Properties")]
     public bool isConveyor;
     public Conveyor ConveyorManager;
@@ -28,6 +30,13 @@ public class BuildingIOManager : MonoBehaviour
 
     public void ProceedItemEnter(GameObject sceneInstance, ItemData item)
     {
+        if (debug)
+        {
+            Destroy(sceneInstance);
+            outputs[0].SpawnItemObj(item);
+            return;
+        }
+
         if (item == itemInside)
             return;
 
