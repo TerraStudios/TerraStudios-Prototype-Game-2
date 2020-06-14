@@ -47,7 +47,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7533440023166061643}
-  m_Mesh: {fileID: 2129339566851865433, guid: a9f8beabf2757dd4797438e20c4af1df, type: 3}
+  m_Mesh: {fileID: -8100298161942033253, guid: a9f8beabf2757dd4797438e20c4af1df, type: 3}
 --- !u!23 &8120255957366487191
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -66,8 +66,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8748892135801146194, guid: a9f8beabf2757dd4797438e20c4af1df, type: 3}
-  - {fileID: 5561349426305759274, guid: a9f8beabf2757dd4797438e20c4af1df, type: 3}
+  - {fileID: 2100000, guid: ecf8751beaa120e4f901b9f0cd14f8d1, type: 2}
+  - {fileID: 2100000, guid: 96f8677cd4c3fa34982c9fbc1b015bbf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,12 +102,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSetUp: 0
   prefab: {fileID: 6834069572817059416}
-  hasCentricTile: 1
-  offsetFromCenter: {x: 0, y: -0.5, z: 0}
-  buildSize: {x: 1, y: 1}
   BuildingIOManager: {fileID: 1987835161396914966}
   allowAllInputs: 0
   inputsAllowed: []
+  showDirectionOnVisualize: 1
   price: 50
   healthPercent: 100
   monthsLifespanMin: 2
@@ -138,6 +136,7 @@ MonoBehaviour:
   - {fileID: 8244288212931551601}
   outputs:
   - {fileID: 5237277603493958255}
+  debug: 0
   isConveyor: 1
   ConveyorManager: {fileID: 7124501148384470905}
 --- !u!114 &7124501148384470905
