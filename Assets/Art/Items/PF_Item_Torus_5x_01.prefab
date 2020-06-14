@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 205210628078881044}
   - component: {fileID: 5901268648568108525}
   m_Layer: 0
-  m_Name: MS_Item_Torus_5x_01
+  m_Name: PF_Item_Torus_5x_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,7 +52,7 @@ MeshRenderer:
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
+  m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RenderingLayerMask: 1
