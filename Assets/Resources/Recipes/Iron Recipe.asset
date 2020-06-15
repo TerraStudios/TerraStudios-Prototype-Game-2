@@ -26,7 +26,5 @@ MonoBehaviour:
     amount: 0
   - item: {fileID: 0}
     amount: 0
-  inputCategories: 01000000
-  outputCategories: 00000000
   baseTime: 0
   icon: {fileID: 0}
