@@ -16,7 +16,7 @@ public class Conveyor : MonoBehaviour
         //otherRB.velocity = transform.forward * speed;
 
         float conveyorVelocity = speed * Time.deltaTime;
-        otherRB.velocity = conveyorVelocity * transform.forward;
+        otherRB.position = Vector3.MoveTowards(otherRB.position, otherRB.position + transform.forward, conveyorVelocity);
     }
 
     /*void FixedUpdate()
