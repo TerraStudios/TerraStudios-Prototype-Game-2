@@ -316,7 +316,10 @@ MonoBehaviour:
   - {fileID: 5363519669770500868}
   debug: 0
   isConveyor: 1
-  ConveyorManager: {fileID: 0}
+  ConveyorManagers:
+  - {fileID: 4145064833168207733}
+  - {fileID: 3240427599900028050}
+  - {fileID: 2881988900338658077}
 --- !u!1001 &1376474723740405230
 PrefabInstance:
   m_ObjectHideFlags: 0

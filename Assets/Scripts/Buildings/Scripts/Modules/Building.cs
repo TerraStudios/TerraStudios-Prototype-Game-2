@@ -216,7 +216,7 @@ public class Building : MonoBehaviour
                 BuildingIOManager.ModifyConveyorState(null, false);
             else
             {
-                BuildingIOManager.ConveyorManager.speed = 0;
+                BuildingIOManager.ChangeConveyorState(false);
             }
         }
         else
@@ -225,7 +225,7 @@ public class Building : MonoBehaviour
                 BuildingIOManager.ModifyConveyorState(null, true);
             else
             {
-                //BuildingIOManager.ConveyorManager.speed = 1;
+                BuildingIOManager.ChangeConveyorState(true);
             }
         }
     }

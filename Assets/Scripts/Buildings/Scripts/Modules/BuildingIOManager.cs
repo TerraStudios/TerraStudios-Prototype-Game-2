@@ -13,7 +13,7 @@ public class BuildingIOManager : MonoBehaviour
 
     [Header("Conveyor Properties")]
     public bool isConveyor;
-    public Conveyor ConveyorManager;
+    public Conveyor[] ConveyorManagers;
 
     public void Init()
     {
@@ -132,5 +132,23 @@ public class BuildingIOManager : MonoBehaviour
         }
 
         return list;
+    }
+
+    public void ChangeConveyorState(bool state)
+    {
+        if (!isConveyor)
+            return;
+
+        int newSpeed;
+
+        if (state)
+            newSpeed = 1;
+        else
+            newSpeed = 0;
+
+        foreach(Conveyor conv in ConveyorManagers)
+        {
+            conv.speed = newSpeed;
+        }
     }
 }
