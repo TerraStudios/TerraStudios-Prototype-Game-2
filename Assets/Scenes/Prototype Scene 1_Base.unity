@@ -8775,9 +8775,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FocusedBuilding: {fileID: 0}
   RegisteredBuildings: []
-  allowedFocusLayers:
+  ignoreFocusLayers:
     serializedVersion: 2
-    m_Bits: 1536
+    m_Bits: 13824
   TimeManager: {fileID: 1384009078}
   MainCamera: {fileID: 1794220192}
   GridManager: {fileID: 1384009082}

@@ -6,7 +6,7 @@ public class BuildingSystem : MonoBehaviour
 {
     [HideInInspector] public Building FocusedBuilding;
     public List<Building> RegisteredBuildings = new List<Building>();
-    public LayerMask allowedFocusLayers;
+    public LayerMask ignoreFocusLayers;
 
     [Header("Components")]
     public TimeManager TimeManager;
@@ -45,7 +45,7 @@ public class BuildingSystem : MonoBehaviour
 
         Ray ray = MainCamera.ScreenPointToRay(mousePos);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ~allowedFocusLayers))
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ~ignoreFocusLayers))
         {
             Building b = hit.transform.GetComponent<Building>();
             if (b)

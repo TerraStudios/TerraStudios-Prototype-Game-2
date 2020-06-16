@@ -16,7 +16,7 @@ MonoBehaviour:
   name: Iron
   description: A shiny material.
   obj: {fileID: 1675395343338415167, guid: cfbc24f55b4def248919f9dc80c0dc59, type: 3}
-  ItemCategory: 2
+  ItemCategory: {fileID: 11400000, guid: c1321b7d2e3839d40b289c5632318c14, type: 2}
   startingPriceInShop: 10
   isBuyable: 1
   ecoTax: 0
