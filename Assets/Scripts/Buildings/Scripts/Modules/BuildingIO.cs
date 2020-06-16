@@ -15,7 +15,7 @@ public class BuildingIO : MonoBehaviour
     public bool enableDebug;
     public bool isTrashcanOutput;
     public ItemData[] itemsAllowedToEnter;
-    public ItemCategories[] itemCategoriesAllowedToEnter;
+    public ItemCategory[] itemCategoriesAllowedToEnter;
 
     [Header("Dynamic variables")]
     public BuildingIO attachedIO;
@@ -141,7 +141,7 @@ public class BuildingIO : MonoBehaviour
                 allowedToEnter = true;
         }
 
-        foreach (ItemCategories data in itemCategoriesAllowedToEnter)
+        foreach (ItemCategory data in itemCategoriesAllowedToEnter)
         {
             if (item.data.ItemCategory == data)
                 allowedToEnter = true;

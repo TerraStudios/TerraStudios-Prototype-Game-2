@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemCategories { Food, Medecine, Resources }
-
 [CreateAssetMenu(fileName = "New Item Data", menuName = "Item")]
 public class ItemData : ScriptableObject
 {
@@ -12,7 +10,7 @@ public class ItemData : ScriptableObject
     public new string name;
     [TextArea] public string description;
     public Transform obj;
-    public ItemCategories ItemCategory;
+    public ItemCategory ItemCategory;
 
     [Header("Economic Simulation Properties")]
     public int startingPriceInShop;
