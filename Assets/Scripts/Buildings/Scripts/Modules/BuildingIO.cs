@@ -112,7 +112,6 @@ public class BuildingIO : MonoBehaviour
                 // subject of change
                 if (hit.arrow != null) hit.arrow.GetComponent<MeshRenderer>().material.color = Color.blue;
                 //hit.Devisualize();
-                Debug.Log("Devisualized");
             }
         }
     }
@@ -153,7 +152,6 @@ public class BuildingIO : MonoBehaviour
         if (!allowedToEnter)
             return;
 
-        Debug.Log("imma hop in");
         myManager.ProceedItemEnter(item.gameObject, item.data);
     }
 
@@ -192,7 +190,6 @@ public class BuildingIO : MonoBehaviour
     {
         if (arrow != null)
         {
-            Debug.Log("Destroying ;)");
             Destroy(arrow.gameObject);
             visualizeIO = false;
             arrow = null;
