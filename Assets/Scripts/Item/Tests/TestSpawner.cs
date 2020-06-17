@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestSpawner : MonoBehaviour
 {
-    public int spawnEverySeconds;
+    public float spawnEverySeconds;
     public ItemData itemToSpawn;
 
     // Start is called before the first frame update

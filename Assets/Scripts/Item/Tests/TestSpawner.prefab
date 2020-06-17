@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c348dc071d0c04197ef3c1d5695e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnEverySeconds: 2
+  spawnEverySeconds: 1
   itemToSpawn: {fileID: 11400000, guid: 86b86008a5ba2fc46adbbc59ff507414, type: 2}
