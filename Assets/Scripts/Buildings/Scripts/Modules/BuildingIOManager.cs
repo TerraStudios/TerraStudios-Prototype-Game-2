@@ -114,7 +114,7 @@ public class BuildingIOManager : MonoBehaviour
 
     private List<BuildingIOManager> GetInputConveyorGroup(int? inputID)
     {
-        List<BuildingIOManager> list = new List<BuildingIOManager>();
+        List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
 
         BuildingIOManager next;
         if (inputID != null)
@@ -126,12 +126,12 @@ public class BuildingIOManager : MonoBehaviour
         {
             if (io.attachedIO)
             {
-                list.Add(io.attachedIO.myManager);
-                list.AddRange(io.attachedIO.myManager.GetInputConveyorGroup(null));
+                toReturn.Add(io.attachedIO.myManager);
+                toReturn.AddRange(io.attachedIO.myManager.GetInputConveyorGroup(null));
             }
         }
 
-        return list;
+        return toReturn;
     }
 
     public void ChangeConveyorState(bool state)
