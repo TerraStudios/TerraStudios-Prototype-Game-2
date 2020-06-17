@@ -7,16 +7,39 @@ public class Conveyor : MonoBehaviour
     public float speed;
     public Rigidbody rb;
 
-    void OnTriggerStay(Collider other)
+    public List<Collider> itemsOnTop;
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.layer.Equals(11))
+        if (!itemsOnTop.Contains(other) && !other.gameObject.layer.Equals(11))
             return;
 
-        Rigidbody otherRB = other.attachedRigidbody;
-        //otherRB.velocity = transform.forward * speed;
+        itemsOnTop.Add(other);
+    }
 
-        float conveyorVelocity = speed * Time.deltaTime;
-        otherRB.position = Vector3.MoveTowards(otherRB.position, otherRB.position + transform.forward, conveyorVelocity);
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.gameObject.layer.Equals(11) && itemsOnTop.Contains(other))
+            return;
+
+        itemsOnTop.Remove(other);
+    }
+
+    void FixedUpdate()
+    {
+        for (int i = 0; i < itemsOnTop.Count; i++)
+        {
+            Collider other = itemsOnTop[i];
+
+            if (!other)
+                continue;
+
+            Rigidbody otherRB = other.attachedRigidbody;
+            //otherRB.velocity = transform.forward * speed;
+
+            float conveyorVelocity = speed * Time.deltaTime;
+            otherRB.position = Vector3.MoveTowards(otherRB.position, otherRB.position + transform.forward, conveyorVelocity);
+        }
     }
 
     /*void FixedUpdate()
