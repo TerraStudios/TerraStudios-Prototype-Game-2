@@ -213,7 +213,7 @@ public class Building : MonoBehaviour
         if (newValue == WorkStateEnum.Off)
         {
             if (!BuildingIOManager.isConveyor)
-                BuildingIOManager.ModifyConveyorState(null, false);
+                BuildingIOManager.ModifyConveyorGroup(null, false);
             else
             {
                 BuildingIOManager.ChangeConveyorState(false);
@@ -222,7 +222,7 @@ public class Building : MonoBehaviour
         else
         {
             if (!BuildingIOManager.isConveyor)
-                BuildingIOManager.ModifyConveyorState(null, true);
+                BuildingIOManager.ModifyConveyorGroup(null, true);
             else
             {
                 BuildingIOManager.ChangeConveyorState(true);

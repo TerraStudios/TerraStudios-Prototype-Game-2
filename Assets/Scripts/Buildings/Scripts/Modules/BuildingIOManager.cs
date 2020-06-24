@@ -97,7 +97,7 @@ public class BuildingIOManager : MonoBehaviour
         return null;
     }
 
-    public void ModifyConveyorState(int? inputID, bool state)
+    public void ModifyConveyorGroup(int? inputID, bool state)
     {
         foreach (BuildingIOManager bIO in GetInputConveyorGroup(inputID))
         {
