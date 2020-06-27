@@ -3,14 +3,39 @@ using System.Collections.Generic;
 
 public class RecipeManager
 {
-    public MachineRecipe[] grabRecipes()
+
+    private MachineRecipe[] recipes;
+    private ItemCategory[] categories;
+
+    private static RecipeManager _instance;
+
+    public static RecipeManager instance
     {
-        return Resources.LoadAll<MachineRecipe>("Recipes");
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new RecipeManager();
+            }
+
+            return _instance;
+        }
     }
 
-    public ItemCategory[] grabCategories()
+    public RecipeManager()
     {
-        return Resources.LoadAll<ItemCategory>("Categories");
+        this.categories = Resources.LoadAll<ItemCategory>("Categories");
+        this.recipes = Resources.LoadAll<MachineRecipe>("Recipes");
+    }
+
+    public MachineRecipe[] RetrieveRecipes()
+    {
+        return recipes;
+    }
+
+    public ItemCategory[] RetrieveCategories()
+    {
+        return categories;
     }
 
 

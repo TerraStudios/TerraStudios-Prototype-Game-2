@@ -16,7 +16,10 @@ public class TestSpawner : MonoBehaviour
     IEnumerator LoopSpawnItem() 
     {
         yield return new WaitForSeconds(spawnEverySeconds);
-        Instantiate(itemToSpawn.obj, transform.position, Quaternion.identity);
+
+        ObjectPoolManager.instance.ReuseObject(itemToSpawn.obj.gameObject, transform.position, Quaternion.identity);
+
+        //Instantiate(itemToSpawn.obj, transform.position, Quaternion.identity);
         StartCoroutine(LoopSpawnItem());
     }
 }

@@ -40,7 +40,10 @@ public class BuildingIO : MonoBehaviour
     public void SpawnItemObj(ItemData itemToSpawn)
     {
         Vector3 spawnPos = itemIO.transform.position;
-        Instantiate(itemToSpawn.obj, spawnPos, Quaternion.identity);
+
+        ObjectPoolManager.instance.ReuseObject(itemToSpawn.obj.gameObject, spawnPos, Quaternion.identity);
+
+        //Instantiate(itemToSpawn.obj, spawnPos, Quaternion.identity);
     }
 
     public void Visualize()

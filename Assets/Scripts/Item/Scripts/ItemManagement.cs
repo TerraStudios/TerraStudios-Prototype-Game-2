@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ItemManagement : MonoBehaviour
 {
+    [Tooltip("Determines the initial pool size for each item")]
+    public int initialPoolSize = 100;
+
     [HideInInspector] public List<ItemData> db = new List<ItemData>();
 
     private void Awake()
@@ -26,5 +29,9 @@ public class ItemManagement : MonoBehaviour
     {
         db.AddRange(Resources.LoadAll<ItemData>(""));
         Debug.Log("[Item Management] Loaded " + db.Count + " items");
+
+        foreach (ItemData data in db) {
+            ObjectPoolManager.instance.CreatePool(data.obj.gameObject, initialPoolSize);
+        }
     }
 }
