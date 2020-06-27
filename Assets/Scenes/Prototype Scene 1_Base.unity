@@ -8660,6 +8660,7 @@ GameObject:
   - component: {fileID: 1384009085}
   - component: {fileID: 1384009087}
   - component: {fileID: 1384009086}
+  - component: {fileID: 1384009088}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -8828,6 +8829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbff53cd9e2d08468cc58347fb610a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialPoolSize: 250
   db: []
 --- !u!114 &1384009086
 MonoBehaviour:
@@ -8854,6 +8856,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f56d911115dc39342900dcd029bd9245, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1384009088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384009077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fea87a1ca50a3d24eb1ee4c467c0c130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1385012937
