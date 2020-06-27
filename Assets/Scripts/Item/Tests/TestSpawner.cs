@@ -10,6 +10,12 @@ public class TestSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(StartLoop());
+    }
+
+    IEnumerator StartLoop()
+    {
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(LoopSpawnItem());
     }
 
