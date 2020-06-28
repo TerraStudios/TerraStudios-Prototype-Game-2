@@ -207,26 +207,19 @@ public class Building : MonoBehaviour
             }
         }
 
-        if (BuildingIOManager == null)
+        if (BuildingIOManager == null && BuildingIOManager.isConveyor)
+        {
+            Debug.Log("Returned");
             return;
+        }
 
         if (newValue == WorkStateEnum.Off)
         {
-            if (!BuildingIOManager.isConveyor)
-                BuildingIOManager.ModifyConveyorGroup(null, false);
-            else
-            {
-                BuildingIOManager.ChangeConveyorState(false);
-            }
+            BuildingIOManager.ModifyConveyorGroup(null, false);
         }
         else
         {
-            if (!BuildingIOManager.isConveyor)
-                BuildingIOManager.ModifyConveyorGroup(null, true);
-            else
-            {
-                BuildingIOManager.ChangeConveyorState(true);
-            }
+            BuildingIOManager.ModifyConveyorGroup(null, true);
         }
     }
     #endregion

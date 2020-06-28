@@ -99,7 +99,7 @@ public class BuildingIOManager : MonoBehaviour
 
     public void ModifyConveyorGroup(int? inputID, bool state)
     {
-        foreach (BuildingIOManager bIO in GetInputConveyorGroup(inputID))
+        foreach (BuildingIOManager bIO in GetConveyorGroup(inputID))
         {
             if (state)
             {
@@ -112,22 +112,42 @@ public class BuildingIOManager : MonoBehaviour
         }
     }
 
-    private List<BuildingIOManager> GetInputConveyorGroup(int? inputID)
+    private List<BuildingIOManager> GetConveyorGroup(int? inputID, bool getInputs = true)
     {
         List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
 
         BuildingIOManager next;
         if (inputID != null)
-            next = inputs[inputID.Value].myManager;
+        {
+            if (!isConveyor)
+                next = inputs[inputID.Value].myManager;
+            else
+                next = outputs[inputID.Value].myManager;
+        }      
         else
             next = this;
 
-        foreach (BuildingIO io in next.inputs)
+        if (getInputs)
         {
-            if (io.attachedIO)
+            foreach (BuildingIO io in next.inputs)
             {
-                toReturn.Add(io.attachedIO.myManager);
-                toReturn.AddRange(io.attachedIO.myManager.GetInputConveyorGroup(null));
+                if (io.attachedIO)
+                {
+                    toReturn.Add(io.attachedIO.myManager);
+                    toReturn.AddRange(io.attachedIO.myManager.GetConveyorGroup(null, true));
+                }
+            }
+        }
+
+        if (isConveyor) // also return all outputs
+        {
+            foreach (BuildingIO io in next.outputs) // borked
+            {
+                if (io.attachedIO)
+                {
+                    toReturn.Add(io.attachedIO.myManager);
+                    toReturn.AddRange(io.attachedIO.myManager.GetConveyorGroup(null, false));
+                }
             }
         }
 
