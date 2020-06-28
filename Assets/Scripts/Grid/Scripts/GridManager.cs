@@ -8,6 +8,7 @@ public struct GridLayer
 
 public class GridManager : MonoBehaviour
 {
+    public static GridManager getInstance;
     //[Header("Grid Properties")]
     //public List<Grid> GridData = new List<Grid>();
     //private GridLayer[] GridLayers = new GridLayer[1];
@@ -68,6 +69,11 @@ public class GridManager : MonoBehaviour
     private bool click = false;
 
     private bool canPlace = false;
+
+    private void Awake()
+    {
+        getInstance = this;
+    }
 
     /// <summary>
     /// Main update loop handles the visualization and rotation, as well as the building procedure.

@@ -27,18 +27,21 @@ public class Conveyor : MonoBehaviour
 
     void FixedUpdate()
     {
-        for (int i = 0; i < itemsOnTop.Count; i++)
+        if (!GridManager.getInstance.IsInBuildMode)
         {
-            Collider other = itemsOnTop[i];
+            for (int i = 0; i < itemsOnTop.Count; i++)
+            {
+                Collider other = itemsOnTop[i];
 
-            if (!other)
-                continue;
+                if (!other)
+                    continue;
 
-            Rigidbody otherRB = other.attachedRigidbody;
-            //otherRB.velocity = transform.forward * speed;
+                Rigidbody otherRB = other.attachedRigidbody;
+                //otherRB.velocity = transform.forward * speed;
 
-            float conveyorVelocity = speed * Time.deltaTime;
-            otherRB.position = Vector3.MoveTowards(otherRB.position, otherRB.position + transform.forward, conveyorVelocity);
+                float conveyorVelocity = speed * Time.deltaTime;
+                otherRB.position = Vector3.MoveTowards(otherRB.position, otherRB.position + transform.forward, conveyorVelocity);
+            }
         }
     }
 
