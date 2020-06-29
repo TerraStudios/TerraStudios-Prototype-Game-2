@@ -116,7 +116,7 @@ public class Building : MonoBehaviour
         if (healthPercent <= 0)
         {
             healthPercent = 0;
-            OnBuildingBrake();
+            OnBuildingBreak();
             return;
         }
 
@@ -130,12 +130,9 @@ public class Building : MonoBehaviour
         healthWaitEvents.Add(TimeManager.RegisterTimeWaiter(timeToDrainHealth, callback));
     }
 
-    public virtual void OnBuildingBrake()
+    public virtual void OnBuildingBreak()
     {
-        Debug.Log("I misspelled the word break! (it broke)");
         SetIndicator(BuildingManager.instance.BrokenIndicator);
-
-
     }
 
     public void Fix()
