@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3452264032521393986}
   - component: {fileID: 5959354568054975860}
   - component: {fileID: 112422919062114701}
+  - component: {fileID: 983261423420364408}
   - component: {fileID: 4515110169957584235}
   - component: {fileID: 5726986251613548450}
   m_Layer: 0
@@ -83,6 +84,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &983261423420364408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852032779774944593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76f9e21bc38e4114bb88a7896956b11a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Building: {fileID: 4515110169957584235}
+  BuildingIOManager: {fileID: 5726986251613548450}
+  APM: {fileID: 0}
 --- !u!114 &4515110169957584235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,9 +111,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dd24aa3e77d2c40883052ab649024e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mc: {fileID: 983261423420364408}
   isSetUp: 0
   prefab: {fileID: 3452264032521393986}
-  BuildingIOManager: {fileID: 5726986251613548450}
   allowAllInputs: 1
   inputsAllowed: []
   showDirectionOnVisualize: 1
@@ -123,15 +139,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52780f752ea9fa44a579c403a2d0479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Building: {fileID: 4515110169957584235}
-  itemInside: {fileID: 0}
+  mc: {fileID: 983261423420364408}
+  itemInside:
+  - {fileID: 0}
   inputs:
   - {fileID: 3397535779446911964}
   outputs:
   - {fileID: 3922343640977857340}
   debug: 1
   isConveyor: 0
-  ConveyorManager: {fileID: 0}
+  ConveyorManagers: []
 --- !u!1001 &3268471185448446102
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -311,16 +311,16 @@ public class GridManager : MonoBehaviour
         {
             foreach (Building b in BuildingManager.RegisteredBuildings)
             {
-                if (b.BuildingIOManager != null)
-                    b.BuildingIOManager.DevisualizeAll();
+                if (b.mc.BuildingIOManager != null)
+                    b.mc.BuildingIOManager.DevisualizeAll();
             }
         }
         else
         {
             foreach (Building b in BuildingManager.RegisteredBuildings)
             {
-                if (b.BuildingIOManager != null)
-                    b.BuildingIOManager.VisualizeAll();
+                if (b.mc.BuildingIOManager != null)
+                    b.mc.BuildingIOManager.VisualizeAll();
             }
         }
     }

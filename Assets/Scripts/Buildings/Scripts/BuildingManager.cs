@@ -46,9 +46,9 @@ public class BuildingManager : BuildingSystem
     public override void OnBuildingSelected(Building b)
     {
         base.OnBuildingSelected(b);
-        b.BuildingIOManager.VisualizeAll();
+        b.mc.BuildingIOManager.VisualizeAll();
         BuildingInfo.SetActive(true);
-        b.BuildingIOManager.outputs[0].SpawnItemObj(testItemToSpawn);
+        b.mc.BuildingIOManager.outputs[0].SpawnItemObj(testItemToSpawn);
     }
 
 
@@ -57,7 +57,7 @@ public class BuildingManager : BuildingSystem
     /// </summary>
     public override void OnBuildingDeselected()
     {
-        FocusedBuilding.BuildingIOManager.DevisualizeAll();
+        FocusedBuilding.mc.BuildingIOManager.DevisualizeAll();
         base.OnBuildingDeselected();
         BuildingInfo.SetActive(false);
     }
@@ -74,7 +74,7 @@ public class BuildingManager : BuildingSystem
             onTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.On).Duration().ToString();
             idleTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.Idle).Duration().ToString();
             offTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.Off).Duration().ToString();
-            itemInsideName.text = FocusedBuilding.BuildingIOManager.GetItemInsideName();
+            //itemInsideName.text = FocusedBuilding.BuildingIOManager.GetItemInsideName();
         }
     }
 

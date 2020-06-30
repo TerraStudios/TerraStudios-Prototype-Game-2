@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BuildingIO : MonoBehaviour
@@ -155,7 +157,7 @@ public class BuildingIO : MonoBehaviour
         if (!allowedToEnter)
             return;
 
-        myManager.ProceedItemEnter(item.gameObject, item.data);
+        myManager.ProceedItemEnter(item.gameObject, item.data, Array.FindIndex(myManager.inputs, row => this));
     }
 
     public void OnItemExit(ItemBehaviour item)

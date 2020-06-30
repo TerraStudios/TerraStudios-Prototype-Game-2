@@ -7,14 +7,13 @@ using UnityEngine.Events;
 
 public enum WorkStateEnum { On, Idle, Off }
 
+[RequireComponent(typeof(ModuleConnector))]
 public class Building : MonoBehaviour
 {
+    public ModuleConnector mc;
     [HideInInspector] public bool isSetUp;
     [Header("Grid Building Properties")]
     public Transform prefab;
-
-
-    public BuildingIOManager BuildingIOManager;
 
     [Header("Input / Outputs")]
     public bool allowAllInputs;
@@ -57,14 +56,11 @@ public class Building : MonoBehaviour
     [HideInInspector] public TimeManager TimeManager;
     [HideInInspector] public EconomyManager EconomyManager;
 
-
-
-
     public void Init()
     {
 
-        if (BuildingIOManager != null)
-            BuildingIOManager.Init();
+        if (mc.BuildingIOManager != null)
+            mc.BuildingIOManager.Init();
         else
             Debug.LogWarning("Skipping Building IO Initialization");
 
@@ -204,7 +200,7 @@ public class Building : MonoBehaviour
             }
         }
 
-        if (BuildingIOManager == null && BuildingIOManager.isConveyor)
+        if (mc.BuildingIOManager == null && mc.BuildingIOManager.isConveyor)
         {
             Debug.Log("Returned");
             return;
@@ -212,11 +208,11 @@ public class Building : MonoBehaviour
 
         if (newValue == WorkStateEnum.Off)
         {
-            BuildingIOManager.ModifyConveyorGroup(null, false);
+            mc.BuildingIOManager.ModifyConveyorGroup(null, false);
         }
         else
         {
-            BuildingIOManager.ModifyConveyorGroup(null, true);
+            mc.BuildingIOManager.ModifyConveyorGroup(null, true);
         }
     }
     #endregion

@@ -59,6 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   rb: {fileID: 0}
+  itemsOnTop: []
 --- !u!1 &6508766720663166123
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   rb: {fileID: 0}
+  itemsOnTop: []
 --- !u!1 &6556043145583543207
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,6 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   rb: {fileID: 0}
+  itemsOnTop: []
 --- !u!1 &7134618903244887598
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,6 +191,7 @@ GameObject:
   - component: {fileID: 6149695869599097917}
   - component: {fileID: 2883180555718565387}
   - component: {fileID: 8880979837139870450}
+  - component: {fileID: 3838661984072794563}
   - component: {fileID: 3826658444029601288}
   - component: {fileID: 5563025563349119533}
   m_Layer: 0
@@ -266,6 +270,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &3838661984072794563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7134618903244887598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76f9e21bc38e4114bb88a7896956b11a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Building: {fileID: 3826658444029601288}
+  BuildingIOManager: {fileID: 5563025563349119533}
+  APM: {fileID: 0}
 --- !u!114 &3826658444029601288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,9 +297,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dd24aa3e77d2c40883052ab649024e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mc: {fileID: 3838661984072794563}
   isSetUp: 0
   prefab: {fileID: 6149695869599097917}
-  BuildingIOManager: {fileID: 5563025563349119533}
   allowAllInputs: 0
   inputsAllowed: []
   showDirectionOnVisualize: 1
@@ -306,8 +325,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52780f752ea9fa44a579c403a2d0479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Building: {fileID: 3826658444029601288}
-  itemInside: {fileID: 0}
+  mc: {fileID: 3838661984072794563}
+  itemInside:
+  - {fileID: 0}
   inputs:
   - {fileID: 4061978205861541308}
   - {fileID: 7811755228303647402}
