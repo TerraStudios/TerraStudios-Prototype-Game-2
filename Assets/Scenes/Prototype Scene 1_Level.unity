@@ -3699,7 +3699,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh13928
+  m_Name: pb_Mesh681100
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8405,7 +8405,6 @@ GameObject:
   - component: {fileID: 1240126362}
   - component: {fileID: 1240126361}
   - component: {fileID: 1240126360}
-  - component: {fileID: 1240126364}
   m_Layer: 8
   m_Name: Plane (7)
   m_TagString: Untagged
@@ -8555,20 +8554,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240126358}
   m_Mesh: {fileID: 588898052}
---- !u!114 &1240126364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1240126358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7c348dc071d0c04197ef3c1d5695e20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnEverySeconds: 0
-  itemToSpawn: {fileID: 0}
 --- !u!43 &1287857011
 Mesh:
   m_ObjectHideFlags: 0
