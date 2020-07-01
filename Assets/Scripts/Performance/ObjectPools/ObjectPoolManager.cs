@@ -60,7 +60,7 @@ public class ObjectPoolManager : MonoBehaviour
             //pooledObjects[key].Enqueue(pooledObject);
             
 
-            if (pooledObject.gameObject.activeSelf)
+            if (pooledObjects[key].Count == 0)
             {
                 PoolInstance newInstance = new PoolInstance(Instantiate(prefab) as GameObject, pooledObject.gameObject.transform.parent);
                 newInstance.Disable(); //disable to not cause lag 
