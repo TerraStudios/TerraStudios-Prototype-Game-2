@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: maybe find a more elegant queue system than using a list and looping
 public class ObjectPoolManager : MonoBehaviour
 {
 
-    private Dictionary<int, Queue<PoolInstance>> pooledObjects = new Dictionary<int, Queue<PoolInstance>>();
+    private Dictionary<string, Queue<PoolInstance>> pooledObjects = new Dictionary<string, Queue<PoolInstance>>();
 
     private static ObjectPoolManager _instance;
 
@@ -26,7 +27,7 @@ public class ObjectPoolManager : MonoBehaviour
 
     public void CreatePool(GameObject prefab, int poolSize)
     {
-        int key = prefab.GetInstanceID();
+        string key = prefab.name;
 
         if (!pooledObjects.ContainsKey(key))
         {
@@ -35,7 +36,9 @@ public class ObjectPoolManager : MonoBehaviour
 
             for (int i = 0; i < poolSize; i++)
             {
-                pooledObjects[key].Enqueue(new PoolInstance(prefab, parent.transform));
+                PoolInstance newInstance = new PoolInstance(Instantiate(prefab) as GameObject, parent.transform);
+                newInstance.Disable();
+                pooledObjects[key].Enqueue(newInstance);
             }
         }
     }
@@ -48,18 +51,19 @@ public class ObjectPoolManager : MonoBehaviour
     /// <param name="rotation"></param>
     public void ReuseObject(GameObject prefab, Vector3 position, Quaternion rotation)
     {
-        int key = prefab.GetInstanceID();
+        string key = prefab.name;
 
         if (pooledObjects.ContainsKey(key))
         {
 
             PoolInstance pooledObject = pooledObjects[key].Dequeue();
-            pooledObjects[key].Enqueue(pooledObject);
+            //pooledObjects[key].Enqueue(pooledObject);
             
 
             if (pooledObject.gameObject.activeSelf)
             {
-                PoolInstance newInstance = new PoolInstance(prefab, pooledObject.gameObject.transform.parent);
+                PoolInstance newInstance = new PoolInstance(Instantiate(prefab) as GameObject, pooledObject.gameObject.transform.parent);
+                newInstance.Disable(); //disable to not cause lag 
                 pooledObjects[key].Enqueue(newInstance);
                 pooledObject = newInstance;
             } 
@@ -73,7 +77,13 @@ public class ObjectPoolManager : MonoBehaviour
 
     public void DestroyObject(GameObject gameObject) 
     {
-        gameObject.SetActive(false);
+        
+        //gameObject.SetActive(false);
+
+        PoolInstance newInstance = new PoolInstance(gameObject, gameObject.transform.parent);
+
+        newInstance.Disable();
+        pooledObjects[gameObject.name.Replace("(Clone)", "")].Enqueue(newInstance); //requeue object for use 
     }
 
 
@@ -84,13 +94,22 @@ public class ObjectPoolManager : MonoBehaviour
     {
 
         public GameObject gameObject;
+        public Transform parent;
+        
 
         public PoolInstance(GameObject gameObject, Transform parent = null)
         {
 
-            this.gameObject = Instantiate(gameObject) as GameObject;
+            this.gameObject = gameObject;
+            this.parent = parent;
 
 
+            
+            
+        }
+
+        public void Disable()
+        {
             this.gameObject.SetActive(false);
 
             if (parent != null)
