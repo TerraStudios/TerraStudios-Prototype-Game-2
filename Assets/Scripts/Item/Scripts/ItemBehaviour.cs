@@ -15,13 +15,4 @@ public class ItemBehaviour : MonoBehaviour
                 bIO.OnItemEnter(this);
         } 
     }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.layer.Equals(9))
-        {
-            BuildingIO bIO = other.GetComponent<BuildingIO>();
-            bIO.OnItemExit(this);
-        } 
-    }
 }

@@ -162,13 +162,6 @@ public class BuildingIO : MonoBehaviour
         myManager.ProceedItemEnter(item.gameObject, item.data, Array.FindIndex(myManager.inputs, row => this));
     }
 
-    public void OnItemExit(ItemBehaviour item)
-    {
-        Debug.Log("Item exit " + item.data.name);
-        //! probably not needed
-    }
-
-
     private void Visualize(Color color)
     {
 
