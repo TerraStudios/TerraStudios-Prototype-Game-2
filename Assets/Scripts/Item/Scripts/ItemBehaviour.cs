@@ -18,8 +18,10 @@ public class ItemBehaviour : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        BuildingIO bIO = other.GetComponent<BuildingIO>();
-        if (bIO != null)
+        if (other.gameObject.layer.Equals(9))
+        {
+            BuildingIO bIO = other.GetComponent<BuildingIO>();
             bIO.OnItemExit(this);
+        } 
     }
 }
