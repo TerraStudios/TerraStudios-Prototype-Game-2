@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class BuildingIO : MonoBehaviour
@@ -41,7 +38,12 @@ public class BuildingIO : MonoBehaviour
 
     public void SpawnItemObj(ItemData itemToSpawn)
     {
-        Vector3 spawnPos = itemIO.transform.position;
+        Vector3 spawnPos;
+
+        if (myManager.isConveyor)
+            spawnPos = transform.position + Vector3.up * 0.25f;
+        else
+            spawnPos = itemIO.transform.position;
 
         ObjectPoolManager.instance.ReuseObject(itemToSpawn.obj.gameObject, spawnPos, Quaternion.identity);
 
@@ -59,7 +61,7 @@ public class BuildingIO : MonoBehaviour
 
     private void OnUpdateIO(Collider other, bool exit = false)
     {
-       if (gameObject.name == "Input")
+        if (gameObject.name == "Input")
         {
             if (enableDebug) Debug.Log("Am input, exit is " + exit);
         }
@@ -91,7 +93,7 @@ public class BuildingIO : MonoBehaviour
                     {
                         arrow.GetComponent<MeshRenderer>().material.color = Color.green;
                     }
-                
+
                 }
             }
 
@@ -99,7 +101,7 @@ public class BuildingIO : MonoBehaviour
             {
                 attachedIO = hit;
                 if (arrow && arrow.gameObject)
-                Destroy(arrow.gameObject);
+                    Destroy(arrow.gameObject);
             }
         }
         else
@@ -171,7 +173,7 @@ public class BuildingIO : MonoBehaviour
     {
 
         if (attachedIO) return;
-;        //Old cube render
+        ;        //Old cube render
         //MeshRenderer.enabled = true;
         //MeshRenderer.material.color = color;
 
