@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
@@ -166,3 +167,4 @@ public class ArrayViewEditor : Editor {
 	}
 	#endregion
 }
+#endif

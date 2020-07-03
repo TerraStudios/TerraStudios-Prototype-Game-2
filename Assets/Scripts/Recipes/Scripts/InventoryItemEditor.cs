@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 using System.Collections;
@@ -194,3 +195,4 @@ public class InventoryItemEditor : EditorWindow
     }
     */
 }
+#endif
