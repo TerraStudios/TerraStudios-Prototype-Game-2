@@ -3,16 +3,24 @@ using UnityEngine;
 
 public class BuildingIOManager : MonoBehaviour
 {
+    [Tooltip("Reference to the building the BuildingIOManager is attached to ")]
     public Building Building;
+
+    [Tooltip("The current item inside the building")]
     public ItemData itemInside;
 
+    [Tooltip("A list of all the BuildingIO inputs for the building")]
     public BuildingIO[] inputs;
+    [Tooltip("A list of all the BuildingIO outputs for the building")]
     public BuildingIO[] outputs;
 
+    [Tooltip("Determines whether debug logs should be active during gameplay")]
     public bool debug;
 
     [Header("Conveyor Properties")]
     public bool isConveyor;
+
+    //I have no idea what this is 
     public Conveyor[] ConveyorManagers;
 
     public void Init()
