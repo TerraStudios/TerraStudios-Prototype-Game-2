@@ -6,14 +6,12 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "Recipe", menuName = "ScriptableObjects/MachineRecipe", order = 1)]
 public class MachineRecipe : ScriptableObject
 {
-
     /// <summary>
     /// Represents a serializable dictionary containing the item and its amount 
     /// </summary>
     [Serializable]
     public class InputData
     {
-        
         public ScriptableObject item;
         public int amount;
     }

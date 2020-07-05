@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 983261423420364408}
   - component: {fileID: 4515110169957584235}
   - component: {fileID: 5726986251613548450}
+  - component: {fileID: 4174981063028331144}
   m_Layer: 0
   m_Name: PF_TestBuilding_06
   m_TagString: Untagged
@@ -98,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Building: {fileID: 4515110169957584235}
   BuildingIOManager: {fileID: 5726986251613548450}
-  APM: {fileID: 0}
+  APM: {fileID: 4174981063028331144}
 --- !u!114 &4515110169957584235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,8 +115,6 @@ MonoBehaviour:
   mc: {fileID: 983261423420364408}
   isSetUp: 0
   prefab: {fileID: 3452264032521393986}
-  allowAllInputs: 1
-  inputsAllowed: []
   showDirectionOnVisualize: 1
   price: 500
   healthPercent: 100
@@ -145,9 +144,24 @@ MonoBehaviour:
   - {fileID: 3397535779446911964}
   outputs:
   - {fileID: 3922343640977857340}
-  debug: 1
   isConveyor: 0
   ConveyorManagers: []
+--- !u!114 &4174981063028331144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852032779774944593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65d945428d1e3f646a43d4c7d5e2c94c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mc: {fileID: 983261423420364408}
+  allowAllRecipes: 1
+  recipePreset: {fileID: 0}
+  currentRecipe: {fileID: 11400000, guid: ce9b8857a8ba5a447a8f1cacb82bdeec, type: 2}
 --- !u!1001 &3268471185448446102
 PrefabInstance:
   m_ObjectHideFlags: 0

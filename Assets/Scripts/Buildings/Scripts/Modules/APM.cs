@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class APM : MonoBehaviour
@@ -11,12 +10,12 @@ public class APM : MonoBehaviour
     public RecipePreset recipePreset;
     public MachineRecipe currentRecipe;
 
-    private void Awake()
+    public void Init()
     {
         mc.BuildingIOManager.OnItemEnterInput.AddListener(OnItemEnterInput);
     }
 
-    private void OnItemEnterInput(OnItemEnterArgs args) 
+    private void OnItemEnterInput(OnItemEnterEvent args)
     {
         if (!currentRecipe)
         {
@@ -32,11 +31,23 @@ public class APM : MonoBehaviour
 
         foreach (MachineRecipe.InputData required in currentRecipe.inputs) // check if we have all required items
         {
-            ItemData itemToCheck = required.item as ItemData;
-            if (itemToCheck.ID != args.item.ID)
+            if (required.item is ItemData)
             {
-                Debug.LogWarning("Still, not all items are present inside");
-                return;
+                ItemData itemToCheck = required.item as ItemData;
+                if (itemToCheck.ID != args.item.ID)
+                {
+                    Debug.LogWarning("Still, not all items are present inside");
+                    return;
+                }
+            }
+            else if (required.item is ItemCategory)
+            {
+                ItemCategory cat = required.item as ItemCategory;
+                if (cat != args.item.ItemCategory)
+                {
+                    Debug.LogWarning("Still, not all items are present inside");
+                    return;
+                }
             }
         }
 
@@ -45,21 +56,21 @@ public class APM : MonoBehaviour
 
     #region Crafting procedure
 
-    private void StartCrafting() 
+    private void StartCrafting()
     {
         Debug.Log("Start crafting!");
         mc.BuildingIOManager.itemsInside = new List<ItemData>(); // remove all items inside
 
-        StartCoroutine(CraftingTimer());
+        StartCoroutine(RunCraftingTimer());
     }
 
-    IEnumerator CraftingTimer()
+    IEnumerator RunCraftingTimer()
     {
         yield return new WaitForSeconds(currentRecipe.baseTime);
         ExecuteCrafting();
     }
 
-    private void ExecuteCrafting() 
+    private void ExecuteCrafting()
     {
         for (int i = 0; i < currentRecipe.outputs.Length; i++)
         {

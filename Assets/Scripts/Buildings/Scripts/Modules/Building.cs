@@ -16,8 +16,6 @@ public class Building : MonoBehaviour
     public Transform prefab;
 
     [Header("Input / Outputs")]
-    public bool allowAllInputs;
-    public ItemData[] inputsAllowed;
     public bool showDirectionOnVisualize = true;
 
     private GameObject currentIndicator;
@@ -58,11 +56,13 @@ public class Building : MonoBehaviour
 
     public void Init()
     {
-
         if (mc.BuildingIOManager != null)
             mc.BuildingIOManager.Init();
         else
             Debug.LogWarning("Skipping Building IO Initialization");
+
+        if (mc.APM != null)
+            mc.APM.Init();
 
         HideBuildingDirection();
 

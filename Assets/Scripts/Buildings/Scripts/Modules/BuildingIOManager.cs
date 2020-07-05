@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 // Event args
-public struct OnItemEnterArgs 
+public class OnItemEnterEvent : UnityEvent<OnItemEnterEvent>
 {
     public int inputID;
     public ItemData item;
@@ -19,14 +19,12 @@ public class BuildingIOManager : MonoBehaviour
     public BuildingIO[] inputs;
     public BuildingIO[] outputs;
 
-    public bool debug;
-
     [Header("Conveyor Properties")]
     public bool isConveyor;
     public Conveyor[] ConveyorManagers;
 
     [Header("Events")]
-    public UnityEvent<OnItemEnterArgs> OnItemEnterInput;
+    public OnItemEnterEvent OnItemEnterInput;
 
     public void Init()
     {
@@ -39,24 +37,16 @@ public class BuildingIOManager : MonoBehaviour
         {
             io.Init();
         }
+
+        OnItemEnterInput = new OnItemEnterEvent();
     }
 
     public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
     {
-        if (debug)
-        {
-            Destroy(sceneInstance);
-            outputs[0].SpawnItemObj(item);
-            return;
-        }
-
-        if (itemsInside.Contains(item))
-            return;
-
         Destroy(sceneInstance, 1f);
         itemsInside.Add(item);
 
-        OnItemEnterArgs args = new OnItemEnterArgs()
+        OnItemEnterEvent args = new OnItemEnterEvent()
         {
             inputID = inputID,
             item = item,
