@@ -181,7 +181,8 @@ public class BuildingIO : MonoBehaviour
         }
         else
         {
-            arrow = Instantiate(BuildingManager.instance.ArrowPrefab, gameObject.transform.position, gameObject.transform.rotation);
+            arrow = ObjectPoolManager.instance.ReuseObject(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
+            //Instantiate(BuildingManager.instance.ArrowPrefab, gameObject.transform.position, gameObject.transform.rotation);
             arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             arrow.transform.position += new Vector3(0, 1, 0);
             arrow.GetComponent<MeshRenderer>().material.color = color;
@@ -193,7 +194,8 @@ public class BuildingIO : MonoBehaviour
     {
         if (arrow != null)
         {
-            Destroy(arrow.gameObject);
+            ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
+            //Destroy(arrow.gameObject);
             visualizeIO = false;
             arrow = null;
         }

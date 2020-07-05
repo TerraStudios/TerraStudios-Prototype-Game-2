@@ -49,7 +49,7 @@ public class ObjectPoolManager : MonoBehaviour
     /// <param name="prefab"></param>
     /// <param name="position"></param>
     /// <param name="rotation"></param>
-    public void ReuseObject(GameObject prefab, Vector3 position, Quaternion rotation)
+    public GameObject ReuseObject(GameObject prefab, Vector3 position, Quaternion rotation)
     {
         string key = prefab.name;
 
@@ -72,7 +72,10 @@ public class ObjectPoolManager : MonoBehaviour
             Transform t = pooledObject.gameObject.transform;
             t.position = position;
             t.rotation = rotation;
+            return pooledObject.gameObject;
         }
+
+        return null; // This in theory should never happen unless the pool doesn't exist, which would mean you're doing something very wrong.
     }
 
     public void DestroyObject(GameObject gameObject) 
