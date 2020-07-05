@@ -13,16 +13,10 @@ MonoBehaviour:
   m_Name: Iron Recipe
   m_EditorClassIdentifier: 
   inputs:
-  - item: {fileID: 0}
-    amount: 0
-  - item: {fileID: 0}
-    amount: 0
-  - item: {fileID: 0}
-    amount: 0
+  - item: {fileID: 11400000, guid: 86b86008a5ba2fc46adbbc59ff507414, type: 2}
+    amount: 3
   outputs:
-  - item: {fileID: 0}
-    amount: 0
-  - item: {fileID: 0}
-    amount: 0
-  baseTime: 0
+  - item: {fileID: 11400000, guid: 86b86008a5ba2fc46adbbc59ff507414, type: 2}
+    amount: 1
+  baseTime: 5
   icon: {fileID: 0}
