@@ -11,10 +11,16 @@ public class OnItemEnterEvent : UnityEvent<OnItemEnterEvent>
     public GameObject sceneInstance;
 }
 
+public class ItemInsideData
+{
+    public int quanity;
+    public ItemData item;
+}
+
 public class BuildingIOManager : MonoBehaviour
 {
     public ModuleConnector mc;
-    public List<ItemData> itemsInside = new List<ItemData>();
+    public List<ItemInsideData> itemsInside = new List<ItemInsideData>();
 
     public BuildingIO[] inputs;
     public BuildingIO[] outputs;
@@ -44,7 +50,21 @@ public class BuildingIOManager : MonoBehaviour
     public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
     {
         Destroy(sceneInstance, 1f);
-        itemsInside.Add(item);
+
+        ItemInsideData occurrence = itemsInside.First(found => found.item.ID == item.ID);
+        if (occurrence != null) // there's already an item with the same ID in the list
+        {
+            occurrence.quanity++; // just change its quantity
+        }
+        else // this item is new
+        {
+            ItemInsideData toAdd = new ItemInsideData()
+            {
+                quanity = 1,
+                item = item
+            };
+            itemsInside.Add(toAdd);
+        }
 
         OnItemEnterEvent args = new OnItemEnterEvent()
         {

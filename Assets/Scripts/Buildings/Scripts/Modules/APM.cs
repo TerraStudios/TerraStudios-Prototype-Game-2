@@ -17,7 +17,7 @@ public class APM : MonoBehaviour
 
     private void OnItemEnterInput(OnItemEnterEvent args)
     {
-        if (!currentRecipe)
+        if (!currentRecipe) // check if we have any recipe to work with
         {
             Debug.LogWarning("Item attempts to enter but there's no recipe!!!");
             return;
@@ -59,7 +59,7 @@ public class APM : MonoBehaviour
     private void StartCrafting()
     {
         Debug.Log("Start crafting!");
-        mc.BuildingIOManager.itemsInside = new List<ItemData>(); // remove all items inside
+        mc.BuildingIOManager.itemsInside.Clear(); // remove all items inside
 
         StartCoroutine(RunCraftingTimer());
     }
