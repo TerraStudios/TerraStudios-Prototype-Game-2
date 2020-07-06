@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 //TODO: maybe find a more elegant queue system than using a list and looping
@@ -36,7 +35,7 @@ public class ObjectPoolManager : MonoBehaviour
 
             for (int i = 0; i < poolSize; i++)
             {
-                PoolInstance newInstance = new PoolInstance(Instantiate(prefab) as GameObject, parent.transform);
+                PoolInstance newInstance = new PoolInstance(Instantiate(prefab), parent.transform);
                 newInstance.Disable();
                 pooledObjects[key].Enqueue(newInstance);
             }
@@ -58,7 +57,7 @@ public class ObjectPoolManager : MonoBehaviour
 
             PoolInstance pooledObject = pooledObjects[key].Dequeue();
             //pooledObjects[key].Enqueue(pooledObject);
-            
+
 
             if (pooledObjects[key].Count == 0)
             {
@@ -66,7 +65,7 @@ public class ObjectPoolManager : MonoBehaviour
                 newInstance.Disable(); //disable to not cause lag 
                 pooledObjects[key].Enqueue(newInstance);
                 pooledObject = newInstance;
-            } 
+            }
 
             pooledObject.gameObject.SetActive(true);
             Transform t = pooledObject.gameObject.transform;
@@ -78,9 +77,9 @@ public class ObjectPoolManager : MonoBehaviour
         return null; // This in theory should never happen unless the pool doesn't exist, which would mean you're doing something very wrong.
     }
 
-    public void DestroyObject(GameObject gameObject) 
+    public void DestroyObject(GameObject gameObject)
     {
-        
+
         //gameObject.SetActive(false);
 
         PoolInstance newInstance = new PoolInstance(gameObject, gameObject.transform.parent);
@@ -98,7 +97,7 @@ public class ObjectPoolManager : MonoBehaviour
 
         public GameObject gameObject;
         public Transform parent;
-        
+
 
         public PoolInstance(GameObject gameObject, Transform parent = null)
         {
@@ -107,8 +106,8 @@ public class ObjectPoolManager : MonoBehaviour
             this.parent = parent;
 
 
-            
-            
+
+
         }
 
         public void Disable()
