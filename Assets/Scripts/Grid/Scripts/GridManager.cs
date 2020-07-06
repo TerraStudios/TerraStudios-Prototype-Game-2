@@ -215,7 +215,10 @@ public class GridManager : MonoBehaviour
             return;
         if (CanPlace(hit.Value, center))
         {
-            IsInBuildMode = false;
+            if (!Input.GetKey(KeyCode.LeftShift))
+                IsInBuildMode = false;
+            else
+                IsInBuildMode = true;
             Destroy(visualization.gameObject);
             Transform newMachine = Instantiate(currentBuilding.prefab, center, RotationChange);
             newMachine.gameObject.AddComponent<BoxCollider>();
