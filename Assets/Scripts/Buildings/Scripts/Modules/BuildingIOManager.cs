@@ -1,27 +1,34 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
+
+// Event args
+public class OnItemEnterEvent : UnityEvent<OnItemEnterEvent>
+{
+    public int inputID;
+    public ItemData item;
+    public GameObject sceneInstance;
+}
 
 public class BuildingIOManager : MonoBehaviour
 {
-    [Tooltip("Reference to the building the BuildingIOManager is attached to ")]
-    public Building Building;
-
-    [Tooltip("The current item inside the building")]
-    public ItemData itemInside;
+    public ModuleConnector mc;
+    public List<ItemData> itemsInside = new List<ItemData>();
 
     [Tooltip("A list of all the BuildingIO inputs for the building")]
     public BuildingIO[] inputs;
     [Tooltip("A list of all the BuildingIO outputs for the building")]
     public BuildingIO[] outputs;
 
-    [Tooltip("Determines whether debug logs should be active during gameplay")]
-    public bool debug;
-
     [Header("Conveyor Properties")]
     public bool isConveyor;
 
     //I have no idea what this is 
     public Conveyor[] ConveyorManagers;
+
+    [Header("Events")]
+    public OnItemEnterEvent OnItemEnterInput;
 
     public void Init()
     {
@@ -34,22 +41,22 @@ public class BuildingIOManager : MonoBehaviour
         {
             io.Init();
         }
+
+        OnItemEnterInput = new OnItemEnterEvent();
     }
 
-    public void ProceedItemEnter(GameObject sceneInstance, ItemData item)
+    public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
     {
-        if (debug)
-        {
-            Destroy(sceneInstance);
-            outputs[0].SpawnItemObj(item);
-            return;
-        }
-
-        if (item == itemInside)
-            return;
-
         Destroy(sceneInstance, 1f);
-        itemInside = item;
+        itemsInside.Add(item);
+
+        OnItemEnterEvent args = new OnItemEnterEvent()
+        {
+            inputID = inputID,
+            item = item,
+            sceneInstance = sceneInstance
+        };
+        OnItemEnterInput.Invoke(args);
 
         Debug.Log("Item fully in me! Item is " + item.name);
     }
@@ -87,13 +94,14 @@ public class BuildingIOManager : MonoBehaviour
         }
     }
 
-    public string GetItemInsideName()
+    // FIX!!!!
+    /*public string GetItemInsideName()
     {
         if (itemInside)
             return itemInside.name;
         else
             return "None";
-    }
+    }*/
 
     public BuildingIO GetTrashOutput()
     {
@@ -111,11 +119,11 @@ public class BuildingIOManager : MonoBehaviour
         {
             if (state)
             {
-                bIO.Building.WorkState = WorkStateEnum.On;
+                bIO.mc.Building.WorkState = WorkStateEnum.On;
             }
             else
             {
-                bIO.Building.WorkState = WorkStateEnum.Off;
+                bIO.mc.Building.WorkState = WorkStateEnum.Off;
             }
         }
     }

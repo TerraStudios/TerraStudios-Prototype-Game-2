@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 3452264032521393986}
   - component: {fileID: 5959354568054975860}
   - component: {fileID: 112422919062114701}
+  - component: {fileID: 983261423420364408}
   - component: {fileID: 4515110169957584235}
   - component: {fileID: 5726986251613548450}
+  - component: {fileID: 4174981063028331144}
   m_Layer: 0
   m_Name: PF_TestBuilding_06
   m_TagString: Untagged
@@ -83,6 +85,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &983261423420364408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852032779774944593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76f9e21bc38e4114bb88a7896956b11a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Building: {fileID: 4515110169957584235}
+  BuildingIOManager: {fileID: 5726986251613548450}
+  APM: {fileID: 4174981063028331144}
 --- !u!114 &4515110169957584235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,11 +112,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dd24aa3e77d2c40883052ab649024e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mc: {fileID: 983261423420364408}
   isSetUp: 0
   prefab: {fileID: 3452264032521393986}
-  BuildingIOManager: {fileID: 5726986251613548450}
-  allowAllInputs: 1
-  inputsAllowed: []
   showDirectionOnVisualize: 1
   price: 500
   healthPercent: 100
@@ -123,15 +138,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52780f752ea9fa44a579c403a2d0479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Building: {fileID: 4515110169957584235}
-  itemInside: {fileID: 0}
+  mc: {fileID: 983261423420364408}
+  itemsInside: []
   inputs:
   - {fileID: 3397535779446911964}
   outputs:
   - {fileID: 3922343640977857340}
-  debug: 1
   isConveyor: 0
-  ConveyorManager: {fileID: 0}
+  ConveyorManagers: []
+--- !u!114 &4174981063028331144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852032779774944593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65d945428d1e3f646a43d4c7d5e2c94c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mc: {fileID: 983261423420364408}
+  allowAllRecipes: 1
+  recipePreset: {fileID: 0}
+  currentRecipe: {fileID: 11400000, guid: ce9b8857a8ba5a447a8f1cacb82bdeec, type: 2}
 --- !u!1001 &3268471185448446102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142,12 +172,12 @@ PrefabInstance:
     - target: {fileID: 819036271789939543, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 819036271789939543, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.5
+      value: -0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1960481988754174890, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
@@ -284,12 +314,12 @@ PrefabInstance:
     - target: {fileID: 3645276291110056084, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3645276291110056084, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.5
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7351285261431388912, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
         type: 3}

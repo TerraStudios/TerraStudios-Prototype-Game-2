@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 /// <summary>
@@ -115,7 +114,12 @@ public class BuildingIO : MonoBehaviour
     /// <param name="itemToSpawn"></param>
     public void SpawnItemObj(ItemData itemToSpawn)
     {
-        Vector3 spawnPos = itemIO.transform.position;
+        Vector3 spawnPos;
+
+        if (myManager.isConveyor)
+            spawnPos = transform.position + Vector3.up * 0.25f;
+        else
+            spawnPos = itemIO.transform.position;
 
         ObjectPoolManager.instance.ReuseObject(itemToSpawn.obj.gameObject, spawnPos, Quaternion.identity);
 
