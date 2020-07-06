@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8606427490936830691}
   - component: {fileID: 2615647311215838746}
   m_Layer: 0
-  m_Name: MS_Build_Ind_Arrow_03
+  m_Name: PF_Build_Ind_Arrow_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,13 +52,13 @@ MeshRenderer:
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: 0743c9a689f4b7f4e92f329410424d20, type: 3}
+  - {fileID: 2100000, guid: 8ed400ec32e071f42bcb8c1fbf43e45c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
