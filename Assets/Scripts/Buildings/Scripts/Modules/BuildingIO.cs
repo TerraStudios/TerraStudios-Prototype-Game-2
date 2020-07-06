@@ -91,7 +91,7 @@ public class BuildingIO : MonoBehaviour
         if (!allowedToEnter)
             return;
 
-        myManager.ProceedItemEnter(item.gameObject, item.data);
+        myManager.ProceedItemEnter(item.gameObject, item.data, Array.FindIndex(myManager.inputs, row => this));
     }
 
     /// <summary>

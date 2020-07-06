@@ -55,7 +55,7 @@ public class BuildingIOManager : MonoBehaviour
     {
         Destroy(sceneInstance, 1f);
 
-        ItemInsideData occurrence = itemsInside.First(found => found.item.ID == item.ID);
+        ItemInsideData occurrence = itemsInside.FirstOrDefault(found => found.item.ID == item.ID);
         if (occurrence != null) // there's already an item with the same ID in the list
         {
             occurrence.quanity++; // just change its quantity
