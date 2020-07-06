@@ -22,11 +22,15 @@ public class BuildingIOManager : MonoBehaviour
     public ModuleConnector mc;
     public List<ItemInsideData> itemsInside = new List<ItemInsideData>();
 
+    [Tooltip("A list of all the BuildingIO inputs for the building")]
     public BuildingIO[] inputs;
+    [Tooltip("A list of all the BuildingIO outputs for the building")]
     public BuildingIO[] outputs;
 
     [Header("Conveyor Properties")]
     public bool isConveyor;
+
+    //I have no idea what this is 
     public Conveyor[] ConveyorManagers;
 
     [Header("Events")]
