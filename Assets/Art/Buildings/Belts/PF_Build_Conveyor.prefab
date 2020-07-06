@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: 6a0b2d12eb7fccf43823696ce158a260, type: 3}
+  - {fileID: 2100000, guid: 96f8677cd4c3fa34982c9fbc1b015bbf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,8 +102,6 @@ MonoBehaviour:
   mc: {fileID: 0}
   isSetUp: 0
   prefab: {fileID: 3388860665560852050}
-  allowAllInputs: 0
-  inputsAllowed: []
   showDirectionOnVisualize: 1
   price: 375
   healthPercent: 100
@@ -143,14 +141,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mc: {fileID: 0}
-  itemsInside: []
   inputs:
   - {fileID: 2300121638678919407}
   - {fileID: 5658636283370171291}
   - {fileID: 8633997742842489725}
   outputs:
   - {fileID: 5616119273722810161}
-  debug: 0
   isConveyor: 1
   ConveyorManagers: []
 --- !u!54 &7939558541560465964
