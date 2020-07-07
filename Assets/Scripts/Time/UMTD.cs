@@ -56,7 +56,6 @@ public class UMTD : MonoBehaviour
 		return tcs.Task;
 	}
 
-
 	IEnumerator ActionWrapper(Action a)
 	{
 		a();

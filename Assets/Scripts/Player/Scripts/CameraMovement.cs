@@ -76,7 +76,7 @@ public class CameraMovement : MonoBehaviour
         */
     }
 
-    private void HandleMouseMovement() 
+    private void HandleMouseMovement()
     {
         // Mouse Drag movement
 
@@ -109,12 +109,12 @@ public class CameraMovement : MonoBehaviour
         }
     }
 
-    private Vector3 GetMovement(Vector3 newPos) 
+    private Vector3 GetMovement(Vector3 newPos)
     {
         return new Vector3(Mathf.Clamp(newPos.x, minX, maxX), transform.position.y, Mathf.Clamp(newPos.z, minZ, maxZ));
     }
 
-    private void ApplyCameraFOV() 
+    private void ApplyCameraFOV()
     {
         CinemachineFollowZoom.m_MaxFOV = Mathf.Lerp(CinemachineFollowZoom.m_MaxFOV, zoomLevel, Time.deltaTime * zoomSpeed);
     }

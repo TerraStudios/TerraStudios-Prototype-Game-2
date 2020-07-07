@@ -8,11 +8,11 @@ public class ItemBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer.Equals(12)) 
+        if (other.gameObject.layer.Equals(12))
         {
             BuildingIO bIO = other.transform.parent.GetComponent<BuildingIO>();
             if (bIO.isInput && !bIO.myManager.isConveyor)
                 bIO.OnItemEnter(this);
-        } 
+        }
     }
 }

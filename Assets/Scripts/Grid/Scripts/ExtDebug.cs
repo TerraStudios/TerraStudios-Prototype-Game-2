@@ -61,7 +61,6 @@ public static class ExtDebug
         public Vector3 localBackTopRight { get { return -localFrontBottomLeft; } }
         public Vector3 localBackBottomLeft { get { return -localFrontTopRight; } }
         public Vector3 localBackBottomRight { get { return -localFrontTopLeft; } }
-
         public Vector3 frontTopLeft { get { return localFrontTopLeft + origin; } }
         public Vector3 frontTopRight { get { return localFrontTopRight + origin; } }
         public Vector3 frontBottomLeft { get { return localFrontBottomLeft + origin; } }
@@ -86,7 +85,6 @@ public static class ExtDebug
 
             this.origin = origin;
         }
-
 
         public void Rotate(Quaternion orientation)
         {

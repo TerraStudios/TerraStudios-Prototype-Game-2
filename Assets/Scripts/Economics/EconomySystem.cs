@@ -38,15 +38,15 @@ public class EconomySystem : MonoBehaviour
 
     public virtual void OnBalanceUpdate() { MakeBankruptcyCheck(); }
 
-    public bool CheckForSufficientFunds(int price) 
+    public bool CheckForSufficientFunds(int price)
     {
         if (Balance >= price)
             return true;
         else
             return false;
-    } 
+    }
 
-    private void MakeBankruptcyCheck() 
+    private void MakeBankruptcyCheck()
     {
         if (Balance < 0 && !isInBankruptcy)
         {
@@ -79,7 +79,7 @@ public class EconomySystem : MonoBehaviour
         bankruptcyTimers.Add(TimeManager.RegisterTimeWaiter(TimeSpan.FromDays(daysBeforeGameOverBankruptcy), callback));
     }
 
-    public virtual void OnEndBankruptcy() 
+    public virtual void OnEndBankruptcy()
     {
         isInBankruptcy = false;
         LastBankruptcyEnd = TimeManager.CurrentTime;

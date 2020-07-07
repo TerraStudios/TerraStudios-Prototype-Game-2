@@ -33,7 +33,7 @@ public class DebugUI : MonoBehaviour
             Debug.LogError("This field only accepts ints!");
     }
 
-    public void OnUIEnableGraphy(bool state) 
+    public void OnUIEnableGraphy(bool state)
     {
         GraphyGO.SetActive(state);
     }

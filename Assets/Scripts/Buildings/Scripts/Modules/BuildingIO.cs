@@ -65,10 +65,10 @@ public class BuildingIO : MonoBehaviour
     }
 
     /// <summary>
-    /// Event for when items enter a building. 
-    /// 
+    /// Event for when items enter a building.
+    ///
     /// - If an object is allowed to enter, the method <code>ProceedItemEnter(GameObject, ItemData)</code> in <see cref="BuildingIOManager"/> is called.
-    /// 
+    ///
     /// </summary>
     /// <param name="item">The item data of the game object that entered the building</param>
     public void OnItemEnter(ItemBehaviour item)
@@ -97,7 +97,7 @@ public class BuildingIO : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="item"></param>
     public void OnItemExit(ItemBehaviour item)
@@ -106,7 +106,7 @@ public class BuildingIO : MonoBehaviour
         //! probably not needed
     }
 
-    #endregion 
+    #endregion
 
     #region Item Instantiation
 
@@ -128,9 +128,9 @@ public class BuildingIO : MonoBehaviour
         //Instantiate(itemToSpawn.obj, spawnPos, Quaternion.identity);
     }
 
-    #endregion 
+    #endregion
 
-    #region Indicator Visualization 
+    #region Indicator Visualization
 
     /// <summary>
     /// Sends a request to visualize the build indicators
@@ -187,9 +187,9 @@ public class BuildingIO : MonoBehaviour
         MeshRenderer.enabled = false;
     }
 
-    #endregion 
+    #endregion
 
-    #region IO Update 
+    #region IO Update
     /// <summary>
     /// Event called when a collider either enters or exits an IO collider
     /// </summary>
@@ -254,7 +254,6 @@ public class BuildingIO : MonoBehaviour
                 }
             }
 
-
         }
         else
         {
@@ -276,8 +275,8 @@ public class BuildingIO : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns whether an input should be attached or not 
-    /// 
+    /// Returns whether an input should be attached or not
+    ///
     /// - If two inputs are trying to connect it should return false, as they shouldn't be linked or else no items would flow between the two
     /// - Likewise, if two outputs are trying to connect it should also return false.
     /// - If there are two opposite types of BuildingIOs (e.g. male and female connection or female and male connection) are checked the method will return true, as they will connect properly.
@@ -298,12 +297,12 @@ public class BuildingIO : MonoBehaviour
         return toReturn;
     }
 
-    #endregion 
+    #endregion
 
-    #region Editor 
+    #region Editor
 
     /// <summary>
-    /// Draws an arrow where the building is faced in the editor. 
+    /// Draws an arrow where the building is faced in the editor.
     /// - Used for setting the correct rotation (IO)
     /// </summary>
     private void OnDrawGizmosSelected()
@@ -318,5 +317,5 @@ public class BuildingIO : MonoBehaviour
         Gizmos.DrawRay(transform.position + transform.forward * 0.5f, left * 0.15f);
     }
 
-    #endregion 
+    #endregion
 }

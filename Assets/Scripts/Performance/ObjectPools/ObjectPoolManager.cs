@@ -23,7 +23,6 @@ public class ObjectPoolManager : MonoBehaviour
 
     }
 
-
     public void CreatePool(GameObject prefab, int poolSize)
     {
         string key = prefab.name;
@@ -58,11 +57,10 @@ public class ObjectPoolManager : MonoBehaviour
             PoolInstance pooledObject = pooledObjects[key].Dequeue();
             //pooledObjects[key].Enqueue(pooledObject);
 
-
             if (pooledObjects[key].Count == 0)
             {
                 PoolInstance newInstance = new PoolInstance(Instantiate(prefab), pooledObject.gameObject.transform.parent);
-                newInstance.Disable(); //disable to not cause lag 
+                newInstance.Disable(); //disable to not cause lag
                 pooledObjects[key].Enqueue(newInstance);
                 pooledObject = newInstance;
             }
@@ -85,12 +83,8 @@ public class ObjectPoolManager : MonoBehaviour
         PoolInstance newInstance = new PoolInstance(gameObject, gameObject.transform.parent);
 
         newInstance.Disable();
-        pooledObjects[gameObject.name.Replace("(Clone)", "")].Enqueue(newInstance); //requeue object for use 
+        pooledObjects[gameObject.name.Replace("(Clone)", "")].Enqueue(newInstance); //requeue object for use
     }
-
-
-
-
 
     public class PoolInstance
     {
@@ -98,15 +92,11 @@ public class ObjectPoolManager : MonoBehaviour
         public GameObject gameObject;
         public Transform parent;
 
-
         public PoolInstance(GameObject gameObject, Transform parent = null)
         {
 
             this.gameObject = gameObject;
             this.parent = parent;
-
-
-
 
         }
 
@@ -119,7 +109,6 @@ public class ObjectPoolManager : MonoBehaviour
                 this.gameObject.transform.SetParent(parent);
             }
         }
-
 
     }
 }
