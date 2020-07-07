@@ -36,6 +36,7 @@ public class GridManager : MonoBehaviour
             isInBuildMode = value;
         }
     }
+
     private Building currentBuilding;
     public Building building;
     public Building conveyor;
@@ -155,11 +156,12 @@ public class GridManager : MonoBehaviour
 
         if (visualization == null)
         {
+            
             visualization = Instantiate(currentBuilding.prefab, center, RotationChange);// + GetBuildingOffset(currentBuilding), RotationChange);
 
-            
-            
-            
+
+
+
         }
         else if (forceVisualize)
         {
@@ -177,7 +179,7 @@ public class GridManager : MonoBehaviour
             visualization.transform.position = center;
             visualization.transform.rotation = RotationChange;
 
-            
+
         }
 
         lastVisualize = center;
@@ -215,20 +217,56 @@ public class GridManager : MonoBehaviour
             return;
         if (CanPlace(hit.Value, center))
         {
-            if (!Input.GetKey(KeyCode.LeftShift))
-                IsInBuildMode = false;
-            else
-                IsInBuildMode = true;
+
+
+
             Destroy(visualization.gameObject);
+            visualization = null;
             Transform newMachine = Instantiate(currentBuilding.prefab, center, RotationChange);
             newMachine.gameObject.AddComponent<BoxCollider>();
             Building b = newMachine.GetComponent<Building>();
+
+            b.mc.BuildingIOManager.MarkForLinking();
+
+            
+
             BuildingManager.SetUpBuilding(b);
             b.RemoveIndicator();
+
+            /*if (!Input.GetKey(KeyCode.LeftShift))
+            {
+                IsInBuildMode = false; //devisualize
+            } else 
+            {
+                //Reset build mode
+                IsInBuildMode = false;
+                //IsInBuildMode = true;
+                //b.mc.BuildingIOManager.VisualizeAll(); //add visualization
+            }*/
+
+            /*if (!Input.GetKey(KeyCode.LeftShift))
+            {
+                IsInBuildMode = false;
+            } else 
+            {
+                
+            }*/
+
+            //IsInBuildMode = false;
+
+            //setBuildMode(Input.GetKey(KeyCode.LeftShift));
+            IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
         }
         else
             Debug.Log("Not allowed to place here!");
     }
+
+    IEnumerator setBuildMode(bool value)
+    {
+        yield return new WaitForEndOfFrame();
+        IsInBuildMode = value;
+    }
+
 
     #endregion 
 

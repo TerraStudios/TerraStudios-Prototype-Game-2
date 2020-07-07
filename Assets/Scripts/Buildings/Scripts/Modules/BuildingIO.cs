@@ -15,9 +15,11 @@ public class BuildingIO : MonoBehaviour
     public BoxCollider itemIO;
     public BuildingIOManager myManager;
 
+    [HideInInspector] public bool ReadyToLink = false;
+
     [Header("Input Configuration")]
     [Tooltip("Toggles whether debug prints should be printed or not")]
-    public bool enableDebug;
+    public bool enableDebug = true;
     [Tooltip("Determines whether an IO is a trashcan output")]
     public bool isTrashcanOutput;
     [Tooltip("Determines the items allowed to enter the building")]
@@ -26,7 +28,7 @@ public class BuildingIO : MonoBehaviour
     public ItemCategory[] itemCategoriesAllowedToEnter;
 
     //[Header("Dynamic variables")]
-    [HideInInspector] public BuildingIO attachedIO;
+    public BuildingIO attachedIO;
     [HideInInspector] public bool visualizeIO = true;
     [HideInInspector] public Transform arrow;
 
@@ -150,7 +152,7 @@ public class BuildingIO : MonoBehaviour
     {
 
         if (attachedIO) return;
-        ;        //Old cube render
+        //Old cube render
         //MeshRenderer.enabled = true;
         //MeshRenderer.material.color = color;
 
@@ -210,8 +212,30 @@ public class BuildingIO : MonoBehaviour
 
             if (enableDebug) Debug.Log(1);
 
-            if (visualizeIO)
+            if ((!hit.visualizeIO || (hit.ReadyToLink && this.ReadyToLink)) && !isInputUnsupported)
             {
+                attachedIO = hit;
+
+                attachedIO.ReadyToLink = false;
+                this.ReadyToLink = false;
+
+                if (arrow && arrow.gameObject) 
+                {
+                    ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
+                    arrow = null; //Could be removed, doing this just to make sure it's null
+                }   
+
+                if (hit.arrow && hit.arrow.gameObject)
+                {
+                    ObjectPoolManager.instance.DestroyObject(hit.arrow.gameObject);
+                    arrow = null; 
+                }
+            }
+            else if (visualizeIO)
+            {
+
+
+
                 if (enableDebug) Debug.Log(2);
                 if (isInputUnsupported)
                 {
@@ -231,12 +255,7 @@ public class BuildingIO : MonoBehaviour
                 }
             }
 
-            else if (!hit.visualizeIO && !isInputUnsupported)
-            {
-                attachedIO = hit;
-                if (arrow && arrow.gameObject)
-                    Destroy(arrow.gameObject);
-            }
+            
         }
         else
         {

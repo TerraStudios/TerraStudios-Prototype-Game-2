@@ -94,7 +94,15 @@ public class Building : MonoBehaviour
         directionArrow.rotation = transform.rotation * new Quaternion(0, 180, 0, 1);
     }
 
-    public void HideBuildingDirection() { if (directionArrow && showDirectionOnVisualize) Destroy(directionArrow.gameObject); }
+    public void HideBuildingDirection()
+    {
+
+        if (directionArrow && showDirectionOnVisualize)
+        {
+            Debug.Log("Hiding direction");
+            Destroy(directionArrow.gameObject);
+        }
+    }
 
     #region Health Submodule
     public void GenerateBuildingHealth()
@@ -268,7 +276,7 @@ public class Building : MonoBehaviour
 
     public Vector2Int GetBuildSize()
     {
-        Vector3 e =  GetComponent<MeshRenderer>().bounds.size;
-        return new Vector2Int((int) Math.Round(e.x), (int) Math.Round(e.z));
+        Vector3 e = GetComponent<MeshRenderer>().bounds.size;
+        return new Vector2Int((int)Math.Round(e.x), (int)Math.Round(e.z));
     }
 }

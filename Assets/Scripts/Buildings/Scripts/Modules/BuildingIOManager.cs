@@ -51,6 +51,19 @@ public class BuildingIOManager : MonoBehaviour
         OnItemEnterInput = new OnItemEnterEvent();
     }
 
+    public void MarkForLinking()
+    {
+        foreach (BuildingIO io in inputs)
+        {
+            io.ReadyToLink = true;
+        }
+
+        foreach (BuildingIO io in outputs)
+        {
+            io.ReadyToLink = true;
+        }
+    }
+
     public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
     {
         Destroy(sceneInstance, 1f);
@@ -135,6 +148,7 @@ public class BuildingIOManager : MonoBehaviour
 
     public void ModifyConveyorGroup(int? inputID, bool state)
     {
+
         foreach (BuildingIOManager bIO in GetConveyorGroup(inputID))
         {
             if (state)
@@ -152,6 +166,8 @@ public class BuildingIOManager : MonoBehaviour
     {
         List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
 
+
+
         BuildingIOManager next;
         if (inputID != null)
         {
@@ -159,7 +175,7 @@ public class BuildingIOManager : MonoBehaviour
                 next = inputs[inputID.Value].myManager;
             else
                 next = outputs[inputID.Value].myManager;
-        }      
+        }
         else
             next = this;
 
@@ -175,14 +191,15 @@ public class BuildingIOManager : MonoBehaviour
             }
         }
 
-        if (isConveyor) // also return all outputs
+        else if (isConveyor) // also return all outputs
         {
             foreach (BuildingIO io in next.outputs) // borked
             {
                 if (io.attachedIO)
                 {
-                    toReturn.Add(io.attachedIO.myManager);
-                    toReturn.AddRange(io.attachedIO.myManager.GetConveyorGroup(null, false));
+                    Debug.Log("Found attached IO");
+                    toReturn.Add(io.attachedIO.myManager); //add itself
+                    toReturn.AddRange(io.attachedIO.myManager.GetConveyorGroup(null, false)); //add children
                 }
             }
         }
@@ -202,7 +219,7 @@ public class BuildingIOManager : MonoBehaviour
         else
             newSpeed = 0;
 
-        foreach(Conveyor conv in ConveyorManagers)
+        foreach (Conveyor conv in ConveyorManagers)
         {
             conv.speed = newSpeed;
         }
