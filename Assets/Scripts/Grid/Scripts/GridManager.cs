@@ -156,12 +156,8 @@ public class GridManager : MonoBehaviour
 
         if (visualization == null)
         {
-            
+
             visualization = Instantiate(currentBuilding.prefab, center, RotationChange);// + GetBuildingOffset(currentBuilding), RotationChange);
-
-
-
-
         }
         else if (forceVisualize)
         {
@@ -178,13 +174,9 @@ public class GridManager : MonoBehaviour
             //Destroy(visualization.gameObject);
             visualization.transform.position = center;
             visualization.transform.rotation = RotationChange;
-
-
         }
 
         lastVisualize = center;
-
-
 
         if (canPlace)
             visualization.GetComponent<MeshRenderer>().material.color = Color.green;
@@ -192,7 +184,6 @@ public class GridManager : MonoBehaviour
             visualization.GetComponent<MeshRenderer>().material.color = Color.red;
 
         visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.BuildingDirectionPrefab);
-
     }
 
     #endregion 
@@ -209,17 +200,12 @@ public class GridManager : MonoBehaviour
         RaycastHit? hit = FindGridHit();
         if (hit == null) return;
 
-
-
         Vector3 center = GetGridPosition(hit.Value.point);
 
         if (center == Vector3.zero)
             return;
         if (CanPlace(hit.Value, center))
         {
-
-
-
             Destroy(visualization.gameObject);
             visualization = null;
             Transform newMachine = Instantiate(currentBuilding.prefab, center, RotationChange);
@@ -228,33 +214,11 @@ public class GridManager : MonoBehaviour
 
             b.mc.BuildingIOManager.MarkForLinking();
 
-            
+
 
             BuildingManager.SetUpBuilding(b);
             b.RemoveIndicator();
 
-            /*if (!Input.GetKey(KeyCode.LeftShift))
-            {
-                IsInBuildMode = false; //devisualize
-            } else 
-            {
-                //Reset build mode
-                IsInBuildMode = false;
-                //IsInBuildMode = true;
-                //b.mc.BuildingIOManager.VisualizeAll(); //add visualization
-            }*/
-
-            /*if (!Input.GetKey(KeyCode.LeftShift))
-            {
-                IsInBuildMode = false;
-            } else 
-            {
-                
-            }*/
-
-            //IsInBuildMode = false;
-
-            //setBuildMode(Input.GetKey(KeyCode.LeftShift));
             IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
         }
         else

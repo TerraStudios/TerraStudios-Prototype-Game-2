@@ -215,26 +215,25 @@ public class BuildingIO : MonoBehaviour
             if ((!hit.visualizeIO || (hit.ReadyToLink && this.ReadyToLink)) && !isInputUnsupported)
             {
                 attachedIO = hit;
+                hit.attachedIO = this;
 
                 attachedIO.ReadyToLink = false;
                 this.ReadyToLink = false;
 
-                if (arrow && arrow.gameObject) 
+                if (arrow && arrow.gameObject)
                 {
                     ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
                     arrow = null; //Could be removed, doing this just to make sure it's null
-                }   
+                }
 
                 if (hit.arrow && hit.arrow.gameObject)
                 {
                     ObjectPoolManager.instance.DestroyObject(hit.arrow.gameObject);
-                    arrow = null; 
+                    arrow = null;
                 }
             }
             else if (visualizeIO)
             {
-
-
 
                 if (enableDebug) Debug.Log(2);
                 if (isInputUnsupported)
@@ -255,7 +254,7 @@ public class BuildingIO : MonoBehaviour
                 }
             }
 
-            
+
         }
         else
         {
