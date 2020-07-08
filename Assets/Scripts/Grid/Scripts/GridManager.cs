@@ -50,7 +50,6 @@ public class GridManager : MonoBehaviour
 
     private Quaternion rotationChange = Quaternion.identity;
 
-
     public Quaternion RotationChange
     {
         get => rotationChange;
@@ -100,7 +99,6 @@ public class GridManager : MonoBehaviour
                     BuildingManager.CheckForHit(Input.mousePosition);
                 }
 
-
                 click = true;
 
             }
@@ -130,7 +128,6 @@ public class GridManager : MonoBehaviour
             RotationChange *= Quaternion.Euler(0, -90, 0);
         }
     }
-
 
     #region Visualization
 
@@ -186,7 +183,7 @@ public class GridManager : MonoBehaviour
         visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.BuildingDirectionPrefab);
     }
 
-    #endregion 
+    #endregion
 
     #region Building
 
@@ -214,8 +211,6 @@ public class GridManager : MonoBehaviour
 
             b.mc.BuildingIOManager.MarkForLinking();
 
-
-
             BuildingManager.SetUpBuilding(b);
             b.RemoveIndicator();
 
@@ -231,8 +226,7 @@ public class GridManager : MonoBehaviour
         IsInBuildMode = value;
     }
 
-
-    #endregion 
+    #endregion
 
     #region Grid Utilities
 
@@ -262,7 +256,7 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="pos"></param>
     /// <returns>A locked grid position</returns>
-    /// 
+    ///
     private Vector3 GetGridPosition(Vector3 pos)
     {
         Vector2Int buildSize = currentBuilding.GetBuildSize();
@@ -281,7 +275,6 @@ public class GridManager : MonoBehaviour
             x = buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
             z = buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
         }
-
 
         return new Vector3(x, pos.y, z);
     }
@@ -348,6 +341,5 @@ public class GridManager : MonoBehaviour
         IsInBuildMode = true;
     }
 
-
-    #endregion 
+    #endregion
 }

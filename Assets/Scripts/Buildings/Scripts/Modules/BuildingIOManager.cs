@@ -30,7 +30,7 @@ public class BuildingIOManager : MonoBehaviour
     [Header("Conveyor Properties")]
     public bool isConveyor;
 
-    //I have no idea what this is 
+    //I have no idea what this is
     public Conveyor[] ConveyorManagers;
 
     [Header("Events")]
@@ -165,8 +165,6 @@ public class BuildingIOManager : MonoBehaviour
     private List<BuildingIOManager> GetConveyorGroup(int? inputID, bool getInputs = true)
     {
         List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
-
-
 
         BuildingIOManager next;
         if (inputID != null)

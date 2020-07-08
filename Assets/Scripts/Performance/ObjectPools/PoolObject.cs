@@ -1,12 +1,10 @@
 using UnityEngine;
 
 public class PoolObject : MonoBehaviour {
-    
-    protected void Destroy() 
+
+    protected void Destroy()
     {
         gameObject.SetActive(false);
     }
-
-
 
 }

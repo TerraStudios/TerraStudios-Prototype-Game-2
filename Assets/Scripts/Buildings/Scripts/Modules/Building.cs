@@ -255,10 +255,7 @@ public class Building : MonoBehaviour
         currentIndicator = Instantiate(indicator, transform.position + new Vector3(0, GetComponent<MeshFilter>().mesh.bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
         currentIndicator.transform.parent = this.transform;
 
-
     }
-
-
 
     public void RemoveIndicator()
     {

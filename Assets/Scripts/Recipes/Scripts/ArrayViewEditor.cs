@@ -147,7 +147,7 @@ public class ArrayViewEditor : Editor {
 
 		private void drawElement(Rect rect, int index, bool active, bool focused)
 		{
-            
+
 			if (this._property.GetArrayElementAtIndex(index).propertyType == SerializedPropertyType.Generic)
 			{
                 Rect copy = new Rect(rect);
@@ -156,11 +156,11 @@ public class ArrayViewEditor : Editor {
                 copy.x += 3;
                 copy.y -= 20;
                 }
-        
+
 				EditorGUI.LabelField(copy, this._property.GetArrayElementAtIndex(index).displayName.Replace("Element", this._property.displayName.Substring(0, this._property.displayName.Length - 1)));
 			}
 			rect.height = EditorGUI.GetPropertyHeight(this._property.GetArrayElementAtIndex(index), GUIContent.none, true);
-			
+
 			EditorGUI.PropertyField(rect, this._property.GetArrayElementAtIndex(index), GUIContent.none, true);
 			this.List.elementHeight = rect.height;
 		}

@@ -20,7 +20,7 @@ public class BuildingManager : BuildingSystem
     public Transform FixingIndicator;
 
     private static BuildingManager s_Instance = null;
-    
+
     public static BuildingManager instance
     {
         get
@@ -42,9 +42,8 @@ public class BuildingManager : BuildingSystem
         ObjectPoolManager.instance.CreatePool(ErrorIndicator.gameObject, 50);
         ObjectPoolManager.instance.CreatePool(FixingIndicator.gameObject, 50);
     }
-    
-    //Static because the building manager doesn't have access to BuildingManager, and it doesn't make sense to put it in BuildingIOManager (multiple instances)
 
+    //Static because the building manager doesn't have access to BuildingManager, and it doesn't make sense to put it in BuildingIOManager (multiple instances)
 
     /// <summary>
     /// Event called when the building is selected, sets the UI to active and calls the OnBuildingSelected event
@@ -56,7 +55,6 @@ public class BuildingManager : BuildingSystem
         BuildingInfo.SetActive(true);
         b.mc.BuildingIOManager.outputs[0].SpawnItemObj(testItemToSpawn);
     }
-
 
     /// <summary>
     /// Event called when the building is deselected, sets the UI to inactive and calls the OnBuildingDeselected event
@@ -85,7 +83,7 @@ public class BuildingManager : BuildingSystem
     }
 
     /// <summary>
-    /// Event called when the fix button is pressed, checks if the health is below optimal standards and tries to fix it 
+    /// Event called when the fix button is pressed, checks if the health is below optimal standards and tries to fix it
     /// </summary>
     public void OnFixButtonPressed()
     {
