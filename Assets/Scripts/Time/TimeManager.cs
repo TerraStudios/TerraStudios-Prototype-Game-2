@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class TimeManager : TimeSystem
 {
     [Header("UI Components")]
+    public TMP_Text CurrentDateText;
     public TMP_Text CurrentTimeText;
 
     public Button PauseButton;
@@ -76,6 +77,7 @@ public class TimeManager : TimeSystem
     public override void OnCounterTick()
     {
         base.OnCounterTick();
-        CurrentTimeText.text = GetReadableTime();
+        CurrentTimeText.text = GetReadableHourTime();
+        CurrentDateText.text = GetReadableDateTime();
     }
 }

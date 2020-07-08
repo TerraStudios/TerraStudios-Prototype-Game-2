@@ -11,6 +11,7 @@ public class DebugUI : MonoBehaviour
     [Header("UI Components")]
     public GameObject SuperSecretPanel;
     public GameObject GraphyGO;
+    public GameObject ElectricityStatsPanel;
 
     private void Update()
     {
@@ -36,5 +37,10 @@ public class DebugUI : MonoBehaviour
     public void OnUIEnableGraphy(bool state)
     {
         GraphyGO.SetActive(state);
+    }
+
+    public void OnEnableElectricityStats(bool state)
+    {
+        ElectricityStatsPanel.SetActive(state);
     }
 }
