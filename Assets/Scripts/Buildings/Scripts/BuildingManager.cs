@@ -7,9 +7,6 @@ public class BuildingManager : BuildingSystem
     [Header("UI Components")]
     public GameObject BuildingInfo;
     public TMP_Text buildHealth;
-    public TMP_Text onTime;
-    public TMP_Text idleTime;
-    public TMP_Text offTime;
     public TMP_Text itemInsideName;
 
     [Header("IO Rendering")]
@@ -80,9 +77,9 @@ public class BuildingManager : BuildingSystem
         if (FocusedBuilding)
         {
             buildHealth.text = FocusedBuilding.healthPercent.ToString();
-            onTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.On).Duration().ToString();
-            idleTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.Idle).Duration().ToString();
-            offTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.Off).Duration().ToString();
+            //onTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.On).Duration().ToString();
+            //idleTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.Idle).Duration().ToString();
+            //offTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.Off).Duration().ToString();
             //itemInsideName.text = FocusedBuilding.BuildingIOManager.GetItemInsideName();
         }
     }

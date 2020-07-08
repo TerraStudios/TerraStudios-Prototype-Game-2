@@ -119,9 +119,13 @@ public class TimeSystem : TimeEngine
         return null;
     }
 
-    public string GetReadableTime()
+    public string GetReadableHourTime()
     {
-        CultureInfo EuropeStandard = CurrentCulture;
-        return CurrentTime.ToString("g", EuropeStandard);
+        return CurrentTime.ToString("t", CurrentCulture);
+    }
+
+    public string GetReadableDateTime()
+    {
+        return CurrentTime.ToString("d MMM yyyy", CurrentCulture);
     }
 }

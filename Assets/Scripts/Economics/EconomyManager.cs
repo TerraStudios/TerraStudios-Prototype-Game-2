@@ -23,7 +23,7 @@ public class EconomyManager : EconomySystem
         Debug.Log("New balance: " + Balance);
         currentBalanceText.text = GetReadableBalance();
 
-        if (Balance > 0) { currentBalanceText.color = Color.green; }
+        if (Balance > 0) { currentBalanceText.color = Color.white; }
     }
 
     public override void OnEnterBankruptcy()
