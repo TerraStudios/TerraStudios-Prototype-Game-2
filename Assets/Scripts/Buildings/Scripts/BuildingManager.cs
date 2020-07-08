@@ -19,6 +19,11 @@ public class BuildingManager : BuildingSystem
     public Transform ErrorIndicator;
     public Transform FixingIndicator;
 
+    [Header("Indicators")]
+    public Material blueArrow;
+    public Material greenArrow;
+    public Material redArrow;
+
     private static BuildingManager s_Instance = null;
 
     public static BuildingManager instance

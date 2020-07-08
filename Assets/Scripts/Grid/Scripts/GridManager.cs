@@ -176,9 +176,9 @@ public class GridManager : MonoBehaviour
         lastVisualize = center;
 
         if (canPlace)
-            visualization.GetComponent<MeshRenderer>().material.color = Color.green;
+            visualization.GetComponent<MeshRenderer>().material = BuildingManager.greenArrow;
         else
-            visualization.GetComponent<MeshRenderer>().material.color = Color.red;
+            visualization.GetComponent<MeshRenderer>().material = BuildingManager.redArrow;
 
         visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.BuildingDirectionPrefab);
     }

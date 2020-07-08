@@ -139,7 +139,7 @@ public class BuildingIO : MonoBehaviour
     {
         if (!visualizeIO)
         {
-            Visualize(Color.blue);
+            VisualizeIndicator();
             visualizeIO = true;
         }
     }
@@ -147,8 +147,7 @@ public class BuildingIO : MonoBehaviour
     /// <summary>
     /// Visualizes an indicator using the ObjectPoolManager reuse system.
     /// </summary>
-    /// <param name="color">The color for the MeshRenderer</param>
-    private void Visualize(Color color)
+    private void VisualizeIndicator()
     {
 
         if (attachedIO) return;
@@ -160,7 +159,7 @@ public class BuildingIO : MonoBehaviour
         //TODO: Have the arrow part of the IO system before to remove instantiates
         if (arrow != null)
         {
-            arrow.GetComponent<MeshRenderer>().material.color = color;
+            arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.blueArrow;
         }
         else
         {
@@ -168,7 +167,7 @@ public class BuildingIO : MonoBehaviour
             //Instantiate(BuildingManager.instance.ArrowPrefab, gameObject.transform.position, gameObject.transform.rotation);
             arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             arrow.transform.position += new Vector3(0, 1, 0);
-            arrow.GetComponent<MeshRenderer>().material.color = color;
+            arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.blueArrow;
         }
     }
 
@@ -241,14 +240,14 @@ public class BuildingIO : MonoBehaviour
                     if (enableDebug) Debug.Log(3);
                     if (arrow != null)
                     {
-                        arrow.GetComponent<MeshRenderer>().material.color = Color.red;
+                        arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.redArrow;
                     }
                 }
                 else
                 {
                     if (arrow != null)
                     {
-                        arrow.GetComponent<MeshRenderer>().material.color = Color.green;
+                        arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.greenArrow;
                     }
 
                 }
@@ -258,7 +257,7 @@ public class BuildingIO : MonoBehaviour
         else
         {
             if (enableDebug) Debug.Log("Resetting arrows");
-            if (arrow != null) arrow.GetComponent<MeshRenderer>().material.color = Color.blue; //reset arrow
+            if (arrow != null) arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.blueArrow; //reset arrow
 
             BuildingIO hit = other.GetComponent<BuildingIO>();
 
@@ -268,7 +267,7 @@ public class BuildingIO : MonoBehaviour
             if (visualizeIO)
             {
                 // subject of change
-                if (hit.arrow != null) hit.arrow.GetComponent<MeshRenderer>().material.color = Color.blue;
+                if (hit.arrow != null) hit.arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.blueArrow;
                 //hit.Devisualize();
             }
         }
