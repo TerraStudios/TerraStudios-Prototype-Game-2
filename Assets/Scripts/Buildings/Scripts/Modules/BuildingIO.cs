@@ -29,6 +29,9 @@ public class BuildingIO : MonoBehaviour
 
     //[Header("Dynamic variables")]
     public BuildingIO attachedIO;
+
+    private BuildingIO tempAttachedIO; // Used for linking a visualized building to an already placed one
+
     [HideInInspector] public bool visualizeIO = true;
     [HideInInspector] public Transform arrow;
 
@@ -163,7 +166,8 @@ public class BuildingIO : MonoBehaviour
         }
         else
         {
-            arrow = ObjectPoolManager.instance.ReuseObject(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
+            arrow = Instantiate(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
+            //arrow = ObjectPoolManager.instance.ReuseObject(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
             //Instantiate(BuildingManager.instance.ArrowPrefab, gameObject.transform.position, gameObject.transform.rotation);
             arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             arrow.transform.position += new Vector3(0, 1, 0);
@@ -189,18 +193,50 @@ public class BuildingIO : MonoBehaviour
     #endregion
 
     #region IO Update
+    public void Link()
+    {
+        if (tempAttachedIO == null) return;
+
+        attachedIO = tempAttachedIO;
+        tempAttachedIO = null;
+
+        if ((!visualizeIO))
+        {
+            attachedIO.attachedIO = this;
+
+            attachedIO.ReadyToLink = false;
+            this.ReadyToLink = false;
+
+            if (arrow && arrow.gameObject)
+            {
+                Destroy(attachedIO.arrow.gameObject);
+                //ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
+                arrow = null; //Could be removed, doing this just to make sure it's null
+            }
+
+            if (attachedIO.arrow && attachedIO.arrow.gameObject)
+            {
+                Destroy(attachedIO.arrow.gameObject);
+                //ObjectPoolManager.instance.DestroyObject(attachedIO.arrow.gameObject);
+                arrow = null;
+
+            }
+        }
+    }
+
+
     /// <summary>
     /// Event called when a collider either enters or exits an IO collider
     /// </summary>
     /// <param name="other">The collider that entered the collider</param>
-    /// <param name="exit">Whether the IO collider was an output or input</param>
+    /// <param name="exit">Whether the trigger was entering or exiting</param>
     private void OnUpdateIO(Collider other, bool exit = false)
     {
         if (gameObject.name == "Input")
         {
             if (enableDebug) Debug.Log("Am input, exit is " + exit);
         }
-        if (!exit)
+        if (!exit) //on trigger enter
         {
             BuildingIO hit = other.GetComponent<BuildingIO>();
 
@@ -211,27 +247,12 @@ public class BuildingIO : MonoBehaviour
 
             if (enableDebug) Debug.Log(1);
 
-            if ((!hit.visualizeIO || (hit.ReadyToLink && this.ReadyToLink)) && !isInputUnsupported)
+            if (!isInputUnsupported)
             {
-                attachedIO = hit;
-                hit.attachedIO = this;
-
-                attachedIO.ReadyToLink = false;
-                this.ReadyToLink = false;
-
-                if (arrow && arrow.gameObject)
-                {
-                    ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
-                    arrow = null; //Could be removed, doing this just to make sure it's null
-                }
-
-                if (hit.arrow && hit.arrow.gameObject)
-                {
-                    ObjectPoolManager.instance.DestroyObject(hit.arrow.gameObject);
-                    arrow = null;
-                }
+                tempAttachedIO = hit; // Input is supported, temporarily attach the IO  
             }
-            else if (visualizeIO)
+
+            if (visualizeIO)
             {
 
                 if (enableDebug) Debug.Log(2);
@@ -253,16 +274,45 @@ public class BuildingIO : MonoBehaviour
                 }
             }
 
+
+            /*
+
+            if ((!hit.visualizeIO || (hit.ReadyToLink && this.ReadyToLink)) && !isInputUnsupported)
+            {
+                attachedIO = hit;
+                hit.attachedIO = this;
+
+                attachedIO.ReadyToLink = false;
+                this.ReadyToLink = false;
+
+                if (arrow && arrow.gameObject)
+                {
+                    ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
+                    arrow = null; //Could be removed, doing this just to make sure it's null
+                }
+
+                if (hit.arrow && hit.arrow.gameObject)
+                {
+                    ObjectPoolManager.instance.DestroyObject(hit.arrow.gameObject);
+                    arrow = null;
+                }
+            }
+           
+
+            */
+
         }
         else
         {
-            if (enableDebug) Debug.Log("Resetting arrows");
-            if (arrow != null) arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.blueArrow; //reset arrow
+
+
 
             BuildingIO hit = other.GetComponent<BuildingIO>();
 
             if (hit == null || hit == this)
                 return;
+
+            if (arrow != null) arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.blueArrow; //reset arrow
 
             if (visualizeIO)
             {
@@ -270,6 +320,23 @@ public class BuildingIO : MonoBehaviour
                 if (hit.arrow != null) hit.arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.blueArrow;
                 //hit.Devisualize();
             }
+
+            if (hit == tempAttachedIO)
+            {
+                tempAttachedIO = null;
+            }
+
+            /*
+            if (enableDebug) Debug.Log("Resetting arrows");
+            
+
+            BuildingIO hit = other.GetComponent<BuildingIO>();
+
+            if (hit == null || hit == this)
+                return;
+
+
+            */
         }
     }
 

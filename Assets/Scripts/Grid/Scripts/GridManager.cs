@@ -50,6 +50,8 @@ public class GridManager : MonoBehaviour
 
     private Quaternion rotationChange = Quaternion.identity;
 
+    private Material tempMat; //temp mat of visualization to rest to
+
     public Quaternion RotationChange
     {
         get => rotationChange;
@@ -67,6 +69,8 @@ public class GridManager : MonoBehaviour
     private bool hasRotationChanged;
     private bool isFlipped;
     private bool click = false;
+
+    private float lastClick = -1; //initialize as -1 to confirm first click
 
     private bool canPlace = false;
 
@@ -88,7 +92,9 @@ public class GridManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (!click)
+            
+
+            if (!click && (Mathf.Abs(Time.time - lastClick) > 0.2))
             {
                 if (IsInBuildMode)
                 {
@@ -100,9 +106,13 @@ public class GridManager : MonoBehaviour
                 }
 
                 click = true;
+                lastClick = Time.time;
 
             }
-        }
+            
+        } 
+
+
         else if (Input.GetMouseButtonUp(0))
         {
             if (click)
@@ -155,6 +165,7 @@ public class GridManager : MonoBehaviour
         {
 
             visualization = Instantiate(currentBuilding.prefab, center, RotationChange);// + GetBuildingOffset(currentBuilding), RotationChange);
+            tempMat = visualization.GetComponent<MeshRenderer>().material;
         }
         else if (forceVisualize)
         {
@@ -203,27 +214,46 @@ public class GridManager : MonoBehaviour
             return;
         if (CanPlace(hit.Value, center))
         {
-            Destroy(visualization.gameObject);
-            visualization = null;
-            Transform newMachine = Instantiate(currentBuilding.prefab, center, RotationChange);
-            newMachine.gameObject.AddComponent<BoxCollider>();
-            Building b = newMachine.GetComponent<Building>();
+
+            //destroyBuilding(visualization.gameObject);
+            //visualization = null;
+            //Transform newMachine = Instantiate(currentBuilding.prefab, center, RotationChange);
+
+            visualization.gameObject.AddComponent<BoxCollider>();
+            visualization.GetComponent<MeshRenderer>().material = tempMat;
+            Building b = visualization.GetComponent<Building>();
+            
 
             b.mc.BuildingIOManager.MarkForLinking();
 
             BuildingManager.SetUpBuilding(b);
             b.RemoveIndicator();
 
+            b.mc.BuildingIOManager.LinkAll();
+            
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
+                tempMat = visualization.GetComponent<MeshRenderer>().material;
+            }
+            else
+            {
+                visualization = null;
+            }
+
             IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
+
+
         }
         else
             Debug.Log("Not allowed to place here!");
     }
 
-    IEnumerator setBuildMode(bool value)
+    IEnumerator destroyBuilding(GameObject obj)
     {
         yield return new WaitForEndOfFrame();
-        IsInBuildMode = value;
+        Destroy(obj);
     }
 
     #endregion

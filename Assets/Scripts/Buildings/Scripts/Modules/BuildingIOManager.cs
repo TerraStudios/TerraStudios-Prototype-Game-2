@@ -64,6 +64,19 @@ public class BuildingIOManager : MonoBehaviour
         }
     }
 
+    public void LinkAll()
+    {
+        foreach (BuildingIO io in inputs)
+        {
+            io.Link();
+        }
+
+        foreach (BuildingIO io in outputs)
+        {
+            io.Link();
+        }
+    }
+
     public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
     {
         Destroy(sceneInstance, 1f);
