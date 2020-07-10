@@ -41,6 +41,7 @@ public class TimeManager : TimeSystem
             x8Button.interactable = true;
 
             isPaused = true;
+            Time.timeScale = 0;
         }
 
         else if (clicked == x1Button)
@@ -51,6 +52,7 @@ public class TimeManager : TimeSystem
 
             isPaused = false;
             timeMultiplier = 1;
+            Time.timeScale = 1;
         }
 
         else if (clicked == x4Button)
@@ -61,6 +63,7 @@ public class TimeManager : TimeSystem
 
             isPaused = false;
             timeMultiplier = 4;
+            Time.timeScale = 4;
         }
 
         else if (clicked == x8Button)
@@ -71,6 +74,7 @@ public class TimeManager : TimeSystem
 
             isPaused = false;
             timeMultiplier = 8;
+            Time.timeScale = 8;
         }
     }
 

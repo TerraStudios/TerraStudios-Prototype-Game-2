@@ -44,22 +44,22 @@ public class CameraMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            transform.position = GetMovement(transform.position + (transform.forward * movementSpeed * Time.deltaTime));
+            transform.position = GetMovement(transform.position + (transform.forward * movementSpeed * Time.unscaledDeltaTime));
         }
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            transform.position = GetMovement(transform.position + (-transform.forward * movementSpeed * Time.deltaTime));
+            transform.position = GetMovement(transform.position + (-transform.forward * movementSpeed * Time.unscaledDeltaTime));
         }
 
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            transform.position = GetMovement(transform.position + (transform.right * movementSpeed * Time.deltaTime));
+            transform.position = GetMovement(transform.position + (transform.right * movementSpeed * Time.unscaledDeltaTime));
         }
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.position = GetMovement(transform.position + (-transform.right * movementSpeed * Time.deltaTime));
+            transform.position = GetMovement(transform.position + (-transform.right * movementSpeed * Time.unscaledDeltaTime));
         }
 
         // Q and E 90 degrees rotation
@@ -82,7 +82,7 @@ public class CameraMovement : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
-            float speed = dragSpeed * Time.deltaTime;
+            float speed = dragSpeed * Time.unscaledDeltaTime;
             transform.position = GetMovement(transform.position - (Input.GetAxis("Mouse X") * speed * transform.right + Input.GetAxis("Mouse Y") * speed * transform.forward));
         }
 
@@ -99,13 +99,13 @@ public class CameraMovement : MonoBehaviour
         if (d > 0f && zoomLevel >= minFOV)
         {
             // scroll up
-            zoomLevel -= Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomSpeed * 10;
+            zoomLevel -= Input.GetAxis("Mouse ScrollWheel") * Time.unscaledDeltaTime * zoomSpeed * 10;
 
         }
         else if (d < 0f && zoomLevel <= maxFOV)
         {
             // scroll down
-            zoomLevel += -Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomSpeed * 10;
+            zoomLevel += -Input.GetAxis("Mouse ScrollWheel") * Time.unscaledDeltaTime * zoomSpeed * 10;
         }
     }
 
@@ -116,7 +116,7 @@ public class CameraMovement : MonoBehaviour
 
     private void ApplyCameraFOV()
     {
-        CinemachineFollowZoom.m_MaxFOV = Mathf.Lerp(CinemachineFollowZoom.m_MaxFOV, zoomLevel, Time.deltaTime * zoomSpeed);
+        CinemachineFollowZoom.m_MaxFOV = Mathf.Lerp(CinemachineFollowZoom.m_MaxFOV, zoomLevel, Time.unscaledDeltaTime * zoomSpeed);
     }
 
     private void OnDrawGizmos()
