@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class APM : MonoBehaviour
@@ -15,7 +16,7 @@ public class APM : MonoBehaviour
         mc.BuildingIOManager.OnItemEnterInput.AddListener(OnItemEnterInput);
     }
 
-    private void OnItemEnterInput(OnItemEnterEvent args)
+    private void OnItemEnterInput(OnItemEnterEvent ItemEnterInfo)
     {
         if (!currentRecipe) // check if we have any recipe to work with
         {
@@ -23,27 +24,37 @@ public class APM : MonoBehaviour
             return;
         }
 
-        if (!Array.Exists(currentRecipe.inputs, inputData => inputData.item == args.item)) // check if the item entering is expected to enter
+        foreach (MachineRecipe.InputData recipeData in currentRecipe.inputs) // check if we have all required items
         {
-            Debug.LogWarning("This item was not expected to enter this building!");
-            return;
-        }
-
-        foreach (MachineRecipe.InputData required in currentRecipe.inputs) // check if we have all required items
-        {
-            if (required.item is ItemData)
+            if (recipeData.item is ItemData)
             {
-                ItemData itemToCheck = required.item as ItemData;
-                if (itemToCheck.ID != args.item.ID)
+                ItemData itemToCheck = recipeData.item as ItemData;
+                // check if item entering is expected to enter
+                if (itemToCheck.ID != ItemEnterInfo.item.ID)
+                {
+                    Debug.LogWarning("This item was not expected to enter this building!");
+                    return;
+                }
+
+                // check if we have the enough quantity of it available to start crafting
+                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.quanity != recipeData.amount))
                 {
                     Debug.LogWarning("Still, not all items are present inside");
                     return;
                 }
             }
-            else if (required.item is ItemCategory)
+            else if (recipeData.item is ItemCategory)
             {
-                ItemCategory cat = required.item as ItemCategory;
-                if (cat != args.item.ItemCategory)
+                ItemCategory cat = recipeData.item as ItemCategory;
+                // check if item category entering is expected to enter
+                if (cat != ItemEnterInfo.item.ItemCategory)
+                {
+                    Debug.LogWarning("This item was not expected to enter this building!");
+                    return;
+                }
+
+                // check if we have the enough quantity of it available to start crafting
+                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.item.ItemCategory != cat))
                 {
                     Debug.LogWarning("Still, not all items are present inside");
                     return;
