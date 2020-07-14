@@ -49,6 +49,11 @@ public class BuildingIO : MonoBehaviour
         visualizeIO = false;
     }
 
+    private void Awake()
+    {
+        VisualizeArrow(BuildingManager.instance.blueArrow);
+    }
+
     #endregion
 
     #region IO Trigger Events
@@ -128,17 +133,6 @@ public class BuildingIO : MonoBehaviour
 
         myManager.ProceedItemEnter(item.gameObject, item.data, Array.FindIndex(myManager.inputs, row => this));
     }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="item"></param>
-    public void OnItemExit(ItemBehaviour item)
-    {
-        Debug.Log("Item exit " + item.data.name);
-        //! probably not needed
-    }
-
     #endregion
 
     #region Item Instantiation
@@ -164,19 +158,6 @@ public class BuildingIO : MonoBehaviour
     #endregion
 
     #region Indicator Visualization
-
-    /// <summary>
-    /// Sends a request to visualize the build indicators
-    /// </summary>
-    public void Visualize()
-    {
-        if (!visualizeIO)
-        {
-            VisualizeIndicator();
-            visualizeIO = true;
-        }
-    }
-
     public void VisualizeArrow(Material material)
     {
         if (arrow != null)
@@ -194,21 +175,6 @@ public class BuildingIO : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Visualizes an indicator using the ObjectPoolManager reuse system.
-    /// </summary>
-    private void VisualizeIndicator()
-    {
-
-        if (attachedIO) return;
-        //Old cube render
-        //MeshRenderer.enabled = true;
-        //MeshRenderer.material.color = color;
-
-        //New arrow render
-        //TODO: Have the arrow part of the IO system before to remove instantiates
-
-    }
 
     /// <summary>
     /// Devisualizes the indicator is one is currently visible.
@@ -231,153 +197,6 @@ public class BuildingIO : MonoBehaviour
     public void MakeLink()
     {
         attachedIO = onPort;
-    }
-
-    public void Link()
-    {
-        if (tempAttachedIO == null) return;
-
-        attachedIO = tempAttachedIO;
-        tempAttachedIO = null;
-
-        if ((!visualizeIO))
-        {
-            attachedIO.attachedIO = this;
-
-            attachedIO.ReadyToLink = false;
-            this.ReadyToLink = false;
-
-            if (arrow && arrow.gameObject)
-            {
-                Destroy(attachedIO.arrow.gameObject);
-                //ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
-                arrow = null; //Could be removed, doing this just to make sure it's null
-            }
-
-            if (attachedIO.arrow && attachedIO.arrow.gameObject)
-            {
-                Destroy(attachedIO.arrow.gameObject);
-                //ObjectPoolManager.instance.DestroyObject(attachedIO.arrow.gameObject);
-                arrow = null;
-
-            }
-        }
-    }
-
-
-    /// <summary>
-    /// Event called when a collider either enters or exits an IO collider
-    /// </summary>
-    /// <param name="other">The collider that entered the collider</param>
-    /// <param name="exit">Whether the trigger was entering or exiting</param>
-    private void OnUpdateIO(Collider other, bool exit = false)
-    {
-        if (gameObject.name == "Input")
-        {
-            if (enableDebug) Debug.Log("Am input, exit is " + exit);
-        }
-        if (!exit) //on trigger enter
-        {
-            BuildingIO hit = other.GetComponent<BuildingIO>();
-
-            if (hit == null || hit == this)
-                return;
-
-            bool isInputSupported = IsInputSupported(hit);
-
-            if (enableDebug) Debug.Log(1);
-
-            if (!isInputSupported)
-            {
-                tempAttachedIO = hit; // Input is supported, temporarily attach the IO  
-            }
-
-            if (visualizeIO)
-            {
-
-                if (enableDebug) Debug.Log(2);
-                if (isInputSupported)
-                {
-                    if (enableDebug) Debug.Log(3);
-                    if (arrow != null)
-                    {
-                        arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.redArrow;
-                    }
-                }
-                else
-                {
-                    if (arrow != null)
-                    {
-                        arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.greenArrow;
-                    }
-
-                }
-            }
-
-
-            /*
-
-            if ((!hit.visualizeIO || (hit.ReadyToLink && this.ReadyToLink)) && !isInputUnsupported)
-            {
-                attachedIO = hit;
-                hit.attachedIO = this;
-
-                attachedIO.ReadyToLink = false;
-                this.ReadyToLink = false;
-
-                if (arrow && arrow.gameObject)
-                {
-                    ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
-                    arrow = null; //Could be removed, doing this just to make sure it's null
-                }
-
-                if (hit.arrow && hit.arrow.gameObject)
-                {
-                    ObjectPoolManager.instance.DestroyObject(hit.arrow.gameObject);
-                    arrow = null;
-                }
-            }
-           
-
-            */
-
-        }
-        else
-        {
-
-
-
-            BuildingIO hit = other.GetComponent<BuildingIO>();
-
-            if (hit == null || hit == this)
-                return;
-
-            if (arrow != null) arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.blueArrow; //reset arrow
-
-            if (visualizeIO)
-            {
-                // subject of change
-                if (hit.arrow != null) hit.arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.blueArrow;
-                //hit.Devisualize();
-            }
-
-            if (hit == tempAttachedIO)
-            {
-                tempAttachedIO = null;
-            }
-
-            /*
-            if (enableDebug) Debug.Log("Resetting arrows");
-            
-
-            BuildingIO hit = other.GetComponent<BuildingIO>();
-
-            if (hit == null || hit == this)
-                return;
-
-
-            */
-        }
     }
 
     /// <summary>

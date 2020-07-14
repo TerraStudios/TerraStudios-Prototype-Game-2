@@ -270,12 +270,6 @@ public class GridManager : MonoBehaviour
             Debug.Log("Not allowed to place here!");
     }
 
-    IEnumerator destroyBuilding(GameObject obj)
-    {
-        yield return new WaitForEndOfFrame();
-        Destroy(obj);
-    }
-
     #endregion
 
     #region Grid Utilities
