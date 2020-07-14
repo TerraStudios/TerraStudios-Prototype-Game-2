@@ -87,7 +87,7 @@ public class GridManager : MonoBehaviour
         if (IsInBuildMode)
         {
             HandleRotation();
-            VisualizeBuild(hasRotationChanged);
+            UpdateVisualization();
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -141,6 +141,7 @@ public class GridManager : MonoBehaviour
 
     #region Visualization
 
+    /*
     /// <summary>
     /// Attempts to visualize the currently selected structure, showing as green or red depending on the return of CanPlace
     /// </summary>
@@ -192,6 +193,31 @@ public class GridManager : MonoBehaviour
             visualization.GetComponent<MeshRenderer>().material = BuildingManager.redArrow;
 
         visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.BuildingDirectionPrefab);
+    }*/
+
+    public void UpdateVisualization()
+    {
+
+
+
+        RaycastHit? hit = FindGridHit();
+        if (hit == null) return;
+        Vector3 center = GetGridPosition(hit.Value.point);
+
+        if (!center.Equals(lastVisualize))
+        {
+            canPlace = CanPlace(hit.Value, center);
+        }
+
+        lastVisualize = center;
+
+        if (canPlace)
+            visualization.GetComponent<MeshRenderer>().material = BuildingManager.greenArrow;
+        else
+            visualization.GetComponent<MeshRenderer>().material = BuildingManager.redArrow;
+
+        visualization.transform.position = center;
+        visualization.transform.rotation = RotationChange;
     }
 
     #endregion
@@ -224,25 +250,19 @@ public class GridManager : MonoBehaviour
             Building b = visualization.GetComponent<Building>();
             
 
-            b.mc.BuildingIOManager.MarkForLinking();
+            //b.mc.BuildingIOManager.MarkForLinking();
 
             BuildingManager.SetUpBuilding(b);
             b.RemoveIndicator();
 
             b.mc.BuildingIOManager.LinkAll();
-            
-
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
-                tempMat = visualization.GetComponent<MeshRenderer>().material;
-            }
-            else
-            {
-                visualization = null;
-            }
 
             IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
+
+            /*if (IsInBuildMode)
+            {
+                b.mc.BuildingIOManager.VisualizeAll();
+            }*/
 
 
         }
@@ -335,21 +355,16 @@ public class GridManager : MonoBehaviour
     /// <param name="value">The new value for IsInBuildMode</param>
     private void OnBuildModeChanged(bool value)
     {
-        if (!value)
+        RaycastHit? hit = FindGridHit();
+        if (hit == null) return;
+
+        Vector3 center = GetGridPosition(hit.Value.point);
+
+        if (value)
         {
-            foreach (Building b in BuildingManager.RegisteredBuildings)
-            {
-                if (b.mc.BuildingIOManager != null)
-                    b.mc.BuildingIOManager.DevisualizeAll();
-            }
-        }
-        else
-        {
-            foreach (Building b in BuildingManager.RegisteredBuildings)
-            {
-                if (b.mc.BuildingIOManager != null)
-                    b.mc.BuildingIOManager.VisualizeAll();
-            }
+            visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
+            visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.BuildingDirectionPrefab);
+            tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
         }
     }
 

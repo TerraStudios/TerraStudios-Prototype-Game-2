@@ -30,6 +30,10 @@ public class BuildingIO : MonoBehaviour
     //[Header("Dynamic variables")]
     public BuildingIO attachedIO;
 
+    private bool link = false;
+
+    private BuildingIO onPort;
+
     private BuildingIO tempAttachedIO; // Used for linking a visualized building to an already placed one
 
     [HideInInspector] public bool visualizeIO = true;
@@ -55,7 +59,21 @@ public class BuildingIO : MonoBehaviour
     /// <param name="other">The collider that entered</param>
     private void OnTriggerEnter(Collider other)
     {
-        OnUpdateIO(other);
+        BuildingIO io = other.GetComponent<BuildingIO>();
+
+        if (io)
+        {
+            onPort = io;
+
+            if (IsInputUnsupported(io))
+            {
+                VisualizeArrow(BuildingManager.instance.greenArrow); //visualize green arrow
+            } else
+            {
+                VisualizeArrow(BuildingManager.instance.redArrow); //visualize red arrow
+            }
+        }
+        //OnUpdateIO(other);
     }
 
     /// <summary>
@@ -64,7 +82,19 @@ public class BuildingIO : MonoBehaviour
     /// <param name="other">The collider that exited</param>
     private void OnTriggerExit(Collider other)
     {
-        OnUpdateIO(other, true);
+        if (!link)
+        {
+            BuildingIO io = other.GetComponent<BuildingIO>();
+
+            if (io)
+            {
+                onPort = null;
+                VisualizeArrow(BuildingManager.instance.blueArrow);//visualize blue arrow
+            }
+        }
+
+
+        //OnUpdateIO(other, true);
     }
 
     /// <summary>
@@ -147,6 +177,23 @@ public class BuildingIO : MonoBehaviour
         }
     }
 
+    public void VisualizeArrow(Material material)
+    {
+        if (arrow != null)
+        {
+            arrow.GetComponent<MeshRenderer>().material = material;
+        }
+        else
+        {
+            arrow = Instantiate(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
+            //arrow = ObjectPoolManager.instance.ReuseObject(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
+            //Instantiate(BuildingManager.instance.ArrowPrefab, gameObject.transform.position, gameObject.transform.rotation);
+            arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+            arrow.transform.position += new Vector3(0, 1, 0);
+            arrow.GetComponent<MeshRenderer>().material = material;
+        }
+    }
+
     /// <summary>
     /// Visualizes an indicator using the ObjectPoolManager reuse system.
     /// </summary>
@@ -160,19 +207,7 @@ public class BuildingIO : MonoBehaviour
 
         //New arrow render
         //TODO: Have the arrow part of the IO system before to remove instantiates
-        if (arrow != null)
-        {
-            arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.blueArrow;
-        }
-        else
-        {
-            arrow = Instantiate(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
-            //arrow = ObjectPoolManager.instance.ReuseObject(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
-            //Instantiate(BuildingManager.instance.ArrowPrefab, gameObject.transform.position, gameObject.transform.rotation);
-            arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-            arrow.transform.position += new Vector3(0, 1, 0);
-            arrow.GetComponent<MeshRenderer>().material = BuildingManager.instance.blueArrow;
-        }
+
     }
 
     /// <summary>
@@ -193,6 +228,11 @@ public class BuildingIO : MonoBehaviour
     #endregion
 
     #region IO Update
+    public void MakeLink()
+    {
+        attachedIO = onPort;
+    }
+
     public void Link()
     {
         if (tempAttachedIO == null) return;

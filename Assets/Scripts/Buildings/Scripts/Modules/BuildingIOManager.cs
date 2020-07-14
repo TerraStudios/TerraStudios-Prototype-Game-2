@@ -68,12 +68,12 @@ public class BuildingIOManager : MonoBehaviour
     {
         foreach (BuildingIO io in inputs)
         {
-            io.Link();
+            io.MakeLink();
         }
 
         foreach (BuildingIO io in outputs)
         {
-            io.Link();
+            io.MakeLink();
         }
     }
 
@@ -118,12 +118,12 @@ public class BuildingIOManager : MonoBehaviour
     {
         foreach (BuildingIO io in inputs)
         {
-            io.Visualize();
+            io.VisualizeArrow(BuildingManager.instance.blueArrow);
         }
 
         foreach (BuildingIO io in outputs)
         {
-            io.Visualize();
+            io.VisualizeArrow(BuildingManager.instance.blueArrow);
         }
     }
 
