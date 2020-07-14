@@ -15,6 +15,7 @@ public class Building : MonoBehaviour
     [Header("Grid Building Properties")]
     public Transform prefab;
 
+
     [Header("Input / Outputs")]
     public bool showDirectionOnVisualize = true;
 

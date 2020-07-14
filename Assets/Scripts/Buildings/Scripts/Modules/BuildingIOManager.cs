@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -38,43 +39,31 @@ public class BuildingIOManager : MonoBehaviour
 
     public void Init()
     {
-        foreach (BuildingIO io in inputs)
-        {
-            io.Init();
-        }
-
-        foreach (BuildingIO io in outputs)
-        {
-            io.Init();
-        }
+        IOForEach(io => io.Init());
 
         OnItemEnterInput = new OnItemEnterEvent();
     }
 
     public void MarkForLinking()
     {
-        foreach (BuildingIO io in inputs)
-        {
-            io.ReadyToLink = true;
-        }
+        IOForEach(io => io.ReadyToLink = true);
+    }
 
-        foreach (BuildingIO io in outputs)
+    public void UpdateArrows()
+    {
+        IOForEach(io =>
         {
-            io.ReadyToLink = true;
-        }
+            if (io.arrow)
+            {
+                io.arrow.position = io.transform.position + new Vector3(0, 1, 0);
+                io.arrow.rotation = io.transform.rotation;
+            }
+        });
     }
 
     public void LinkAll()
     {
-        foreach (BuildingIO io in inputs)
-        {
-            io.MakeLink();
-        }
-
-        foreach (BuildingIO io in outputs)
-        {
-            io.MakeLink();
-        }
+        IOForEach(io => io.MakeLink());
     }
 
     public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
@@ -243,6 +232,19 @@ public class BuildingIOManager : MonoBehaviour
         foreach (Conveyor conv in ConveyorManagers)
         {
             conv.speed = newSpeed;
+        }
+    }
+
+    private void IOForEach(Action<BuildingIO> action)
+    {
+        foreach (BuildingIO io in inputs)
+        {
+            action(io);
+        }
+
+        foreach (BuildingIO io in outputs)
+        {
+            action(io);
         }
     }
 }
