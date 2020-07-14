@@ -65,7 +65,7 @@ public class BuildingIO : MonoBehaviour
         {
             onPort = io;
 
-            if (IsInputUnsupported(io))
+            if (IsInputSupported(io))
             {
                 VisualizeArrow(BuildingManager.instance.greenArrow); //visualize green arrow
             } else
@@ -283,11 +283,11 @@ public class BuildingIO : MonoBehaviour
             if (hit == null || hit == this)
                 return;
 
-            bool isInputUnsupported = IsInputUnsupported(hit);
+            bool isInputSupported = IsInputSupported(hit);
 
             if (enableDebug) Debug.Log(1);
 
-            if (!isInputUnsupported)
+            if (!isInputSupported)
             {
                 tempAttachedIO = hit; // Input is supported, temporarily attach the IO  
             }
@@ -296,7 +296,7 @@ public class BuildingIO : MonoBehaviour
             {
 
                 if (enableDebug) Debug.Log(2);
-                if (isInputUnsupported)
+                if (isInputSupported)
                 {
                     if (enableDebug) Debug.Log(3);
                     if (arrow != null)
@@ -389,16 +389,16 @@ public class BuildingIO : MonoBehaviour
     /// </summary>
     /// <param name="other">The other BuildingIO being checked</param>
     /// <returns>Whether the two BuildingIOs are a suitable input</returns>
-    private bool IsInputUnsupported(BuildingIO other)
+    private bool IsInputSupported(BuildingIO other)
     {
-        bool toReturn = false;
+        bool toReturn = true;
 
         if (!myManager.isConveyor && !other.myManager.isConveyor)
-            toReturn = true;
+            toReturn = false;
         if (isInput && other.isInput)
-            toReturn = true;
+            toReturn = false;
         if (isOutput && other.isOutput)
-            toReturn = true;
+            toReturn = false;
 
         return toReturn;
     }
