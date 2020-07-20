@@ -37,7 +37,7 @@ public class BuildingIO : MonoBehaviour
     private BuildingIO tempAttachedIO; // Used for linking a visualized building to an already placed one
 
     [HideInInspector] public bool visualizeIO = true;
-    [HideInInspector] public Transform arrow;
+    public Transform arrow;
 
     #region Initialization
 
@@ -181,14 +181,19 @@ public class BuildingIO : MonoBehaviour
     /// </summary>
     public void Devisualize()
     {
+        Debug.Log("IO Devisualizing");
         if (arrow != null)
         {
-            ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
-            //Destroy(arrow.gameObject);
+            Debug.Log("Found arrow");
+            //ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
+            Destroy(arrow.gameObject);
             visualizeIO = false;
             arrow = null;
+        } else
+        {
+            Debug.Log("Arrow be null");
         }
-        MeshRenderer.enabled = false;
+        
     }
 
     #endregion
@@ -197,6 +202,8 @@ public class BuildingIO : MonoBehaviour
     public void MakeLink()
     {
         attachedIO = onPort;
+
+        if (attachedIO != null) Devisualize();
     }
 
     /// <summary>

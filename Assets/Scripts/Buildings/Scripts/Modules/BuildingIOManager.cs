@@ -40,6 +40,7 @@ public class BuildingIOManager : MonoBehaviour
     public void Init()
     {
         IOForEach(io => io.Init());
+        Debug.Log($"Inputs: {inputs.Length}, Outputs: {outputs.Length}");
 
         OnItemEnterInput = new OnItemEnterEvent();
     }
@@ -118,15 +119,25 @@ public class BuildingIOManager : MonoBehaviour
 
     public void DevisualizeAll()
     {
+        Debug.Log("Devisualizing item");
+
+        Debug.Log("There are " + (inputs.Length + outputs.Length) + " IOs");
+
         foreach (BuildingIO io in inputs)
         {
-            io.Devisualize();
+            Debug.Log("Found correct IO");
         }
 
         foreach (BuildingIO io in outputs)
         {
-            io.Devisualize();
+            Debug.Log("Found correct IO");
         }
+
+        IOForEach(io =>
+        {
+            io.Devisualize();
+            Debug.Log("Found an IO");
+        });
     }
 
     // FIX!!!!

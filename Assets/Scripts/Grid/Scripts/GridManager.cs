@@ -360,6 +360,17 @@ public class GridManager : MonoBehaviour
             visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
             visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.BuildingDirectionPrefab);
             tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
+        } else
+        {
+            Debug.Log("Starting devisualization");
+            BuildingManager.RegisteredBuildings.ForEach(bulding =>
+            {
+                if (building.mc.BuildingIOManager)
+                {
+                    Debug.Log("Devisualizing");
+                    building.mc.BuildingIOManager.DevisualizeAll();
+                }
+            });
         }
     }
 
