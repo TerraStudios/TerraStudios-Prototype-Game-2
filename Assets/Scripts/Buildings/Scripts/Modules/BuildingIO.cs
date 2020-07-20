@@ -96,7 +96,7 @@ public class BuildingIO : MonoBehaviour
             {
                 onPort = null;
                 //TODO: Perhaps have a cached building component for visualization in grid manager to avoid calling get component here
-                if (!GridManager.getInstance.visualization || !GridManager.getInstance.visualization.GetComponent<Building>().mc.BuildingIOManager.Equals(this.myManager))
+                if (io.visualizeIO && !visualizeIO)
                 {
                     Devisualize();
                 } else
