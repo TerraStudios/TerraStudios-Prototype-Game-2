@@ -46,7 +46,7 @@ public class GridManager : MonoBehaviour
     public KeyCode flipBuildingLeft = KeyCode.F;
 
     private Vector3 lastVisualize;
-    private Transform visualization;
+    public Transform visualization;
 
     private Quaternion rotationChange = Quaternion.identity;
 
@@ -92,7 +92,7 @@ public class GridManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            
+
 
             if (!click && (Mathf.Abs(Time.time - lastClick) > 0.2))
             {
@@ -109,8 +109,8 @@ public class GridManager : MonoBehaviour
                 lastClick = Time.time;
 
             }
-            
-        } 
+
+        }
 
 
         else if (Input.GetMouseButtonUp(0))
@@ -249,7 +249,7 @@ public class GridManager : MonoBehaviour
             visualization.gameObject.AddComponent<BoxCollider>();
             visualization.GetComponent<MeshRenderer>().material = tempMat;
             Building b = visualization.GetComponent<Building>();
-            
+
 
             //b.mc.BuildingIOManager.MarkForLinking();
 
@@ -360,6 +360,7 @@ public class GridManager : MonoBehaviour
             visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
             visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.BuildingDirectionPrefab);
             tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
+
         } else
         {
             Debug.Log("Starting devisualization");

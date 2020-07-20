@@ -73,7 +73,8 @@ public class BuildingIO : MonoBehaviour
             if (IsInputSupported(io))
             {
                 VisualizeArrow(BuildingManager.instance.greenArrow); //visualize green arrow
-            } else
+            }
+            else
             {
                 VisualizeArrow(BuildingManager.instance.redArrow); //visualize red arrow
             }
@@ -94,7 +95,15 @@ public class BuildingIO : MonoBehaviour
             if (io)
             {
                 onPort = null;
-                VisualizeArrow(BuildingManager.instance.blueArrow);//visualize blue arrow
+                //TODO: Perhaps have a cached building component for visualization in grid manager to avoid calling get component here
+                if (!GridManager.getInstance.visualization || !GridManager.getInstance.visualization.GetComponent<Building>().mc.BuildingIOManager.Equals(this.myManager))
+                {
+                    Devisualize();
+                } else
+                {
+                    VisualizeArrow(BuildingManager.instance.blueArrow);
+                }
+                //VisualizeArrow(BuildingManager.instance.blueArrow);//visualize blue arrow
             }
         }
 
@@ -189,11 +198,12 @@ public class BuildingIO : MonoBehaviour
             Destroy(arrow.gameObject);
             visualizeIO = false;
             arrow = null;
-        } else
+        }
+        else
         {
             Debug.Log("Arrow be null");
         }
-        
+
     }
 
     #endregion
