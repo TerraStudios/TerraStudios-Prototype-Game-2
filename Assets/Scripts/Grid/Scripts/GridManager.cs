@@ -363,14 +363,14 @@ public class GridManager : MonoBehaviour
         } else
         {
             Debug.Log("Starting devisualization");
-            BuildingManager.RegisteredBuildings.ForEach(bulding =>
+            foreach (Building b in BuildingManager.RegisteredBuildings)
             {
-                if (building.mc.BuildingIOManager)
+                if (b.mc.BuildingIOManager)
                 {
                     Debug.Log("Devisualizing");
-                    building.mc.BuildingIOManager.DevisualizeAll();
+                    b.mc.BuildingIOManager.DevisualizeAll();
                 }
-            });
+            }
         }
     }
 
