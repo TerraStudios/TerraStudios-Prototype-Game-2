@@ -68,6 +68,9 @@ public class BuildingIO : MonoBehaviour
 
         if (io)
         {
+            if (io.visualizeIO)
+                return;
+
             onPort = io;
 
             if (IsInputSupported(io))
