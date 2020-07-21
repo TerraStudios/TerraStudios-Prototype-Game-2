@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -15,11 +16,7 @@ public class BuildingIO : MonoBehaviour
     public BoxCollider itemIO;
     public BuildingIOManager myManager;
 
-    [HideInInspector] public bool ReadyToLink = false;
-
     [Header("Input Configuration")]
-    [Tooltip("Toggles whether debug prints should be printed or not")]
-    public bool enableDebug = true;
     [Tooltip("Determines whether an IO is a trashcan output")]
     public bool isTrashcanOutput;
     [Tooltip("Determines the items allowed to enter the building")]
@@ -30,14 +27,12 @@ public class BuildingIO : MonoBehaviour
     //[Header("Dynamic variables")]
     public BuildingIO attachedIO;
 
-    private bool link = false;
-
     private BuildingIO onPort;
-
-    private BuildingIO tempAttachedIO; // Used for linking a visualized building to an already placed one
 
     [HideInInspector] public bool visualizeIO = true;
     public Transform arrow;
+    private LayerMask IOMask;
+    private List<BuildingIO> iosInside;
 
     #region Initialization
 
@@ -51,6 +46,7 @@ public class BuildingIO : MonoBehaviour
 
     private void Awake()
     {
+        IOMask = LayerMask.GetMask("IOPort");
         VisualizeArrow(BuildingManager.instance.blueArrow);
     }
 
@@ -85,29 +81,37 @@ public class BuildingIO : MonoBehaviour
         //OnUpdateIO(other);
     }
 
+    public void BeforeVisualizationMoved()
+    {
+        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale, Quaternion.identity, IOMask);
+    }
+
+    public void AfterVisualizationMoved()
+    {
+        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale, Quaternion.identity, IOMask);
+    }
+
     /// <summary>
     /// Sends an update that a collider has exited one of the colliders
     /// </summary>
     /// <param name="other">The collider that exited</param>
     private void OnTriggerExit(Collider other)
     {
-        if (!link)
-        {
-            BuildingIO io = other.GetComponent<BuildingIO>();
+        BuildingIO io = other.GetComponent<BuildingIO>();
 
-            if (io)
+        if (io)
+        {
+            onPort = null;
+            //TODO: Perhaps have a cached building component for visualization in grid manager to avoid calling get component here
+            if (io.visualizeIO && !visualizeIO)
             {
-                onPort = null;
-                //TODO: Perhaps have a cached building component for visualization in grid manager to avoid calling get component here
-                if (io.visualizeIO && !visualizeIO)
-                {
-                    Devisualize();
-                } else
-                {
-                    VisualizeArrow(BuildingManager.instance.blueArrow);
-                }
-                //VisualizeArrow(BuildingManager.instance.blueArrow);//visualize blue arrow
+                Devisualize();
             }
+            else
+            {
+                VisualizeArrow(BuildingManager.instance.blueArrow);
+            }
+            //VisualizeArrow(BuildingManager.instance.blueArrow);//visualize blue arrow
         }
 
 

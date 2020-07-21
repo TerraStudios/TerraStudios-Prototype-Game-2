@@ -140,66 +140,8 @@ public class GridManager : MonoBehaviour
     }
 
     #region Visualization
-
-    /*
-    /// <summary>
-    /// Attempts to visualize the currently selected structure, showing as green or red depending on the return of CanPlace
-    /// </summary>
-    /// <param name="forceVisualize">Forces the building to be visualized, used when rotating</param>
-    private void VisualizeBuild(bool forceVisualize = false)
-
-    {
-
-        RaycastHit? hit = FindGridHit();
-        if (hit == null) return;
-        Vector3 center = GetGridPosition(hit.Value.point);
-
-        if (!center.Equals(lastVisualize))
-        {
-            canPlace = CanPlace(hit.Value, center);
-        }
-
-        if (center == Vector3.zero && !forceVisualize)
-            return;
-
-        if (visualization == null)
-        {
-
-            visualization = Instantiate(currentBuilding.prefab, center, RotationChange);// + GetBuildingOffset(currentBuilding), RotationChange);
-            tempMat = visualization.GetComponent<MeshRenderer>().material;
-        }
-        else if (forceVisualize)
-        {
-            visualization.transform.rotation = rotationChange;
-            visualization.transform.position = center; //+ GetBuildingOffset(currentBuilding);
-            hasRotationChanged = false;
-        }
-        else if (lastVisualize == center)
-        {
-            return;
-        }
-        else
-        {
-            //Destroy(visualization.gameObject);
-            visualization.transform.position = center;
-            visualization.transform.rotation = RotationChange;
-        }
-
-        lastVisualize = center;
-
-        if (canPlace)
-            visualization.GetComponent<MeshRenderer>().material = BuildingManager.greenArrow;
-        else
-            visualization.GetComponent<MeshRenderer>().material = BuildingManager.redArrow;
-
-        visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.BuildingDirectionPrefab);
-    }*/
-
     public void UpdateVisualization()
     {
-
-
-
         RaycastHit? hit = FindGridHit();
         if (hit == null) return;
         Vector3 center = GetGridPosition(hit.Value.point);
