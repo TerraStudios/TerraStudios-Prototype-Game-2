@@ -37,18 +37,23 @@ public class BuildingIOManager : MonoBehaviour
     [Header("Events")]
     public OnItemEnterEvent OnItemEnterInput;
 
+    /// <summary>
+    /// Initializes all of the <see cref="Building">'s <see cref="BuildingIO"/>s and calls the <see cref="OnItemEnterEvent"/> event. 
+    /// </summary>
     public void Init()
     {
         IOForEach(io => io.Init());
 
+        
+
         OnItemEnterInput = new OnItemEnterEvent();
     }
 
-    public void MarkForLinking()
-    {
-        IOForEach(io => io.ReadyToLink = true);
-    }
-
+    /// <summary>
+    /// Updates the position of the arrow <see cref="GameObject"/> to the current IO's position. 
+    /// 
+    /// Currently used for updating the position of any arrows on the visualization (which can be moved).
+    /// </summary>
     public void UpdateArrows()
     {
         IOForEach(io =>
@@ -61,6 +66,9 @@ public class BuildingIOManager : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Signals every <see cref="BuildingIO"/> in the building to attempt a link with any other attached <see cref="BuildingIO"/>s.
+    /// </summary>
     public void LinkAll()
     {
         IOForEach(io => io.MakeLink());
@@ -103,11 +111,17 @@ public class BuildingIOManager : MonoBehaviour
         trashOutput.SpawnItemObj(item);
     }
 
+    /// <summary>
+    /// Signals every <see cref="BuildingIO"> in the building to create a blue arrow <see cref="GameObject"/> visualization above it.
+    /// </summary>
     public void VisualizeAll()
     {
         IOForEach(io => io.VisualizeArrow(BuildingManager.instance.blueArrow));
     }
 
+    /// <summary>
+    /// Signals every <see cref="BuildingIO"> in the building to stop visualizing.
+    /// </summary>
     public void DevisualizeAll()
     {
         IOForEach(io => io.Devisualize());
@@ -122,6 +136,10 @@ public class BuildingIOManager : MonoBehaviour
             return "None";
     }*/
 
+    /// <summary>
+    /// Retrieves the <see cref="BuildingIO"/> marked with <see cref="BuildingIO.isTrashcanOutput"/> 
+    /// </summary>
+    /// <returns>The found <see cref="BuildingIO"/>, or null if no trash output is found</returns>
     public BuildingIO GetTrashOutput()
     {
         foreach (BuildingIO output in outputs)
@@ -132,6 +150,11 @@ public class BuildingIOManager : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// Modifies the conveyor group belonging to a <see cref="Building"/> and sets each one to a given state
+    /// </summary>
+    /// <param name="inputID">Optional parameter for a specific building's ID to start at</param>
+    /// <param name="state">The new state for the conveyor</param>
     public void ModifyConveyorGroup(int? inputID, bool state)
     {
         foreach (BuildingIOManager bIO in GetConveyorGroup(inputID, state))
@@ -147,6 +170,13 @@ public class BuildingIOManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Retrieves the conveyor group of any building ID.
+    /// </summary>
+    /// <param name="inputID">The optional building ID of where to start</param>
+    /// <param name="state">The new state for the conveyor</param>
+    /// <param name="getInputs">Determines whether it should also search through the building's inputs as well</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="BuildingIOManager"/>s</returns>
     private List<BuildingIOManager> GetConveyorGroup(int? inputID, bool state, bool getInputs = true)
     {
         List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
@@ -158,7 +188,13 @@ public class BuildingIOManager : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Recursive method for retrieving the conveyor group of any Building ID. Works by adding all of the attached IOs of a building and its attached IOs as well (until a non conveyor is found or there isn't another attached IO)
+    /// </summary>
+    /// <param name="inputID">The optional building ID of where to start</param>
+    /// <param name="state">The new state for the conveyor</param>
+    /// <param name="getInputs">Determines whether it should also search through the building's inputs as well</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="BuildingIOManager"</returns>
     private List<BuildingIOManager> RecursiveGetConveyorGroup(int? inputID, bool state, bool getInputs = true)
     {
         List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
@@ -201,6 +237,10 @@ public class BuildingIOManager : MonoBehaviour
         return toReturn;
     }
 
+    /// <summary>
+    /// Changes the state of a <see cref="Conveyor"/>
+    /// </summary>
+    /// <param name="state">The new state for the <see cref="Conveyor"/></param>
     public void ChangeConveyorState(bool state)
     {
         if (!isConveyor)
@@ -219,6 +259,10 @@ public class BuildingIOManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Utility method for looping through both the inputs and outputs
+    /// </summary>
+    /// <param name="action">Delegate for the action taken in each IO</param>
     private void IOForEach(Action<BuildingIO> action)
     {
         foreach (BuildingIO io in inputs)
