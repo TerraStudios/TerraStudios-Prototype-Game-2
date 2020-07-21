@@ -14,7 +14,7 @@ public class OnItemEnterEvent : UnityEvent<OnItemEnterEvent>
 
 public class ItemInsideData
 {
-    public int quanity;
+    public int quantity;
     public ItemData item;
 }
 
@@ -40,7 +40,6 @@ public class BuildingIOManager : MonoBehaviour
     public void Init()
     {
         IOForEach(io => io.Init());
-        Debug.Log($"Inputs: {inputs.Length}, Outputs: {outputs.Length}");
 
         OnItemEnterInput = new OnItemEnterEvent();
     }
@@ -74,13 +73,13 @@ public class BuildingIOManager : MonoBehaviour
         ItemInsideData occurrence = itemsInside.FirstOrDefault(found => found.item.ID == item.ID);
         if (occurrence != null) // there's already an item with the same ID in the list
         {
-            occurrence.quanity++; // just change its quantity
+            occurrence.quantity++; // just change its quantity
         }
         else // this item is new
         {
             ItemInsideData toAdd = new ItemInsideData()
             {
-                quanity = 1,
+                quantity = 1,
                 item = item
             };
             itemsInside.Add(toAdd);
@@ -106,38 +105,12 @@ public class BuildingIOManager : MonoBehaviour
 
     public void VisualizeAll()
     {
-        foreach (BuildingIO io in inputs)
-        {
-            io.VisualizeArrow(BuildingManager.instance.blueArrow);
-        }
-
-        foreach (BuildingIO io in outputs)
-        {
-            io.VisualizeArrow(BuildingManager.instance.blueArrow);
-        }
+        IOForEach(io => io.VisualizeArrow(BuildingManager.instance.blueArrow));
     }
 
     public void DevisualizeAll()
     {
-        Debug.Log("Devisualizing item");
-
-        Debug.Log("There are " + (inputs.Length + outputs.Length) + " IOs");
-
-        foreach (BuildingIO io in inputs)
-        {
-            Debug.Log("Found correct IO");
-        }
-
-        foreach (BuildingIO io in outputs)
-        {
-            Debug.Log("Found correct IO");
-        }
-
-        IOForEach(io =>
-        {
-            io.Devisualize();
-            Debug.Log("Found an IO");
-        });
+        IOForEach(io => io.Devisualize());
     }
 
     // FIX!!!!

@@ -178,8 +178,8 @@ public class BuildingIO : MonoBehaviour
         }
         else
         {
-            arrow = Instantiate(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
-            //arrow = ObjectPoolManager.instance.ReuseObject(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
+            //arrow = Instantiate(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
+            arrow = ObjectPoolManager.instance.ReuseObject(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
             //Instantiate(BuildingManager.instance.ArrowPrefab, gameObject.transform.position, gameObject.transform.rotation);
             arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             arrow.transform.position += new Vector3(0, 1, 0);
@@ -193,18 +193,12 @@ public class BuildingIO : MonoBehaviour
     /// </summary>
     public void Devisualize()
     {
-        Debug.Log("IO Devisualizing");
         if (arrow != null)
         {
-            Debug.Log("Found arrow");
-            //ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
-            Destroy(arrow.gameObject);
+            ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
+            //Destroy(arrow.gameObject);
             visualizeIO = false;
             arrow = null;
-        }
-        else
-        {
-            Debug.Log("Arrow be null");
         }
 
     }

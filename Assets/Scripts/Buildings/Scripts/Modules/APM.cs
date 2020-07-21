@@ -37,7 +37,7 @@ public class APM : MonoBehaviour
                 }
 
                 // check if we have the enough quantity of it available to start crafting
-                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.quanity != recipeData.amount))
+                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.quantity != recipeData.amount))
                 {
                     Debug.LogWarning("Still, not all items are present inside");
                     return;
