@@ -42,7 +42,7 @@ public class BuildingManager : BuildingSystem
     public void Start()
     {
         //Create pools for each indicator
-        ObjectPoolManager.instance.CreatePool(ArrowIndicator.gameObject, 50);
+        ObjectPoolManager.instance.CreatePool(ArrowIndicator.gameObject, 8);
         ObjectPoolManager.instance.CreatePool(BrokenIndicator.gameObject, 50);
         ObjectPoolManager.instance.CreatePool(ErrorIndicator.gameObject, 50);
         ObjectPoolManager.instance.CreatePool(FixingIndicator.gameObject, 50);
