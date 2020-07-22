@@ -158,9 +158,12 @@ public class GridManager : MonoBehaviour
         else
             visualization.GetComponent<MeshRenderer>().material = BuildingManager.redArrow;
 
+        Building b = visualization.GetComponent<Building>();
+
         visualization.transform.position = center;
-        visualization.GetComponent<Building>().mc.BuildingIOManager.UpdateArrows();
+        b.mc.BuildingIOManager.UpdateArrows();
         visualization.transform.rotation = RotationChange;
+        b.mc.BuildingIOManager.UpdateIOPhysics();
     }
 
     #endregion

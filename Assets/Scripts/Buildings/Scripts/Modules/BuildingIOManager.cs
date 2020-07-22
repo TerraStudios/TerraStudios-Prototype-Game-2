@@ -66,6 +66,14 @@ public class BuildingIOManager : MonoBehaviour
         });
     }
 
+    public void UpdateIOPhysics() 
+    {
+        IOForEach(io =>
+        {
+            io.OnVisualizationMoved();
+        });
+    }
+
     /// <summary>
     /// Signals every <see cref="BuildingIO"/> in the building to attempt a link with any other attached <see cref="BuildingIO"/>s.
     /// </summary>

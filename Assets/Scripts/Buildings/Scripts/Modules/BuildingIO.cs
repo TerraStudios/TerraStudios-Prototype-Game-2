@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -32,7 +33,7 @@ public class BuildingIO : MonoBehaviour
     [HideInInspector] public bool visualizeIO = true;
     public Transform arrow;
     private LayerMask IOMask;
-    private List<BuildingIO> iosInside;
+    private List<Collider> iosInside = new List<Collider>();
 
     #region Initialization
 
@@ -54,11 +55,33 @@ public class BuildingIO : MonoBehaviour
 
     #region IO Trigger Events
 
+    public void OnVisualizationMoved()
+    {
+        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale, Quaternion.identity, IOMask);
+        foreach (Collider hit in hitColliders)
+        {
+            if (!iosInside.Contains(hit) && hit != coll) // not in the list, but it is inside
+            {
+                iosInside.Add(hit);
+                OnIOEnter(hit);
+            }
+        }
+
+        foreach (Collider inside in iosInside.ToList())
+        {
+            if (!hitColliders.Contains(inside) && inside != coll) // inside the list, but not inside
+            {
+                iosInside.Remove(inside);
+                OnIOExit(inside);
+            }    
+        }
+    }
+
     /// <summary>
     /// Sends an update that a collider has entered one of the colliders
     /// </summary>
     /// <param name="other">The collider that entered</param>
-    private void OnTriggerEnter(Collider other)
+    private void OnIOEnter(Collider other)
     {
         BuildingIO io = other.GetComponent<BuildingIO>();
 
@@ -81,21 +104,11 @@ public class BuildingIO : MonoBehaviour
         //OnUpdateIO(other);
     }
 
-    public void BeforeVisualizationMoved()
-    {
-        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale, Quaternion.identity, IOMask);
-    }
-
-    public void AfterVisualizationMoved()
-    {
-        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale, Quaternion.identity, IOMask);
-    }
-
     /// <summary>
     /// Sends an update that a collider has exited one of the colliders
     /// </summary>
     /// <param name="other">The collider that exited</param>
-    private void OnTriggerExit(Collider other)
+    private void OnIOExit(Collider other)
     {
         BuildingIO io = other.GetComponent<BuildingIO>();
 
