@@ -146,9 +146,12 @@ public class GridManager : MonoBehaviour
         if (hit == null) return;
         Vector3 center = GetGridPosition(hit.Value.point);
 
+        Building b = visualization.GetComponent<Building>();
+
         if (!center.Equals(lastVisualize))
         {
             canPlace = CanPlace(hit.Value, center);
+            b.mc.BuildingIOManager.UpdateIOPhysics();
         }
 
         lastVisualize = center;
@@ -158,12 +161,12 @@ public class GridManager : MonoBehaviour
         else
             visualization.GetComponent<MeshRenderer>().material = BuildingManager.redArrow;
 
-        Building b = visualization.GetComponent<Building>();
+        
 
         visualization.transform.position = center;
         b.mc.BuildingIOManager.UpdateArrows();
         visualization.transform.rotation = RotationChange;
-        b.mc.BuildingIOManager.UpdateIOPhysics();
+        
     }
 
     #endregion

@@ -58,11 +58,15 @@ public class BuildingIO : MonoBehaviour
 
     public void OnVisualizationMoved()
     {
-        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale, Quaternion.identity, IOMask);
+        Debug.Log("Called yeehaw");
+        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.lossyScale, Quaternion.identity, IOMask);
+        ExtDebug.DrawBox(gameObject.transform.position, transform.localScale, Quaternion.identity, new Color(255, 0, 255));
         foreach (Collider hit in hitColliders)
         {
-            if (!iosInside.Contains(hit) && hit != coll) // not in the list, but it is inside
+            if (!iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, but it is inside
             {
+                Debug.Log("IO is entering");
+                ExtDebug.DrawBox(hit.gameObject.transform.position, hit.transform.localScale, Quaternion.identity, Color.blue);
                 iosInside.Add(hit);
                 OnIOEnter(hit);
             }
@@ -70,8 +74,10 @@ public class BuildingIO : MonoBehaviour
 
         foreach (Collider inside in iosInside.ToList())
         {
-            if (!hitColliders.Contains(inside) && inside != coll) // inside the list, but not inside
+            if (!hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
             {
+                Debug.Log("IO is exiting");
+                ExtDebug.DrawBox(inside.gameObject.transform.position, inside.transform.localScale, Quaternion.identity, Color.blue);
                 iosInside.Remove(inside);
                 OnIOExit(inside);
             }    
