@@ -43,6 +43,7 @@ public class BuildingIO : MonoBehaviour
     public void Init()
     {
         visualizeIO = false;
+        Devisualize();
     }
 
     private void Awake()
