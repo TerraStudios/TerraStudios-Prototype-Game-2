@@ -52,8 +52,7 @@ MonoBehaviour:
   MeshRenderer: {fileID: 5997940533529727660}
   coll: {fileID: 8439528586749638430}
   itemIO: {fileID: 0}
-  myManager: {fileID: 5563025563349119533}
-  enableDebug: 0
+  IOManager: {fileID: 5563025563349119533}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: []
@@ -91,6 +90,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -115,6 +115,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &8439528586749638430
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -188,8 +189,7 @@ MonoBehaviour:
   MeshRenderer: {fileID: 3758598293621683607}
   coll: {fileID: 813299335654338847}
   itemIO: {fileID: 0}
-  myManager: {fileID: 5563025563349119533}
-  enableDebug: 0
+  IOManager: {fileID: 5563025563349119533}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: []
@@ -227,6 +227,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -251,6 +252,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &813299335654338847
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -384,8 +386,7 @@ MonoBehaviour:
   MeshRenderer: {fileID: 415520624291190202}
   coll: {fileID: 2587305228256292872}
   itemIO: {fileID: 0}
-  myManager: {fileID: 5563025563349119533}
-  enableDebug: 0
+  IOManager: {fileID: 5563025563349119533}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: []
@@ -423,6 +424,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -447,6 +449,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &2587305228256292872
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -520,8 +523,7 @@ MonoBehaviour:
   MeshRenderer: {fileID: 507518585646826938}
   coll: {fileID: 2389402444307161096}
   itemIO: {fileID: 0}
-  myManager: {fileID: 5563025563349119533}
-  enableDebug: 0
+  IOManager: {fileID: 5563025563349119533}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: []
@@ -559,6 +561,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -583,6 +586,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &2389402444307161096
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -789,6 +793,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -814,6 +819,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3838661984072794563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -844,6 +850,7 @@ MonoBehaviour:
   mc: {fileID: 3838661984072794563}
   isSetUp: 0
   prefab: {fileID: 6149695869599097917}
+  renderer: {fileID: 0}
   showDirectionOnVisualize: 1
   price: 50
   healthPercent: 100

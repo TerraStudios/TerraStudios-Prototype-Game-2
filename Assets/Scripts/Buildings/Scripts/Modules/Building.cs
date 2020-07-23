@@ -61,7 +61,7 @@ public class Building : MonoBehaviour
     /// </summary>
     public void Awake()
     {
-        this.renderer = GetComponent<MeshRenderer>();
+        renderer = GetComponent<MeshRenderer>();
     }
 
     /// <summary>
@@ -77,30 +77,12 @@ public class Building : MonoBehaviour
         if (mc.APM != null)
             mc.APM.Init();
 
-        HideBuildingDirection();
-
         isSetUp = true;
 
         StartWorkStateCounters();
         GenerateBuildingHealth();
 
         
-    }
-
-    private Transform directionArrow;
-
-    /// <summary>
-    /// Hides the building direction arrow by destroying it.
-    /// </summary>
-    [Obsolete("Doesn't seem like the directionArrow is ever instantiated, remove?")]
-    public void HideBuildingDirection()
-    {
-
-        if (directionArrow && showDirectionOnVisualize)
-        {
-            Debug.Log("Hiding direction");
-            Destroy(directionArrow.gameObject);
-        }
     }
 
     #region Health Submodule

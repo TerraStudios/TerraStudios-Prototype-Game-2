@@ -9,17 +9,14 @@ public class BuildingManager : BuildingSystem
     public TMP_Text buildHealth;
     public TMP_Text itemInsideName;
 
-    [Header("IO Rendering")]
-    public Transform ArrowPrefab;
-    public Transform BuildingDirectionPrefab;
-
-    [Header("Indicators")]
+    [Header("Building Indicators")]
+    public Transform DirectionIndicator;
     public Transform ArrowIndicator;
     public Transform BrokenIndicator;
     public Transform ErrorIndicator;
     public Transform FixingIndicator;
 
-    [Header("Indicators")]
+    [Header("Color Indicators")]
     public Material blueArrow;
     public Material greenArrow;
     public Material redArrow;
@@ -42,6 +39,7 @@ public class BuildingManager : BuildingSystem
     public void Start()
     {
         //Create pools for each indicator
+        ObjectPoolManager.instance.CreatePool(DirectionIndicator.gameObject, 80);
         ObjectPoolManager.instance.CreatePool(ArrowIndicator.gameObject, 8);
         ObjectPoolManager.instance.CreatePool(BrokenIndicator.gameObject, 50);
         ObjectPoolManager.instance.CreatePool(ErrorIndicator.gameObject, 50);

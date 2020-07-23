@@ -95,6 +95,7 @@ public class ObjectPoolManager : MonoBehaviour
             return pooledObject.gameObject;
         }
 
+        Debug.LogError("Pool doesn't exist for " + prefab.name);
         return null; // This in theory should never happen unless the pool doesn't exist, which would mean you're doing something very wrong.
     }
 

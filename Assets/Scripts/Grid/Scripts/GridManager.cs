@@ -322,7 +322,7 @@ public class GridManager : MonoBehaviour
         if (value)
         {
             visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
-            visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.BuildingDirectionPrefab);
+            visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.DirectionIndicator);
             tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
 
         }

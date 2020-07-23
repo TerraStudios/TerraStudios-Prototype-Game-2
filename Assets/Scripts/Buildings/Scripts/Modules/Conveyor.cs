@@ -5,7 +5,6 @@ using UnityEngine;
 public class Conveyor : MonoBehaviour
 {
     public float speed;
-    public Rigidbody rb;
 
     public List<Collider> itemsOnTop;
 
