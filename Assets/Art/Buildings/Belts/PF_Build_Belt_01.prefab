@@ -332,7 +332,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  rb: {fileID: 0}
   itemsOnTop: []
 --- !u!1 &6124340621546917448
 GameObject:
@@ -666,7 +665,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  rb: {fileID: 0}
   itemsOnTop: []
 --- !u!1 &6556043145583543207
 GameObject:
@@ -726,7 +724,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  rb: {fileID: 0}
   itemsOnTop: []
 --- !u!1 &7134618903244887598
 GameObject:
@@ -850,7 +847,6 @@ MonoBehaviour:
   mc: {fileID: 3838661984072794563}
   isSetUp: 0
   prefab: {fileID: 6149695869599097917}
-  renderer: {fileID: 0}
   showDirectionOnVisualize: 1
   price: 50
   healthPercent: 100

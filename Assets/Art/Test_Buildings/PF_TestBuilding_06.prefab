@@ -117,7 +117,6 @@ MonoBehaviour:
   mc: {fileID: 983261423420364408}
   isSetUp: 0
   prefab: {fileID: 3452264032521393986}
-  renderer: {fileID: 0}
   showDirectionOnVisualize: 1
   price: 500
   healthPercent: 100

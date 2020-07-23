@@ -14,7 +14,6 @@ public class Building : MonoBehaviour
     [HideInInspector] public bool isSetUp;
     [Header("Grid Building Properties")]
     public Transform prefab;
-    public MeshRenderer renderer;
 
 
     [Header("Input / Outputs")]
@@ -55,14 +54,6 @@ public class Building : MonoBehaviour
     // Required Components (Systems)
     [HideInInspector] public TimeManager TimeManager;
     [HideInInspector] public EconomyManager EconomyManager;
-
-    /// <summary>
-    /// Caches the <see cref="MeshRenderer"/> of the building for later use in <see cref="BuildingIO.IsInputSupported(BuildingIO)"/>
-    /// </summary>
-    public void Awake()
-    {
-        renderer = GetComponent<MeshRenderer>();
-    }
 
     /// <summary>
     /// Initializes the building's properties and work state.
