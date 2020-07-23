@@ -251,7 +251,7 @@ public class BuildingIO : MonoBehaviour
     ///
     /// - If two inputs are trying to connect it should return false, as they shouldn't be linked or else no items would flow between the two
     /// - Likewise, if two outputs are trying to connect it should also return false.
-    /// - If there are two opposite types of BuildingIOs (e.g. male and female connection or female and male connection) are checked the method will return true, as they will connect properly.
+    /// - If there are two opposite types of BuildingIOs (e.g. male to female connection or female to male connection) are checked the method will return true, as they will connect properly.
     /// </summary>
     /// <param name="other">The other BuildingIO being checked</param>
     /// <returns>Whether the two BuildingIOs are a suitable input</returns>
@@ -259,14 +259,19 @@ public class BuildingIO : MonoBehaviour
     {
         bool toReturn = true;
 
-        if (!myManager.isConveyor && !other.myManager.isConveyor)
+        if (!myManager.isConveyor && !other.myManager.isConveyor) //Both buildings aren't conveyors (incorrect)
             toReturn = false;
-        if (isInput && other.isInput)
+        if (isInput && other.isInput) //Female to female connection (incorrect)
             toReturn = false;
-        if (isOutput && other.isOutput)
+        if (isOutput && other.isOutput) //Male to male connection (incorrect)
             toReturn = false;
 
-        if (other.attachedIO) return false;
+        if (other.attachedIO) return false; //Building already has an attached IO there, return red
+
+        if (!GridManager.getInstance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
+        
+        //Needs to be replaced with something that can correctly identify if the buildings are on top of each other
+        //if (other.myManager.mc.Building.renderer.bounds.Intersects(this.myManager.mc.Building.renderer.bounds)) return false;
 
         return toReturn;
     }

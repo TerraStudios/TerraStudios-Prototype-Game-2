@@ -14,6 +14,7 @@ public class Building : MonoBehaviour
     [HideInInspector] public bool isSetUp;
     [Header("Grid Building Properties")]
     public Transform prefab;
+    public MeshRenderer renderer;
 
 
     [Header("Input / Outputs")]
@@ -55,6 +56,11 @@ public class Building : MonoBehaviour
     [HideInInspector] public TimeManager TimeManager;
     [HideInInspector] public EconomyManager EconomyManager;
 
+    public void Awake()
+    {
+        this.renderer = GetComponent<MeshRenderer>();
+    }
+
     public void Init()
     {
         if (mc.BuildingIOManager != null)
@@ -71,6 +77,8 @@ public class Building : MonoBehaviour
 
         StartWorkStateCounters();
         GenerateBuildingHealth();
+
+        
     }
 
     public bool HasCentricTile()

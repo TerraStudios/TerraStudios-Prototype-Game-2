@@ -20,6 +20,7 @@ public class GridManager : MonoBehaviour
     [Header("Constant variables")]
     public float tileSize;
     public LayerMask canPlaceIgnoreLayers;
+       
 
     [Header("Dynamic variables")]
     private bool isInBuildMode;
@@ -64,17 +65,15 @@ public class GridManager : MonoBehaviour
                 isFlipped = true;
             else
                 isFlipped = false;
-            hasRotationChanged = true;
         }
     }
 
-    private bool hasRotationChanged;
     private bool isFlipped;
     private bool click = false;
 
     private float lastClick = -1; //initialize as -1 to confirm first click
 
-    private bool canPlace = false;
+    public bool canPlace = false;
 
     private void Awake()
     {
@@ -156,18 +155,19 @@ public class GridManager : MonoBehaviour
 
 
             if (canPlace)
+            {
                 visualization.GetComponent<MeshRenderer>().material = BuildingManager.greenArrow;
+            }
             else
+            {
                 visualization.GetComponent<MeshRenderer>().material = BuildingManager.redArrow;
+            }
 
             visualization.transform.position = center;
 
             visualization.transform.rotation = RotationChange;
 
             b.mc.BuildingIOManager.UpdateIOPhysics();
-
-
-
 
             b.mc.BuildingIOManager.UpdateArrows();
         }
