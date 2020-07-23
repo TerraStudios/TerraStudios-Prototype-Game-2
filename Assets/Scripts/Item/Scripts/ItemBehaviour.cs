@@ -11,7 +11,7 @@ public class ItemBehaviour : MonoBehaviour
         if (other.gameObject.layer.Equals(12))
         {
             BuildingIO bIO = other.transform.parent.GetComponent<BuildingIO>();
-            if (bIO.isInput && !bIO.myManager.isConveyor)
+            if (bIO.isInput && !bIO.IOManager.isConveyor)
                 bIO.OnItemEnter(this);
         }
     }

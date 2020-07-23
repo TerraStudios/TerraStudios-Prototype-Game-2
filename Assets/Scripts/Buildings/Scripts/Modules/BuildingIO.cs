@@ -15,7 +15,7 @@ public class BuildingIO : MonoBehaviour
     public MeshRenderer MeshRenderer;
     public Collider coll;
     public BoxCollider itemIO;
-    public BuildingIOManager myManager;
+    public BuildingIOManager IOManager;
 
     [Header("Input Configuration")]
     [Tooltip("Determines whether an IO is a trashcan output")]
@@ -169,7 +169,7 @@ public class BuildingIO : MonoBehaviour
         if (!allowedToEnter)
             return;
 
-        myManager.ProceedItemEnter(item.gameObject, item.data, Array.FindIndex(myManager.inputs, row => this));
+        IOManager.ProceedItemEnter(item.gameObject, item.data, Array.FindIndex(IOManager.inputs, row => this));
     }
     #endregion
 
@@ -183,7 +183,7 @@ public class BuildingIO : MonoBehaviour
     {
         Vector3 spawnPos;
 
-        if (myManager.isConveyor)
+        if (IOManager.isConveyor)
             spawnPos = transform.position + Vector3.up * 0.25f;
         else
             spawnPos = itemIO.transform.position;
@@ -268,7 +268,7 @@ public class BuildingIO : MonoBehaviour
     {
         bool toReturn = true;
 
-        if (!myManager.isConveyor && !other.myManager.isConveyor) //Both buildings aren't conveyors (incorrect)
+        if (!IOManager.isConveyor && !other.IOManager.isConveyor) //Both buildings aren't conveyors (incorrect)
             toReturn = false;
         if (isInput && other.isInput) //Female to female connection (incorrect)
             toReturn = false;
@@ -280,7 +280,7 @@ public class BuildingIO : MonoBehaviour
         if (!GridManager.getInstance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
         
         //Needs to be replaced with something that can correctly identify if the buildings are on top of each other
-        //if (other.myManager.mc.Building.renderer.bounds.Intersects(this.myManager.mc.Building.renderer.bounds)) return false;
+        //if (other.IOManager.mc.Building.renderer.bounds.Intersects(this.IOManager.mc.Building.renderer.bounds)) return false;
 
         return toReturn;
     }

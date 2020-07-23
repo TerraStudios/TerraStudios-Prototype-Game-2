@@ -75,6 +75,8 @@ public class GridManager : MonoBehaviour
 
     public bool canPlace = false;
 
+    #region Unity Events
+
     private void Awake()
     {
         getInstance = this;
@@ -124,6 +126,10 @@ public class GridManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region Rotation
+
     /// <summary>
     /// Checks if the input sends a rotation request to the building, applying Quaternions if necessary
     /// </summary>
@@ -139,6 +145,8 @@ public class GridManager : MonoBehaviour
             RotationChange *= Quaternion.Euler(0, -90, 0);
         }
     }
+
+    #endregion
 
     #region Visualization
     public void UpdateVisualization()

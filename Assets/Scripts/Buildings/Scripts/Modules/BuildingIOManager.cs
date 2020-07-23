@@ -211,9 +211,9 @@ public class BuildingIOManager : MonoBehaviour
         if (inputID != null)
         {
             if (!isConveyor)
-                next = inputs[inputID.Value].myManager;
+                next = inputs[inputID.Value].IOManager;
             else
-                next = outputs[inputID.Value].myManager;
+                next = outputs[inputID.Value].IOManager;
         }
         else
             next = this;
@@ -222,10 +222,10 @@ public class BuildingIOManager : MonoBehaviour
         {
             foreach (BuildingIO io in next.inputs)
             {
-                if (io.attachedIO && io.attachedIO.myManager.isConveyor && io.attachedIO.myManager.mc.Building.WorkState != (state ? WorkStateEnum.On : WorkStateEnum.Off))
+                if (io.attachedIO && io.attachedIO.IOManager.isConveyor && io.attachedIO.IOManager.mc.Building.WorkState != (state ? WorkStateEnum.On : WorkStateEnum.Off))
                 {
-                    toReturn.Add(io.attachedIO.myManager);
-                    toReturn.AddRange(io.attachedIO.myManager.RecursiveGetConveyorGroup(null, true));
+                    toReturn.Add(io.attachedIO.IOManager);
+                    toReturn.AddRange(io.attachedIO.IOManager.RecursiveGetConveyorGroup(null, true));
                 }
             }
         }
@@ -233,11 +233,11 @@ public class BuildingIOManager : MonoBehaviour
         {
             foreach (BuildingIO io in next.outputs) // borked
             {
-                if (io.attachedIO && io.attachedIO.myManager.isConveyor && io.attachedIO.myManager.mc.Building.WorkState != (state ? WorkStateEnum.On : WorkStateEnum.Off))
+                if (io.attachedIO && io.attachedIO.IOManager.isConveyor && io.attachedIO.IOManager.mc.Building.WorkState != (state ? WorkStateEnum.On : WorkStateEnum.Off))
                 {
                     Debug.Log("Found attached IO");
-                    toReturn.Add(io.attachedIO.myManager); //add itself
-                    toReturn.AddRange(io.attachedIO.myManager.RecursiveGetConveyorGroup(null, false)); //add children
+                    toReturn.Add(io.attachedIO.IOManager); //add itself
+                    toReturn.AddRange(io.attachedIO.IOManager.RecursiveGetConveyorGroup(null, false)); //add children
                 }
             }
         }
