@@ -64,6 +64,8 @@ public class BuildingManager : BuildingSystem
     /// </summary>
     public override void OnBuildingDeselected()
     {
+        if (!FocusedBuilding)
+            return;
         FocusedBuilding.mc.BuildingIOManager.DevisualizeAll();
         base.OnBuildingDeselected();
         BuildingInfo.SetActive(false);

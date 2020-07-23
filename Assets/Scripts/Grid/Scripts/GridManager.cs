@@ -321,6 +321,7 @@ public class GridManager : MonoBehaviour
 
         if (value)
         {
+            BuildingManager.OnBuildingDeselected();
             TimeEngine.isPaused = true;
             visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
             visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.DirectionIndicator);
