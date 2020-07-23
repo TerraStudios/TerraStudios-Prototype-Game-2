@@ -16,12 +16,27 @@ public class TimeEngine : MonoBehaviour
     public int defaultTimeMultiplier;
 
     [Header("Dynamic variables")]
-    public int timeMultiplier;
-    public bool isPaused;
+    private static int timeMultiplier;
+    public static int TimeMultiplier
+    {
+        get => timeMultiplier;
+        set
+        {
+            Time.timeScale = value;
+            if (value <= 0)
+            {
+                Debug.LogError("Attempting to apply value for TimeMultiplier <= 0. That's not allowed. Use TimeEngine.isPaused instead, if you want to pause time!");
+                return;
+            } 
+            timeMultiplier = value;
+        }
+    }
+    public static bool isPaused;
     public DateTime CurrentTime;
 
     public void StartClock() 
     {
+        TimeMultiplier = 1;
         thread = new Thread(new ThreadStart(CounterWork));
         thread.Start();
     }
@@ -35,7 +50,7 @@ public class TimeEngine : MonoBehaviour
                 while (!isPaused)
                 {
                     CurrentTime = CurrentTime.AddMinutes(1);
-                    int msToWait = Mathf.FloorToInt((float) 100 / (defaultTimeMultiplier * timeMultiplier));
+                    int msToWait = Mathf.FloorToInt((float) 100 / (defaultTimeMultiplier * TimeMultiplier));
                     Thread.Sleep(msToWait);
                     UMTD.Enqueue(() => OnCounterTick());
                 }

@@ -97,7 +97,7 @@ public class GridManager : MonoBehaviour
         {
 
 
-            if (!click && (Mathf.Abs(Time.time - lastClick) > 0.2))
+            if (!click && (Mathf.Abs(Time.unscaledTime - lastClick) > 0.2))
             {
                 if (IsInBuildMode)
                 {
@@ -109,7 +109,7 @@ public class GridManager : MonoBehaviour
                 }
 
                 click = true;
-                lastClick = Time.time;
+                lastClick = Time.unscaledTime;
 
             }
 
@@ -321,6 +321,7 @@ public class GridManager : MonoBehaviour
 
         if (value)
         {
+            TimeEngine.isPaused = true;
             visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
             visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.DirectionIndicator);
             tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
@@ -328,6 +329,7 @@ public class GridManager : MonoBehaviour
         }
         else
         {
+            TimeEngine.isPaused = false;
             Debug.Log("Starting devisualization");
             foreach (Building b in BuildingManager.RegisteredBuildings)
             {
