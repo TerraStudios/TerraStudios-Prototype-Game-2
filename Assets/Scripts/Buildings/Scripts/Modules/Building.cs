@@ -56,11 +56,17 @@ public class Building : MonoBehaviour
     [HideInInspector] public TimeManager TimeManager;
     [HideInInspector] public EconomyManager EconomyManager;
 
+    /// <summary>
+    /// Caches the <see cref="MeshRenderer"/> of the building for later use in <see cref="BuildingIO.IsInputSupported(BuildingIO)"/>
+    /// </summary>
     public void Awake()
     {
         this.renderer = GetComponent<MeshRenderer>();
     }
 
+    /// <summary>
+    /// Initializes the building's properties and work state.
+    /// </summary>
     public void Init()
     {
         if (mc.BuildingIOManager != null)
@@ -81,28 +87,12 @@ public class Building : MonoBehaviour
         
     }
 
-    public bool HasCentricTile()
-    {
-        Vector2Int buildSize = GetBuildSize();
-
-        if (buildSize.x % 2 == 0 && buildSize.y % 2 == 0)
-            return false;
-        else
-            return true;
-    }
-
     private Transform directionArrow;
 
-    public void ShowBuildingDirection()
-    {
-        if (directionArrow || !showDirectionOnVisualize)
-            return;
-
-        directionArrow = Instantiate(BuildingManager.instance.BuildingDirectionPrefab, gameObject.transform.position + new Vector3(0, gameObject.GetComponent<MeshRenderer>().bounds.size.y + 1, 0), transform.rotation);
-        directionArrow.parent = transform;
-        directionArrow.rotation = transform.rotation * new Quaternion(0, 180, 0, 1);
-    }
-
+    /// <summary>
+    /// Hides the building direction arrow by destroying it.
+    /// </summary>
+    [Obsolete("Doesn't seem like the directionArrow is ever instantiated, remove?")]
     public void HideBuildingDirection()
     {
 
@@ -183,6 +173,9 @@ public class Building : MonoBehaviour
     #endregion
 
     #region WorkState Submodule
+    /// <summary>
+    /// Starts all of the <see cref="TimeCountEvent"/>s and sets the state for the Building.
+    /// </summary>
     public void StartWorkStateCounters()
     {
         foreach (WorkStateEnum ws in (WorkStateEnum[])Enum.GetValues(typeof(WorkStateEnum)))
@@ -194,11 +187,22 @@ public class Building : MonoBehaviour
         WorkState = WorkStateEnum.On;
     }
 
+    /// <summary>
+    /// Retrieves the amount of time the building has been in a current <see cref="WorkStateEnum"/>
+    /// </summary>
+    /// <param name="ws">The <see cref="WorkStateEnum"/> to get the value from</param>
+    /// <returns>A <see cref="TimeSpan"/> of how long the state has been active</returns>
     public TimeSpan GetTimeForWS(WorkStateEnum ws)
     {
         return TimeManager.GetTCETimeSpan(workStateTimes[ws]);
     }
 
+    /// <summary>
+    /// Event for when the work state is changed in the machine.
+    /// 
+    /// The method currently pauses the time via <see cref="TimeManager.PauseTimeCounter(Guid)"/>
+    /// </summary>
+    /// <param name="newValue">The new value the building was set to</param>
     private void OnWorkStateChanged(WorkStateEnum newValue)
     {
         for (int i = 0; i < workStateTimes.Count; i++)
@@ -256,30 +260,45 @@ public class Building : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// Sets the current indicator for the building.
+    /// </summary>
+    /// <param name="indicator">A <see cref="Transform"/> object representing the indicator prefab</param>
     public void SetIndicator(Transform indicator)
     {
         if (currentIndicator != null && currentIndicator.GetComponent<MeshRenderer>().Equals(indicator.GetComponent<MeshRenderer>())) return;
 
         RemoveIndicator();
-        currentIndicator = Instantiate(indicator, transform.position + new Vector3(0, GetComponent<MeshFilter>().mesh.bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
+        currentIndicator = ObjectPoolManager.instance.ReuseObject(indicator.gameObject, transform.position + new Vector3(0, GetComponent<MeshFilter>().mesh.bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
         currentIndicator.transform.parent = this.transform;
 
     }
 
+    /// <summary>
+    /// Removes the indicator from the 
+    /// </summary>
     public void RemoveIndicator()
     {
         if (currentIndicator != null)
         {
-            Destroy(currentIndicator);
+            ObjectPoolManager.instance.DestroyObject(currentIndicator);
             currentIndicator = null;
         }
     }
 
+    /// <summary>
+    /// Retrieves the current indicator (if any) the building is assigned to 
+    /// </summary>
+    /// <returns>The indicator's <see cref="GameObject"/>. If no indicator is present this will return null.</returns>
     public GameObject GetIndicator()
     {
         return currentIndicator;
     }
 
+    /// <summary>
+    /// Retrieves the grid size of the building
+    /// </summary>
+    /// <returns>A <see cref="Vector2Int"/> representing the grid size</returns>
     public Vector2Int GetBuildSize()
     {
         Vector3 e = GetComponent<MeshRenderer>().bounds.size;

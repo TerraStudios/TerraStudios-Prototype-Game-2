@@ -56,9 +56,15 @@ public class BuildingIO : MonoBehaviour
 
     #region IO Trigger Events
 
+    /// <summary>
+    /// Event for when the visualization is moved. Currently it does the following:
+    /// - Call <see cref="Physics.OverlapBox(Vector3, Vector3, Quaternion, int)"/> with a layer mask limiting to only <see cref="BuildingIO"/>s 
+    /// - Loop through all of the resulting colliders and check whether they're inside or outside the <see cref="iosInside"/> list
+    /// Depending on the result of the previous bullet point the method may call either <see cref="OnIOEnter(Collider)"/> or <see cref="OnIOExit(Collider)"/>.
+    /// 
+    /// </summary>
     public void OnVisualizationMoved()
     {
-        Debug.Log("Called yeehaw");
         //check for any collisions inside of box 
         Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.lossyScale, Quaternion.identity, IOMask);
         ExtDebug.DrawBox(gameObject.transform.position, coll.bounds.size, Quaternion.identity, new Color(255, 0, 255));
@@ -67,8 +73,6 @@ public class BuildingIO : MonoBehaviour
         {
             if (!hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
             {
-                Debug.Log("IO is exiting");
-                ExtDebug.DrawBox(inside.gameObject.transform.position, inside.bounds.size, Quaternion.identity, Color.blue);
                 iosInside.Remove(inside);
                 OnIOExit(inside);
             }
@@ -78,8 +82,6 @@ public class BuildingIO : MonoBehaviour
         {
             if (!iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
             {
-                Debug.Log("IO is entering");
-                ExtDebug.DrawBox(hit.gameObject.transform.position, hit.bounds.size, Quaternion.identity, Color.blue);
                 iosInside.Add(hit);
                 OnIOEnter(hit); //on enter
             }
@@ -112,7 +114,6 @@ public class BuildingIO : MonoBehaviour
                 VisualizeArrow(BuildingManager.instance.redArrow); //visualize red arrow
             }
         }
-        //OnUpdateIO(other);
     }
 
     /// <summary>
@@ -135,11 +136,8 @@ public class BuildingIO : MonoBehaviour
             {
                 VisualizeArrow(BuildingManager.instance.blueArrow);
             }
-            //VisualizeArrow(BuildingManager.instance.blueArrow);//visualize blue arrow
         }
 
-
-        //OnUpdateIO(other, true);
     }
 
     /// <summary>
@@ -198,6 +196,13 @@ public class BuildingIO : MonoBehaviour
     #endregion
 
     #region Indicator Visualization
+    /// <summary>
+    /// Attempts to visualize an arrow with a specific material
+    /// 
+    /// - If the arrow is already visible, only the material will be updated 
+    /// - If the arrow is <b>not</b> visible, an arrow will be instantiated using the <see cref="ObjectPoolManager"/>. 
+    /// </summary>
+    /// <param name="material">The material for the <see cref="arrow"/> <see cref="GameObject"/>.</param>
     public void VisualizeArrow(Material material)
     {
         if (arrow != null)
@@ -206,9 +211,7 @@ public class BuildingIO : MonoBehaviour
         }
         else
         {
-            //arrow = Instantiate(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
             arrow = ObjectPoolManager.instance.ReuseObject(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
-            //Instantiate(BuildingManager.instance.ArrowPrefab, gameObject.transform.position, gameObject.transform.rotation);
             arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             arrow.transform.position += new Vector3(0, 1, 0);
             arrow.GetComponent<MeshRenderer>().material = material;
@@ -234,6 +237,12 @@ public class BuildingIO : MonoBehaviour
     #endregion
 
     #region IO Update
+
+    /// <summary>
+    /// Attempts to make a link if the <see cref="onPort"/> variable isn't null
+    /// 
+    /// - If the IO was attached successfully, the IO will call <see cref="Devisualize()"/> and set the attachedIO for the other IO
+    /// </summary>
     public void MakeLink()
     {
         attachedIO = onPort;
