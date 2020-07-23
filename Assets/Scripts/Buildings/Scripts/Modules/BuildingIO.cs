@@ -59,29 +59,33 @@ public class BuildingIO : MonoBehaviour
     public void OnVisualizationMoved()
     {
         Debug.Log("Called yeehaw");
+        //check for any collisions inside of box 
         Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.lossyScale, Quaternion.identity, IOMask);
-        ExtDebug.DrawBox(gameObject.transform.position, transform.localScale, Quaternion.identity, new Color(255, 0, 255));
-        foreach (Collider hit in hitColliders)
-        {
-            if (!iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, but it is inside
-            {
-                Debug.Log("IO is entering");
-                ExtDebug.DrawBox(hit.gameObject.transform.position, hit.transform.localScale, Quaternion.identity, Color.blue);
-                iosInside.Add(hit);
-                OnIOEnter(hit);
-            }
-        }
+        ExtDebug.DrawBox(gameObject.transform.position, coll.bounds.size, Quaternion.identity, new Color(255, 0, 255));
 
         foreach (Collider inside in iosInside.ToList())
         {
             if (!hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
             {
                 Debug.Log("IO is exiting");
-                ExtDebug.DrawBox(inside.gameObject.transform.position, inside.transform.localScale, Quaternion.identity, Color.blue);
+                ExtDebug.DrawBox(inside.gameObject.transform.position, inside.bounds.size, Quaternion.identity, Color.blue);
                 iosInside.Remove(inside);
                 OnIOExit(inside);
-            }    
+            }
         }
+
+        foreach (Collider hit in hitColliders) //loop through each collider that was found
+        {
+            if (!iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
+            {
+                Debug.Log("IO is entering");
+                ExtDebug.DrawBox(hit.gameObject.transform.position, hit.bounds.size, Quaternion.identity, Color.blue);
+                iosInside.Add(hit);
+                OnIOEnter(hit); //on enter
+            }
+        }
+
+
     }
 
     /// <summary>
@@ -234,7 +238,12 @@ public class BuildingIO : MonoBehaviour
     {
         attachedIO = onPort;
 
-        if (attachedIO != null) Devisualize();
+        if (attachedIO)
+        {
+            Devisualize();
+            attachedIO.attachedIO = this;
+        }
+
     }
 
     /// <summary>
@@ -256,6 +265,8 @@ public class BuildingIO : MonoBehaviour
             toReturn = false;
         if (isOutput && other.isOutput)
             toReturn = false;
+
+        if (other.attachedIO) return false;
 
         return toReturn;
     }

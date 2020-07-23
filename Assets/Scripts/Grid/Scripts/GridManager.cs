@@ -46,6 +46,8 @@ public class GridManager : MonoBehaviour
     public KeyCode flipBuildingLeft = KeyCode.F;
 
     private Vector3 lastVisualize;
+    private Quaternion lastRotation;
+
     public Transform visualization;
 
     private Quaternion rotationChange = Quaternion.identity;
@@ -148,25 +150,31 @@ public class GridManager : MonoBehaviour
 
         Building b = visualization.GetComponent<Building>();
 
-        if (!center.Equals(lastVisualize))
+        if (!center.Equals(lastVisualize) || !lastRotation.Equals(RotationChange))
         {
             canPlace = CanPlace(hit.Value, center);
+
+
+            if (canPlace)
+                visualization.GetComponent<MeshRenderer>().material = BuildingManager.greenArrow;
+            else
+                visualization.GetComponent<MeshRenderer>().material = BuildingManager.redArrow;
+
+            visualization.transform.position = center;
+
+            visualization.transform.rotation = RotationChange;
+
             b.mc.BuildingIOManager.UpdateIOPhysics();
+
+
+
+
+            b.mc.BuildingIOManager.UpdateArrows();
         }
 
+
+        lastRotation = RotationChange;
         lastVisualize = center;
-
-        if (canPlace)
-            visualization.GetComponent<MeshRenderer>().material = BuildingManager.greenArrow;
-        else
-            visualization.GetComponent<MeshRenderer>().material = BuildingManager.redArrow;
-
-        
-
-        visualization.transform.position = center;
-        b.mc.BuildingIOManager.UpdateArrows();
-        visualization.transform.rotation = RotationChange;
-        
     }
 
     #endregion
@@ -309,7 +317,8 @@ public class GridManager : MonoBehaviour
             visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.BuildingDirectionPrefab);
             tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
 
-        } else
+        }
+        else
         {
             Debug.Log("Starting devisualization");
             foreach (Building b in BuildingManager.RegisteredBuildings)
