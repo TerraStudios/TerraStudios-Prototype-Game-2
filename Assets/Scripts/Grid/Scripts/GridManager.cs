@@ -155,10 +155,17 @@ public class GridManager : MonoBehaviour
         if (hit == null) return;
         Vector3 center = GetGridPosition(hit.Value.point);
 
-        Building b = visualization.GetComponent<Building>();
+        
 
         if (!center.Equals(lastVisualize) || !lastRotation.Equals(RotationChange))
         {
+            if (visualization == null)
+            {
+                ConstructVisualization(center);
+            }
+
+            Building b = visualization.GetComponent<Building>();
+
             canPlace = CanPlace(hit.Value, center);
 
 
@@ -188,6 +195,19 @@ public class GridManager : MonoBehaviour
     #endregion
 
     #region Building
+
+    /// <summary>
+    /// Instantiates the building visualization and sets the appropriate material
+    /// </summary>
+    /// <param name="center">Grid position for the visualization to be instantiated on</param>
+    private void ConstructVisualization(Vector3 center)
+    {
+        BuildingManager.OnBuildingDeselected();
+        TimeEngine.isPaused = true;
+        visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
+        visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.DirectionIndicator);
+        tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
+    }
 
     /// <summary>
     /// Attempts to build the currently selected structure
@@ -321,12 +341,7 @@ public class GridManager : MonoBehaviour
 
         if (value)
         {
-            BuildingManager.OnBuildingDeselected();
-            TimeEngine.isPaused = true;
-            visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
-            visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.DirectionIndicator);
-            tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
-
+            ConstructVisualization(center);
         }
         else
         {
