@@ -68,7 +68,6 @@ public class BuildingIOManager : MonoBehaviour
 
     public void UpdateIOPhysics(Building b) 
     {
-        Debug.Log("Updating arrow");
         IOForEach(io =>
         {
             io.OnVisualizationMoved(b);

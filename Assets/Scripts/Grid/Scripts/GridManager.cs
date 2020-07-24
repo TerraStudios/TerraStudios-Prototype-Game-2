@@ -155,10 +155,10 @@ public class GridManager : MonoBehaviour
         if (hit == null) return;
         Vector3 center = GetGridPosition(hit.Value.point);
 
-        
-
-        if (!center.Equals(lastVisualize) || !lastRotation.Equals(RotationChange))
+        if (center != lastVisualize || !lastRotation.Equals(RotationChange))
         {
+            //Debug.Log("Found new position, updating");
+
             if (visualization == null)
             {
                 ConstructVisualization(center);
