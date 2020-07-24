@@ -66,11 +66,11 @@ public class BuildingIOManager : MonoBehaviour
         });
     }
 
-    public void UpdateIOPhysics(Building b) 
+    public void UpdateIOPhysics() 
     {
         IOForEach(io =>
         {
-            io.OnVisualizationMoved(b);
+            io.OnVisualizationMoved(mc.Building);
         });
     }
 

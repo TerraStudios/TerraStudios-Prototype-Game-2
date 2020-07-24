@@ -182,7 +182,7 @@ public class GridManager : MonoBehaviour
 
             visualization.transform.rotation = RotationChange;
 
-            b.mc.BuildingIOManager.UpdateIOPhysics(b);
+            b.mc.BuildingIOManager.UpdateIOPhysics();
 
             b.mc.BuildingIOManager.UpdateArrows();
         }
@@ -243,6 +243,15 @@ public class GridManager : MonoBehaviour
             b.mc.BuildingIOManager.LinkAll();
 
             IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
+
+            if (visualization)
+            {
+                Building visBuilding = visualization.GetComponent<Building>();
+
+                visBuilding.mc.BuildingIOManager.UpdateIOPhysics();
+            }
+
+            //b.mc.BuildingIOManager.UpdateIOPhysics(b);
 
             /*if (IsInBuildMode)
             {
