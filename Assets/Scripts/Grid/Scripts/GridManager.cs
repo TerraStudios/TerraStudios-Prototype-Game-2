@@ -210,6 +210,19 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Destroys the visualization and removes all indicators
+    /// </summary>
+    /// <param name="center">Grid position for the visualization to be instantiated on</param>
+    private void DeconstructVisualization()
+    {
+        if (!visualization)
+            return;
+
+        visualization.GetComponent<BuildingIOManager>().DevisualizeAll();
+        Destroy(visualization.gameObject);
+    }
+
+    /// <summary>
     /// Attempts to build the currently selected structure
     /// </summary>
     private void Build()
@@ -371,6 +384,7 @@ public class GridManager : MonoBehaviour
     /// </summary>
     public void OnBuildButtonPressed()
     {
+        DeconstructVisualization();
         currentBuilding = building;
         IsInBuildMode = true;
     }
@@ -380,6 +394,7 @@ public class GridManager : MonoBehaviour
     /// </summary>
     public void OnConveyorBuildButtonPressed()
     {
+        DeconstructVisualization();
         currentBuilding = conveyor;
         IsInBuildMode = true;
     }
