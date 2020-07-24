@@ -346,12 +346,11 @@ public class GridManager : MonoBehaviour
         else
         {
             TimeEngine.isPaused = false;
-            Debug.Log("Starting devisualization");
+            visualization = null;
             foreach (Building b in BuildingManager.RegisteredBuildings)
             {
                 if (b.mc.BuildingIOManager)
                 {
-                    Debug.Log("Devisualizing");
                     b.mc.BuildingIOManager.DevisualizeAll();
                 }
             }
