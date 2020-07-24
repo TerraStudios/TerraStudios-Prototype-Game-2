@@ -66,7 +66,7 @@ public class BuildingIO : MonoBehaviour
     public void OnVisualizationMoved(Building b)
     {
         //check for any collisions inside of box 
-        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.lossyScale, Quaternion.identity, IOMask);
+        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale * .5f, Quaternion.identity, IOMask);
         ExtDebug.DrawBox(gameObject.transform.position, coll.bounds.size, Quaternion.identity, new Color(255, 0, 255));
 
         foreach (Collider inside in iosInside.ToList())
