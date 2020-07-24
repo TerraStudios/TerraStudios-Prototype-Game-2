@@ -175,7 +175,7 @@ public class GridManager : MonoBehaviour
 
             visualization.transform.rotation = RotationChange;
 
-            b.mc.BuildingIOManager.UpdateIOPhysics();
+            b.mc.BuildingIOManager.UpdateIOPhysics(b);
 
             b.mc.BuildingIOManager.UpdateArrows();
         }
