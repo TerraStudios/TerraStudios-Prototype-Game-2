@@ -63,7 +63,7 @@ public class BuildingIO : MonoBehaviour
     /// Depending on the result of the previous bullet point the method may call either <see cref="OnIOEnter(Collider)"/> or <see cref="OnIOExit(Collider)"/>.
     /// 
     /// </summary>
-    public void OnVisualizationMoved()
+    public void OnVisualizationMoved(Building b)
     {
         //check for any collisions inside of box 
         Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.lossyScale, Quaternion.identity, IOMask);
@@ -71,18 +71,20 @@ public class BuildingIO : MonoBehaviour
 
         foreach (Collider inside in iosInside.ToList())
         {
-            if (!hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
+            if (!this.IOManager.Equals(inside.GetComponent<BuildingIO>().IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
             {
                 iosInside.Remove(inside);
+                Debug.Log("Queueing on exit");
                 OnIOExit(inside);
             }
         }
 
         foreach (Collider hit in hitColliders) //loop through each collider that was found
         {
-            if (!iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
+            if (!this.IOManager.Equals(hit.GetComponent<BuildingIO>().IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
             {
                 iosInside.Add(hit);
+                Debug.Log("Queueing on enter");
                 OnIOEnter(hit); //on enter
             }
         }
@@ -100,8 +102,8 @@ public class BuildingIO : MonoBehaviour
 
         if (io)
         {
-            if (io.visualizeIO)
-                return;
+            //if (io.visualizeIO)
+            //return;
 
             onPort = io;
 
@@ -277,8 +279,9 @@ public class BuildingIO : MonoBehaviour
 
         if (other.attachedIO) return false; //Building already has an attached IO there, return red
 
+        Debug.Log($"Can place: {GridManager.getInstance.canPlace}");
         if (!GridManager.getInstance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
-        
+
         //Needs to be replaced with something that can correctly identify if the buildings are on top of each other
         //if (other.IOManager.mc.Building.renderer.bounds.Intersects(this.IOManager.mc.Building.renderer.bounds)) return false;
 
@@ -306,4 +309,5 @@ public class BuildingIO : MonoBehaviour
     }
 
     #endregion
+
 }

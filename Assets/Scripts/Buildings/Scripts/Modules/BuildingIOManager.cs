@@ -66,11 +66,12 @@ public class BuildingIOManager : MonoBehaviour
         });
     }
 
-    public void UpdateIOPhysics() 
+    public void UpdateIOPhysics(Building b) 
     {
+        Debug.Log("Updating arrow");
         IOForEach(io =>
         {
-            io.OnVisualizationMoved();
+            io.OnVisualizationMoved(b);
         });
     }
 
@@ -283,4 +284,21 @@ public class BuildingIOManager : MonoBehaviour
             action(io);
         }
     }
+
+
+    #region Misc
+
+    public bool ContainsIO(BuildingIO io)
+    {
+        bool contains = false;
+
+        IOForEach(managerIO =>
+        {
+            if (managerIO.Equals(io)) contains = true;
+        });
+
+        return contains;
+    }
+
+    #endregion
 }

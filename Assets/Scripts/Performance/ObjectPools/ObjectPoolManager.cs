@@ -75,7 +75,7 @@ public class ObjectPoolManager : MonoBehaviour
         string key = prefab.name;
 
         if (pooledObjects.ContainsKey(key))
-        {
+        { 
 
             PoolInstance pooledObject = pooledObjects[key].Dequeue();
             //pooledObjects[key].Enqueue(pooledObject);
