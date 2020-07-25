@@ -20,7 +20,7 @@ public class APM : MonoBehaviour
     {
         if (!currentRecipe) // check if we have any recipe to work with
         {
-            Debug.LogWarning("Item attempts to enter but there's no recipe!!!");
+            Debug.LogError("Item attempts to enter but there's no recipe!!!");
             return;
         }
 
@@ -29,8 +29,8 @@ public class APM : MonoBehaviour
             if (recipeData.item is ItemData)
             {
                 ItemData itemToCheck = recipeData.item as ItemData;
-                // check if item entering is expected to enter
-                if (itemToCheck.ID != ItemEnterInfo.item.ID)
+                
+                if (itemToCheck.ID != ItemEnterInfo.item.ID) // check if item entering is expected to enter
                 {
                     Debug.LogWarning("This item was not expected to enter this building!");
                     return;
@@ -46,8 +46,8 @@ public class APM : MonoBehaviour
             else if (recipeData.item is ItemCategory)
             {
                 ItemCategory cat = recipeData.item as ItemCategory;
-                // check if item category entering is expected to enter
-                if (cat != ItemEnterInfo.item.ItemCategory)
+                
+                if (cat != ItemEnterInfo.item.ItemCategory) // check if item category entering is expected to enter
                 {
                     Debug.LogWarning("This item was not expected to enter this building!");
                     return;
@@ -56,7 +56,7 @@ public class APM : MonoBehaviour
                 // check if we have the enough quantity of it available to start crafting
                 if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.item.ItemCategory != cat))
                 {
-                    Debug.LogWarning("Still, not all items are present inside");
+                    Debug.Log("Still, not all items are present inside");
                     return;
                 }
             }
