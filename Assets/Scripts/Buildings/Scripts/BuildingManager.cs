@@ -36,6 +36,7 @@ public class BuildingManager : BuildingSystem
         }
     }
 
+    //! Probably has to be moved to BuildingSystem since this script should only handle UI
     public void Start()
     {
         //Create pools for each indicator
