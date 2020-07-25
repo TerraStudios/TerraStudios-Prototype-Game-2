@@ -35,6 +35,9 @@ public class BuildingIO : MonoBehaviour
     private LayerMask IOMask;
     private List<Collider> iosInside = new List<Collider>();
 
+    //This variable needs to be moved to a proper debugging system, only used temporarily here
+    private bool debugMode; 
+
     #region Initialization
 
     /// <summary>
@@ -67,7 +70,7 @@ public class BuildingIO : MonoBehaviour
     {
         //check for any collisions inside of box 
         Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale * .5f, Quaternion.identity, IOMask);
-        ExtDebug.DrawBox(gameObject.transform.position, coll.bounds.size, Quaternion.identity, new Color(255, 0, 255));
+        
 
         foreach (Collider inside in iosInside.ToList())
         {
@@ -83,6 +86,7 @@ public class BuildingIO : MonoBehaviour
         {
             if (!this.IOManager.Equals(hit.GetComponent<BuildingIO>().IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
             {
+                Debug.Log("Found " + hit.gameObject.name);
                 iosInside.Add(hit);
                 Debug.Log("Queueing on enter");
                 OnIOEnter(hit); //on enter
@@ -90,6 +94,17 @@ public class BuildingIO : MonoBehaviour
         }
 
 
+    }
+
+    /// <summary>
+    /// Used for debugging the IO detection by drawing a box around each physics check (seen in Scene view)
+    /// </summary>
+    public void DrawIODetectionBox()
+    {
+        Color toDraw = Color.white;
+        if (onPort) toDraw = Color.green;
+        if (attachedIO) toDraw = Color.magenta;
+        ExtDebug.DrawBox(gameObject.transform.position, coll.bounds.size / 2, Quaternion.identity, toDraw);
     }
 
     /// <summary>

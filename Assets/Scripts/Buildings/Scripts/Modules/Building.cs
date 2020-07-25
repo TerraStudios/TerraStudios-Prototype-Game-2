@@ -277,4 +277,12 @@ public class Building : MonoBehaviour
         Vector3 e = GetComponent<MeshRenderer>().bounds.size;
         return new Vector2Int((int)Math.Round(e.x), (int)Math.Round(e.z));
     }
+
+    /// <summary>
+    /// Sets the workstate without triggering the OnWorkstateChanged event
+    /// </summary>
+    public void SetWorkstateSilent(WorkStateEnum newWorkState)
+    {
+        this.workState = newWorkState;
+    }
 }

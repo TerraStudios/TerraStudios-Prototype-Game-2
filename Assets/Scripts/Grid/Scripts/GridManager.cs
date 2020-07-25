@@ -75,6 +75,11 @@ public class GridManager : MonoBehaviour
 
     public bool canPlace = false;
 
+    //This variable needs to be moved to a proper debugging system, only used temporarily here
+    [Tooltip("Used for drawing IO collision checks in the Scene view")]
+    public bool debugMode = false;
+
+
     #region Unity Events
 
     private void Awake()
@@ -154,6 +159,12 @@ public class GridManager : MonoBehaviour
         RaycastHit? hit = FindGridHit();
         if (hit == null) return;
         Vector3 center = GetGridPosition(hit.Value.point);
+
+        if (debugMode && visualization)
+        {
+            foreach (Building building in BuildingManager.RegisteredBuildings) building.mc.BuildingIOManager.VisualizeColliders();
+            visualization.GetComponent<Building>().mc.BuildingIOManager.VisualizeColliders();
+        }
 
         if (center != lastVisualize || !lastRotation.Equals(RotationChange))
         {
