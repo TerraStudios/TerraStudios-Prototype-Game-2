@@ -169,11 +169,11 @@ public class BuildingIOManager : MonoBehaviour
         {
             if (state)
             {
-                bIO.mc.Building.WorkState = WorkStateEnum.On;
+                bIO.mc.Building.SetWorkstateSilent(WorkStateEnum.On); 
             }
             else
             {
-                bIO.mc.Building.WorkState = WorkStateEnum.Off;
+                bIO.mc.Building.SetWorkstateSilent(WorkStateEnum.Off);
             }
         }
     }
@@ -297,6 +297,14 @@ public class BuildingIOManager : MonoBehaviour
         });
 
         return contains;
+    }
+
+    /// <summary>
+    /// Visualizes the colliders each IO uses for other IO detection (seen in Scene view)
+    /// </summary>
+    public void VisualizeColliders()
+    {
+        IOForEach(io => io.DrawIODetectionBox());
     }
 
     #endregion
