@@ -26,17 +26,14 @@ public class BuildingIO : MonoBehaviour
     public ItemCategory[] itemCategoriesAllowedToEnter;
 
     //[Header("Dynamic variables")]
-    public BuildingIO attachedIO;
+    [HideInInspector] public BuildingIO attachedIO;
 
     private BuildingIO onPort;
 
     [HideInInspector] public bool visualizeIO = true;
-    public Transform arrow;
+    [HideInInspector] public Transform arrow;
     private LayerMask IOMask;
     private List<Collider> iosInside = new List<Collider>();
-
-    //This variable needs to be moved to a proper debugging system, only used temporarily here
-    private bool debugMode; 
 
     #region Initialization
 
@@ -77,7 +74,6 @@ public class BuildingIO : MonoBehaviour
             if (!this.IOManager.Equals(inside.GetComponent<BuildingIO>().IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
             {
                 iosInside.Remove(inside);
-                Debug.Log("Queueing on exit");
                 OnIOExit(inside);
             }
         }
@@ -86,9 +82,7 @@ public class BuildingIO : MonoBehaviour
         {
             if (!this.IOManager.Equals(hit.GetComponent<BuildingIO>().IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
             {
-                Debug.Log("Found " + hit.gameObject.name);
                 iosInside.Add(hit);
-                Debug.Log("Queueing on enter");
                 OnIOEnter(hit); //on enter
             }
         }
@@ -294,8 +288,8 @@ public class BuildingIO : MonoBehaviour
 
         if (other.attachedIO) return false; //Building already has an attached IO there, return red
 
-        Debug.Log($"Can place: {GridManager.getInstance.canPlace}");
-        if (!GridManager.getInstance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
+        Debug.Log($"Can place: {GridManager.instance.canPlace}");
+        if (!GridManager.instance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
 
         //Needs to be replaced with something that can correctly identify if the buildings are on top of each other
         //if (other.IOManager.mc.Building.renderer.bounds.Intersects(this.IOManager.mc.Building.renderer.bounds)) return false;

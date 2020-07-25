@@ -196,27 +196,14 @@ public class BuildingIOManager : MonoBehaviour
     /// <returns>A <see cref="List{T}"/> of <see cref="BuildingIOManager"></see> in the <paramref name="getInputs"/> parameter</returns>
     private void RecursiveGetConveyorGroup(List<BuildingIOManager> currentList, bool getInputs = true)
     {
-        if (getInputs)
+        BuildingIO[] iosToLoop = getInputs ? inputs : outputs;
+
+        foreach (BuildingIO io in iosToLoop)
         {
-            foreach (BuildingIO io in inputs)
+            if (io.attachedIO && io.attachedIO.IOManager.isConveyor && !currentList.Contains(io.attachedIO.IOManager))
             {
-                if (io.attachedIO && io.attachedIO.IOManager.isConveyor && !currentList.Contains(io.attachedIO.IOManager))
-                {
-                    currentList.Add(io.attachedIO.IOManager);
-                    io.attachedIO.IOManager.RecursiveGetConveyorGroup(currentList, true);
-                }
-            }
-        }
-        else // also return all outputs
-        {
-            foreach (BuildingIO io in outputs) // borked
-            {
-                if (io.attachedIO && io.attachedIO.IOManager.isConveyor && !currentList.Contains(io.attachedIO.IOManager))
-                {
-                    Debug.Log("Found attached IO");
-                    currentList.Add(io.attachedIO.IOManager); //add itself
-                    io.attachedIO.IOManager.RecursiveGetConveyorGroup(currentList, false); //add children
-                }
+                currentList.Add(io.attachedIO.IOManager);
+                io.attachedIO.IOManager.RecursiveGetConveyorGroup(currentList, getInputs);
             }
         }
     }

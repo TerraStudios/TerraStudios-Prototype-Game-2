@@ -8,10 +8,7 @@ public struct GridLayer
 
 public class GridManager : MonoBehaviour
 {
-    public static GridManager getInstance;
-    //[Header("Grid Properties")]
-    //public List<Grid> GridData = new List<Grid>();
-    //private GridLayer[] GridLayers = new GridLayer[1];
+    public static GridManager instance;
     [Header("Components")]
     public BuildingManager BuildingManager;
     public EconomyManager EconomyManager;
@@ -84,7 +81,7 @@ public class GridManager : MonoBehaviour
 
     private void Awake()
     {
-        getInstance = this;
+        instance = this;
     }
 
     /// <summary>
