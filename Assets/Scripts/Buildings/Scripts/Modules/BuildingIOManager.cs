@@ -31,7 +31,7 @@ public class BuildingIOManager : MonoBehaviour
     [Header("Conveyor Properties")]
     public bool isConveyor;
 
-    //I have no idea what this is
+    [Tooltip("A list of all the conveyor colliders attached to the BuildingIO. This will be removed soon in favor of a new conveyor system.")]
     public Conveyor[] ConveyorManagers;
 
     [Header("Events")]
@@ -43,8 +43,6 @@ public class BuildingIOManager : MonoBehaviour
     public void Init()
     {
         IOForEach(io => io.Init());
-
-        
 
         OnItemEnterInput = new OnItemEnterEvent();
     }
@@ -66,12 +64,9 @@ public class BuildingIOManager : MonoBehaviour
         });
     }
 
-    public void UpdateIOPhysics() 
+    public void UpdateIOPhysics()
     {
-        IOForEach(io =>
-        {
-            io.OnVisualizationMoved(mc.Building);
-        });
+        IOForEach(io => io.OnVisualizationMoved());
     }
 
     /// <summary>
@@ -181,8 +176,6 @@ public class BuildingIOManager : MonoBehaviour
         RecursiveGetConveyorGroup(toReturn, true);
         //Debug.Log(isConveyor);
         if (isConveyor) RecursiveGetConveyorGroup(toReturn, false);
-
-        Debug.Log($"Returned a conveyor group of size {toReturn.Count}");
 
         return toReturn;
     }

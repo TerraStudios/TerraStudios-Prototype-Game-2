@@ -58,7 +58,6 @@ public class BuildingManager : BuildingSystem
 
 
 
-        b.mc.BuildingIOManager.UpdateIOPhysics();
         BuildingInfo.SetActive(true);
         b.mc.BuildingIOManager.outputs[0].SpawnItemObj(testItemToSpawn);
     }

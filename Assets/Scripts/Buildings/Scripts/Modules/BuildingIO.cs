@@ -31,10 +31,10 @@ public class BuildingIO : MonoBehaviour
     public ItemCategory[] itemCategoriesAllowedToEnter;
 
     //[Header("Dynamic variables")]
-    [HideInInspector] public BuildingIO attachedIO;
+    public BuildingIO attachedIO;
 
     private BuildingIO onPort;
-    private IOAttachmentStatus status;
+    public IOAttachmentStatus status;
 
     [HideInInspector] public bool visualizeIO = true;
     [HideInInspector] public Transform arrow;
@@ -69,7 +69,7 @@ public class BuildingIO : MonoBehaviour
     /// Depending on the result of the previous bullet point the method may call either <see cref="OnIOEnter(Collider)"/> or <see cref="OnIOExit(Collider)"/>.
     /// 
     /// </summary>
-    public void OnVisualizationMoved(Building b)
+    public void OnVisualizationMoved()
     {
         //check for any collisions inside of box 
         Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale * .5f, Quaternion.identity, IOMask);
@@ -77,8 +77,10 @@ public class BuildingIO : MonoBehaviour
 
         foreach (Collider inside in iosInside.ToList())
         {
-            if (!this.IOManager.Equals(inside.GetComponent<BuildingIO>().IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
+            BuildingIO hitIO = inside.GetComponent<BuildingIO>();
+            if (!this.IOManager.Equals(hitIO.IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
             {
+                
                 iosInside.Remove(inside);
                 OnIOExit(inside);
             }
@@ -86,15 +88,19 @@ public class BuildingIO : MonoBehaviour
 
         foreach (Collider hit in hitColliders) //loop through each collider that was found
         {
-            if (!this.IOManager.Equals(hit.GetComponent<BuildingIO>().IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
+            BuildingIO hitIO = hit.GetComponent<BuildingIO>();
+            if (!this.IOManager.Equals(hitIO.IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
             {
                 iosInside.Add(hit);
+                
                 OnIOEnter(hit); //on enter
             }
         }
 
 
     }
+
+
 
     /// <summary>
     /// Used for debugging the IO detection by drawing a box around each physics check (seen in Scene view)
@@ -113,24 +119,36 @@ public class BuildingIO : MonoBehaviour
     /// <param name="other">The collider that entered</param>
     private void OnIOEnter(Collider other)
     {
+
         BuildingIO io = other.GetComponent<BuildingIO>();
 
         if (io)
         {
-            //if (io.visualizeIO)
-            //return;
 
             onPort = io;
+            io.onPort = this;
 
             if (IsInputSupported(io))
             {
-                status = IOAttachmentStatus.SuccessfulConnection;
+
                 VisualizeArrow(BuildingManager.instance.greenArrow); //visualize green arrow
+
+                if (!attachedIO && !io.attachedIO)
+                {
+                    status = IOAttachmentStatus.SuccessfulConnection;
+                    io.status = IOAttachmentStatus.SuccessfulConnection;
+                }
             }
             else
             {
-                status = IOAttachmentStatus.InvalidConnection;
+
                 VisualizeArrow(BuildingManager.instance.redArrow); //visualize red arrow
+
+                if (!attachedIO && !io.attachedIO)
+                {
+                    status = IOAttachmentStatus.InvalidConnection;
+                    io.status = IOAttachmentStatus.InvalidConnection;
+                }
             }
         }
     }
@@ -141,20 +159,28 @@ public class BuildingIO : MonoBehaviour
     /// <param name="other">The collider that exited</param>
     private void OnIOExit(Collider other)
     {
+
         BuildingIO io = other.GetComponent<BuildingIO>();
 
         if (io)
         {
             onPort = null;
-            //TODO: Perhaps have a cached building component for visualization in grid manager to avoid calling get component here
+            io.onPort = null;
+
             if (io.visualizeIO && !visualizeIO)
             {
                 Devisualize();
             }
             else
             {
-                status = IOAttachmentStatus.Unconnected;
+
                 VisualizeArrow(BuildingManager.instance.blueArrow);
+
+                if (!attachedIO && !io.attachedIO)
+                {
+                    status = IOAttachmentStatus.Unconnected;
+                    io.status = IOAttachmentStatus.Unconnected;
+                }
             }
         }
 
@@ -294,6 +320,7 @@ public class BuildingIO : MonoBehaviour
         {
             Devisualize();
             attachedIO.attachedIO = this;
+            attachedIO.status = status;
         }
 
     }
@@ -320,7 +347,6 @@ public class BuildingIO : MonoBehaviour
 
         if (other.attachedIO) return false; //Building already has an attached IO there, return red
 
-        Debug.Log($"Can place: {GridManager.instance.canPlace}");
         if (!GridManager.instance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
 
         //Needs to be replaced with something that can correctly identify if the buildings are on top of each other
