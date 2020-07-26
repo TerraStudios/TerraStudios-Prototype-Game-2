@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Conveyor : MonoBehaviour
 {
+    public ModuleConnector mc;
     public float speed;
 
     public List<Collider> itemsOnTop;
@@ -26,21 +26,25 @@ public class Conveyor : MonoBehaviour
 
     void FixedUpdate()
     {
-        for (int i = 0; i < itemsOnTop.Count; i++)
+        if (mc.Building.isSetUp)
         {
-            Collider other = itemsOnTop[i];
+            for (int i = 0; i < itemsOnTop.Count; i++)
+            {
+                Collider other = itemsOnTop[i];
 
-            if (!other)
-                continue;
+                if (!other)
+                    continue;
 
-            Rigidbody otherRB = other.attachedRigidbody;
-            //otherRB.velocity = transform.forward * speed;
+                Rigidbody otherRB = other.attachedRigidbody;
+                //otherRB.velocity = transform.forward * speed;
 
-            float conveyorVelocity = speed * Time.deltaTime;
-            otherRB.position = Vector3.MoveTowards(otherRB.position, otherRB.position + transform.forward, conveyorVelocity);
+                float conveyorVelocity = speed * Time.deltaTime;
+                otherRB.position = Vector3.MoveTowards(otherRB.position, otherRB.position + transform.forward, conveyorVelocity);
+            }
         }
     }
 
+    // Old belt movement code
     /*void FixedUpdate()
     {
         Vector3 pos = rb.position;

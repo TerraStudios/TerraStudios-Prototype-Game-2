@@ -1,14 +1,9 @@
-﻿using System.Collections;
-using UnityEngine;
-
-public struct GridLayer
-{
-    public bool[,] tiles;
-}
+﻿using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
     public static GridManager instance;
+
     [Header("Components")]
     public BuildingManager BuildingManager;
     public EconomyManager EconomyManager;
@@ -97,8 +92,6 @@ public class GridManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-
-
             if (!click && (Mathf.Abs(Time.unscaledTime - lastClick) > 0.2))
             {
                 if (IsInBuildMode)
@@ -114,9 +107,7 @@ public class GridManager : MonoBehaviour
                 lastClick = Time.unscaledTime;
 
             }
-
         }
-
 
         else if (Input.GetMouseButtonUp(0))
         {
@@ -187,11 +178,9 @@ public class GridManager : MonoBehaviour
             }
 
             visualization.transform.position = center;
-
             visualization.transform.rotation = RotationChange;
 
             b.mc.BuildingIOManager.UpdateIOPhysics();
-
             b.mc.BuildingIOManager.UpdateArrows();
         }
 
@@ -235,8 +224,6 @@ public class GridManager : MonoBehaviour
     /// </summary>
     private void Build()
     {
-        //Vector3 center = DoRay(Input.mousePosition);
-
         RaycastHit? hit = FindGridHit();
         if (hit == null) return;
 
@@ -246,17 +233,9 @@ public class GridManager : MonoBehaviour
             return;
         if (CanPlace(hit.Value, center))
         {
-
-            //destroyBuilding(visualization.gameObject);
-            //visualization = null;
-            //Transform newMachine = Instantiate(currentBuilding.prefab, center, RotationChange);
-
             visualization.gameObject.AddComponent<BoxCollider>();
             visualization.GetComponent<MeshRenderer>().material = tempMat;
             Building b = visualization.GetComponent<Building>();
-
-
-            //b.mc.BuildingIOManager.MarkForLinking();
 
             BuildingManager.SetUpBuilding(b);
             b.RemoveIndicator();
@@ -271,15 +250,6 @@ public class GridManager : MonoBehaviour
 
                 visBuilding.mc.BuildingIOManager.UpdateIOPhysics();
             }
-
-            //b.mc.BuildingIOManager.UpdateIOPhysics(b);
-
-            /*if (IsInBuildMode)
-            {
-                b.mc.BuildingIOManager.VisualizeAll();
-            }*/
-
-
         }
         else
             Debug.Log("Not allowed to place here!");
@@ -315,7 +285,6 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="pos"></param>
     /// <returns>A locked grid position</returns>
-    ///
     private Vector3 GetGridPosition(Vector3 pos)
     {
         Vector2Int buildSize = currentBuilding.GetBuildSize();
