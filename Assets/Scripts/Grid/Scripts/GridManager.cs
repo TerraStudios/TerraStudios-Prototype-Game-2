@@ -16,6 +16,7 @@ public class GridManager : MonoBehaviour
 
     [Header("Dynamic variables")]
     private bool isInBuildMode;
+    [HideInInspector] public bool forceVisualizeAll;
 
     /// <summary>
     /// Returns whether the GridManager is currently in the building mode.
@@ -346,13 +347,14 @@ public class GridManager : MonoBehaviour
         {
             TimeEngine.isPaused = false;
             visualization = null;
-            foreach (Building b in BuildingManager.RegisteredBuildings)
-            {
-                if (b.mc.BuildingIOManager)
+            if (!forceVisualizeAll)
+                foreach (Building b in BuildingSystem.RegisteredBuildings)
                 {
-                    b.mc.BuildingIOManager.DevisualizeAll();
+                    if (b.mc.BuildingIOManager)
+                    {
+                        b.mc.BuildingIOManager.DevisualizeAll();
+                    }
                 }
-            }
         }
     }
 

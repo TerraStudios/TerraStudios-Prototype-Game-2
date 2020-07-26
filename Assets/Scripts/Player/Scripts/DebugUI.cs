@@ -34,6 +34,28 @@ public class DebugUI : MonoBehaviour
             Debug.LogError("This field only accepts ints!");
     }
 
+    public void OnDisplayAllArrows(bool state)
+    {
+        if (state)
+        {
+            // show all
+            GridManager.instance.forceVisualizeAll = true;
+            foreach (Building registered in BuildingSystem.RegisteredBuildings)
+            {
+                registered.mc.BuildingIOManager.VisualizeAll();
+            }
+        }
+        else
+        {
+            // hide all
+            GridManager.instance.forceVisualizeAll = false;
+            foreach (Building registered in BuildingSystem.RegisteredBuildings)
+            {
+                registered.mc.BuildingIOManager.DevisualizeAll();
+            }
+        }
+    }
+
     public void OnUIEnableGraphy(bool state)
     {
         GraphyGO.SetActive(state);

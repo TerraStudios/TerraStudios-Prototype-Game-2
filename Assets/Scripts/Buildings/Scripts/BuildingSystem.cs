@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class BuildingSystem : MonoBehaviour
 {
     [HideInInspector] public Building FocusedBuilding;
-    [HideInInspector] public List<Building> RegisteredBuildings = new List<Building>();
+    [HideInInspector] public static List<Building> RegisteredBuildings = new List<Building>();
     public LayerMask ignoreFocusLayers;
 
     [Header("Components")]
