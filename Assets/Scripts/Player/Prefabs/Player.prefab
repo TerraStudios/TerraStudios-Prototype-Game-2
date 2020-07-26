@@ -49,6 +49,7 @@ MonoBehaviour:
   movementTime: 10
   dragSpeed: 25
   zoomSpeed: 150
+  showGizmo: 0
   maxX: 40
   minX: 0
   maxZ: 20
