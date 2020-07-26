@@ -124,7 +124,7 @@ public class BuildingIOManager : MonoBehaviour
     /// </summary>
     public void VisualizeAll()
     {
-        IOForEach(io => io.VisualizeArrow(BuildingManager.instance.blueArrow));
+        IOForEach(io => io.VisualizeArrow());
     }
 
     /// <summary>
@@ -161,36 +161,28 @@ public class BuildingIOManager : MonoBehaviour
     /// <summary>
     /// Modifies the conveyor group belonging to a <see cref="Building"/> and sets each one to a given state
     /// </summary>
-    /// <param name="inputID">Optional parameter for a specific building's ID to start at</param>
-    /// <param name="state">The new state for the conveyor</param>
-    public void ModifyConveyorGroup(int? inputID, bool state)
+    /// <param name="state">The new <see cref="WorkStateEnum"/> for the conveyor group to be in</param>
+    public void SetConveyorGroupState(WorkStateEnum state)
     {
-        foreach (BuildingIOManager bIO in GetConveyorGroup(inputID, state))
+        foreach (BuildingIOManager bIO in GetConveyorGroup())
         {
-            if (state)
-            {
-                bIO.mc.Building.SetWorkstateSilent(WorkStateEnum.On); 
-            }
-            else
-            {
-                bIO.mc.Building.SetWorkstateSilent(WorkStateEnum.Off);
-            }
+            bIO.mc.Building.SetWorkstateSilent(state); //set it silently to not trigger on workstate changed (recursion)
         }
     }
 
     /// <summary>
     /// Retrieves the conveyor group of any building ID.
     /// </summary>
-    /// <param name="inputID">The optional building ID of where to start</param>
-    /// <param name="state">The new state for the conveyor</param>
-    /// <param name="getInputs">Determines whether it should also search through the building's inputs as well</param>
     /// <returns>A <see cref="List{T}"/> of <see cref="BuildingIOManager"/>s</returns>
-    private List<BuildingIOManager> GetConveyorGroup(int? inputID, bool state, bool getInputs = true)
+    private List<BuildingIOManager> GetConveyorGroup()
     {
+
         List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
-        toReturn.AddRange(RecursiveGetConveyorGroup(inputID, state, getInputs));
+        RecursiveGetConveyorGroup(toReturn, true);
         //Debug.Log(isConveyor);
-        if (isConveyor) toReturn.AddRange(RecursiveGetConveyorGroup(inputID, state, !getInputs));
+        if (isConveyor) RecursiveGetConveyorGroup(toReturn, false);
+
+        Debug.Log($"Returned a conveyor group of size {toReturn.Count}");
 
         return toReturn;
     }
@@ -199,50 +191,21 @@ public class BuildingIOManager : MonoBehaviour
     /// <summary>
     /// Recursive method for retrieving the conveyor group of any Building ID. Works by adding all of the attached IOs of a building and its attached IOs as well (until a non conveyor is found or there isn't another attached IO)
     /// </summary>
-    /// <param name="inputID">The optional building ID of where to start</param>
-    /// <param name="state">The new state for the conveyor</param>
+    /// <param name="currentList">A list of <see cref="BuildingIOManager"/>s that will end up being the result. Passed through as a pointer reference.</param>
     /// <param name="getInputs">Determines whether it should also search through the building's inputs as well</param>
-    /// <returns>A <see cref="List{T}"/> of <see cref="BuildingIOManager"</returns>
-    private List<BuildingIOManager> RecursiveGetConveyorGroup(int? inputID, bool state, bool getInputs = true)
+    /// <returns>A <see cref="List{T}"/> of <see cref="BuildingIOManager"></see> in the <paramref name="getInputs"/> parameter</returns>
+    private void RecursiveGetConveyorGroup(List<BuildingIOManager> currentList, bool getInputs = true)
     {
-        List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
+        BuildingIO[] iosToLoop = getInputs ? inputs : outputs;
 
-        BuildingIOManager next;
-        if (inputID != null)
+        foreach (BuildingIO io in iosToLoop)
         {
-            if (!isConveyor)
-                next = inputs[inputID.Value].IOManager;
-            else
-                next = outputs[inputID.Value].IOManager;
-        }
-        else
-            next = this;
-
-        if (getInputs)
-        {
-            foreach (BuildingIO io in next.inputs)
+            if (io.attachedIO && io.attachedIO.IOManager.isConveyor && !currentList.Contains(io.attachedIO.IOManager))
             {
-                if (io.attachedIO && io.attachedIO.IOManager.isConveyor && io.attachedIO.IOManager.mc.Building.WorkState != (state ? WorkStateEnum.On : WorkStateEnum.Off))
-                {
-                    toReturn.Add(io.attachedIO.IOManager);
-                    toReturn.AddRange(io.attachedIO.IOManager.RecursiveGetConveyorGroup(null, true));
-                }
+                currentList.Add(io.attachedIO.IOManager);
+                io.attachedIO.IOManager.RecursiveGetConveyorGroup(currentList, getInputs);
             }
         }
-        else // also return all outputs
-        {
-            foreach (BuildingIO io in next.outputs) // borked
-            {
-                if (io.attachedIO && io.attachedIO.IOManager.isConveyor && io.attachedIO.IOManager.mc.Building.WorkState != (state ? WorkStateEnum.On : WorkStateEnum.Off))
-                {
-                    Debug.Log("Found attached IO");
-                    toReturn.Add(io.attachedIO.IOManager); //add itself
-                    toReturn.AddRange(io.attachedIO.IOManager.RecursiveGetConveyorGroup(null, false)); //add children
-                }
-            }
-        }
-
-        return toReturn;
     }
 
     /// <summary>

@@ -2,7 +2,7 @@
 
 public class GridManager : MonoBehaviour
 {
-    public static GridManager getInstance;
+    public static GridManager instance;
 
     [Header("Components")]
     public BuildingManager BuildingManager;
@@ -76,7 +76,7 @@ public class GridManager : MonoBehaviour
 
     private void Awake()
     {
-        getInstance = this;
+        instance = this;
     }
 
     /// <summary>

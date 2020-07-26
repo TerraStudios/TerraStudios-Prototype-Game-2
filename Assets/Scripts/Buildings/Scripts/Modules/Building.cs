@@ -200,14 +200,9 @@ public class Building : MonoBehaviour
             return;
         }
 
-        if (newValue == WorkStateEnum.Off)
-        {
-            mc.BuildingIOManager.ModifyConveyorGroup(null, false);
-        }
-        else
-        {
-            mc.BuildingIOManager.ModifyConveyorGroup(null, true);
-        }
+        mc.BuildingIOManager.SetConveyorGroupState(newValue);
+
+        
     }
     #endregion
 

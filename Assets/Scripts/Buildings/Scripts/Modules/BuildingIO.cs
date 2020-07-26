@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum IOAttachmentStatus
+{
+    Unconnected, InvalidConnection, SuccessfulConnection  
+}
+
 /// <summary>
 /// MonoBehaviour used for each IO of a building. Controlled by BuildingIOManager
 /// </summary>
@@ -26,17 +31,15 @@ public class BuildingIO : MonoBehaviour
     public ItemCategory[] itemCategoriesAllowedToEnter;
 
     //[Header("Dynamic variables")]
-    public BuildingIO attachedIO;
+    [HideInInspector] public BuildingIO attachedIO;
 
     private BuildingIO onPort;
+    private IOAttachmentStatus status;
 
     [HideInInspector] public bool visualizeIO = true;
-    public Transform arrow;
+    [HideInInspector] public Transform arrow;
     private LayerMask IOMask;
     private List<Collider> iosInside = new List<Collider>();
-
-    //This variable needs to be moved to a proper debugging system, only used temporarily here
-    private bool debugMode; 
 
     #region Initialization
 
@@ -77,7 +80,6 @@ public class BuildingIO : MonoBehaviour
             if (!this.IOManager.Equals(inside.GetComponent<BuildingIO>().IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
             {
                 iosInside.Remove(inside);
-                Debug.Log("Queueing on exit");
                 OnIOExit(inside);
             }
         }
@@ -86,9 +88,7 @@ public class BuildingIO : MonoBehaviour
         {
             if (!this.IOManager.Equals(hit.GetComponent<BuildingIO>().IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
             {
-                Debug.Log("Found " + hit.gameObject.name);
                 iosInside.Add(hit);
-                Debug.Log("Queueing on enter");
                 OnIOEnter(hit); //on enter
             }
         }
@@ -124,10 +124,12 @@ public class BuildingIO : MonoBehaviour
 
             if (IsInputSupported(io))
             {
+                status = IOAttachmentStatus.SuccessfulConnection;
                 VisualizeArrow(BuildingManager.instance.greenArrow); //visualize green arrow
             }
             else
             {
+                status = IOAttachmentStatus.InvalidConnection;
                 VisualizeArrow(BuildingManager.instance.redArrow); //visualize red arrow
             }
         }
@@ -151,6 +153,7 @@ public class BuildingIO : MonoBehaviour
             }
             else
             {
+                status = IOAttachmentStatus.Unconnected;
                 VisualizeArrow(BuildingManager.instance.blueArrow);
             }
         }
@@ -213,6 +216,29 @@ public class BuildingIO : MonoBehaviour
     #endregion
 
     #region Indicator Visualization
+
+    /// <summary>
+    /// Attempts to visualize an arrow, using the current <see cref="IOAttachmentStatus"/>
+    /// 
+    /// - If the arrow is already visible, only the material will be updated 
+    /// - If the arrow is <b>not</b> visible, an arrow will be instantiated using the <see cref="ObjectPoolManager"/>. 
+    /// </summary>
+    public void VisualizeArrow()
+    {
+        switch (status)
+        {
+            case IOAttachmentStatus.Unconnected:
+                VisualizeArrow(BuildingManager.instance.blueArrow);
+                break;
+            case IOAttachmentStatus.InvalidConnection:
+                VisualizeArrow(BuildingManager.instance.redArrow);
+                break;
+            case IOAttachmentStatus.SuccessfulConnection:
+                VisualizeArrow(BuildingManager.instance.greenArrow);
+                break;
+        }
+    }
+
     /// <summary>
     /// Attempts to visualize an arrow with a specific material
     /// 
@@ -294,8 +320,8 @@ public class BuildingIO : MonoBehaviour
 
         if (other.attachedIO) return false; //Building already has an attached IO there, return red
 
-        Debug.Log($"Can place: {GridManager.getInstance.canPlace}");
-        if (!GridManager.getInstance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
+        Debug.Log($"Can place: {GridManager.instance.canPlace}");
+        if (!GridManager.instance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
 
         //Needs to be replaced with something that can correctly identify if the buildings are on top of each other
         //if (other.IOManager.mc.Building.renderer.bounds.Intersects(this.IOManager.mc.Building.renderer.bounds)) return false;
