@@ -124,7 +124,7 @@ public class BuildingIOManager : MonoBehaviour
     /// </summary>
     public void VisualizeAll()
     {
-        IOForEach(io => io.VisualizeArrow(BuildingManager.instance.blueArrow));
+        IOForEach(io => io.VisualizeArrow());
     }
 
     /// <summary>

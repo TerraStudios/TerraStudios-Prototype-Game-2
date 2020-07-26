@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum IOAttachmentStatus
+{
+    Unconnected, InvalidConnection, SuccessfulConnection  
+}
+
 /// <summary>
 /// MonoBehaviour used for each IO of a building. Controlled by BuildingIOManager
 /// </summary>
@@ -29,6 +34,7 @@ public class BuildingIO : MonoBehaviour
     [HideInInspector] public BuildingIO attachedIO;
 
     private BuildingIO onPort;
+    private IOAttachmentStatus status;
 
     [HideInInspector] public bool visualizeIO = true;
     [HideInInspector] public Transform arrow;
@@ -118,10 +124,12 @@ public class BuildingIO : MonoBehaviour
 
             if (IsInputSupported(io))
             {
+                status = IOAttachmentStatus.SuccessfulConnection;
                 VisualizeArrow(BuildingManager.instance.greenArrow); //visualize green arrow
             }
             else
             {
+                status = IOAttachmentStatus.InvalidConnection;
                 VisualizeArrow(BuildingManager.instance.redArrow); //visualize red arrow
             }
         }
@@ -145,6 +153,7 @@ public class BuildingIO : MonoBehaviour
             }
             else
             {
+                status = IOAttachmentStatus.Unconnected;
                 VisualizeArrow(BuildingManager.instance.blueArrow);
             }
         }
@@ -207,6 +216,29 @@ public class BuildingIO : MonoBehaviour
     #endregion
 
     #region Indicator Visualization
+
+    /// <summary>
+    /// Attempts to visualize an arrow, using the current <see cref="IOAttachmentStatus"/>
+    /// 
+    /// - If the arrow is already visible, only the material will be updated 
+    /// - If the arrow is <b>not</b> visible, an arrow will be instantiated using the <see cref="ObjectPoolManager"/>. 
+    /// </summary>
+    public void VisualizeArrow()
+    {
+        switch (status)
+        {
+            case IOAttachmentStatus.Unconnected:
+                VisualizeArrow(BuildingManager.instance.blueArrow);
+                break;
+            case IOAttachmentStatus.InvalidConnection:
+                VisualizeArrow(BuildingManager.instance.redArrow);
+                break;
+            case IOAttachmentStatus.SuccessfulConnection:
+                VisualizeArrow(BuildingManager.instance.greenArrow);
+                break;
+        }
+    }
+
     /// <summary>
     /// Attempts to visualize an arrow with a specific material
     /// 

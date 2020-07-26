@@ -55,6 +55,9 @@ public class BuildingManager : BuildingSystem
     {
         base.OnBuildingSelected(b);
         b.mc.BuildingIOManager.VisualizeAll();
+
+
+
         b.mc.BuildingIOManager.UpdateIOPhysics();
         BuildingInfo.SetActive(true);
         b.mc.BuildingIOManager.outputs[0].SpawnItemObj(testItemToSpawn);
