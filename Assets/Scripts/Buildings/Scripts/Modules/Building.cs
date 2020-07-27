@@ -237,7 +237,7 @@ public class Building : MonoBehaviour
         if (currentIndicator != null && currentIndicator.GetComponent<MeshRenderer>().Equals(indicator.GetComponent<MeshRenderer>())) return;
 
         RemoveIndicator();
-        currentIndicator = ObjectPoolManager.instance.ReuseObject(indicator.gameObject, transform.position + new Vector3(0, GetComponent<MeshFilter>().mesh.bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
+        currentIndicator = ObjectPoolManager.instance.ReuseObject(indicator.gameObject, transform.position + new Vector3(0, GetComponent<MeshRenderer>().bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
         currentIndicator.transform.parent = this.transform;
 
     }
