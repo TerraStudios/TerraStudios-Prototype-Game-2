@@ -58,7 +58,12 @@ public class BuildingManager : BuildingSystem
         base.OnBuildingSelected(b);
         b.mc.BuildingIOManager.VisualizeAll();
 
-
+        if (!b.mc.BuildingIOManager.isConveyor)
+            foreach (Building building in RegisteredBuildings)
+            {
+                if (!building.mc.BuildingIOManager.isConveyor)
+                    building.mc.BuildingIOManager.VisualizeAll();
+            }
 
         BuildingInfo.SetActive(true);
         b.mc.BuildingIOManager.outputs[0].SpawnItemObj(testItemToSpawn);
@@ -72,6 +77,12 @@ public class BuildingManager : BuildingSystem
         if (!FocusedBuilding)
             return;
         FocusedBuilding.mc.BuildingIOManager.DevisualizeAll();
+
+        foreach (Building building in RegisteredBuildings)
+        {
+            building.mc.BuildingIOManager.DevisualizeAll();
+        }
+
         base.OnBuildingDeselected();
         BuildingInfo.SetActive(false);
     }
