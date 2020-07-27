@@ -57,10 +57,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4746425084474043165, guid: 3412b939c6afa0c46bfce02f862047b4, type: 3}
+  - {fileID: 2100000, guid: 257a7cee9580570469a19a3f0635592e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,6 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8507123884359886536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,13 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dd24aa3e77d2c40883052ab649024e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mc: {fileID: 0}
   isSetUp: 0
   prefab: {fileID: 4398797330668382826}
-  offsetFromCenter: {x: 0, y: 0, z: 0}
-  buildSize: {x: 3, y: 3}
-  BuildingIOManager: {fileID: 0}
-  allowAllInputs: 0
-  inputsAllowed: []
+  showDirectionOnVisualize: 1
   price: 500
   healthPercent: 100
   monthsLifespanMin: 1

@@ -59,10 +59,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4746425084474043165, guid: 3412b939c6afa0c46bfce02f862047b4, type: 3}
+  - {fileID: 2100000, guid: 257a7cee9580570469a19a3f0635592e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,6 +84,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1188363696577860992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,12 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dd24aa3e77d2c40883052ab649024e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mc: {fileID: 0}
   isSetUp: 0
   prefab: {fileID: 5743232055677218776}
-  buildSize: {x: 3, y: 4}
-  BuildingIOManager: {fileID: 2829206149473396702}
-  allowAllInputs: 1
-  inputsAllowed: []
+  showDirectionOnVisualize: 1
   price: 500
   healthPercent: 100
   monthsLifespanMin: 1
@@ -123,14 +123,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52780f752ea9fa44a579c403a2d0479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Building: {fileID: 1188363696577860992}
-  itemInside: {fileID: 0}
+  mc: {fileID: 0}
   inputs:
   - {fileID: 6622337927083192665}
   outputs:
   - {fileID: 1732948771080959127}
   isConveyor: 0
-  ConveyorManager: {fileID: 0}
+  ConveyorManagers: []
 --- !u!1001 &232406257838098237
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -384,7 +383,7 @@ PrefabInstance:
     - target: {fileID: 9183637379809750852, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
         type: 3}
       propertyPath: itemCategoriesAllowedToEnter.Array.data[0]
-      value: 2
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64, type: 3}
