@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using PBAG.Debug;
+using System.Collections.Generic;
 using UnityEngine;
 
 //TODO: maybe find a more elegant queue system than using a list and looping
 public class ObjectPoolManager : MonoBehaviour
 {
+    public readonly int defaultPoolSize = 10;
 
     private Dictionary<string, Queue<PoolInstance>> pooledObjects = new Dictionary<string, Queue<PoolInstance>>();
 
@@ -74,29 +76,28 @@ public class ObjectPoolManager : MonoBehaviour
     {
         string key = prefab.name;
 
-        if (pooledObjects.ContainsKey(key))
-        { 
-
-            PoolInstance pooledObject = pooledObjects[key].Dequeue();
-            //pooledObjects[key].Enqueue(pooledObject);)
-
-            if (pooledObjects[key].Count == 0)
-            {
-                PoolInstance newInstance = new PoolInstance(Instantiate(prefab), pooledObject.gameObject.transform.parent);
-                newInstance.Disable(); //disable to not cause lag
-                pooledObjects[key].Enqueue(newInstance);
-                pooledObject = newInstance;
-            }
-
-            pooledObject.gameObject.SetActive(true);
-            Transform t = pooledObject.gameObject.transform;
-            t.position = position;
-            t.rotation = rotation;
-            return pooledObject.gameObject;
+        if (!pooledObjects.ContainsKey(key))
+        {
+            //If a pool does not already exist for the GameObject, create a new one with the default pool size
+            CreatePool(prefab, defaultPoolSize);
         }
 
-        Debug.LogError("Pool doesn't exist for " + prefab.name);
-        return null; // This in theory should never happen unless the pool doesn't exist, which would mean you're doing something very wrong.
+        PoolInstance pooledObject = pooledObjects[key].Dequeue();
+        //pooledObjects[key].Enqueue(pooledObject);)
+
+        if (pooledObjects[key].Count == 0)
+        {
+            PoolInstance newInstance = new PoolInstance(Instantiate(prefab), pooledObject.gameObject.transform.parent);
+            newInstance.Disable(); //disable to not cause lag
+            pooledObjects[key].Enqueue(newInstance);
+        }
+
+        pooledObject.gameObject.SetActive(true);
+        Transform t = pooledObject.gameObject.transform;
+        t.position = position;
+        t.rotation = rotation;
+        return pooledObject.gameObject;
+
     }
 
     /// <summary>
