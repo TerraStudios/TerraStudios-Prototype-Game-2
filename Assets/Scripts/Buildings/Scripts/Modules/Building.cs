@@ -39,16 +39,23 @@ public class Building : MonoBehaviour
 
     [Header("Health")]
     public int healthPercent = 100;
+    [Tooltip("The minimum TimeSpan the machine will last in months")]
     public int monthsLifespanMin;
+    [Tooltip("The maximum TimeSpan the machine will last in months")]
     public int monthsLifespanMax;
+    [Tooltip("The cost (penalty) of fixing the building")]
     public int penaltyForFix;
+    [Tooltip("The amount of time to fix the building")]
     public float timeToFixMultiplier;
     private int monthsLifespan;
     private List<TimeWaitEvent> healthWaitEvents = new List<TimeWaitEvent>();
     private TimeSpan timeToDrainHealth;
 
     [Header("Electricity")]
+    [Tooltip("Determines the energy usage per hour of the machine being idle")]
     public double wattsPerHourIdle;
+
+    [Tooltip("Determines the energy usage per hour of the machine being active")]
     public double wattsPerHourWork;
 
     // Required Components (Systems)

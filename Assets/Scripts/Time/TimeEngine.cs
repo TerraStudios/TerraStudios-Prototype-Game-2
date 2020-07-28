@@ -9,10 +9,13 @@ public class TimeEngine : MonoBehaviour
     private Thread thread = null;
 
     [Header("Components")]
+    [Tooltip("A reference to the GameManager")]
     public GameManger GameManager;
+    [Tooltip("A reference to the UMTD")]
     public UMTD UMTD;
 
     [Header("Constant variables")]
+    [Tooltip("The default multiplier for time-based operations")]
     public int defaultTimeMultiplier;
 
     [Header("Dynamic variables")]
@@ -31,7 +34,9 @@ public class TimeEngine : MonoBehaviour
             timeMultiplier = value;
         }
     }
+    [Tooltip("Whether the time is currently paused or not")]
     public static bool isPaused;
+    [Tooltip("The current DateTime of the game")]
     public DateTime CurrentTime;
 
     public void StartClock() 

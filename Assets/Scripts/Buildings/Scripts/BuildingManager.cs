@@ -23,6 +23,9 @@ public class BuildingManager : BuildingSystem
 
     private static BuildingManager s_Instance = null;
 
+    /// <summary>
+    /// BuildingManager instance using the Singleton pattern
+    /// </summary>
     public static BuildingManager instance
     {
         get
