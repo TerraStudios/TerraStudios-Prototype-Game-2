@@ -20,15 +20,20 @@ public class ItemInsideData
 
 public class BuildingIOManager : MonoBehaviour
 {
+    [Tooltip("The ModuleConnector attached to the Building")]
     public ModuleConnector mc;
+
+    [Tooltip("A list of all the items inside of the building")]
     public List<ItemInsideData> itemsInside = new List<ItemInsideData>();
 
+    [Header("IOs")]
     [Tooltip("A list of all the BuildingIO inputs for the building")]
     public BuildingIO[] inputs;
     [Tooltip("A list of all the BuildingIO outputs for the building")]
     public BuildingIO[] outputs;
 
     [Header("Conveyor Properties")]
+    [Tooltip("Determines whether the building is a conveyor or not. Soon to be removed in the new conveyor system.")]
     public bool isConveyor;
 
     [Tooltip("A list of all the conveyor colliders attached to the BuildingIO. This will be removed soon in favor of a new conveyor system.")]
@@ -64,6 +69,9 @@ public class BuildingIOManager : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Updates all of the Physics related information for a visualization (<see cref="Physics.OverlapBox"/> being one of them)
+    /// </summary>
     public void UpdateIOPhysics()
     {
         IOForEach(io => io.OnVisualizationMoved());
@@ -243,6 +251,11 @@ public class BuildingIOManager : MonoBehaviour
 
     #region Misc
 
+    /// <summary>
+    /// Determines whether a <see cref="BuildingIOManager"/> contains a <see cref="BuildingIO"/>
+    /// </summary>
+    /// <param name="io">The <see cref="BuildingIO"/> the <see cref="BuildingIOManager"/> might contain</param>
+    /// <returns>Whether the <see cref="BuildingIOManager"/> contains the <see cref="BuildingIO"/></returns>
     public bool ContainsIO(BuildingIO io)
     {
         bool contains = false;

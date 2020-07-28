@@ -158,12 +158,16 @@ public class GridManager : MonoBehaviour
     #endregion
 
     #region Visualization
+    /// <summary>
+    /// Updates the visualization position, material and IOs
+    /// </summary>
     public void UpdateVisualization()
     {
         RaycastHit? hit = FindGridHit();
         if (hit == null) return;
         Vector3 center = GetGridPosition(hit.Value.point);
 
+        //If debug mode is enabled, this will loop through every registered building as well as the visualization and call the VisualizeColliders() method
         if (debugMode && visualization)
         {
             foreach (Building building in BuildingManager.RegisteredBuildings) building.mc.BuildingIOManager.VisualizeColliders();

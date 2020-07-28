@@ -65,7 +65,6 @@ public class DebugUI : MonoBehaviour
 
     public void OnShowIOAttachCollisions(bool state)
     {
-        Log.LogConsole($"Setting state to {state}");
         GridManager.instance.debugMode = state;
     }
 }

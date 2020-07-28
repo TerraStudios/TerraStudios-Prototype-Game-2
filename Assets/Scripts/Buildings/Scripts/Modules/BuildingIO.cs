@@ -52,6 +52,9 @@ public class BuildingIO : MonoBehaviour
         Devisualize();
     }
 
+    /// <summary>
+    /// Registers the IO mask for the IOPort GO and begins the arrow visualization
+    /// </summary>
     private void Awake()
     {
         IOMask = LayerMask.GetMask("IOPort");
@@ -348,9 +351,6 @@ public class BuildingIO : MonoBehaviour
         if (other.attachedIO) return false; //Building already has an attached IO there, return red
 
         if (!GridManager.instance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
-
-        //Needs to be replaced with something that can correctly identify if the buildings are on top of each other
-        //if (other.IOManager.mc.Building.renderer.bounds.Intersects(this.IOManager.mc.Building.renderer.bounds)) return false;
 
         return toReturn;
     }
