@@ -1179,6 +1179,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 124487541217681670}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1768865483 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3731498904651131037, guid: 90f47276bcb66ce409797bf6c408cb40,
+    type: 3}
+  m_PrefabInstance: {fileID: 7439386659806207392}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!20 &1794220192 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 199152019970637592, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
@@ -1195,6 +1207,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4700f9f03ad19f94baf0367cb7a9c988, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1912829921 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4878054800939280712, guid: 90f47276bcb66ce409797bf6c408cb40,
+    type: 3}
+  m_PrefabInstance: {fileID: 7439386659806207392}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1928617606 stripped
@@ -2599,6 +2623,36 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1522793528932916031, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1384009086}
+    - target: {fileID: 1522793528932916031, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnShowIOAttachCollisions
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522793528932916031, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522793528932916031, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522793528932916031, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 1912829921}
+    - target: {fileID: 1522793528932916031, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: graphic
+      value: 
+      objectReference: {fileID: 1768865483}
     - target: {fileID: 2549766363461173362, guid: 90f47276bcb66ce409797bf6c408cb40,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2628,6 +2682,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -18.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 6018319130866633339, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: m_text
+      value: 'IO: Show attach collisions'
       objectReference: {fileID: 0}
     - target: {fileID: 6220593322633842144, guid: 90f47276bcb66ce409797bf6c408cb40,
         type: 3}
@@ -2683,6 +2742,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 36.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 6981419732183343551, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1384009086}
+    - target: {fileID: 6981419732183343551, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnShowIOAttachCollisions
       objectReference: {fileID: 0}
     - target: {fileID: 7333486397161510304, guid: 90f47276bcb66ce409797bf6c408cb40,
         type: 3}
@@ -2797,7 +2866,7 @@ PrefabInstance:
     - target: {fileID: 7439386658382342380, guid: 90f47276bcb66ce409797bf6c408cb40,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -147.88866
+      value: -125.47865
       objectReference: {fileID: 0}
     - target: {fileID: 7439386658905701052, guid: 90f47276bcb66ce409797bf6c408cb40,
         type: 3}

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DebugUI : MonoBehaviour
 {
@@ -64,5 +61,11 @@ public class DebugUI : MonoBehaviour
     public void OnEnableElectricityStats(bool state)
     {
         ElectricityStatsPanel.SetActive(state);
+    }
+
+    public void OnShowIOAttachCollisions(bool state)
+    {
+        Log.LogConsole($"Setting state to {state}");
+        GridManager.instance.debugMode = state;
     }
 }

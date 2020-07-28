@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Globalization;
-using PBAG.Debug;
 
 public class GameManger : MonoBehaviour
 {
