@@ -61,6 +61,21 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    private GameObject _buildingHolder;
+
+    private GameObject buildingHolder
+    {
+        get
+        {
+            if (_buildingHolder == null)
+            {
+                _buildingHolder = new GameObject("Buildings");
+            }
+
+            return _buildingHolder;
+        }
+    }
+
     private bool isFlipped;
     private bool click = false;
 
@@ -244,6 +259,8 @@ public class GridManager : MonoBehaviour
             b.mc.BuildingIOManager.LinkAll();
 
             IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
+
+            b.gameObject.transform.parent = buildingHolder.transform;
 
             if (visualization)
             {
