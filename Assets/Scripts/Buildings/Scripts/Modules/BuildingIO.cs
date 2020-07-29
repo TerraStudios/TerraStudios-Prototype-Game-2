@@ -81,7 +81,7 @@ public class BuildingIO : MonoBehaviour
         foreach (Collider inside in iosInside.ToList())
         {
             BuildingIO hitIO = inside.GetComponent<BuildingIO>();
-            if (!this.IOManager.Equals(hitIO.IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
+            if (!this.IOManager.Equals(hitIO.IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll) && IsInputSupported(hitIO)) // inside the list, but not inside
             {
                 
                 iosInside.Remove(inside);
@@ -92,7 +92,7 @@ public class BuildingIO : MonoBehaviour
         foreach (Collider hit in hitColliders) //loop through each collider that was found
         {
             BuildingIO hitIO = hit.GetComponent<BuildingIO>();
-            if (!this.IOManager.Equals(hitIO.IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
+            if (!this.IOManager.Equals(hitIO.IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll) && IsInputSupported(hitIO)) // not in the list, and isn't this collider
             {
                 iosInside.Add(hit);
                 
