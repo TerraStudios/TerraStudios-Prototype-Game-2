@@ -125,8 +125,13 @@ public class BuildingIO : MonoBehaviour
 
         if (io)
         {
-            onPort = io;
-            io.onPort = this;
+            if (!io.attachedIO)
+            {
+                onPort = io;
+                io.onPort = this;
+            }
+
+
 
             if (IsInputSupported(io))
             {
