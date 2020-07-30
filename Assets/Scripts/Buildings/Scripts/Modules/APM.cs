@@ -113,9 +113,11 @@ public class APM : MonoBehaviour
 
     private void ExecuteCrafting()
     {
-        for (int i = 0; i < currentRecipe.outputs.Length; i++)
+        for (int i = 0; i < outputData.Count; i++)
         {
-            mc.BuildingIOManager.outputs[i].SpawnItemObj(currentRecipe.outputs[i].item);
+            KeyValuePair<MachineRecipe.OutputData, int> entry = outputData.ElementAt(i);
+
+            mc.BuildingIOManager.outputs[entry.Value - 1].SpawnItemObj(entry.Key.item);
         }
 
         Debug.Log("Finished crafting!");
