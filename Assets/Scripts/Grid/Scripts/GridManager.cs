@@ -108,7 +108,7 @@ public class GridManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (!click && (Mathf.Abs(Time.unscaledTime - lastClick) > 0.2))
+            if (!click)
             {
                 if (IsInBuildMode)
                 {
