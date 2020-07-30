@@ -125,7 +125,7 @@ public class BuildingIO : MonoBehaviour
 
         if (io)
         {
-            if (!io.attachedIO)
+            if (!attachedIO && !io.attachedIO)
             {
                 onPort = io;
                 io.onPort = this;
