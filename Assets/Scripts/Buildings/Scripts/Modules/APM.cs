@@ -11,9 +11,39 @@ public class APM : MonoBehaviour
     public RecipePreset recipePreset;
     public MachineRecipe currentRecipe;
 
+    // Key is the needed recipe item
+    // Value is outputID
+    [HideInInspector]
+    public Dictionary<MachineRecipe.OutputData, int> outputData = new Dictionary<MachineRecipe.OutputData, int>();
+
     public void Init()
     {
         mc.BuildingIOManager.OnItemEnterInput.AddListener(OnItemEnterInput);
+
+        InitOutputData();
+    }
+
+    private void InitOutputData() 
+    {
+        for (int i = 0; i < currentRecipe.outputs.Length; i++)
+        {
+            outputData.Add(currentRecipe.outputs[i], i + 1);
+        }
+    }
+
+    public void OnOutputButtonPressed(OutputSelector caller) 
+    {
+        int newOutputID = caller.OutputID + 1;
+
+        if (newOutputID <= mc.BuildingIOManager.outputs.Length)
+            outputData[caller.value] = newOutputID;
+        else
+        {
+            newOutputID = 1;
+            outputData[caller.value] = newOutputID;
+        }
+
+        caller.OutputID = newOutputID;
     }
 
     private void OnItemEnterInput(OnItemEnterEvent ItemEnterInfo)
