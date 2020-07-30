@@ -260,7 +260,10 @@ public class GridManager : MonoBehaviour
             BuildingManager.SetUpBuilding(b);
             b.RemoveIndicator();
 
+            b.mc.BuildingIOManager.UpdateIOPhysics();
             b.mc.BuildingIOManager.LinkAll();
+
+            
 
             IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
 

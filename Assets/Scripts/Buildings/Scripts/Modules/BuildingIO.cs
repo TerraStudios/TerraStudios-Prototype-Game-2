@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum IOAttachmentStatus
 {
-    Unconnected, InvalidConnection, SuccessfulConnection  
+    Unconnected, InvalidConnection, SuccessfulConnection
 }
 
 /// <summary>
@@ -76,27 +76,27 @@ public class BuildingIO : MonoBehaviour
     {
         //check for any collisions inside of box 
         Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale * .5f, Quaternion.identity, IOMask);
-        
+
 
         foreach (Collider inside in iosInside.ToList())
         {
             BuildingIO hitIO = inside.GetComponent<BuildingIO>();
-            if (!this.IOManager.Equals(hitIO.IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll) && IsInputSupported(hitIO)) // inside the list, but not inside
+            if (!this.IOManager.Equals(hitIO.IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
             {
-                
+
                 iosInside.Remove(inside);
-                OnIOExit(inside);
+                OnIOExit(hitIO);
             }
         }
 
         foreach (Collider hit in hitColliders) //loop through each collider that was found
         {
             BuildingIO hitIO = hit.GetComponent<BuildingIO>();
-            if (!this.IOManager.Equals(hitIO.IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll) && IsInputSupported(hitIO)) // not in the list, and isn't this collider
+            if (!this.IOManager.Equals(hitIO.IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
             {
                 iosInside.Add(hit);
-                
-                OnIOEnter(hit); //on enter
+
+                OnIOEnter(hitIO); //on enter
             }
         }
 
@@ -119,20 +119,18 @@ public class BuildingIO : MonoBehaviour
     /// <summary>
     /// Sends an update that a collider has entered one of the colliders
     /// </summary>
-    /// <param name="other">The collider that entered</param>
-    private void OnIOEnter(Collider other)
+    /// <param name="io">The <see cref="BuildingIO"/> that entered</param>
+    private void OnIOEnter(BuildingIO io)
     {
-
-        BuildingIO io = other.GetComponent<BuildingIO>();
 
         if (io)
         {
-
             onPort = io;
             io.onPort = this;
 
             if (IsInputSupported(io))
             {
+
 
                 VisualizeArrow(BuildingManager.instance.greenArrow); //visualize green arrow
 
@@ -159,11 +157,9 @@ public class BuildingIO : MonoBehaviour
     /// <summary>
     /// Sends an update that a collider has exited one of the colliders
     /// </summary>
-    /// <param name="other">The collider that exited</param>
-    private void OnIOExit(Collider other)
+    /// <param name="io">The <see cref="BuildingIO"/> that exited</param>
+    private void OnIOExit(BuildingIO io)
     {
-
-        BuildingIO io = other.GetComponent<BuildingIO>();
 
         if (io)
         {
