@@ -116,7 +116,20 @@ public class APM : MonoBehaviour
         for (int i = 0; i < outputData.Count; i++)
         {
             KeyValuePair<MachineRecipe.OutputData, int> entry = outputData.ElementAt(i);
+            StartCoroutine(StartSpawning(entry));
+        }
 
+        IEnumerator StartSpawning(KeyValuePair<MachineRecipe.OutputData, int> entry)
+        {
+            for (int i = 0; i < entry.Key.amount; i++)
+            {
+                yield return new WaitForSeconds(1);
+                ExecuteSpawning(entry);
+            } 
+        }
+
+        void ExecuteSpawning(KeyValuePair<MachineRecipe.OutputData, int> entry)
+        {
             mc.BuildingIOManager.outputs[entry.Value - 1].SpawnItemObj(entry.Key.item);
         }
 
