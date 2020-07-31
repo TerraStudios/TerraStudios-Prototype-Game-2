@@ -333,10 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb2d1973a315474b9003a7dc458f76f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mc: {fileID: 0}
-  speed: 2
-  rb: {fileID: 0}
-  itemsOnTop: []
+  speed: 10
 --- !u!1 &6124340621546917448
 GameObject:
   m_ObjectHideFlags: 0

@@ -167,7 +167,6 @@ public class BuildingIOManager : MonoBehaviour
     /// <param name="state">The new <see cref="WorkStateEnum"/> for the conveyor group to be in</param>
     public void SetConveyorGroupState(WorkStateEnum state)
     {
-        Log.LogConsole("Calling get conveyor group");
 
         foreach (BuildingIOManager bIO in GetConveyorGroup())
         {
