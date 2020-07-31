@@ -17,6 +17,8 @@ MonoBehaviour:
     amount: 3
   outputs:
   - item: {fileID: 11400000, guid: 86b86008a5ba2fc46adbbc59ff507414, type: 2}
-    amount: 1
+    amount: 3
+  - item: {fileID: 11400000, guid: 86b86008a5ba2fc46adbbc59ff507414, type: 2}
+    amount: 3
   baseTime: 5
   icon: {fileID: 0}

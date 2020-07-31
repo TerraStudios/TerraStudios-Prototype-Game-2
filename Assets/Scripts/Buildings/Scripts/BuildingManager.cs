@@ -1,13 +1,21 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class BuildingManager : BuildingSystem
 {
     public ItemData testItemToSpawn;
-    [Header("UI Components")]
+    [Header("BuildingInfo UI Components")]
     public GameObject BuildingInfo;
     public TMP_Text buildHealth;
     public TMP_Text itemInsideName;
+
+    // IO Management and recipe selection
+    public TMP_Dropdown recipeSelection;
+    public Transform OutputsParent;
+    public Transform OutputsSelector;
+    private List<Transform> outputSelectorFields = new List<Transform>();
 
     [Header("Building Indicators")]
     public Transform DirectionIndicator;
@@ -21,23 +29,9 @@ public class BuildingManager : BuildingSystem
     public Material greenArrow;
     public Material redArrow;
 
-    private static BuildingManager s_Instance = null;
+    public static BuildingManager instance;
 
-    /// <summary>
-    /// BuildingManager instance using the Singleton pattern
-    /// </summary>
-    public static BuildingManager instance
-    {
-        get
-        {
-            if (s_Instance == null)
-            {
-                s_Instance = FindObjectOfType(typeof(BuildingManager)) as BuildingManager;
-            }
-
-            return s_Instance;
-        }
-    }
+    private void Awake() => instance = this;
 
     //! Probably has to be moved to BuildingSystem since this script should only handle UI
     public void Start()
@@ -133,6 +127,37 @@ public class BuildingManager : BuildingSystem
             case 3:
                 FocusedBuilding.WorkState = WorkStateEnum.Off;
                 break;
+        }
+    }
+
+    public void OnShowIOButtonPressed()
+    {
+        if (FocusedBuilding)
+        {
+            // visualize the outputsData from APM in the UI
+
+            foreach (Transform field in outputSelectorFields)
+            {
+                Destroy(field.gameObject);
+            }
+
+            outputSelectorFields.Clear();
+
+            for (int i = 0; i < FocusedBuilding.mc.APM.outputData.Count; i++)
+            {
+                KeyValuePair<MachineRecipe.OutputData, int> entry = FocusedBuilding.mc.APM.outputData.ElementAt(i);
+
+                Transform fieldToAdd = Instantiate(OutputsSelector, OutputsParent);
+                OutputSelector os = fieldToAdd.GetComponent<OutputSelector>();
+                os.value = entry.Key;
+                os.OutputID = entry.Value;
+                os.itemNameText.text = entry.Key.item.name;
+                outputSelectorFields.Add(fieldToAdd);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Attempting to open the IO management UI without having a selected building! This shouldn't be possible.");
         }
     }
 }

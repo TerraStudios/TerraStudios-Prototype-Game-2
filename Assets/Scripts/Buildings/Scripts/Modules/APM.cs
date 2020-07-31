@@ -11,9 +11,39 @@ public class APM : MonoBehaviour
     public RecipePreset recipePreset;
     public MachineRecipe currentRecipe;
 
+    // Key is the needed recipe item
+    // Value is outputID
+    [HideInInspector]
+    public Dictionary<MachineRecipe.OutputData, int> outputData = new Dictionary<MachineRecipe.OutputData, int>();
+
     public void Init()
     {
         mc.BuildingIOManager.OnItemEnterInput.AddListener(OnItemEnterInput);
+
+        InitOutputData();
+    }
+
+    private void InitOutputData() 
+    {
+        for (int i = 0; i < currentRecipe.outputs.Length; i++)
+        {
+            outputData.Add(currentRecipe.outputs[i], i + 1);
+        }
+    }
+
+    public void OnOutputButtonPressed(OutputSelector caller) 
+    {
+        int newOutputID = caller.OutputID + 1;
+
+        if (newOutputID <= mc.BuildingIOManager.outputs.Length)
+            outputData[caller.value] = newOutputID;
+        else
+        {
+            newOutputID = 1;
+            outputData[caller.value] = newOutputID;
+        }
+
+        caller.OutputID = newOutputID;
     }
 
     private void OnItemEnterInput(OnItemEnterEvent ItemEnterInfo)
@@ -83,9 +113,24 @@ public class APM : MonoBehaviour
 
     private void ExecuteCrafting()
     {
-        for (int i = 0; i < currentRecipe.outputs.Length; i++)
+        for (int i = 0; i < outputData.Count; i++)
         {
-            mc.BuildingIOManager.outputs[i].SpawnItemObj(currentRecipe.outputs[i].item);
+            KeyValuePair<MachineRecipe.OutputData, int> entry = outputData.ElementAt(i);
+            StartCoroutine(StartSpawning(entry));
+        }
+
+        IEnumerator StartSpawning(KeyValuePair<MachineRecipe.OutputData, int> entry)
+        {
+            for (int i = 0; i < entry.Key.amount; i++)
+            {
+                yield return new WaitForSeconds(1);
+                ExecuteSpawning(entry);
+            } 
+        }
+
+        void ExecuteSpawning(KeyValuePair<MachineRecipe.OutputData, int> entry)
+        {
+            mc.BuildingIOManager.outputs[entry.Value - 1].SpawnItemObj(entry.Key.item);
         }
 
         Debug.Log("Finished crafting!");
