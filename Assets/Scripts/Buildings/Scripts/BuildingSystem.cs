@@ -32,6 +32,11 @@ public class BuildingSystem : MonoBehaviour
         b.EconomyManager = EconomyManager;
         RegisteredBuildings.Add(b);
         b.Init();
+
+        if (b.mc.BuildingIOManager.isConveyor)
+        {
+            ConveyorManager.instance.conveyors.Add(b.GetComponent<Conveyor>());
+        }
     }
 
     /// <summary>

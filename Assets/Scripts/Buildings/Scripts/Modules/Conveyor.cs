@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Conveyor : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public class Conveyor : MonoBehaviour, ConveyorBase
 {
+    public Rigidbody rb;
     public float speed = 1;
+   
 
-    private void OnTriggerStay(Collider other)
+    public void UpdateConveyor()
     {
-        if (other.attachedRigidbody)
-        {
-            other.attachedRigidbody.AddForce(transform.forward * speed);
-        }
+        
+            Vector3 pos = rb.position;
+            rb.position += -rb.transform.forward * speed * Time.fixedDeltaTime;
+            rb.MovePosition(pos);
     }
 
 }
