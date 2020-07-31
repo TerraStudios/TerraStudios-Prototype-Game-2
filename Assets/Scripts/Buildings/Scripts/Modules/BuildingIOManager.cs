@@ -167,6 +167,8 @@ public class BuildingIOManager : MonoBehaviour
     /// <param name="state">The new <see cref="WorkStateEnum"/> for the conveyor group to be in</param>
     public void SetConveyorGroupState(WorkStateEnum state)
     {
+        Log.LogConsole("Calling get conveyor group");
+
         foreach (BuildingIOManager bIO in GetConveyorGroup())
         {
             bIO.mc.Building.SetWorkstateSilent(state); //set it silently to not trigger on workstate changed (recursion)
@@ -184,6 +186,8 @@ public class BuildingIOManager : MonoBehaviour
         RecursiveGetConveyorGroup(toReturn, true);
         //Debug.Log(isConveyor);
         if (isConveyor) RecursiveGetConveyorGroup(toReturn, false);
+
+        Log.LogConsole($"Found {toReturn.Count} conveyors");
 
         return toReturn;
     }

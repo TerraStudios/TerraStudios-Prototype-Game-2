@@ -276,8 +276,7 @@ public class GridManager : MonoBehaviour
                 visBuilding.mc.BuildingIOManager.UpdateIOPhysics();
             }
         }
-        else
-            Debug.Log("Not allowed to place here!");
+        
     }
 
     #endregion
@@ -292,10 +291,7 @@ public class GridManager : MonoBehaviour
     /// <returns></returns>
     private bool CanPlace(RaycastHit hit, Vector3 grid)
     {
-        Vector3 location = hit.point;
         Vector2 buildingSize = currentBuilding.GetBuildSize();
-
-        Vector3 buildingBounds = currentBuilding.GetComponent<MeshRenderer>().bounds.size;
 
         ExtDebug.DrawBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f, 1f, buildingSize.y * 0.5f), RotationChange, Color.red);
 
