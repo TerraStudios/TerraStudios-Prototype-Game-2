@@ -15,4 +15,14 @@ public class ItemBehaviour : MonoBehaviour
                 bIO.OnItemEnter(this);
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer.Equals(12))
+        {
+            BuildingIO bIO = other.transform.parent.GetComponent<BuildingIO>();
+            if (bIO.isInput && !bIO.IOManager.isConveyor)
+                bIO.OnItemExit(this);
+        }
+    }
 }

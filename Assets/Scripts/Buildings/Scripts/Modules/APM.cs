@@ -11,10 +11,39 @@ public class APM : MonoBehaviour
     public RecipePreset recipePreset;
     public MachineRecipe currentRecipe;
 
+    private bool isCrafting;
+
     // Key is the needed recipe item
     // Value is outputID
     [HideInInspector]
     public Dictionary<MachineRecipe.OutputData, int> outputData = new Dictionary<MachineRecipe.OutputData, int>();
+
+    public bool IsCrafting 
+    {
+        get => isCrafting;
+        set
+        {
+            isCrafting = value;
+            if (value) 
+            {
+                foreach (BuildingIO input in mc.BuildingIOManager.inputs) // block all inputs so new items won't come in
+                {
+                    input.blockInput = true;
+                }
+            }
+            else
+            {
+                foreach (BuildingIO input in mc.BuildingIOManager.inputs) // allow all inputs to accept new items and allow the pending item to go through
+                {
+                    input.blockInput = false;
+                    Debug.Log("Forcing it to go through!"); // here
+                    if (input.itemInside)
+                        input.OnItemEnter(input.itemInside);
+                    input.itemInside = null;
+                }
+            }
+        }
+    }
 
     public void Init()
     {
@@ -54,6 +83,12 @@ public class APM : MonoBehaviour
             return;
         }
 
+        if (IsCrafting) // check if the APM is currently crafting
+        {
+            Debug.Log("There's currently crafting ongoing!");
+            return;
+        }
+
         foreach (MachineRecipe.InputData recipeData in currentRecipe.inputs) // check if we have all required items
         {
             if (recipeData.item is ItemData)
@@ -70,6 +105,7 @@ public class APM : MonoBehaviour
                 if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.quantity != recipeData.amount))
                 {
                     Debug.LogWarning("Still, not all items are present inside");
+                    AcceptItemInside(ItemEnterInfo);
                     return;
                 }
             }
@@ -87,19 +123,23 @@ public class APM : MonoBehaviour
                 if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.item.ItemCategory != cat))
                 {
                     Debug.Log("Still, not all items are present inside");
+                    AcceptItemInside(ItemEnterInfo);
                     return;
                 }
             }
         }
 
-        StartCrafting(); // ready to go
+        StartCrafting(ItemEnterInfo); // ready to go
     }
 
     #region Crafting procedure
 
-    private void StartCrafting()
+    private void StartCrafting(OnItemEnterEvent ItemEnterInfo)
     {
         Debug.Log("Start crafting!");
+        AcceptItemInside(ItemEnterInfo);
+        IsCrafting = true;
+
         mc.BuildingIOManager.itemsInside.Clear(); // remove all items inside
 
         StartCoroutine(RunCraftingTimer());
@@ -125,7 +165,7 @@ public class APM : MonoBehaviour
             {
                 yield return new WaitForSeconds(1);
                 ExecuteSpawning(entry);
-            } 
+            }
         }
 
         void ExecuteSpawning(KeyValuePair<MachineRecipe.OutputData, int> entry)
@@ -133,7 +173,14 @@ public class APM : MonoBehaviour
             mc.BuildingIOManager.outputs[entry.Value - 1].SpawnItemObj(entry.Key.item);
         }
 
+        IsCrafting = false;
         Debug.Log("Finished crafting!");
+    }
+
+    private void AcceptItemInside(OnItemEnterEvent ItemEnterInfo) 
+    {
+        if (ItemEnterInfo.sceneInstance)
+            Destroy(ItemEnterInfo.sceneInstance);
     }
 
     #endregion
