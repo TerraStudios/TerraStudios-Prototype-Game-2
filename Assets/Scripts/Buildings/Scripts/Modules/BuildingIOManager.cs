@@ -85,6 +85,11 @@ public class BuildingIOManager : MonoBehaviour
         IOForEach(io => io.MakeLink());
     }
 
+    public void UnlinkAll()
+    {
+        IOForEach(io => io.Unlink());
+    }
+
     public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
     {
         ItemInsideData occurrence = itemsInside.FirstOrDefault(found => found.item.ID == item.ID);

@@ -343,6 +343,18 @@ public class BuildingIO : MonoBehaviour
 
     }
 
+    public void Unlink()
+    {
+        if (attachedIO)
+        {
+            //Detach from attached IO and set status back to unconnected
+            attachedIO.attachedIO = null;
+            attachedIO.status = IOAttachmentStatus.Unconnected;
+            attachedIO = null;
+            status = IOAttachmentStatus.Unconnected;
+        }
+    }
+
     /// <summary>
     /// Returns whether an input should be attached or not
     ///
