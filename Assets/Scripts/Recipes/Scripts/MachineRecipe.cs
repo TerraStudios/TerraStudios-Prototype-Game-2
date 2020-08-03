@@ -14,6 +14,9 @@ public class MachineRecipe : ScriptableObject
     {
         public ScriptableObject item;
         public int amount;
+
+        [Tooltip("Specifies the input ID from which the item should be expected to enter. -1 for undefined")]
+        public int inputID = -1;
     }
 
     /// <summary>

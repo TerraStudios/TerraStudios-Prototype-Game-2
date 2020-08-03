@@ -157,6 +157,15 @@ public class APM : MonoBehaviour
                     return;
                 }
             }
+
+            if (recipeData.inputID != -1)
+            {
+                if (recipeData.inputID != ItemEnterInfo.inputID)
+                {
+                    Debug.LogWarning("This item was not expected to enter this input!");
+                    return;
+                }
+            }
         }
 
         StartCrafting(ItemEnterInfo); // ready to go
