@@ -82,8 +82,8 @@ public class BuildingSystem : MonoBehaviour
     }
 
     public virtual void OnBuildingSelected(Building b)
-    {
-        FocusedBuilding = b;
+    { 
+        FocusedBuilding = b;    
     }
 
     public virtual void OnBuildingDeselected()

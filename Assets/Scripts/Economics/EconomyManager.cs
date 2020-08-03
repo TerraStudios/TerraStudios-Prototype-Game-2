@@ -7,8 +7,11 @@ public class EconomyManager : EconomySystem
     [Header("UI Components")]
     public TMP_Text currentBalanceText;
 
+    public static EconomyManager instance;
+
     private void Awake()
     {
+        instance = this;
         Balance = startBalance;
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
@@ -12,10 +13,11 @@ public class GridManager : MonoBehaviour
     [Header("Constant variables")]
     public float tileSize;
     public LayerMask canPlaceIgnoreLayers;
-       
+
 
     [Header("Dynamic variables")]
     private bool isInBuildMode;
+    [HideInInspector] public bool isInDeleteMode = false;
     [HideInInspector] public bool forceVisualizeAll;
 
     /// <summary>
@@ -94,6 +96,8 @@ public class GridManager : MonoBehaviour
     {
         instance = this;
     }
+
+
 
     /// <summary>
     /// Main update loop handles the visualization and rotation, as well as the building procedure.
@@ -213,6 +217,21 @@ public class GridManager : MonoBehaviour
 
     #region Building
 
+    public void DeleteBuilding(Building b)
+    {
+        b.mc.BuildingIOManager.UnlinkAll();
+
+        if (b.mc.BuildingIOManager.isConveyor)
+        {
+            ConveyorManager.instance.conveyors.Remove(b.GetComponent<Conveyor>());
+        }
+
+        //Deposit health * price
+        EconomyManager.instance.Balance += (decimal) ((b.healthPercent / 100.0) * b.price);
+
+        Destroy(b.gameObject); // Destroy game object
+    }
+
     /// <summary>
     /// Instantiates the building visualization and sets the appropriate material
     /// </summary>
@@ -263,7 +282,7 @@ public class GridManager : MonoBehaviour
             b.mc.BuildingIOManager.UpdateIOPhysics();
             b.mc.BuildingIOManager.LinkAll();
 
-            
+
 
             IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
 
@@ -276,7 +295,7 @@ public class GridManager : MonoBehaviour
                 visBuilding.mc.BuildingIOManager.UpdateIOPhysics();
             }
         }
-        
+
     }
 
     #endregion
@@ -398,5 +417,16 @@ public class GridManager : MonoBehaviour
         IsInBuildMode = true;
     }
 
-    #endregion
+    public void OnDeleteModeButtonPressed()
+    {
+        Log.LogConsole((!isInDeleteMode ? "Enabling" : "Disabling") + " DeleteMode");
+
+        if (isInBuildMode || visualization) return;
+
+        isInDeleteMode = !isInDeleteMode;
+
+    }
+
 }
+
+#endregion

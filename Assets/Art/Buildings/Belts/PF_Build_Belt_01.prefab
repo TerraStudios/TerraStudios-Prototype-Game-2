@@ -60,6 +60,8 @@ MonoBehaviour:
   status: 0
   visualizeIO: 1
   arrow: {fileID: 0}
+  itemInside: {fileID: 0}
+  blockInput: 0
 --- !u!54 &2602033184604487162
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -198,6 +200,8 @@ MonoBehaviour:
   status: 0
   visualizeIO: 1
   arrow: {fileID: 0}
+  itemInside: {fileID: 0}
+  blockInput: 0
 --- !u!54 &2705918099970734129
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -336,6 +340,8 @@ MonoBehaviour:
   status: 0
   visualizeIO: 1
   arrow: {fileID: 0}
+  itemInside: {fileID: 0}
+  blockInput: 0
 --- !u!54 &8278893233521408748
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -474,6 +480,8 @@ MonoBehaviour:
   status: 0
   visualizeIO: 1
   arrow: {fileID: 0}
+  itemInside: {fileID: 0}
+  blockInput: 0
 --- !u!54 &8082731187479997164
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -600,7 +608,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7134618903244887598}
-  m_Mesh: {fileID: -5907559480684706989, guid: 20d58025a3e7a7549805d27a641f7bee, type: 3}
+  m_Mesh: {fileID: -8100298161942033253, guid: a9f8beabf2757dd4797438e20c4af1df, type: 3}
 --- !u!23 &8880979837139870450
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -620,8 +628,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: ecf8751beaa120e4f901b9f0cd14f8d1, type: 2}
   - {fileID: 2100000, guid: 96f8677cd4c3fa34982c9fbc1b015bbf, type: 2}
-  - {fileID: 2100000, guid: 257a7cee9580570469a19a3f0635592e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
