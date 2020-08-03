@@ -61,7 +61,6 @@ MonoBehaviour:
   visualizeIO: 1
   arrow: {fileID: 0}
   itemInside: {fileID: 0}
-  blockInput: 0
 --- !u!54 &2602033184604487162
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -201,7 +200,6 @@ MonoBehaviour:
   visualizeIO: 1
   arrow: {fileID: 0}
   itemInside: {fileID: 0}
-  blockInput: 0
 --- !u!54 &2705918099970734129
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -341,7 +339,6 @@ MonoBehaviour:
   visualizeIO: 1
   arrow: {fileID: 0}
   itemInside: {fileID: 0}
-  blockInput: 0
 --- !u!54 &8278893233521408748
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -481,7 +478,6 @@ MonoBehaviour:
   visualizeIO: 1
   arrow: {fileID: 0}
   itemInside: {fileID: 0}
-  blockInput: 0
 --- !u!54 &8082731187479997164
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -665,6 +661,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Building: {fileID: 3826658444029601288}
   BuildingIOManager: {fileID: 5563025563349119533}
+  Conveyor: {fileID: 1367578862775194325}
   APM: {fileID: 0}
 --- !u!114 &3826658444029601288
 MonoBehaviour:

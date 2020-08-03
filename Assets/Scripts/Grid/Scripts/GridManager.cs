@@ -219,11 +219,12 @@ public class GridManager : MonoBehaviour
 
     public void DeleteBuilding(Building b)
     {
+        b.mc.BuildingIOManager.DevisualizeAll();
         b.mc.BuildingIOManager.UnlinkAll();
 
         if (b.mc.BuildingIOManager.isConveyor)
         {
-            ConveyorManager.instance.conveyors.Remove(b.GetComponent<Conveyor>());
+            ConveyorManager.instance.conveyors.Remove(b.mc.Conveyor);
         }
 
         //Deposit health * price
