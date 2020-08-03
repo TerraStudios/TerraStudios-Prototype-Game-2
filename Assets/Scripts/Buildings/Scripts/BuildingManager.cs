@@ -70,16 +70,17 @@ public class BuildingManager : BuildingSystem
                         building.mc.BuildingIOManager.VisualizeAll();
                 }
 
-        BuildingInfo.SetActive(true);
+            BuildingInfo.SetActive(true);
 
-        RefreshRecipeList();
-        if (!b.mc.BuildingIOManager.isConveyor)
-        {
-            
-            RefreshOutputsUI();
+            RefreshRecipeList();
+            if (!b.mc.BuildingIOManager.isConveyor)
+            {
+
+                RefreshOutputsUI();
+            }
+
+            b.mc.BuildingIOManager.outputs[0].SpawnItemObj(testItemToSpawn);
         }
-            
-        b.mc.BuildingIOManager.outputs[0].SpawnItemObj(testItemToSpawn);
     }
 
     /// <summary>
