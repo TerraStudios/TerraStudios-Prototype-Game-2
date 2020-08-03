@@ -184,7 +184,7 @@ public class BuildingIOManager : MonoBehaviour
         //Debug.Log(isConveyor);
         if (isConveyor) RecursiveGetConveyorGroup(toReturn, false);
 
-        Log.LogConsole($"Found {toReturn.Count} conveyors");
+        //Log.LogConsole($"Found {toReturn.Count} conveyors");
 
         return toReturn;
     }

@@ -163,8 +163,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mc: {fileID: 983261423420364408}
   allowAllRecipes: 1
-  recipePreset: {fileID: 0}
-  currentRecipe: {fileID: 11400000, guid: ce9b8857a8ba5a447a8f1cacb82bdeec, type: 2}
+  recipePreset: {fileID: 11400000, guid: ca63b9df525e89a4a878ebc46220b14f, type: 2}
+  currentRecipe: {fileID: 0}
 --- !u!1001 &684045419993563406
 PrefabInstance:
   m_ObjectHideFlags: 0

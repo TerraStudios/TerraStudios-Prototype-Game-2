@@ -41,7 +41,23 @@ public class BuildingIO : MonoBehaviour
     private LayerMask IOMask;
     private List<Collider> iosInside = new List<Collider>();
     public ItemBehaviour itemInside;
-    public bool blockInput;
+    private bool blockInput;
+
+    public bool BlockInput 
+    {
+        get => blockInput;
+        set
+        {
+            blockInput = value;
+
+            if (!value)
+            {
+                if (itemInside)
+                    OnItemEnter(itemInside);
+                itemInside = null;
+            }      
+        }
+    }
 
     #region Initialization
 
@@ -218,14 +234,14 @@ public class BuildingIO : MonoBehaviour
         if (itemsAllowedToEnter.Length == 0 && itemCategoriesAllowedToEnter.Length == 0)
             allowedToEnter = true;
 
-        if (allowedToEnter && blockInput)
+        if (allowedToEnter && BlockInput)
         {
             itemInside = item;
             return;
         }
             
 
-        if (!allowedToEnter && blockInput)
+        if (!allowedToEnter && BlockInput)
             return;
 
         IOManager.ProceedItemEnter(item.gameObject, item.data, Array.FindIndex(IOManager.inputs, row => this));

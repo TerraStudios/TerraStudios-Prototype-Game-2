@@ -11,8 +11,9 @@ public class BuildingManager : BuildingSystem
     public TMP_Text buildHealth;
     public TMP_Text itemInsideName;
 
-    // IO Management and recipe selection
+    [Header("IO and Recipe Setup UI Components")]
     public TMP_Dropdown recipeSelection;
+    public GameObject IOSelectionPanel;
     public Transform OutputsParent;
     public Transform OutputsSelector;
     private List<Transform> outputSelectorFields = new List<Transform>();
@@ -62,6 +63,14 @@ public class BuildingManager : BuildingSystem
             }
 
         BuildingInfo.SetActive(true);
+
+        RefreshRecipeList();
+        if (!b.mc.BuildingIOManager.isConveyor)
+        {
+            
+            RefreshOutputsUI();
+        }
+            
         b.mc.BuildingIOManager.outputs[0].SpawnItemObj(testItemToSpawn);
     }
 
@@ -130,7 +139,61 @@ public class BuildingManager : BuildingSystem
         }
     }
 
-    public void OnShowIOButtonPressed()
+    #region IO Management
+
+    private void RefreshRecipeList() 
+    {
+        recipeSelection.ClearOptions();
+
+        recipeSelection.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
+
+        if (FocusedBuilding.mc.BuildingIOManager.isConveyor)
+        {
+            recipeSelection.value = 0;
+            recipeSelection.RefreshShownValue();
+            return;
+        }
+
+        if (!FocusedBuilding.mc.APM.CurrentRecipe)
+        {
+            recipeSelection.value = 0;
+        }
+        
+        for (int i = 0; i < FocusedBuilding.mc.APM.recipePreset.AllowedRecipes.Count(); i++)
+        {
+            MachineRecipe recipe = FocusedBuilding.mc.APM.recipePreset.AllowedRecipes[i];
+            recipeSelection.options.Add(new TMP_Dropdown.OptionData() { text = recipe.name });
+            if (FocusedBuilding.mc.APM.CurrentRecipe == recipe)
+                recipeSelection.value = i + 1;
+        }
+
+        recipeSelection.RefreshShownValue();
+
+        recipeSelection.onValueChanged.AddListener(delegate { OnRecipeSelected(recipeSelection); });
+    }
+
+    private void OnRecipeSelected(TMP_Dropdown changed) 
+    {
+        if (changed.value == 0)
+            FocusedBuilding.mc.APM.CurrentRecipe = null;
+        else
+            FocusedBuilding.mc.APM.CurrentRecipe = FocusedBuilding.mc.APM.recipePreset.AllowedRecipes[changed.value - 1];
+
+        RefreshOutputsUI();
+    }
+
+    public void ShowIOSelectionUI() 
+    {
+        IOSelectionPanel.SetActive(true);
+        RefreshOutputsUI();
+    }
+
+    public void HideIOSelectionUI()
+    {
+        IOSelectionPanel.SetActive(false);
+    }
+
+    public void RefreshOutputsUI()
     {
         if (FocusedBuilding)
         {
@@ -160,4 +223,5 @@ public class BuildingManager : BuildingSystem
             Debug.LogWarning("Attempting to open the IO management UI without having a selected building! This shouldn't be possible.");
         }
     }
+    #endregion
 }

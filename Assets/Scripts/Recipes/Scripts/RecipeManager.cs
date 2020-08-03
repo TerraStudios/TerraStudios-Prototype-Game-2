@@ -1,31 +1,20 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
-public class RecipeManager
+public class RecipeManager : MonoBehaviour
 {
-
     private MachineRecipe[] recipes;
     private ItemCategory[] categories;
 
-    private static RecipeManager _instance;
+    public static RecipeManager instance;
 
-    public static RecipeManager instance
+    private void Awake()
     {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new RecipeManager();
-            }
-
-            return _instance;
-        }
-    }
-
-    public RecipeManager()
-    {
-        this.categories = Resources.LoadAll<ItemCategory>("Categories");
-        this.recipes = Resources.LoadAll<MachineRecipe>("Recipes");
+        instance = this;
+        categories = Resources.LoadAll<ItemCategory>("");
+        recipes = Resources.LoadAll<MachineRecipe>("");
+        Debug.Log("Loaded " + recipes.Count() + " recipes and " + categories.Count() + " categories.");
     }
 
     public MachineRecipe[] RetrieveRecipes()

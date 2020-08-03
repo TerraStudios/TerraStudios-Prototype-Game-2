@@ -9,7 +9,7 @@ public class APM : MonoBehaviour
     public ModuleConnector mc;
     public bool allowAllRecipes;
     public RecipePreset recipePreset;
-    public MachineRecipe currentRecipe;
+    private MachineRecipe currentRecipe;
 
     private bool isCrafting;
 
@@ -24,24 +24,27 @@ public class APM : MonoBehaviour
         set
         {
             isCrafting = value;
-            if (value) 
-            {
-                foreach (BuildingIO input in mc.BuildingIOManager.inputs) // block all inputs so new items won't come in
-                {
-                    input.blockInput = true;
-                }
-            }
+            if (value)
+                BlockAllInputs();
             else
-            {
-                foreach (BuildingIO input in mc.BuildingIOManager.inputs) // allow all inputs to accept new items and allow the pending item to go through
-                {
-                    input.blockInput = false;
-                    Debug.Log("Forcing it to go through!"); // here
-                    if (input.itemInside)
-                        input.OnItemEnter(input.itemInside);
-                    input.itemInside = null;
-                }
-            }
+                UnblockAllInputs();
+        }
+    }
+
+    public MachineRecipe CurrentRecipe 
+    {
+        get => currentRecipe;
+        set
+        {
+            currentRecipe = value;
+            InitOutputData();
+
+            Debug.Log("Set recipe: " + value?.name);
+
+            if (!value)
+                BlockAllInputs();
+            else
+                UnblockAllInputs();
         }
     }
 
@@ -49,16 +52,40 @@ public class APM : MonoBehaviour
     {
         mc.BuildingIOManager.OnItemEnterInput.AddListener(OnItemEnterInput);
 
-        InitOutputData();
+        if (CurrentRecipe)
+            InitOutputData();
+        else
+            BlockAllInputs();
     }
 
     private void InitOutputData() 
     {
-        for (int i = 0; i < currentRecipe.outputs.Length; i++)
+        outputData.Clear();
+
+        if (CurrentRecipe)
         {
-            outputData.Add(currentRecipe.outputs[i], i + 1);
+            for (int i = 0; i < CurrentRecipe.outputs.Length; i++)
+            {
+                outputData.Add(CurrentRecipe.outputs[i], i + 1);
+            }
         }
     }
+
+    private void BlockAllInputs() 
+    {
+        foreach (BuildingIO input in mc.BuildingIOManager.inputs) // block all inputs so new items won't come in
+        {
+            input.BlockInput = true;
+        }
+    }
+
+    private void UnblockAllInputs() 
+    {
+        foreach (BuildingIO input in mc.BuildingIOManager.inputs) // allow all inputs to accept new items and allow the pending item to go through
+        {
+            input.BlockInput = false;
+        }
+    } 
 
     public void OnOutputButtonPressed(OutputSelector caller) 
     {
@@ -77,7 +104,7 @@ public class APM : MonoBehaviour
 
     private void OnItemEnterInput(OnItemEnterEvent ItemEnterInfo)
     {
-        if (!currentRecipe) // check if we have any recipe to work with
+        if (!CurrentRecipe) // check if we have any recipe to work with
         {
             Debug.LogError("Item attempts to enter but there's no recipe!!!");
             return;
@@ -89,7 +116,7 @@ public class APM : MonoBehaviour
             return;
         }
 
-        foreach (MachineRecipe.InputData recipeData in currentRecipe.inputs) // check if we have all required items
+        foreach (MachineRecipe.InputData recipeData in CurrentRecipe.inputs) // check if we have all required items
         {
             if (recipeData.item is ItemData)
             {
@@ -147,7 +174,7 @@ public class APM : MonoBehaviour
 
     IEnumerator RunCraftingTimer()
     {
-        yield return new WaitForSeconds(currentRecipe.baseTime);
+        yield return new WaitForSeconds(CurrentRecipe.baseTime);
         ExecuteCrafting();
     }
 
