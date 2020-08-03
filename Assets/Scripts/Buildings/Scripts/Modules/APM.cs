@@ -36,6 +36,9 @@ public class APM : MonoBehaviour
         get => currentRecipe;
         set
         {
+            if (CurrentRecipe == value)
+                return;
+
             currentRecipe = value;
             InitOutputData();
 
