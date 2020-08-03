@@ -230,6 +230,7 @@ public class GridManager : MonoBehaviour
         //Deposit health * price
         EconomyManager.instance.Balance += (decimal) ((b.healthPercent / 100.0) * b.price);
 
+        BuildingSystem.RegisteredBuildings.Remove(b);
         Destroy(b.gameObject); // Destroy game object
     }
 
