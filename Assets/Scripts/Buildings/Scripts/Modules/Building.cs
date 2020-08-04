@@ -120,8 +120,7 @@ public class Building : MonoBehaviour
 
     public void Fix()
     {
-        float priceForFix = ((float)(healthPercent + 1) / 100) * (float)price * penaltyForFix;
-        Debug.Log(priceForFix);
+        float priceForFix = ((float)(healthPercent + 1) / 100) * price * penaltyForFix;
         if (EconomyManager.Balance >= (decimal)priceForFix)
         {
             WorkState = WorkStateEnum.Off;

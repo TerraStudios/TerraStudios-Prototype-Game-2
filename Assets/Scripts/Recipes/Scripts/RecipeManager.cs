@@ -4,7 +4,7 @@ using System.Linq;
 
 public class RecipeManager : MonoBehaviour
 {
-    private MachineRecipe[] recipes;
+    private List<MachineRecipe> recipes;
     private ItemCategory[] categories;
 
     public static RecipeManager instance;
@@ -13,11 +13,11 @@ public class RecipeManager : MonoBehaviour
     {
         instance = this;
         categories = Resources.LoadAll<ItemCategory>("");
-        recipes = Resources.LoadAll<MachineRecipe>("");
+        recipes = Resources.LoadAll<MachineRecipe>("").ToList();
         Debug.Log("Loaded " + recipes.Count() + " recipes and " + categories.Count() + " categories.");
     }
 
-    public MachineRecipe[] RetrieveRecipes()
+    public List<MachineRecipe> RetrieveRecipes()
     {
         return recipes;
     }
