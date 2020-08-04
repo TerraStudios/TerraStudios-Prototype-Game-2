@@ -44,7 +44,7 @@ public class Building : MonoBehaviour
     [Tooltip("The maximum TimeSpan the machine will last in months")]
     public int monthsLifespanMax;
     [Tooltip("The cost (penalty) of fixing the building")]
-    public int penaltyForFix;
+    public float penaltyForFix;
     [Tooltip("The amount of time to fix the building")]
     public float timeToFixMultiplier;
     private int monthsLifespan;
@@ -120,11 +120,12 @@ public class Building : MonoBehaviour
 
     public void Fix()
     {
-        int priceForFix = (healthPercent + 1 / 100) * price * penaltyForFix;
-        if (EconomyManager.Balance >= priceForFix)
+        float priceForFix = ((float)(healthPercent + 1) / 100) * (float)price * penaltyForFix;
+        Debug.Log(priceForFix);
+        if (EconomyManager.Balance >= (decimal)priceForFix)
         {
             WorkState = WorkStateEnum.Off;
-            EconomyManager.Balance -= priceForFix;
+            EconomyManager.Balance -= (decimal)priceForFix;
             SetIndicator(BuildingManager.instance.FixingIndicator);
             foreach (TimeWaitEvent ev in healthWaitEvents) { TimeManager.UnregisterTimeWaiter(ev); }
         }
