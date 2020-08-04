@@ -10,6 +10,7 @@ public class APM : MonoBehaviour
     public bool allowAllRecipes;
     public RecipePreset recipePreset;
     private MachineRecipe currentRecipe;
+    public float baseTimeMultiplier = 1;
 
     private bool isCrafting;
 
@@ -186,7 +187,7 @@ public class APM : MonoBehaviour
 
     IEnumerator RunCraftingTimer()
     {
-        yield return new WaitForSeconds(CurrentRecipe.baseTime);
+        yield return new WaitForSeconds(CurrentRecipe.baseTime * baseTimeMultiplier);
         ExecuteCrafting();
     }
 
