@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -9,6 +10,7 @@ public class GridManager : MonoBehaviour
     public BuildingManager BuildingManager;
     public EconomyManager EconomyManager;
     public Camera MainCamera;
+    public GameObject removeModeEnabledText;
 
     [Header("Constant variables")]
     public float tileSize;
@@ -427,6 +429,7 @@ public class GridManager : MonoBehaviour
 
         isInDeleteMode = !isInDeleteMode;
 
+        removeModeEnabledText.SetActive(isInDeleteMode);
     }
 
 }

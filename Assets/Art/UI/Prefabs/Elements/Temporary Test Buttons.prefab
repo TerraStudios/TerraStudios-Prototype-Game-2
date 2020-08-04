@@ -688,7 +688,7 @@ GameObject:
   - component: {fileID: 145136001925619224}
   - component: {fileID: 3587505965798337162}
   m_Layer: 5
-  m_Name: BuildConveyorBtn (1)
+  m_Name: RemoveModeBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
