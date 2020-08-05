@@ -8,7 +8,7 @@ public class APM : MonoBehaviour
 {
     public ModuleConnector mc;
     public bool allowAllRecipes;
-    public RecipePreset recipePreset;
+    public RecipeFilter recipePreset;
     private MachineRecipe currentRecipe;
     public float baseTimeMultiplier = 1;
 
