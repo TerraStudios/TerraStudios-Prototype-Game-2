@@ -4,6 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public class CraftingData
+{
+    public MachineRecipe CurrentRecipe;
+    private Dictionary<MachineRecipe.OutputData, int> outputData;
+
+    public Dictionary<MachineRecipe.OutputData, int> OutputData 
+    {
+        get
+        {
+            return outputData;
+        }
+        set
+        {
+            outputData = new Dictionary<MachineRecipe.OutputData, int>(value);
+        }
+    }
+}
+
 public class APM : MonoBehaviour
 {
     public ModuleConnector mc;
@@ -18,6 +36,8 @@ public class APM : MonoBehaviour
     // Value is outputID
     [HideInInspector]
     public Dictionary<MachineRecipe.OutputData, int> outputData = new Dictionary<MachineRecipe.OutputData, int>();
+
+    public Queue<CraftingData> CurrentlyCrafting = new Queue<CraftingData>();
 
     public bool IsCrafting 
     {
@@ -180,6 +200,17 @@ public class APM : MonoBehaviour
         AcceptItemInside(ItemEnterInfo);
         IsCrafting = true;
 
+        CraftingData data = new CraftingData()
+        {
+            OutputData = outputData,
+            CurrentRecipe = currentRecipe
+        };
+
+        if (CurrentlyCrafting.Count != 0)
+            CurrentlyCrafting.Dequeue();
+
+        CurrentlyCrafting.Enqueue(data);
+
         mc.BuildingIOManager.itemsInside.Clear(); // remove all items inside
 
         StartCoroutine(RunCraftingTimer());
@@ -187,16 +218,18 @@ public class APM : MonoBehaviour
 
     IEnumerator RunCraftingTimer()
     {
-        yield return new WaitForSeconds(CurrentRecipe.baseTime * baseTimeMultiplier);
+        yield return new WaitForSeconds(CurrentlyCrafting.Peek().CurrentRecipe.baseTime * baseTimeMultiplier);
         ExecuteCrafting();
     }
 
     private void ExecuteCrafting()
     {
-        for (int i = 0; i < outputData.Count; i++)
+        CraftingData currentlyCrafting = CurrentlyCrafting.Peek();
+        for (int i = 0; i < currentlyCrafting.OutputData.Count; i++)
         {
-            KeyValuePair<MachineRecipe.OutputData, int> entry = outputData.ElementAt(i);
+            KeyValuePair<MachineRecipe.OutputData, int> entry = currentlyCrafting.OutputData.ElementAt(i);
             StartCoroutine(StartSpawning(entry));
+            Finish();
         }
 
         IEnumerator StartSpawning(KeyValuePair<MachineRecipe.OutputData, int> entry)
@@ -213,8 +246,7 @@ public class APM : MonoBehaviour
             mc.BuildingIOManager.outputs[entry.Value - 1].SpawnItemObj(entry.Key.item);
         }
 
-        IsCrafting = false;
-        Debug.Log("Finished crafting!");
+        void Finish() => IsCrafting = false;
     }
 
     private void AcceptItemInside(OnItemEnterEvent ItemEnterInfo) 
