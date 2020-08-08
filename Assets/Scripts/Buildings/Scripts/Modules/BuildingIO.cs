@@ -281,6 +281,7 @@ public class BuildingIO : MonoBehaviour
     {
         yield return new WaitUntil(() => !itemInside);
         yield return new WaitForSeconds(timeToSpawn);
+        yield return new WaitUntil(() => !itemInside);
         Vector3 spawnPos;
 
         if (IOManager.isConveyor)
