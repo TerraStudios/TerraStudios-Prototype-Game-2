@@ -122,7 +122,7 @@ public class BuildingIOManager : MonoBehaviour
     {
         Destroy(sceneInstance, 1f);
         BuildingIO trashOutput = GetTrashOutput();
-        trashOutput.SpawnItemObj(item);
+        trashOutput.AddToSpawnQueue(item);
     }
 
     /// <summary>

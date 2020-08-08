@@ -79,7 +79,7 @@ public class BuildingManager : BuildingSystem
                 RefreshOutputsUI();
             }
 
-            b.mc.BuildingIOManager.outputs[0].SpawnItemObj(testItemToSpawn);
+            b.mc.BuildingIOManager.outputs[0].AddToSpawnQueue(testItemToSpawn, 0);
         }
     }
 

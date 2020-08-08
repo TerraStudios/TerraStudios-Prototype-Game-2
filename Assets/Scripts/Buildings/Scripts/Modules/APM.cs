@@ -228,25 +228,14 @@ public class APM : MonoBehaviour
         for (int i = 0; i < currentlyCrafting.OutputData.Count; i++)
         {
             KeyValuePair<MachineRecipe.OutputData, int> entry = currentlyCrafting.OutputData.ElementAt(i);
-            StartCoroutine(StartSpawning(entry));
-            Finish();
-        }
 
-        IEnumerator StartSpawning(KeyValuePair<MachineRecipe.OutputData, int> entry)
-        {
-            for (int i = 0; i < entry.Key.amount; i++)
+            for (int t = 0; t < entry.Key.amount; t++)
             {
-                yield return new WaitForSeconds(1);
-                ExecuteSpawning(entry);
+                mc.BuildingIOManager.outputs[entry.Value - 1].AddToSpawnQueue(entry.Key.item);
             }
-        }
 
-        void ExecuteSpawning(KeyValuePair<MachineRecipe.OutputData, int> entry)
-        {
-            mc.BuildingIOManager.outputs[entry.Value - 1].SpawnItemObj(entry.Key.item);
+            IsCrafting = false;
         }
-
-        void Finish() => IsCrafting = false;
     }
 
     private void AcceptItemInside(OnItemEnterEvent ItemEnterInfo) 

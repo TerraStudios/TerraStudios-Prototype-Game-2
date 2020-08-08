@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,6 +7,12 @@ using UnityEngine;
 public enum IOAttachmentStatus
 {
     Unconnected, InvalidConnection, SuccessfulConnection
+}
+
+public struct ItemSpawnData 
+{
+    public int timeToSpawn;
+    public ItemData itemToSpawn;
 }
 
 /// <summary>
@@ -42,6 +49,7 @@ public class BuildingIO : MonoBehaviour
     private List<Collider> iosInside = new List<Collider>();
     public ItemBehaviour itemInside;
     private bool blockInput;
+    public Queue<ItemSpawnData> itemsToSpawn = new Queue<ItemSpawnData>(); // make with delay and enqueue, dequeue and spawn
 
     public bool BlockInput 
     {
@@ -120,8 +128,6 @@ public class BuildingIO : MonoBehaviour
 
 
     }
-
-
 
     /// <summary>
     /// Used for debugging the IO detection by drawing a box around each physics check (seen in Scene view)
@@ -259,8 +265,29 @@ public class BuildingIO : MonoBehaviour
     /// Spawns an <see cref="ItemData"/> at one of the exit IOs
     /// </summary>
     /// <param name="itemToSpawn"></param>
-    public void SpawnItemObj(ItemData itemToSpawn)
+    public void AddToSpawnQueue(ItemData itemToSpawn, int timeToSpawn = 1)
     {
+        ItemSpawnData spawnData = new ItemSpawnData()
+        {
+            itemToSpawn = itemToSpawn,
+            timeToSpawn = timeToSpawn
+        };
+
+        itemsToSpawn.Enqueue(spawnData);
+
+        if (itemsToSpawn.Count() == 1)
+            ExecuteSpawn(itemToSpawn, timeToSpawn);
+    }
+
+    private void ExecuteSpawn(ItemData itemToSpawn, int timeToSpawn = 1) 
+    {
+        StartCoroutine(ProcessSpawn(itemToSpawn, timeToSpawn));
+    }
+
+    IEnumerator ProcessSpawn(ItemData itemToSpawn, int timeToSpawn = 1)
+    {
+        //yield return new WaitUntil(itemsToSpawn.Count == 0);
+        yield return new WaitForSeconds(timeToSpawn);
         Vector3 spawnPos;
 
         if (IOManager.isConveyor)
@@ -271,6 +298,19 @@ public class BuildingIO : MonoBehaviour
         ObjectPoolManager.instance.ReuseObject(itemToSpawn.obj.gameObject, spawnPos, Quaternion.identity);
 
         //Instantiate(itemToSpawn.obj, spawnPos, Quaternion.identity);
+
+        FinishSpawn();
+    }
+
+    void FinishSpawn()
+    {
+        itemsToSpawn.Dequeue();
+
+        if (itemsToSpawn.Count != 0)
+        {
+            ItemSpawnData next = itemsToSpawn.Peek();
+            ExecuteSpawn(next.itemToSpawn, next.timeToSpawn);
+        }
     }
 
     #endregion
