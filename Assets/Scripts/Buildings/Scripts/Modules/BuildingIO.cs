@@ -9,7 +9,7 @@ public enum IOAttachmentStatus
     Unconnected, InvalidConnection, SuccessfulConnection
 }
 
-public struct ItemSpawnData 
+public struct ItemSpawnData
 {
     public int timeToSpawn;
     public ItemData itemToSpawn;
@@ -47,11 +47,11 @@ public class BuildingIO : MonoBehaviour
     [HideInInspector] public Transform arrow;
     private LayerMask IOMask;
     private List<Collider> iosInside = new List<Collider>();
-    public ItemBehaviour itemInside;
-    private bool blockInput;
     public Queue<ItemSpawnData> itemsToSpawn = new Queue<ItemSpawnData>(); // make with delay and enqueue, dequeue and spawn
+    public ItemBehaviour itemInside;
 
-    public bool BlockInput 
+    private bool blockInput;
+    public bool BlockInput
     {
         get => blockInput;
         set
@@ -63,7 +63,7 @@ public class BuildingIO : MonoBehaviour
                 if (itemInside)
                     OnItemEnter(itemInside);
                 itemInside = null;
-            }      
+            }
         }
     }
 
@@ -107,7 +107,7 @@ public class BuildingIO : MonoBehaviour
         foreach (Collider inside in iosInside.ToList())
         {
             BuildingIO hitIO = inside.GetComponent<BuildingIO>();
-            if (!this.IOManager.Equals(hitIO.IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
+            if (!IOManager.Equals(hitIO.IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
             {
 
                 iosInside.Remove(inside);
@@ -118,7 +118,7 @@ public class BuildingIO : MonoBehaviour
         foreach (Collider hit in hitColliders) //loop through each collider that was found
         {
             BuildingIO hitIO = hit.GetComponent<BuildingIO>();
-            if (!this.IOManager.Equals(hitIO.IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
+            if (!IOManager.Equals(hitIO.IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
             {
                 iosInside.Add(hit);
 
@@ -240,20 +240,13 @@ public class BuildingIO : MonoBehaviour
         if (itemsAllowedToEnter.Length == 0 && itemCategoriesAllowedToEnter.Length == 0)
             allowedToEnter = true;
 
-        if (allowedToEnter && BlockInput)
-        {
-            itemInside = item;
-            return;
-        }
-            
-
-        if (!allowedToEnter && BlockInput)
+        if (!allowedToEnter || blockInput)
             return;
 
         IOManager.ProceedItemEnter(item.gameObject, item.data, Array.FindIndex(IOManager.inputs, row => this));
     }
 
-    public void OnItemExit(ItemBehaviour item) 
+    public void OnItemExit(ItemBehaviour item)
     {
         itemInside = null;
     }
@@ -279,14 +272,14 @@ public class BuildingIO : MonoBehaviour
             ExecuteSpawn(itemToSpawn, timeToSpawn);
     }
 
-    private void ExecuteSpawn(ItemData itemToSpawn, int timeToSpawn = 1) 
+    private void ExecuteSpawn(ItemData itemToSpawn, int timeToSpawn = 1)
     {
         StartCoroutine(ProcessSpawn(itemToSpawn, timeToSpawn));
     }
 
     IEnumerator ProcessSpawn(ItemData itemToSpawn, int timeToSpawn = 1)
     {
-        //yield return new WaitUntil(itemsToSpawn.Count == 0);
+        yield return new WaitUntil(() => !itemInside);
         yield return new WaitForSeconds(timeToSpawn);
         Vector3 spawnPos;
 

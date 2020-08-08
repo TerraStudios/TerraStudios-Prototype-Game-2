@@ -5,14 +5,16 @@ using UnityEngine;
 public class ItemBehaviour : MonoBehaviour
 {
     public ItemData data;
+    private BuildingIO insideIO;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer.Equals(12))
         {
-            BuildingIO bIO = other.transform.parent.GetComponent<BuildingIO>();
-            if (bIO.isInput && !bIO.IOManager.isConveyor)
-                bIO.OnItemEnter(this);
+            insideIO = other.transform.parent.GetComponent<BuildingIO>();
+            insideIO.itemInside = this;
+            if (insideIO.isInput && !insideIO.IOManager.isConveyor)
+                insideIO.OnItemEnter(this);
         }
     }
 
@@ -21,8 +23,16 @@ public class ItemBehaviour : MonoBehaviour
         if (other.gameObject.layer.Equals(12))
         {
             BuildingIO bIO = other.transform.parent.GetComponent<BuildingIO>();
+            bIO.itemInside = null;
             if (bIO.isInput && !bIO.IOManager.isConveyor)
                 bIO.OnItemExit(this);
+            insideIO = null;
         }
+    }
+
+    private void OnDisable()
+    {
+        if (insideIO)
+            insideIO.itemInside = null;
     }
 }
