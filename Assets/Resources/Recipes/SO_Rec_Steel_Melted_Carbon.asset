@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36d28cc7cc0e3364bb69a8f54cf609e3, type: 3}
+  m_Name: SO_Rec_Steel_Melted_Carbon
+  m_EditorClassIdentifier: 
+  inputs:
+  - item: {fileID: 11400000, guid: f28782f5af5c67e419584925f085f204, type: 2}
+    amount: 5
+    inputID: 0
+  - item: {fileID: 11400000, guid: ef4b8c074a198d54aa5c829d49a35d82, type: 2}
+    amount: 3
+    inputID: 0
+  - item: {fileID: 11400000, guid: 7a35929a91f83294ab332b96c6d71d6a, type: 2}
+    amount: 1
+    inputID: 0
+  outputs:
+  - item: {fileID: 11400000, guid: 61c6d588a27f2f44c850fb812149d1b4, type: 2}
+    amount: 8
+  baseTime: 0
+  icon: {fileID: 0}
