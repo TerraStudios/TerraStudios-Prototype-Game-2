@@ -36,9 +36,6 @@ public class BuildingIOManager : MonoBehaviour
     [Tooltip("Determines whether the building is a conveyor or not. Soon to be removed in the new conveyor system.")]
     public bool isConveyor;
 
-    [Tooltip("A list of all the conveyor colliders attached to the BuildingIO. This will be removed soon in favor of a new conveyor system.")]
-    public Conveyor[] ConveyorManagers;
-
     [Header("Events")]
     public OnItemEnterEvent OnItemEnterInput;
 
@@ -231,10 +228,7 @@ public class BuildingIOManager : MonoBehaviour
         else
             newSpeed = 0;
 
-        foreach (Conveyor conv in ConveyorManagers)
-        {
-            conv.speed = newSpeed;
-        }
+        mc.Conveyor.speed = newSpeed;
     }
 
     /// <summary>
