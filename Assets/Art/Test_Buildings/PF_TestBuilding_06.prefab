@@ -102,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Building: {fileID: 4515110169957584235}
   BuildingIOManager: {fileID: 5726986251613548450}
+  Conveyor: {fileID: 0}
   APM: {fileID: 4174981063028331144}
 --- !u!114 &4515110169957584235
 MonoBehaviour:
@@ -164,7 +165,7 @@ MonoBehaviour:
   mc: {fileID: 983261423420364408}
   allowAllRecipes: 1
   recipePreset: {fileID: 11400000, guid: ca63b9df525e89a4a878ebc46220b14f, type: 2}
-  currentRecipe: {fileID: 0}
+  baseTimeMultiplier: 1
 --- !u!1001 &684045419993563406
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -181,6 +182,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 819036271789939543, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1960481988754174890, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
@@ -318,6 +324,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 819036271789939543, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1960481988754174890, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
@@ -465,6 +476,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645276291110056084, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7351285261431388912, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
         type: 3}
