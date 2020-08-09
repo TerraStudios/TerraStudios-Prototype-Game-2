@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 0
   name: Chrome ore
   description: A shiny material.
-  obj: {fileID: 1675395343338415167, guid: cfbc24f55b4def248919f9dc80c0dc59, type: 3}
+  obj: {fileID: 108273060170467808, guid: e08ce273640539e4193cf43c47e6e99a, type: 3}
   ItemCategory: {fileID: 11400000, guid: 8b2891ac9821c4a45b19c3ac452ae21c, type: 2}
   startingPriceInShop: 10
   isBuyable: 1
