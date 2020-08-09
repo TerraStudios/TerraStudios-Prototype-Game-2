@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SO_Item_Tool_Screw
   m_EditorClassIdentifier: 
   ID: 12
-  name: Tools steel (melted)
+  name: Screw
   description: A shiny material.
   obj: {fileID: 1675395343338415167, guid: cfbc24f55b4def248919f9dc80c0dc59, type: 3}
   ItemCategory: {fileID: 11400000, guid: b2402669b0338224eb22928e06f7c360, type: 2}

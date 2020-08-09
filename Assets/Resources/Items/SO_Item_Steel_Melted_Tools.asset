@@ -18,7 +18,7 @@ MonoBehaviour:
   obj: {fileID: 1675395343338415167, guid: cfbc24f55b4def248919f9dc80c0dc59, type: 3}
   ItemCategory: {fileID: 11400000, guid: b2402669b0338224eb22928e06f7c360, type: 2}
   startingPriceInShop: 10
-  isBuyable: 1
+  isBuyable: 0
   ecoTax: 0
   demandCurve:
     serializedVersion: 2
