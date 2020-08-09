@@ -10,9 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36d28cc7cc0e3364bb69a8f54cf609e3, type: 3}
-  m_Name: SO_Rec_ 1
+  m_Name: SO_Rec_Steel_Block_Carbon
   m_EditorClassIdentifier: 
-  inputs: []
-  outputs: []
-  baseTime: 0
+  inputs:
+  - item: {fileID: 11400000, guid: 61c6d588a27f2f44c850fb812149d1b4, type: 2}
+    amount: 1
+    inputID: 0
+  outputs:
+  - item: {fileID: 11400000, guid: 609e1ea3f7d9d1f46a4ac7e01bdbd40f, type: 2}
+    amount: 1
+  baseTime: 4
   icon: {fileID: 0}

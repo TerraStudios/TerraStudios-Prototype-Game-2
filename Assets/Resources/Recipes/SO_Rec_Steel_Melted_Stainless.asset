@@ -27,5 +27,5 @@ MonoBehaviour:
     amount: 9
   - item: {fileID: 11400000, guid: 6e3221f92e1031342b4a75465753bd51, type: 2}
     amount: 4
-  baseTime: 0
+  baseTime: 8
   icon: {fileID: 0}
