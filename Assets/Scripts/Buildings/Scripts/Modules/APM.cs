@@ -25,7 +25,6 @@ public class CraftingData
 public class APM : MonoBehaviour
 {
     public ModuleConnector mc;
-    public bool allowAllRecipes;
     public RecipeFilter recipePreset;
     private MachineRecipe currentRecipe;
     public float baseTimeMultiplier = 1;
