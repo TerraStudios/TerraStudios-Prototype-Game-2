@@ -753,12 +753,12 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000037315235
+      value: -0.000000037315235
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000001959414
+      value: 0.00000001959414
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -793,12 +793,12 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000037315235
+      value: -0.000000037315235
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000001959414
+      value: 0.00000001959414
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -3182,6 +3182,26 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 5672627267732661343, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5672627267732661343, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5672627267732661343, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5672627267732661343, guid: 90f47276bcb66ce409797bf6c408cb40,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1384009077}
     - target: {fileID: 6018319130866633339, guid: 90f47276bcb66ce409797bf6c408cb40,
         type: 3}
       propertyPath: m_text
