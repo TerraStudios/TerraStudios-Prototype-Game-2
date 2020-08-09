@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class BuildingManager : BuildingSystem
 {
-    public ItemData testItemToSpawn;
+    public static ItemData testItemToSpawn;
+    public bool enableDebugSpawn;
+    public void EnableDebugSpawn(bool value) => enableDebugSpawn = value;
     [Header("BuildingInfo UI Components")]
     public GameObject BuildingInfo;
     public TMP_Text buildHealth;
@@ -74,12 +76,10 @@ public class BuildingManager : BuildingSystem
 
             RefreshRecipeList();
             if (!b.mc.BuildingIOManager.isConveyor)
-            {
-
                 RefreshOutputsUI();
-            }
 
-            b.mc.BuildingIOManager.outputs[0].AddToSpawnQueue(testItemToSpawn, 0);
+            if (b.mc.BuildingIOManager.isConveyor && enableDebugSpawn)
+                b.mc.BuildingIOManager.outputs[0].AddToSpawnQueue(testItemToSpawn, 0);
         }
     }
 

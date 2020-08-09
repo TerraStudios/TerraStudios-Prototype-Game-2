@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using TMPro;
 
 public class DebugUI : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class DebugUI : MonoBehaviour
     public GameObject SuperSecretPanel;
     public GameObject GraphyGO;
     public GameObject ElectricityStatsPanel;
+    private bool isItemsDropdownLoaded;
+    public TMP_Dropdown testItemDropdown;
 
     private void Update()
     {
@@ -17,8 +20,35 @@ public class DebugUI : MonoBehaviour
             if (SuperSecretPanel.activeSelf)
                 SuperSecretPanel.SetActive(false);
             else
+            {
+                if (!isItemsDropdownLoaded)
+                    LoadItemsDropdown();
                 SuperSecretPanel.SetActive(true);
+            }
+                
         }
+    }
+
+    private void LoadItemsDropdown() 
+    {
+        isItemsDropdownLoaded = true;
+
+        for (int i = 0; i < ItemManagement.db.Count; i++)
+        {
+            ItemData data = ItemManagement.db[i];
+            testItemDropdown.options.Add(new TMP_Dropdown.OptionData() { text = data.name });
+        }
+
+        testItemDropdown.RefreshShownValue();
+
+        testItemDropdown.onValueChanged.AddListener(delegate { OnItemSelected(testItemDropdown); });
+
+        BuildingManager.testItemToSpawn = ItemManagement.db[0];
+    }
+
+    public void OnItemSelected(TMP_Dropdown changed) 
+    {
+        BuildingManager.testItemToSpawn = ItemManagement.db[changed.value];
     }
 
     public void OnBalanceUpdated(string newValue)

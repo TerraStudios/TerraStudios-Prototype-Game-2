@@ -7,7 +7,7 @@ public class ItemManagement : MonoBehaviour
     [Tooltip("Determines the initial pool size for each item")]
     public int initialPoolSize = 100;
 
-    [HideInInspector] public List<ItemData> db = new List<ItemData>();
+    [HideInInspector] public static List<ItemData> db = new List<ItemData>();
 
     private void Awake()
     {
