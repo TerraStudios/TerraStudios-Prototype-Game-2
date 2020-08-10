@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ItemOrCategory : ScriptableObject { }
 
+[ExecuteInEditMode]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 [CreateAssetMenu(fileName = "New Item Data", menuName = "Item/Item")]
@@ -13,7 +14,7 @@ public class ItemData : ItemOrCategory
     [HideInInspector] public int ID;
     public new string name;
     [TextArea] public string description;
-    public Transform obj;
+    public ItemBehaviour obj;
     public ItemCategory ItemCategory;
 
     [Header("Economic Simulation Properties")]
@@ -34,4 +35,16 @@ public class ItemData : ItemOrCategory
     public float secondsToMelt;
     public float solidFormTemperature;
     public float secondsToFreeze;
+
+    private void OnValidate()
+    {
+        if (obj)
+        {
+            if (!obj.data || !obj.data.Equals(this))
+            {
+                obj.data = this;
+                Debug.Log("Applied " + obj.data.name + " successfully to obj!");
+            }
+        }
+    }
 }
