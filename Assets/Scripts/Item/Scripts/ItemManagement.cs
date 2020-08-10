@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -27,7 +28,14 @@ public class ItemManagement : MonoBehaviour
 
     private void LoadItemDB()
     {
-        db.AddRange(Resources.LoadAll<ItemData>(""));
+        ItemData[] itemDB = Resources.LoadAll<ItemData>("");
+        for (int i = 0; i < itemDB.Count(); i++)
+        {
+            ItemData data = itemDB[i];
+            data.ID = i;
+            db.Insert(i, data);
+        }
+        
         Debug.Log("[Item Management] Loaded " + db.Count + " items");
 
         foreach (ItemData data in db) {

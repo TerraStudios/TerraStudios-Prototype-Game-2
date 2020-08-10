@@ -10,7 +10,7 @@ public class ItemOrCategory : ScriptableObject { }
 public class ItemData : ItemOrCategory
 {
     [Header("Basic Properties")]
-    public int ID;
+    [HideInInspector] public int ID;
     public new string name;
     [TextArea] public string description;
     public Transform obj;
