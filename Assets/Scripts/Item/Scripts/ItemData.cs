@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class ItemOrCategory : ScriptableObject { }
+
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 [CreateAssetMenu(fileName = "New Item Data", menuName = "Item/Item")]
