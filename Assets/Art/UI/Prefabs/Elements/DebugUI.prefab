@@ -3008,6 +3008,11 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: DebugUI, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 4925975092958818799, guid: 6eb61243e94e14c428925145111ce410,
+        type: 3}
+      propertyPath: m_IsOn
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6eb61243e94e14c428925145111ce410, type: 3}
 --- !u!224 &7333486398018034554 stripped
