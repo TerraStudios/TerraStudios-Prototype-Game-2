@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 14
   name: Tools steel (melted)
   description: A shiny material.
-  obj: {fileID: 1675395343338415167, guid: cfbc24f55b4def248919f9dc80c0dc59, type: 3}
+  obj: {fileID: 9169743559543133721, guid: 1ae95be45e10a50498afb5877d7ff0a3, type: 3}
   ItemCategory: {fileID: 11400000, guid: b2402669b0338224eb22928e06f7c360, type: 2}
   startingPriceInShop: 10
   isBuyable: 1

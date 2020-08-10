@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 13
   name: Spring
   description: A shiny material.
-  obj: {fileID: 1675395343338415167, guid: cfbc24f55b4def248919f9dc80c0dc59, type: 3}
+  obj: {fileID: 1047042725130339442, guid: e89a34e6ecfe5a44286bae127e4b69c5, type: 3}
   ItemCategory: {fileID: 11400000, guid: b2402669b0338224eb22928e06f7c360, type: 2}
   startingPriceInShop: 10
   isBuyable: 1

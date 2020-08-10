@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 10
   name: Gear
   description: A shiny material.
-  obj: {fileID: 1675395343338415167, guid: cfbc24f55b4def248919f9dc80c0dc59, type: 3}
+  obj: {fileID: 5953179445746368807, guid: ebeb5fb8ff72b5f4c97e1ed5cb3863db, type: 3}
   ItemCategory: {fileID: 11400000, guid: b2402669b0338224eb22928e06f7c360, type: 2}
   startingPriceInShop: 10
   isBuyable: 1

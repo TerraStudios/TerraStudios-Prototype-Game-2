@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 6
   name: Tools steel (block)
   description: A shiny material.
-  obj: {fileID: 1675395343338415167, guid: cfbc24f55b4def248919f9dc80c0dc59, type: 3}
+  obj: {fileID: 2471466640385377392, guid: caceec8c303358f4e89370fc3751ecdf, type: 3}
   ItemCategory: {fileID: 11400000, guid: 9f1de207809c8c9469f2cf74876426ed, type: 2}
   startingPriceInShop: 10
   isBuyable: 1

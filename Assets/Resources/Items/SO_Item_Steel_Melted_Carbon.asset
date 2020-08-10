@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 7
   name: Carbon steel (melted)
   description: A shiny material.
-  obj: {fileID: 1675395343338415167, guid: cfbc24f55b4def248919f9dc80c0dc59, type: 3}
+  obj: {fileID: 215933590677735234, guid: 4e57ddeb67ead4149865af7859f27cc3, type: 3}
   ItemCategory: {fileID: 11400000, guid: bc97fbd95edb3374d97f246876ac10e9, type: 2}
   startingPriceInShop: 10
   isBuyable: 0
