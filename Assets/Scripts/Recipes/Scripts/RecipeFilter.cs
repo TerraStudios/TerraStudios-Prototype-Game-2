@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Recipe Preset", menuName = "Recipe Preset")]
+[CreateAssetMenu(fileName = "New Recipe Filter", menuName = "Recipe/Recipe Filter")]
 public class RecipeFilter : ScriptableObject
 {
     [SerializeField] private List<MachineRecipe> allowedRecipes;

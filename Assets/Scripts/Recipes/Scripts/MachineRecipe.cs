@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "Recipe", menuName = "ScriptableObjects/MachineRecipe", order = 1)]
+[CreateAssetMenu(fileName = "New Machine Recipe", menuName = "Recipe/Machine Recipe")]
 public class MachineRecipe : ScriptableObject
 {
     /// <summary>
