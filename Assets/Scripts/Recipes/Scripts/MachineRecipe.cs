@@ -12,7 +12,7 @@ public class MachineRecipe : ScriptableObject
     [Serializable]
     public class InputData
     {
-        public ScriptableObject item;
+        public ItemOrCategory item;
         public int amount;
 
         [Tooltip("Specifies the input ID from which the item should be expected to enter. -1 for undefined")]
