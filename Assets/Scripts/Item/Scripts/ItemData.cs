@@ -43,7 +43,6 @@ public class ItemData : ItemOrCategory
             if (!obj.data || !obj.data.Equals(this))
             {
                 obj.data = this;
-                Debug.Log("Applied " + obj.data.name + " successfully to obj!");
             }
         }
     }

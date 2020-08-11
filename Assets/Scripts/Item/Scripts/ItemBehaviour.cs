@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class ItemBehaviour : MonoBehaviour
 {
     public ItemData data;
@@ -34,5 +35,16 @@ public class ItemBehaviour : MonoBehaviour
     {
         if (insideIO)
             insideIO.itemInside = null;
+    }
+
+    private void OnValidate()
+    {
+        if (data)
+        {
+            if (!data.obj || !data.obj.Equals(this))
+            {
+                data.obj = this;
+            }
+        }
     }
 }
