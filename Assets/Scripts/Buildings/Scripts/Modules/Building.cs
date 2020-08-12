@@ -12,6 +12,7 @@ public class Building : MonoBehaviour
 {
     public ModuleConnector mc;
     [HideInInspector] public bool isSetUp;
+    public new string name;
     [Header("Grid Building Properties")]
     public Transform prefab;
 
