@@ -19,5 +19,6 @@ MonoBehaviour:
   outputs:
   - item: {fileID: 11400000, guid: b31da34ead38d3a4fba0c1defcd0cbf2, type: 2}
     amount: 1
+  name: Gear
   baseTime: 1
   icon: {fileID: 0}

@@ -19,5 +19,6 @@ MonoBehaviour:
   outputs:
   - item: {fileID: 11400000, guid: 86a8a73f8ff530440a42da3e09ef48eb, type: 2}
     amount: 1
+  name: Spring
   baseTime: 2
   icon: {fileID: 0}

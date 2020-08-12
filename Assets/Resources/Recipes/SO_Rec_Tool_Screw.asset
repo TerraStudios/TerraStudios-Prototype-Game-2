@@ -19,5 +19,6 @@ MonoBehaviour:
   outputs:
   - item: {fileID: 11400000, guid: ee9d3033e89d6ba4fbcdf3a88acfc3d5, type: 2}
     amount: 1
+  name: Screw
   baseTime: 1
   icon: {fileID: 0}

@@ -39,6 +39,8 @@ public class MachineRecipe : ScriptableObject
     public OutputData[] outputs;
 
     [Header("Other Info")]
+    [Tooltip("The name of the recipe to display.")]
+    public new string name;
 
     [Tooltip("The base time (in seconds) for the recipe to finish processing.")]
     public float baseTime;
