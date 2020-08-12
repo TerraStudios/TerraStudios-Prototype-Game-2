@@ -62,6 +62,8 @@ public class Building : MonoBehaviour
     [HideInInspector] public TimeManager TimeManager;
     [HideInInspector] public EconomyManager EconomyManager;
 
+    private bool isFixRunning;
+
     /// <summary>
     /// Initializes the building's properties and work state.
     /// </summary>
@@ -120,6 +122,9 @@ public class Building : MonoBehaviour
 
     public void Fix()
     {
+        if (isFixRunning)
+            return;
+
         float priceForFix = ((float)(healthPercent + 1) / 100) * price * penaltyForFix;
         if (EconomyManager.Balance >= (decimal)priceForFix)
         {
@@ -131,7 +136,10 @@ public class Building : MonoBehaviour
         else
         {
             Debug.LogError("Insufficent balance!");
+            return;
         }
+
+        isFixRunning = true;
 
         float timeToWait = (100 - healthPercent) * timeToFixMultiplier;
         StartCoroutine(FixCountdown());
@@ -144,6 +152,7 @@ public class Building : MonoBehaviour
 
         void FinalizeFix()
         {
+            isFixRunning = false;
             healthPercent = 100;
             WorkState = WorkStateEnum.On;
             DepleteHealthEvent();
