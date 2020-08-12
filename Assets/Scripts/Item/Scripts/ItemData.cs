@@ -35,15 +35,4 @@ public class ItemData : ItemOrCategory
     public float secondsToMelt;
     public float solidFormTemperature;
     public float secondsToFreeze;
-
-    private void OnValidate()
-    {
-        if (obj)
-        {
-            if (!obj.data || !obj.data.Equals(this))
-            {
-                obj.data = this;
-            }
-        }
-    }
 }
