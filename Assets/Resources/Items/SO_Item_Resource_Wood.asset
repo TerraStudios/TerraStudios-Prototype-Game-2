@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84c2ccd75158a94fb59e4b5c9db65f3, type: 3}
   m_Name: SO_Item_Resource_Wood
   m_EditorClassIdentifier: 
-  ID: 14
-  name: Tools steel (melted)
+  ID: 4
+  name: Wood
   description: A shiny material.
-  obj: {fileID: 9169743559543133721, guid: 1ae95be45e10a50498afb5877d7ff0a3, type: 3}
-  ItemCategory: {fileID: 11400000, guid: b2402669b0338224eb22928e06f7c360, type: 2}
+  obj: {fileID: 6804637608619453924, guid: 1ae95be45e10a50498afb5877d7ff0a3, type: 3}
+  ItemCategory: {fileID: 11400000, guid: 6700419eb5ce22b42ab3ff40b83e363e, type: 2}
   startingPriceInShop: 10
   isBuyable: 1
   ecoTax: 0

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84c2ccd75158a94fb59e4b5c9db65f3, type: 3}
   m_Name: SO_Item_Steel_Melted_Stainless
   m_EditorClassIdentifier: 
-  ID: 8
+  ID: 9
   name: Stainless steel (melted)
   description: A shiny material.
-  obj: {fileID: 1675395343338415167, guid: cfbc24f55b4def248919f9dc80c0dc59, type: 3}
+  obj: {fileID: 4461964259392873494, guid: d82f27f3a9c748d419143f8720d3ee9e, type: 3}
   ItemCategory: {fileID: 11400000, guid: bc97fbd95edb3374d97f246876ac10e9, type: 2}
   startingPriceInShop: 10
   isBuyable: 0

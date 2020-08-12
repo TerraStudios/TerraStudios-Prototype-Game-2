@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84c2ccd75158a94fb59e4b5c9db65f3, type: 3}
   m_Name: SO_Item_Steel_Melted_Carbon
   m_EditorClassIdentifier: 
-  ID: 7
+  ID: 8
   name: Carbon steel (melted)
   description: A shiny material.
-  obj: {fileID: 215933590677735234, guid: 4e57ddeb67ead4149865af7859f27cc3, type: 3}
+  obj: {fileID: 7435068574975735938, guid: 4e57ddeb67ead4149865af7859f27cc3, type: 3}
   ItemCategory: {fileID: 11400000, guid: bc97fbd95edb3374d97f246876ac10e9, type: 2}
   startingPriceInShop: 10
   isBuyable: 0

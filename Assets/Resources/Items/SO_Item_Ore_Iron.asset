@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 1
   name: Iron ore
   description: A shiny material.
-  obj: {fileID: 1351039757408026293, guid: d698ec893fa7c4d4da1552a34908f262, type: 3}
+  obj: {fileID: 8734112594169168776, guid: d698ec893fa7c4d4da1552a34908f262, type: 3}
   ItemCategory: {fileID: 11400000, guid: 8b2891ac9821c4a45b19c3ac452ae21c, type: 2}
   startingPriceInShop: 10
   isBuyable: 1

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84c2ccd75158a94fb59e4b5c9db65f3, type: 3}
   m_Name: SO_Item_Tool_Gear
   m_EditorClassIdentifier: 
-  ID: 10
+  ID: 11
   name: Gear
   description: A shiny material.
-  obj: {fileID: 5953179445746368807, guid: ebeb5fb8ff72b5f4c97e1ed5cb3863db, type: 3}
+  obj: {fileID: 3927687194701755060, guid: ebeb5fb8ff72b5f4c97e1ed5cb3863db, type: 3}
   ItemCategory: {fileID: 11400000, guid: b2402669b0338224eb22928e06f7c360, type: 2}
   startingPriceInShop: 10
   isBuyable: 1

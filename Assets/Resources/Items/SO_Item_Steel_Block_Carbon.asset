@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84c2ccd75158a94fb59e4b5c9db65f3, type: 3}
   m_Name: SO_Item_Steel_Block_Carbon
   m_EditorClassIdentifier: 
-  ID: 4
+  ID: 5
   name: Carbon steel (block)
   description: A shiny material.
-  obj: {fileID: 3531172689970969901, guid: 961066345f66801448e3beded9732700, type: 3}
+  obj: {fileID: -7839143202449821588, guid: 961066345f66801448e3beded9732700, type: 3}
   ItemCategory: {fileID: 11400000, guid: 9f1de207809c8c9469f2cf74876426ed, type: 2}
   startingPriceInShop: 10
   isBuyable: 1
