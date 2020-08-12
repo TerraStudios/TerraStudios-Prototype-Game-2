@@ -65,13 +65,6 @@ public class BuildingManager : BuildingSystem
 
             b.mc.BuildingIOManager.VisualizeAll();
 
-            if (!b.mc.BuildingIOManager.isConveyor)
-                foreach (Building building in RegisteredBuildings)
-                {
-                    if (!building.mc.BuildingIOManager.isConveyor)
-                        building.mc.BuildingIOManager.VisualizeAll();
-                }
-
             BuildingInfo.SetActive(true);
 
             RefreshRecipeList();
