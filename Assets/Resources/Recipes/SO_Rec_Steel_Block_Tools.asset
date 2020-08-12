@@ -19,5 +19,6 @@ MonoBehaviour:
   outputs:
   - item: {fileID: 11400000, guid: 085a9a61eddda514eab4fad95a67b049, type: 2}
     amount: 1
+  name: Steel block (Tool's)
   baseTime: 4
   icon: {fileID: 0}

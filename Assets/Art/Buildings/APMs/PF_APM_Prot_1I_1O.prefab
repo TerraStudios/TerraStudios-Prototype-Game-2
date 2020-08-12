@@ -184,6 +184,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 1.9999999
       objectReference: {fileID: 0}
+    - target: {fileID: 819036271789939543, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 819036271789939543, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.12499999
+      objectReference: {fileID: 0}
     - target: {fileID: 1960481988754174890, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
       propertyPath: IOManager

@@ -24,5 +24,6 @@ MonoBehaviour:
     amount: 5
   - item: {fileID: 11400000, guid: 6e3221f92e1031342b4a75465753bd51, type: 2}
     amount: 2
+  name: Melting steel (Tool's)
   baseTime: 5
   icon: {fileID: 0}
