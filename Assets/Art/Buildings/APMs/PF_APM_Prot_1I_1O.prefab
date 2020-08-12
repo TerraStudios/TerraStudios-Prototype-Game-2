@@ -169,6 +169,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2941611580773582538}
     m_Modifications:
+    - target: {fileID: 819036271789939543, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 819036271789939543, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 819036271789939543, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.9999999
+      objectReference: {fileID: 0}
     - target: {fileID: 1960481988754174890, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
       propertyPath: IOManager
@@ -242,7 +257,7 @@ PrefabInstance:
     - target: {fileID: 6242062762691255595, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.6
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 6242062762691255595, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
