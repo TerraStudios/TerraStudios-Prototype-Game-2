@@ -94,7 +94,7 @@ public class APM : MonoBehaviour
                 if (outputIDToApply >= buildingOutputs)
                     outputIDToApply = buildingOutputs;
 
-                    outputData.Add(CurrentRecipe.outputs[i], outputIDToApply);
+                outputData.Add(CurrentRecipe.outputs[i], outputIDToApply);
             }
         }
     }
