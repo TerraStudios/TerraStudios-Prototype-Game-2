@@ -82,6 +82,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.6
       objectReference: {fileID: 0}
+    - target: {fileID: 9183637379809750852, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
+        type: 3}
+      propertyPath: IOManager
+      value: 
+      objectReference: {fileID: 4403210534089065020}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64, type: 3}
 --- !u!114 &8838093920373244738 stripped
@@ -103,6 +108,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5719123923885634798}
     m_Modifications:
+    - target: {fileID: 1960481988754174890, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: IOManager
+      value: 
+      objectReference: {fileID: 4403210534089065020}
     - target: {fileID: 5571085036058034170, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
       propertyPath: m_Name
@@ -293,3 +303,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7461581459674591780}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4403210534089065020 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6527831780616597528, guid: c1fe1648509854e46be06abb82c9a485,
+    type: 3}
+  m_PrefabInstance: {fileID: 7461581459674591780}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b52780f752ea9fa44a579c403a2d0479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

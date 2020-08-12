@@ -36,7 +36,9 @@ public class GridManager : MonoBehaviour
     }
 
     private Building currentBuilding;
-    public Building building;
+    public Building APM1;
+    public Building APM2;
+    public Building APM3;
     public Building conveyor;
 
     [Header("Controls / Shortcuts")]
@@ -404,10 +406,23 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Event for when the building build button is pressed. Currently turns on IsInBuildMode and sets the current structure.
     /// </summary>
-    public void OnBuildButtonPressed()
+    public void OnBuildButtonPressed(int buildingID)
     {
         DeconstructVisualization();
-        currentBuilding = building;
+
+        switch (buildingID)
+        {
+            case 1:
+                currentBuilding = APM1;
+                break;
+            case 2:
+                currentBuilding = APM2;
+                break;
+            case 3:
+                currentBuilding = APM3;
+                break;
+        }
+        
         IsInBuildMode = true;
     }
 
