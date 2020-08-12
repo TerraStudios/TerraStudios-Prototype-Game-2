@@ -87,9 +87,14 @@ public class APM : MonoBehaviour
 
         if (CurrentRecipe)
         {
+            int buildingOutputs = mc.BuildingIOManager.outputs.Length;
             for (int i = 0; i < CurrentRecipe.outputs.Length; i++)
             {
-                outputData.Add(CurrentRecipe.outputs[i], i + 1);
+                int outputIDToApply = i + 1;
+                if (outputIDToApply >= buildingOutputs)
+                    outputIDToApply = buildingOutputs;
+
+                    outputData.Add(CurrentRecipe.outputs[i], outputIDToApply);
             }
         }
     }
