@@ -24,6 +24,7 @@ public class BuildingIO : MonoBehaviour
     public bool isInput;
     [Tooltip("Toggles whether the BuildingIO is an exit collider")]
     public bool isOutput;
+    [HideInInspector] public int ID;
     public MeshRenderer MeshRenderer;
     public Collider coll;
     public BoxCollider itemIO;
@@ -243,7 +244,7 @@ public class BuildingIO : MonoBehaviour
         if (!allowedToEnter || blockInput)
             return;
 
-        IOManager.ProceedItemEnter(item.gameObject, item.data, Array.FindIndex(IOManager.inputs, row => this));
+        IOManager.ProceedItemEnter(item.gameObject, item.data, ID);
     }
 
     public void OnItemExit(ItemBehaviour item)

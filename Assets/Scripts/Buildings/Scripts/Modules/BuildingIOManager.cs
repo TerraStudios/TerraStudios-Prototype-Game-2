@@ -46,6 +46,12 @@ public class BuildingIOManager : MonoBehaviour
     {
         IOForEach(io => io.Init());
 
+        for (int i = 0; i < inputs.Length; i++)
+            inputs[i].ID = i;
+
+        for (int i = 0; i < outputs.Length; i++)
+            outputs[i].ID = i;
+
         OnItemEnterInput = new OnItemEnterEvent();
     }
 

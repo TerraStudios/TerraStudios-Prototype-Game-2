@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,7 +8,7 @@ public class CraftingData
     public MachineRecipe CurrentRecipe;
     private Dictionary<MachineRecipe.OutputData, int> outputData;
 
-    public Dictionary<MachineRecipe.OutputData, int> OutputData 
+    public Dictionary<MachineRecipe.OutputData, int> OutputData
     {
         get
         {
@@ -38,7 +37,7 @@ public class APM : MonoBehaviour
 
     public Queue<CraftingData> CurrentlyCrafting = new Queue<CraftingData>();
 
-    public bool IsCrafting 
+    public bool IsCrafting
     {
         get => isCrafting;
         set
@@ -51,7 +50,7 @@ public class APM : MonoBehaviour
         }
     }
 
-    public MachineRecipe CurrentRecipe 
+    public MachineRecipe CurrentRecipe
     {
         get => currentRecipe;
         set
@@ -81,7 +80,7 @@ public class APM : MonoBehaviour
             BlockAllInputs();
     }
 
-    private void InitOutputData() 
+    private void InitOutputData()
     {
         outputData.Clear();
 
@@ -99,7 +98,7 @@ public class APM : MonoBehaviour
         }
     }
 
-    private void BlockAllInputs() 
+    private void BlockAllInputs()
     {
         foreach (BuildingIO input in mc.BuildingIOManager.inputs) // block all inputs so new items won't come in
         {
@@ -107,15 +106,15 @@ public class APM : MonoBehaviour
         }
     }
 
-    private void UnblockAllInputs() 
+    private void UnblockAllInputs()
     {
         foreach (BuildingIO input in mc.BuildingIOManager.inputs) // allow all inputs to accept new items and allow the pending item to go through
         {
             input.BlockInput = false;
         }
-    } 
+    }
 
-    public void OnOutputButtonPressed(OutputSelector caller) 
+    public void OnOutputButtonPressed(OutputSelector caller)
     {
         int newOutputID = caller.OutputID + 1;
 
@@ -146,10 +145,20 @@ public class APM : MonoBehaviour
 
         foreach (MachineRecipe.InputData recipeData in CurrentRecipe.inputs) // check if we have all required items
         {
+            if (recipeData.inputID != -1)
+            {
+                Debug.LogWarning("InputID is: " + ItemEnterInfo.inputID);
+                if (recipeData.inputID != ItemEnterInfo.inputID)
+                {
+                    Debug.LogWarning("This item was not expected to enter this input! " + ItemEnterInfo.inputID);
+                    return;
+                }
+            }
+
             if (recipeData.item is ItemData)
             {
                 ItemData itemToCheck = recipeData.item as ItemData;
-                
+
                 if (itemToCheck.ID != ItemEnterInfo.item.ID) // check if item entering is expected to enter
                 {
                     Debug.LogWarning("This item was not expected to enter this building!");
@@ -167,7 +176,7 @@ public class APM : MonoBehaviour
             else if (recipeData.item is ItemCategory)
             {
                 ItemCategory cat = recipeData.item as ItemCategory;
-                
+
                 if (cat != ItemEnterInfo.item.ItemCategory) // check if item category entering is expected to enter
                 {
                     Debug.LogWarning("This item was not expected to enter this building!");
@@ -179,15 +188,6 @@ public class APM : MonoBehaviour
                 {
                     Debug.Log("Still, not all items are present inside");
                     AcceptItemInside(ItemEnterInfo);
-                    return;
-                }
-            }
-
-            if (recipeData.inputID != -1)
-            {
-                if (recipeData.inputID != ItemEnterInfo.inputID)
-                {
-                    Debug.LogWarning("This item was not expected to enter this input!");
                     return;
                 }
             }
@@ -242,7 +242,7 @@ public class APM : MonoBehaviour
         }
     }
 
-    private void AcceptItemInside(OnItemEnterEvent ItemEnterInfo) 
+    private void AcceptItemInside(OnItemEnterEvent ItemEnterInfo)
     {
         if (ItemEnterInfo.sceneInstance)
             Destroy(ItemEnterInfo.sceneInstance);
