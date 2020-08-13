@@ -51,7 +51,7 @@ public class BuildingIO : MonoBehaviour
     [HideInInspector] public Transform arrow;
     private LayerMask IOMask;
     private List<Collider> iosInside = new List<Collider>();
-    private Queue<ItemSpawnData> itemsToSpawn = new Queue<ItemSpawnData>(); // make with delay and enqueue, dequeue and spawn
+    public Queue<ItemSpawnData> itemsToSpawn = new Queue<ItemSpawnData>(); // make with delay and enqueue, dequeue and spawn
     public ItemBehaviour itemInside;
 
     private bool blockInput;
@@ -68,16 +68,6 @@ public class BuildingIO : MonoBehaviour
                     OnItemEnter(itemInside);
                 itemInside = null;
             }
-        }
-    }
-
-    public Queue<ItemSpawnData> ItemsToSpawn 
-    {
-        get => itemsToSpawn;
-        set
-        {
-            itemsToSpawn = value;
-            BlockInput = false;
         }
     }
 
@@ -280,9 +270,9 @@ public class BuildingIO : MonoBehaviour
             timeToSpawn = timeToSpawn
         };
 
-        ItemsToSpawn.Enqueue(spawnData);
+        itemsToSpawn.Enqueue(spawnData);
 
-        if (ItemsToSpawn.Count() == 1)
+        if (itemsToSpawn.Count() == 1)
             ExecuteSpawn(itemToSpawn, timeToSpawn);
     }
 
@@ -312,11 +302,11 @@ public class BuildingIO : MonoBehaviour
 
     void FinishSpawn()
     {
-        ItemsToSpawn.Dequeue();
+        itemsToSpawn.Dequeue();
 
-        if (ItemsToSpawn.Count != 0)
+        if (itemsToSpawn.Count != 0)
         {
-            ItemSpawnData next = ItemsToSpawn.Peek();
+            ItemSpawnData next = itemsToSpawn.Peek();
             ExecuteSpawn(next.itemToSpawn, next.timeToSpawn);
         }
     }

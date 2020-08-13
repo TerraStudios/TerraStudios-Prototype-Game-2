@@ -169,8 +169,6 @@ public class APM : MonoBehaviour
                 if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.quantity != recipeData.amount))
                 {
                     Debug.LogWarning("Still, not all items are present inside");
-                    AcceptItemInside(ItemEnterInfo);
-                    return;
                 }
             }
             else if (recipeData.item is ItemCategory)
@@ -187,8 +185,6 @@ public class APM : MonoBehaviour
                 if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.item.ItemCategory != cat))
                 {
                     Debug.Log("Still, not all items are present inside");
-                    AcceptItemInside(ItemEnterInfo);
-                    return;
                 }
             }
         }
@@ -198,14 +194,14 @@ public class APM : MonoBehaviour
         for (int i = 0; i < mc.BuildingIOManager.outputs.Length; i++)
         {
             BuildingIO io = mc.BuildingIOManager.outputs[i];
-            if (io.ItemsToSpawn.Count + outputData.Keys.ElementAt(i).amount > io.outputMaxQueueSize)
+            if (io.itemsToSpawn.Count + outputData.Keys.ElementAt(i).amount > io.outputMaxQueueSize)
             {
                 Debug.LogWarning("Not enough space to one or more of the output/s");
                 return;
             }
         }
 
-        
+        AcceptItemInside(ItemEnterInfo);
 
         StartCrafting(ItemEnterInfo); // ready to go
     }
