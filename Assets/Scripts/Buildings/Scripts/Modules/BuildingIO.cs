@@ -38,6 +38,9 @@ public class BuildingIO : MonoBehaviour
     [Tooltip("Determines the item categories allowed to enter the building")]
     public ItemCategory[] itemCategoriesAllowedToEnter;
 
+    [Header("Output Configuration")]
+    public int outputMaxQueueSize = 5;
+
     //[Header("Dynamic variables")]
     public BuildingIO attachedIO;
 
@@ -48,7 +51,7 @@ public class BuildingIO : MonoBehaviour
     [HideInInspector] public Transform arrow;
     private LayerMask IOMask;
     private List<Collider> iosInside = new List<Collider>();
-    public Queue<ItemSpawnData> itemsToSpawn = new Queue<ItemSpawnData>(); // make with delay and enqueue, dequeue and spawn
+    private Queue<ItemSpawnData> itemsToSpawn = new Queue<ItemSpawnData>(); // make with delay and enqueue, dequeue and spawn
     public ItemBehaviour itemInside;
 
     private bool blockInput;
@@ -65,6 +68,16 @@ public class BuildingIO : MonoBehaviour
                     OnItemEnter(itemInside);
                 itemInside = null;
             }
+        }
+    }
+
+    public Queue<ItemSpawnData> ItemsToSpawn 
+    {
+        get => itemsToSpawn;
+        set
+        {
+            itemsToSpawn = value;
+            BlockInput = false;
         }
     }
 
@@ -267,9 +280,9 @@ public class BuildingIO : MonoBehaviour
             timeToSpawn = timeToSpawn
         };
 
-        itemsToSpawn.Enqueue(spawnData);
+        ItemsToSpawn.Enqueue(spawnData);
 
-        if (itemsToSpawn.Count() == 1)
+        if (ItemsToSpawn.Count() == 1)
             ExecuteSpawn(itemToSpawn, timeToSpawn);
     }
 
@@ -299,11 +312,11 @@ public class BuildingIO : MonoBehaviour
 
     void FinishSpawn()
     {
-        itemsToSpawn.Dequeue();
+        ItemsToSpawn.Dequeue();
 
-        if (itemsToSpawn.Count != 0)
+        if (ItemsToSpawn.Count != 0)
         {
-            ItemSpawnData next = itemsToSpawn.Peek();
+            ItemSpawnData next = ItemsToSpawn.Peek();
             ExecuteSpawn(next.itemToSpawn, next.timeToSpawn);
         }
     }

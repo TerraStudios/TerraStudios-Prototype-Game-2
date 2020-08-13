@@ -193,6 +193,20 @@ public class APM : MonoBehaviour
             }
         }
 
+        // check if the outputs' queues have enough space to fit the output items
+
+        for (int i = 0; i < mc.BuildingIOManager.outputs.Length; i++)
+        {
+            BuildingIO io = mc.BuildingIOManager.outputs[i];
+            if (io.ItemsToSpawn.Count + outputData.Keys.ElementAt(i).amount > io.outputMaxQueueSize)
+            {
+                Debug.LogWarning("Not enough space to one or more of the output/s");
+                return;
+            }
+        }
+
+        
+
         StartCrafting(ItemEnterInfo); // ready to go
     }
 
