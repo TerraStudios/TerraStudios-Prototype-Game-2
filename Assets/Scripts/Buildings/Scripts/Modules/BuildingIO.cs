@@ -54,23 +54,6 @@ public class BuildingIO : MonoBehaviour
     public Queue<ItemSpawnData> itemsToSpawn = new Queue<ItemSpawnData>(); // make with delay and enqueue, dequeue and spawn
     public ItemBehaviour itemInside;
 
-    private bool blockInput;
-    public bool BlockInput
-    {
-        get => blockInput;
-        set
-        {
-            blockInput = value;
-
-            if (!value)
-            {
-                if (itemInside)
-                    OnItemEnter(itemInside);
-                itemInside = null;
-            }
-        }
-    }
-
     #region Initialization
 
     /// <summary>
@@ -244,7 +227,7 @@ public class BuildingIO : MonoBehaviour
         if (itemsAllowedToEnter.Length == 0 && itemCategoriesAllowedToEnter.Length == 0)
             allowedToEnter = true;
 
-        if (!allowedToEnter || blockInput)
+        if (!allowedToEnter || IOManager.mc.APM.CurrentStatus == APMStatus.Blocked)
             return;
 
         IOManager.ProceedItemEnter(item.gameObject, item.data, ID);

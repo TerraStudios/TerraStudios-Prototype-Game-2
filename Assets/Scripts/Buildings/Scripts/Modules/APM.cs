@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum APMStatus { Idle, Blocked, Crafting }
+
 public class CraftingData
 {
     public MachineRecipe CurrentRecipe;
@@ -27,8 +29,7 @@ public class APM : MonoBehaviour
     public RecipeFilter recipePreset;
     private MachineRecipe currentRecipe;
     public float baseTimeMultiplier = 1;
-
-    private bool isCrafting;
+    public APMStatus CurrentStatus;
 
     // Key is the needed recipe item
     // Value is outputID
@@ -37,18 +38,6 @@ public class APM : MonoBehaviour
 
     public Queue<CraftingData> CurrentlyCrafting = new Queue<CraftingData>();
 
-    public bool IsCrafting
-    {
-        get => isCrafting;
-        set
-        {
-            isCrafting = value;
-            if (value)
-                BlockAllInputs();
-            else
-                UnblockAllInputs();
-        }
-    }
 
     public MachineRecipe CurrentRecipe
     {
@@ -64,9 +53,9 @@ public class APM : MonoBehaviour
             Debug.Log("Set recipe: " + value?.name);
 
             if (!value)
-                BlockAllInputs();
+                CurrentStatus = APMStatus.Blocked;
             else
-                UnblockAllInputs();
+                CurrentStatus = APMStatus.Idle;
         }
     }
 
@@ -77,7 +66,7 @@ public class APM : MonoBehaviour
         if (CurrentRecipe)
             InitOutputData();
         else
-            BlockAllInputs();
+            CurrentStatus = APMStatus.Blocked;
     }
 
     private void InitOutputData()
@@ -95,22 +84,6 @@ public class APM : MonoBehaviour
 
                 outputData.Add(CurrentRecipe.outputs[i], outputIDToApply);
             }
-        }
-    }
-
-    private void BlockAllInputs()
-    {
-        foreach (BuildingIO input in mc.BuildingIOManager.inputs) // block all inputs so new items won't come in
-        {
-            input.BlockInput = true;
-        }
-    }
-
-    private void UnblockAllInputs()
-    {
-        foreach (BuildingIO input in mc.BuildingIOManager.inputs) // allow all inputs to accept new items and allow the pending item to go through
-        {
-            input.BlockInput = false;
         }
     }
 
@@ -137,21 +110,22 @@ public class APM : MonoBehaviour
             return;
         }
 
-        if (IsCrafting) // check if the APM is currently crafting
+        if (CurrentStatus == APMStatus.Crafting) // check if the APM is currently crafting
         {
             Debug.Log("There's currently crafting ongoing!");
             return;
         }
 
-        foreach (MachineRecipe.InputData recipeData in CurrentRecipe.inputs) // check if we have all required items
+        // Check if should accept the item
+
+        foreach (MachineRecipe.InputData recipeData in CurrentRecipe.inputs)
         {
             if (recipeData.inputID != -1)
             {
                 Debug.LogWarning("InputID is: " + ItemEnterInfo.inputID);
                 if (recipeData.inputID != ItemEnterInfo.inputID)
                 {
-                    Debug.LogWarning("This item was not expected to enter this input! " + ItemEnterInfo.inputID);
-                    return;
+                    continue;
                 }
             }
 
@@ -165,10 +139,10 @@ public class APM : MonoBehaviour
                     return;
                 }
 
-                // check if we have the enough quantity of it available to start crafting
-                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.quantity != recipeData.amount))
+                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.quantity == recipeData.amount))
                 {
-                    Debug.LogWarning("Still, not all items are present inside");
+                    Debug.LogWarning("We're already full of this item!");
+                    return;
                 }
             }
             else if (recipeData.item is ItemCategory)
@@ -181,16 +155,45 @@ public class APM : MonoBehaviour
                     return;
                 }
 
+                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.item.ItemCategory == cat))
+                {
+                    Debug.LogWarning("We're already full of this item!");
+                    return;
+                }
+            }            
+        }
+
+        AcceptItemInside(ItemEnterInfo);
+
+        // Check if should start crafting
+
+        foreach (MachineRecipe.InputData recipeData in CurrentRecipe.inputs)
+        {
+            if (recipeData.item is ItemData)
+            {
+                ItemData itemToCheck = recipeData.item as ItemData;
+
+                // check if we have the enough quantity of it available to start crafting
+                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.quantity != recipeData.amount))
+                {
+                    Debug.LogWarning("Still, not all items are present inside");
+                    return;
+                }
+            }
+            else if (recipeData.item is ItemCategory)
+            {
+                ItemCategory cat = recipeData.item as ItemCategory;
+
                 // check if we have the enough quantity of it available to start crafting
                 if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.item.ItemCategory != cat))
                 {
                     Debug.Log("Still, not all items are present inside");
+                    return;
                 }
             }
         }
 
         // check if the outputs' queues have enough space to fit the output items
-
         for (int i = 0; i < mc.BuildingIOManager.outputs.Length; i++)
         {
             BuildingIO io = mc.BuildingIOManager.outputs[i];
@@ -201,8 +204,6 @@ public class APM : MonoBehaviour
             }
         }
 
-        AcceptItemInside(ItemEnterInfo);
-
         StartCrafting(ItemEnterInfo); // ready to go
     }
 
@@ -212,7 +213,7 @@ public class APM : MonoBehaviour
     {
         Debug.Log("Start crafting!");
         AcceptItemInside(ItemEnterInfo);
-        IsCrafting = true;
+        CurrentStatus = APMStatus.Crafting;
 
         CraftingData data = new CraftingData()
         {
@@ -248,7 +249,7 @@ public class APM : MonoBehaviour
                 mc.BuildingIOManager.outputs[entry.Value - 1].AddToSpawnQueue(entry.Key.item);
             }
 
-            IsCrafting = false;
+            CurrentStatus = APMStatus.Idle;
         }
     }
 
