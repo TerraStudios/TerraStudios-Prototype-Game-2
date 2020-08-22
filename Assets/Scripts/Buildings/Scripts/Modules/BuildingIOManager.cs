@@ -10,6 +10,7 @@ public class OnItemEnterEvent : UnityEvent<OnItemEnterEvent>
     public int inputID;
     public ItemData item;
     public GameObject sceneInstance;
+    public Dictionary<ItemData, int> proposedItems;
 }
 
 public class ItemInsideData
@@ -24,7 +25,7 @@ public class BuildingIOManager : MonoBehaviour
     public ModuleConnector mc;
 
     [Tooltip("A list of all the items inside of the building")]
-    public List<ItemInsideData> itemsInside = new List<ItemInsideData>();
+    public Dictionary<ItemData, int> itemsInside = new Dictionary<ItemData, int>();
 
     [Header("IOs")]
     [Tooltip("A list of all the BuildingIO inputs for the building")]
@@ -95,30 +96,32 @@ public class BuildingIOManager : MonoBehaviour
 
     public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
     {
-        ItemInsideData occurrence = itemsInside.FirstOrDefault(found => found.item.ID == item.ID);
-        if (occurrence != null) // there's already an item with the same ID in the list
+        Dictionary<ItemData, int> proposed = new Dictionary<ItemData, int>(itemsInside);
+
+        if (proposed.ContainsKey(item))
         {
-            occurrence.quantity++; // just change its quantity
+            proposed[item]++;
         }
-        else // this item is new
+        else
         {
-            ItemInsideData toAdd = new ItemInsideData()
-            {
-                quantity = 1,
-                item = item
-            };
-            itemsInside.Add(toAdd);
+            proposed[item] = 1;
         }
 
         OnItemEnterEvent args = new OnItemEnterEvent()
         {
             inputID = inputID,
             item = item,
-            sceneInstance = sceneInstance
+            sceneInstance = sceneInstance,
+            proposedItems = proposed
         };
         OnItemEnterInput.Invoke(args);
 
         Debug.Log("Item fully in me! Item is " + item.name);
+    }
+
+    public void AcceptItemEnter(OnItemEnterEvent args) 
+    {
+        
     }
 
     public void TrashItem(GameObject sceneInstance, ItemData item)

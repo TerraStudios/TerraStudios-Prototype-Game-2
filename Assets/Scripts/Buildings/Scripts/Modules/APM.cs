@@ -110,12 +110,6 @@ public class APM : MonoBehaviour
             return;
         }
 
-        if (CurrentStatus == APMStatus.Crafting) // check if the APM is currently crafting
-        {
-            Debug.Log("There's currently crafting ongoing!");
-            return;
-        }
-
         // Check if should accept the item
 
         foreach (MachineRecipe.InputData recipeData in CurrentRecipe.inputs)
@@ -139,7 +133,7 @@ public class APM : MonoBehaviour
                     return;
                 }
 
-                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.quantity == recipeData.amount))
+                if (ItemEnterInfo.proposedItems[itemToCheck] > recipeData.amount)
                 {
                     Debug.LogWarning("We're already full of this item!");
                     return;
@@ -155,7 +149,7 @@ public class APM : MonoBehaviour
                     return;
                 }
 
-                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.item.ItemCategory == cat))
+                if (ItemEnterInfo.proposedItems.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value > recipeData.amount)
                 {
                     Debug.LogWarning("We're already full of this item!");
                     return;
@@ -174,7 +168,7 @@ public class APM : MonoBehaviour
                 ItemData itemToCheck = recipeData.item as ItemData;
 
                 // check if we have the enough quantity of it available to start crafting
-                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.quantity != recipeData.amount))
+                if (ItemEnterInfo.proposedItems[itemToCheck] < recipeData.amount)
                 {
                     Debug.LogWarning("Still, not all items are present inside");
                     return;
@@ -185,7 +179,7 @@ public class APM : MonoBehaviour
                 ItemCategory cat = recipeData.item as ItemCategory;
 
                 // check if we have the enough quantity of it available to start crafting
-                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.item.ItemCategory != cat))
+                if (ItemEnterInfo.proposedItems.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value < recipeData.amount)
                 {
                     Debug.Log("Still, not all items are present inside");
                     return;
@@ -212,7 +206,6 @@ public class APM : MonoBehaviour
     private void StartCrafting(OnItemEnterEvent ItemEnterInfo)
     {
         Debug.Log("Start crafting!");
-        AcceptItemInside(ItemEnterInfo);
         CurrentStatus = APMStatus.Crafting;
 
         CraftingData data = new CraftingData()
@@ -256,7 +249,10 @@ public class APM : MonoBehaviour
     private void AcceptItemInside(OnItemEnterEvent ItemEnterInfo)
     {
         if (ItemEnterInfo.sceneInstance)
+        {
             Destroy(ItemEnterInfo.sceneInstance);
+            mc.BuildingIOManager.itemsInside = ItemEnterInfo.proposedItems;
+        }
     }
 
     #endregion
