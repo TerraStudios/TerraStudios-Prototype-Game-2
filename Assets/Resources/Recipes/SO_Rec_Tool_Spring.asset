@@ -15,7 +15,7 @@ MonoBehaviour:
   _inputs:
   - item: {fileID: 11400000, guid: bc97fbd95edb3374d97f246876ac10e9, type: 2}
     amount: 1
-    inputID: 0
+    inputID: -1
   outputs:
   - item: {fileID: 11400000, guid: 86a8a73f8ff530440a42da3e09ef48eb, type: 2}
     amount: 1
