@@ -168,10 +168,18 @@ public class APM : MonoBehaviour
                 ItemData itemToCheck = recipeData.item as ItemData;
 
                 // check if we have the enough quantity of it available to start crafting
-                if (ItemEnterInfo.proposedItems[itemToCheck] < recipeData.amount)
+                if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
                 {
-                    Debug.LogWarning("Still, not all items are present inside");
+                    Debug.LogWarning("A required item type is missing from itemsInside!");
                     return;
+                }
+                else
+                {
+                    if (mc.BuildingIOManager.itemsInside[itemToCheck] < recipeData.amount)
+                    {
+                        Debug.LogWarning("Still, not all items are present inside");
+                        return;
+                    }
                 }
             }
             else if (recipeData.item is ItemCategory)
@@ -179,7 +187,7 @@ public class APM : MonoBehaviour
                 ItemCategory cat = recipeData.item as ItemCategory;
 
                 // check if we have the enough quantity of it available to start crafting
-                if (ItemEnterInfo.proposedItems.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value < recipeData.amount)
+                if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value < recipeData.amount)
                 {
                     Debug.Log("Still, not all items are present inside");
                     return;
