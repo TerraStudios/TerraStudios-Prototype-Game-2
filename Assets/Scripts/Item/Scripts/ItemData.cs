@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemOrCategory : ScriptableObject { }
+
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 [CreateAssetMenu(fileName = "New Item Data", menuName = "Item/Item")]
-public class ItemData : ItemOrCategory
+public class ItemData : ItemTag
 {
     [Header("Basic Properties")]
     [HideInInspector] public int ID;
@@ -35,4 +35,10 @@ public class ItemData : ItemOrCategory
     public float secondsToMelt;
     public float solidFormTemperature;
     public float secondsToFreeze;
+
+    public override bool Matches(ItemData item)
+    {
+        return item.ID == this.ID;
+    }
+
 }

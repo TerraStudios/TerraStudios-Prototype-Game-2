@@ -14,6 +14,9 @@ public class RecipeManager : MonoBehaviour
         instance = this;
         categories = Resources.LoadAll<ItemCategory>("");
         recipes = Resources.LoadAll<MachineRecipe>("").ToList();
+
+        
+
         Debug.Log("Loaded " + recipes.Count() + " recipes and " + categories.Count() + " categories.");
     }
 

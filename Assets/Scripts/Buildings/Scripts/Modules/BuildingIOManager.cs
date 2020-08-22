@@ -24,7 +24,7 @@ public class BuildingIOManager : MonoBehaviour
     public ModuleConnector mc;
 
     [Tooltip("A list of all the items inside of the building")]
-    public List<ItemInsideData> itemsInside = new List<ItemInsideData>();
+    public Dictionary<ItemData, int> itemsInside = new Dictionary<ItemData, int>();
 
     [Header("IOs")]
     [Tooltip("A list of all the BuildingIO inputs for the building")]
@@ -95,6 +95,15 @@ public class BuildingIOManager : MonoBehaviour
 
     public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
     {
+        if (itemsInside.ContainsKey(item))
+        {
+            itemsInside[item]++;
+        } else
+        {
+            itemsInside[item] = 1;
+        }
+       
+        /*
         ItemInsideData occurrence = itemsInside.FirstOrDefault(found => found.item.ID == item.ID);
         if (occurrence != null) // there's already an item with the same ID in the list
         {
@@ -108,7 +117,7 @@ public class BuildingIOManager : MonoBehaviour
                 item = item
             };
             itemsInside.Add(toAdd);
-        }
+        }*/
 
         OnItemEnterEvent args = new OnItemEnterEvent()
         {

@@ -15,6 +15,13 @@ public class ItemManagement : MonoBehaviour
         LoadItemDB();
     }
 
+    private void Start()
+    {
+        db.ForEach(item => {
+            RecipeManager.instance.RetrieveCategories().First(category => category == item.ItemCategory).items.Add(item);
+        });
+    }
+
     public ItemData GetItemFromDB(int ID)
     {
         for (int i = 0; i < db.Count; i++)
@@ -32,10 +39,15 @@ public class ItemManagement : MonoBehaviour
         for (int i = 0; i < itemDB.Count(); i++)
         {
             ItemData data = itemDB[i];
+
+            //if (data is ItemCategory) {}
+
+
+
             data.ID = i;
             db.Insert(i, data);
         }
-        
+
         Debug.Log("[Item Management] Loaded " + db.Count + " items");
 
         foreach (ItemData data in db) {

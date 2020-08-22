@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -59,6 +60,8 @@ public class APM : MonoBehaviour
         }
     }
 
+
+
     public void Init()
     {
         mc.BuildingIOManager.OnItemEnterInput.AddListener(OnItemEnterInput);
@@ -102,7 +105,7 @@ public class APM : MonoBehaviour
         caller.OutputID = newOutputID;
     }
 
-    private void OnItemEnterInput(OnItemEnterEvent ItemEnterInfo)
+    private void OnItemEnterInput(OnItemEnterEvent itemEnterInfo)
     {
         if (!CurrentRecipe) // check if we have any recipe to work with
         {
@@ -116,85 +119,21 @@ public class APM : MonoBehaviour
             return;
         }
 
-        // Check if should accept the item
+        Dictionary<int, HashSet<MachineRecipe.ItemTagData>> inputData = CurrentRecipe.GetInputData();
 
-        foreach (MachineRecipe.InputData recipeData in CurrentRecipe.inputs)
+        HashSet<MachineRecipe.ItemTagData> recipeInput = inputData.GetOrDefault(itemEnterInfo.inputID, null); // Returns null if it can't find the item
+
+        var info = RetrieveItemInfo(inputData, itemEnterInfo.item);
+
+        if (info == null) // Couldn't find any ItemTags associated with the item (Is this item expected to enter this input?)
         {
-            if (recipeData.inputID != -1)
-            {
-                Debug.LogWarning("InputID is: " + ItemEnterInfo.inputID);
-                if (recipeData.inputID != ItemEnterInfo.inputID)
-                {
-                    continue;
-                }
-            }
-
-            if (recipeData.item is ItemData)
-            {
-                ItemData itemToCheck = recipeData.item as ItemData;
-
-                if (itemToCheck.ID != ItemEnterInfo.item.ID) // check if item entering is expected to enter
-                {
-                    Debug.LogWarning("This item was not expected to enter this building!");
-                    return;
-                }
-
-                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.quantity == recipeData.amount))
-                {
-                    Debug.LogWarning("We're already full of this item!");
-                    return;
-                }
-            }
-            else if (recipeData.item is ItemCategory)
-            {
-                ItemCategory cat = recipeData.item as ItemCategory;
-
-                if (cat != ItemEnterInfo.item.ItemCategory) // check if item category entering is expected to enter
-                {
-                    Debug.LogWarning("This item was not expected to enter this building!");
-                    return;
-                }
-
-                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.item.ItemCategory == cat))
-                {
-                    Debug.LogWarning("We're already full of this item!");
-                    return;
-                }
-            }            
+            Debug.LogWarning("Rejecting item: couldn't find an ItemTag associated with the item.");
+            return;
         }
 
-        AcceptItemInside(ItemEnterInfo);
+        //var infoValue = info.Value;
 
-        // Check if should start crafting
-
-        foreach (MachineRecipe.InputData recipeData in CurrentRecipe.inputs)
-        {
-            if (recipeData.item is ItemData)
-            {
-                ItemData itemToCheck = recipeData.item as ItemData;
-
-                // check if we have the enough quantity of it available to start crafting
-                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.quantity != recipeData.amount))
-                {
-                    Debug.LogWarning("Still, not all items are present inside");
-                    return;
-                }
-            }
-            else if (recipeData.item is ItemCategory)
-            {
-                ItemCategory cat = recipeData.item as ItemCategory;
-
-                // check if we have the enough quantity of it available to start crafting
-                if (mc.BuildingIOManager.itemsInside.Any(itemInsideData => itemInsideData.item.ItemCategory != cat))
-                {
-                    Debug.Log("Still, not all items are present inside");
-                    return;
-                }
-            }
-        }
-
-        // check if the outputs' queues have enough space to fit the output items
-        for (int i = 0; i < mc.BuildingIOManager.outputs.Length; i++)
+        for (int i = 0; i < outputData.Keys.Count; i++)
         {
             BuildingIO io = mc.BuildingIOManager.outputs[i];
             if (io.itemsToSpawn.Count + outputData.Keys.ElementAt(i).amount > io.outputMaxQueueSize)
@@ -204,7 +143,48 @@ public class APM : MonoBehaviour
             }
         }
 
-        StartCrafting(ItemEnterInfo); // ready to go
+
+
+
+        Debug.LogWarning("Accepting item..");
+        AcceptItemInside(itemEnterInfo);
+        Debug.LogWarning("Finished accepting item");
+
+
+        // Loops through each recipe input and checks if 
+        foreach (var itemData in inputData)
+        {
+            //Loop through each input tag, and for each item that belongs check its count
+            foreach (var tagData in itemData.Value)
+            {
+
+                bool foundItem = false;
+                //Loop through each item inside and check if the tag fits it 
+                foreach (var itemInside in mc.BuildingIOManager.itemsInside)
+                {
+                    if (tagData.tag.Matches(itemInside.Key))
+                    {
+                        foundItem = true;
+                        //Tag matches, check if it doesn't have the correct amount
+                        if (itemInside.Value < tagData.amount)
+                        {
+                            foundItem = false;
+                        }
+                    }
+
+                }
+
+                if (!foundItem)
+                {
+                    Debug.LogWarning("Couldn't find a material for crafting");
+                    return;
+                }
+
+            }
+        }
+
+        Debug.LogWarning("Beginning crafting...");
+        StartCrafting(itemEnterInfo); // Initiates crafting process
     }
 
     #region Crafting procedure
@@ -257,6 +237,20 @@ public class APM : MonoBehaviour
     {
         if (ItemEnterInfo.sceneInstance)
             Destroy(ItemEnterInfo.sceneInstance);
+    }
+
+    private KeyValuePair<MachineRecipe.ItemTagData, int>? RetrieveItemInfo(Dictionary<int, HashSet<MachineRecipe.ItemTagData>> recipeInput, ItemData item)
+    {
+        foreach (var input in recipeInput)
+        {
+            // Loops through each recipe input and checks if 
+            foreach (var itemData in input.Value)
+            {
+                if (itemData.tag.Matches(item)) return new KeyValuePair<MachineRecipe.ItemTagData, int>(itemData, input.Key);
+            }
+        }
+
+        return null;
     }
 
     #endregion

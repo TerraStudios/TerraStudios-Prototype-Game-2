@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36d28cc7cc0e3364bb69a8f54cf609e3, type: 3}
   m_Name: SO_Rec_Steel_Block_Stainless
   m_EditorClassIdentifier: 
-  inputs:
+  _inputs:
   - item: {fileID: 11400000, guid: 297ace5d4f74deb41b8bb42271322ed7, type: 2}
     amount: 1
     inputID: 0

@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36d28cc7cc0e3364bb69a8f54cf609e3, type: 3}
   m_Name: SO_Rec_Tool_Hammer
   m_EditorClassIdentifier: 
-  inputs:
+  _inputs:
   - item: {fileID: 11400000, guid: bc97fbd95edb3374d97f246876ac10e9, type: 2}
     amount: 1
     inputID: 0
   - item: {fileID: 11400000, guid: 6e3221f92e1031342b4a75465753bd51, type: 2}
     amount: 1
-    inputID: 0
+    inputID: 1
   outputs:
   - item: {fileID: 11400000, guid: d85b2724d87cbab4783393780a0fd1f2, type: 2}
     amount: 1

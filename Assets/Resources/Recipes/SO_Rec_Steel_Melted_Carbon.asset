@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36d28cc7cc0e3364bb69a8f54cf609e3, type: 3}
   m_Name: SO_Rec_Steel_Melted_Carbon
   m_EditorClassIdentifier: 
-  inputs:
+  _inputs:
   - item: {fileID: 11400000, guid: f28782f5af5c67e419584925f085f204, type: 2}
     amount: 2
-    inputID: 0
+    inputID: -1
   outputs:
   - item: {fileID: 11400000, guid: 61c6d588a27f2f44c850fb812149d1b4, type: 2}
     amount: 2
