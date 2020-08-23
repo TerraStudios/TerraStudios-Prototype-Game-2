@@ -50,7 +50,7 @@ public class APM : MonoBehaviour
             currentRecipe = value;
             InitOutputData();
 
-            Debug.Log("Set recipe: " + value?.name);
+            Debug.Log("Set recipe: " + value?.name, this);
 
             if (!value)
                 CurrentStatus = APMStatus.Blocked;
@@ -106,7 +106,7 @@ public class APM : MonoBehaviour
     {
         if (!CurrentRecipe) // check if we have any recipe to work with
         {
-            Debug.LogError("Item attempts to enter but there's no recipe!!!");
+            Debug.LogError("Item attempts to enter but there's no recipe!!!", this);
             return;
         }
 
@@ -126,7 +126,7 @@ public class APM : MonoBehaviour
 
         if (Equals(recipeData, default))
         {
-            Debug.LogError("This item was not expected to enter this building!");
+            Debug.LogError("This item was not expected to enter this building!", this);
             return;
         }
 
@@ -134,7 +134,7 @@ public class APM : MonoBehaviour
         {
             if (recipeData.inputID != ItemEnterInfo.inputID)
             {
-                Debug.LogWarning("This item was not expected to enter this input");
+                Debug.LogWarning("This item was not expected to enter this input", this);
                 return;
             }
         }
@@ -145,7 +145,7 @@ public class APM : MonoBehaviour
 
             if (ItemEnterInfo.proposedItems[itemToCheck] > recipeData.amount) // check if we're full of that item
             {
-                Debug.LogWarning("We're already full of this item!");
+                Debug.LogWarning("We're already full of this item!", this);
                 return;
             }
         }
@@ -155,7 +155,7 @@ public class APM : MonoBehaviour
 
             if (ItemEnterInfo.proposedItems.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value > recipeData.amount)
             {
-                Debug.LogWarning("We're already full of this item!"); // check if we're full of that item
+                Debug.LogWarning("We're already full of this item!", this); // check if we're full of that item
                 return;
             }
         }
@@ -166,7 +166,7 @@ public class APM : MonoBehaviour
             BuildingIO io = mc.BuildingIOManager.outputs[kvp.Value - 1];
             if (io.itemsToSpawn.Count + kvp.Key.amount > io.outputMaxQueueSize)
             {
-                Debug.LogWarning("Not enough space to one or more of the output/s");
+                Debug.LogWarning("Not enough space to one or more of the output/s", this);
                 return;
             }
         }
@@ -184,14 +184,14 @@ public class APM : MonoBehaviour
                 // check if we have the enough quantity of it available to start crafting
                 if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
                 {
-                    Debug.LogWarning("A required item type is missing from itemsInside!");
+                    Debug.Log("A required item type is missing from itemsInside!", this);
                     return;
                 }
                 else
                 {
                     if (mc.BuildingIOManager.itemsInside[itemToCheck] < inputData.amount)
                     {
-                        Debug.LogWarning("Still, not all items are present inside");
+                        Debug.Log("Still, not all items are present inside", this);
                         return;
                     }
                 }
@@ -203,20 +203,20 @@ public class APM : MonoBehaviour
                 // check if we have the enough quantity of it available to start crafting
                 if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value < inputData.amount)
                 {
-                    Debug.Log("Still, not all items are present inside");
+                    Debug.Log("Still, not all items are present inside", this);
                     return;
                 }
             }
         }
 
-        StartCrafting(ItemEnterInfo); // ready to go
+        StartCrafting(); // ready to go
     }
 
     #region Crafting procedure
 
-    private void StartCrafting(OnItemEnterEvent ItemEnterInfo)
+    private void StartCrafting()
     {
-        Debug.Log("Start crafting!");
+        Debug.Log("Start crafting!", this);
         CurrentStatus = APMStatus.Crafting;
 
         CraftingData data = new CraftingData()
