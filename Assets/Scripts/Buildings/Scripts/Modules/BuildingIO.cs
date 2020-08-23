@@ -277,6 +277,17 @@ public class BuildingIO : MonoBehaviour
             spawnPos = itemIO.transform.position;
 
         ObjectPoolManager.instance.ReuseObject(itemToSpawn.obj.gameObject, spawnPos, Quaternion.identity);
+        //An item has been instantiated, attempt to allow APM (if present) to insert an item
+        if (IOManager.mc.APM) {
+            IOManager.IOForEach(io =>
+            {
+                if (io.itemInside)
+                {
+                    IOManager.ProceedItemEnter(io.itemInside.gameObject, io.itemInside.data, io.ID);
+                }
+            });        
+        }
+
 
         //Instantiate(itemToSpawn.obj, spawnPos, Quaternion.identity);
 

@@ -244,7 +244,7 @@ public class BuildingIOManager : MonoBehaviour
     /// Utility method for looping through both the inputs and outputs
     /// </summary>
     /// <param name="action">Delegate for the action taken in each IO</param>
-    private void IOForEach(Action<BuildingIO> action)
+    public void IOForEach(Action<BuildingIO> action)
     {
         foreach (BuildingIO io in inputs)
         {
