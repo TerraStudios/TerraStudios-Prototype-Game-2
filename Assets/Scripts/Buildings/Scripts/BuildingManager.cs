@@ -68,8 +68,7 @@ public class BuildingManager : BuildingSystem
             BuildingInfo.SetActive(true);
 
             RefreshRecipeList();
-            if (!b.mc.BuildingIOManager.isConveyor)
-                RefreshOutputsUI();
+            RefreshOutputsUI();
 
             if (b.mc.BuildingIOManager.isConveyor && enableDebugSpawn)
                 b.mc.BuildingIOManager.outputs[0].AddToSpawnQueue(testItemToSpawn, 0);
@@ -92,6 +91,7 @@ public class BuildingManager : BuildingSystem
 
         base.OnBuildingDeselected();
         BuildingInfo.SetActive(false);
+        IOSelectionPanel.SetActive(false);
     }
 
     /// <summary>
@@ -184,46 +184,49 @@ public class BuildingManager : BuildingSystem
         RefreshOutputsUI();
     }
 
-    public void ShowIOSelectionUI() 
-    {
-        IOSelectionPanel.SetActive(true);
-        RefreshOutputsUI();
-    }
+    public void ShowIOSelectionUI() => RefreshOutputsUI(true);
 
     public void HideIOSelectionUI()
     {
         IOSelectionPanel.SetActive(false);
     }
 
-    public void RefreshOutputsUI()
+    private void RefreshOutputsUI(bool showPanel = false)
     {
-        if (FocusedBuilding)
+        if (!IsOutputSetupSupported())
+            return;
+
+        if (showPanel)
+            IOSelectionPanel.SetActive(true);
+
+        // visualize the outputsData from APM in the UI
+
+        foreach (Transform field in outputSelectorFields)
         {
-            // visualize the outputsData from APM in the UI
-
-            foreach (Transform field in outputSelectorFields)
-            {
-                Destroy(field.gameObject);
-            }
-
-            outputSelectorFields.Clear();
-
-            for (int i = 0; i < FocusedBuilding.mc.APM.outputData.Count; i++)
-            {
-                KeyValuePair<MachineRecipe.OutputData, int> entry = FocusedBuilding.mc.APM.outputData.ElementAt(i);
-
-                Transform fieldToAdd = Instantiate(OutputsSelector, OutputsParent);
-                OutputSelector os = fieldToAdd.GetComponent<OutputSelector>();
-                os.value = entry.Key;
-                os.OutputID = entry.Value;
-                os.itemNameText.text = entry.Key.item.name;
-                outputSelectorFields.Add(fieldToAdd);
-            }
+            Destroy(field.gameObject);
         }
-        else
+
+        outputSelectorFields.Clear();
+
+        for (int i = 0; i < FocusedBuilding.mc.APM.outputData.Count; i++)
         {
-            Debug.LogWarning("Attempting to open the IO management UI without having a selected building! This shouldn't be possible.");
+            KeyValuePair<MachineRecipe.OutputData, int> entry = FocusedBuilding.mc.APM.outputData.ElementAt(i);
+
+            Transform fieldToAdd = Instantiate(OutputsSelector, OutputsParent);
+            OutputSelector os = fieldToAdd.GetComponent<OutputSelector>();
+            os.value = entry.Key;
+            os.OutputID = entry.Value;
+            os.itemNameText.text = entry.Key.item.name;
+            outputSelectorFields.Add(fieldToAdd);
         }
     }
     #endregion
+
+    private bool IsOutputSetupSupported() 
+    {
+        if (FocusedBuilding && FocusedBuilding.mc.APM && !FocusedBuilding.mc.Conveyor)
+            return true;
+        else
+            return false;
+    }
 }
