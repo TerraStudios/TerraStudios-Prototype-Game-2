@@ -158,10 +158,10 @@ public class APM : MonoBehaviour
         }
 
         // check if the outputs' queues have enough space to fit the output items
-        for (int i = 0; i < mc.BuildingIOManager.outputs.Length; i++)
+        foreach (KeyValuePair<MachineRecipe.OutputData, int> kvp in outputData)
         {
-            BuildingIO io = mc.BuildingIOManager.outputs[i];
-            if (io.itemsToSpawn.Count + outputData.Keys.ElementAt(i).amount > io.outputMaxQueueSize)
+            BuildingIO io = mc.BuildingIOManager.outputs[kvp.Value];
+            if (io.itemsToSpawn.Count + kvp.Key.amount > io.outputMaxQueueSize)
             {
                 Debug.LogWarning("Not enough space to one or more of the output/s");
                 return;
