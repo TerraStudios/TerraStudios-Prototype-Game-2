@@ -110,51 +110,54 @@ public class APM : MonoBehaviour
             return;
         }
 
-        // Check if should accept the item
-
-        foreach (MachineRecipe.InputData recipeData in CurrentRecipe.inputs)
+        MachineRecipe.InputData recipeData = CurrentRecipe.inputs.FirstOrDefault(data =>
         {
-            if (recipeData.inputID != -1)
+            if (data.item is ItemData)
             {
-                Debug.LogWarning("InputID is: " + ItemEnterInfo.inputID);
-                if (recipeData.inputID != ItemEnterInfo.inputID)
-                {
-                    continue;
-                }
+                if ((data.item as ItemData).ID == ItemEnterInfo.item.ID) return true;
+            }
+            else
+            {
+                if ((data.item as ItemCategory) == ItemEnterInfo.item.ItemCategory) return true;
             }
 
-            if (recipeData.item is ItemData)
+            return false;
+        });
+
+        if (Equals(recipeData, default))
+        {
+            Debug.LogError("This item was not expected to enter this building!");
+            return;
+        }
+
+        if (recipeData.inputID != -1)
+        {
+            if (recipeData.inputID != ItemEnterInfo.inputID)
             {
-                ItemData itemToCheck = recipeData.item as ItemData;
-
-                if (itemToCheck.ID != ItemEnterInfo.item.ID) // check if item entering is expected to enter
-                {
-                    Debug.LogWarning("This item was not expected to enter this building!");
-                    return;
-                }
-
-                if (ItemEnterInfo.proposedItems[itemToCheck] > recipeData.amount)
-                {
-                    Debug.LogWarning("We're already full of this item!");
-                    return;
-                }
+                Debug.LogWarning("This item was not expected to enter this input");
+                return;
             }
-            else if (recipeData.item is ItemCategory)
+        }
+
+        if (recipeData.item is ItemData)
+        {
+            ItemData itemToCheck = recipeData.item as ItemData;
+
+            if (ItemEnterInfo.proposedItems[itemToCheck] > recipeData.amount) // check if we're full of that item
             {
-                ItemCategory cat = recipeData.item as ItemCategory;
+                Debug.LogWarning("We're already full of this item!");
+                return;
+            }
+        }
+        else if (recipeData.item is ItemCategory)
+        {
+            ItemCategory cat = recipeData.item as ItemCategory;
 
-                if (cat != ItemEnterInfo.item.ItemCategory) // check if item category entering is expected to enter
-                {
-                    Debug.LogWarning("This item was not expected to enter this building!");
-                    return;
-                }
-
-                if (ItemEnterInfo.proposedItems.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value > recipeData.amount)
-                {
-                    Debug.LogWarning("We're already full of this item!");
-                    return;
-                }
-            }            
+            if (ItemEnterInfo.proposedItems.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value > recipeData.amount)
+            {
+                Debug.LogWarning("We're already full of this item!"); // check if we're full of that item
+                return;
+            }
         }
 
         // check if the outputs' queues have enough space to fit the output items
@@ -172,43 +175,36 @@ public class APM : MonoBehaviour
 
         // Check if should start crafting
 
-        foreach (MachineRecipe.InputData recipeData in CurrentRecipe.inputs)
+        if (recipeData.item is ItemData)
         {
-            if (recipeData.item is ItemData)
-            {
-                ItemData itemToCheck = recipeData.item as ItemData;
+            ItemData itemToCheck = recipeData.item as ItemData;
 
-                // check if we have the enough quantity of it available to start crafting
-                if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
-                {
-                    Debug.LogWarning("A required item type is missing from itemsInside!");
-                    return;
-                }
-                else
-                {
-                    if (mc.BuildingIOManager.itemsInside[itemToCheck] < recipeData.amount)
-                    {
-                        Debug.LogWarning("Still, not all items are present inside");
-                        return;
-                    }
-                }
+            // check if we have the enough quantity of it available to start crafting
+            if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
+            {
+                Debug.LogWarning("A required item type is missing from itemsInside!");
+                return;
             }
-            else if (recipeData.item is ItemCategory)
+            else
             {
-                ItemCategory cat = recipeData.item as ItemCategory;
-
-                // check if we have the enough quantity of it available to start crafting
-                if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value < recipeData.amount)
+                if (mc.BuildingIOManager.itemsInside[itemToCheck] < recipeData.amount)
                 {
-                    Debug.Log("Still, not all items are present inside");
+                    Debug.LogWarning("Still, not all items are present inside");
                     return;
                 }
             }
         }
+        else if (recipeData.item is ItemCategory)
+        {
+            ItemCategory cat = recipeData.item as ItemCategory;
 
-
-
-
+            // check if we have the enough quantity of it available to start crafting
+            if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value < recipeData.amount)
+            {
+                Debug.Log("Still, not all items are present inside");
+                return;
+            }
+        }
 
         StartCrafting(ItemEnterInfo); // ready to go
     }
