@@ -261,7 +261,7 @@ public class APM : MonoBehaviour
     {
         if (ItemEnterInfo.sceneInstance)
         {
-            Destroy(ItemEnterInfo.sceneInstance);
+            ObjectPoolManager.instance.DestroyObject(ItemEnterInfo.sceneInstance);
             mc.BuildingIOManager.itemsInside = ItemEnterInfo.proposedItems;
         }
     }
