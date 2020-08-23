@@ -175,34 +175,37 @@ public class APM : MonoBehaviour
 
         // Check if should start crafting
 
-        if (recipeData.item is ItemData)
+        foreach (MachineRecipe.InputData inputData in CurrentRecipe.inputs)
         {
-            ItemData itemToCheck = recipeData.item as ItemData;
+            if (inputData.item is ItemData)
+            {
+                ItemData itemToCheck = inputData.item as ItemData;
 
-            // check if we have the enough quantity of it available to start crafting
-            if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
-            {
-                Debug.LogWarning("A required item type is missing from itemsInside!");
-                return;
-            }
-            else
-            {
-                if (mc.BuildingIOManager.itemsInside[itemToCheck] < recipeData.amount)
+                // check if we have the enough quantity of it available to start crafting
+                if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
                 {
-                    Debug.LogWarning("Still, not all items are present inside");
+                    Debug.LogWarning("A required item type is missing from itemsInside!");
                     return;
                 }
+                else
+                {
+                    if (mc.BuildingIOManager.itemsInside[itemToCheck] < inputData.amount)
+                    {
+                        Debug.LogWarning("Still, not all items are present inside");
+                        return;
+                    }
+                }
             }
-        }
-        else if (recipeData.item is ItemCategory)
-        {
-            ItemCategory cat = recipeData.item as ItemCategory;
-
-            // check if we have the enough quantity of it available to start crafting
-            if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value < recipeData.amount)
+            else if (inputData.item is ItemCategory)
             {
-                Debug.Log("Still, not all items are present inside");
-                return;
+                ItemCategory cat = inputData.item as ItemCategory;
+
+                // check if we have the enough quantity of it available to start crafting
+                if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value < inputData.amount)
+                {
+                    Debug.Log("Still, not all items are present inside");
+                    return;
+                }
             }
         }
 
