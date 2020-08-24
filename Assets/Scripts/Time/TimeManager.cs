@@ -40,7 +40,7 @@ public class TimeManager : TimeSystem
             x4Button.interactable = true;
             x8Button.interactable = true;
 
-            isPaused = true;
+            IsPaused = true;
         }
 
         else if (clicked == x1Button)
@@ -49,7 +49,7 @@ public class TimeManager : TimeSystem
             x4Button.interactable = true;
             x8Button.interactable = true;
 
-            isPaused = false;
+            IsPaused = false;
             TimeMultiplier = 1;
         }
 
@@ -59,7 +59,7 @@ public class TimeManager : TimeSystem
             PauseButton.interactable = true;
             x8Button.interactable = true;
 
-            isPaused = false;
+            IsPaused = false;
             TimeMultiplier = 4;
         }
 
@@ -69,7 +69,7 @@ public class TimeManager : TimeSystem
             PauseButton.interactable = true;
             x4Button.interactable = true;
 
-            isPaused = false;
+            IsPaused = false;
             TimeMultiplier = 8;
         }
     }

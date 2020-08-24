@@ -34,8 +34,25 @@ public class TimeEngine : MonoBehaviour
             timeMultiplier = value;
         }
     }
+
+    public static bool IsPaused 
+    {
+        get => isPaused;
+        set
+        {
+            if (value)
+            {
+                Time.timeScale = 0;
+            }
+            else
+                Time.timeScale = TimeMultiplier;
+                
+            isPaused = value;
+        }
+    }
+
     [Tooltip("Whether the time is currently paused or not")]
-    public static bool isPaused;
+    private static bool isPaused;
     [Tooltip("The current DateTime of the game")]
     public DateTime CurrentTime;
 
@@ -52,7 +69,7 @@ public class TimeEngine : MonoBehaviour
         {
             while (true)
             {
-                while (!isPaused)
+                while (!IsPaused)
                 {
                     CurrentTime = CurrentTime.AddMinutes(1);
                     int msToWait = Mathf.FloorToInt((float) 100 / (defaultTimeMultiplier * TimeMultiplier));

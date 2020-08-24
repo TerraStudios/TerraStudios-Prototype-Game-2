@@ -245,7 +245,7 @@ public class GridManager : MonoBehaviour
     private void ConstructVisualization(Vector3 center)
     {
         BuildingManager.OnBuildingDeselected();
-        TimeEngine.isPaused = true;
+        TimeEngine.IsPaused = true;
         visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
         visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.DirectionIndicator);
         tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
@@ -390,7 +390,7 @@ public class GridManager : MonoBehaviour
         }
         else
         {
-            TimeEngine.isPaused = false;
+            TimeEngine.IsPaused = false;
             visualization = null;
             if (!forceVisualizeAll)
                 foreach (Building b in BuildingSystem.RegisteredBuildings)
