@@ -104,10 +104,19 @@ public class APM : MonoBehaviour
 
     private void OnItemEnterInput(OnItemEnterEvent ItemEnterInfo)
     {
+        if (IsAllowedToEnter(ItemEnterInfo))
+            AcceptItemInside(ItemEnterInfo);
+
+        if (IsAllowedToStartCrafting(ItemEnterInfo))
+            StartCrafting();
+    }
+
+    private bool IsAllowedToEnter(OnItemEnterEvent ItemEnterInfo) 
+    {
         if (!CurrentRecipe) // check if we have any recipe to work with
         {
             ItemLog(ItemEnterInfo.item.name, "Item attempts to enter but there's no recipe!!!", this);
-            return;
+            return false;
         }
 
         MachineRecipe.InputData recipeData = CurrentRecipe.inputs.FirstOrDefault(data =>
@@ -127,7 +136,7 @@ public class APM : MonoBehaviour
         if (Equals(recipeData, default))
         {
             ItemLog(ItemEnterInfo.item.name, "This item was not expected to enter this building!", this);
-            return;
+            return false;
         }
 
         if (recipeData.inputID != -1)
@@ -135,7 +144,7 @@ public class APM : MonoBehaviour
             if (recipeData.inputID != ItemEnterInfo.inputID)
             {
                 Debug.LogWarning("This item was not expected to enter this input", this);
-                return;
+                return false;
             }
         }
 
@@ -146,7 +155,7 @@ public class APM : MonoBehaviour
             if (ItemEnterInfo.proposedItems[itemToCheck] > recipeData.amount) // check if we're full of that item
             {
                 ItemLog(ItemEnterInfo.item.name, "We're already full of this item!", this);
-                return;
+                return false;
             }
         }
         else if (recipeData.item is ItemCategory)
@@ -156,7 +165,7 @@ public class APM : MonoBehaviour
             if (ItemEnterInfo.proposedItems.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value > recipeData.amount)
             {
                 ItemLog(ItemEnterInfo.item.name, "We're already full of this item!", this); // check if we're full of that item
-                return;
+                return false;
             }
         }
 
@@ -167,14 +176,15 @@ public class APM : MonoBehaviour
             if (io.itemsToSpawn.Count + kvp.Key.amount > io.outputMaxQueueSize)
             {
                 ItemLog(ItemEnterInfo.item.name, "Not enough space to one or more of the output/s", this);
-                return;
+                return false;
             }
         }
 
-        AcceptItemInside(ItemEnterInfo);
+        return true;
+    }
 
-        // Check if should start crafting
-
+    private bool IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo) 
+    {
         foreach (MachineRecipe.InputData inputData in CurrentRecipe.inputs)
         {
             if (inputData.item is ItemData)
@@ -185,14 +195,14 @@ public class APM : MonoBehaviour
                 if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
                 {
                     ItemLog(ItemEnterInfo.item.name, "A required item type is missing from itemsInside!", this);
-                    return;
+                    return false;
                 }
                 else
                 {
                     if (mc.BuildingIOManager.itemsInside[itemToCheck] < inputData.amount)
                     {
                         ItemLog(ItemEnterInfo.item.name, "Still, not all items are present inside", this);
-                        return;
+                        return false;
                     }
                 }
             }
@@ -204,12 +214,12 @@ public class APM : MonoBehaviour
                 if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value < inputData.amount)
                 {
                     ItemLog(ItemEnterInfo.item.name, "Still, not all items are present inside", this);
-                    return;
+                    return false;
                 }
             }
         }
 
-        StartCrafting(); // ready to go
+        return true;
     }
 
     #region Crafting procedure
@@ -270,6 +280,6 @@ public class APM : MonoBehaviour
 
     private void ItemLog(string itemName, string message, Object highlight = null)
     {
-        Debug.Log($"[Recipe: {CurrentRecipe.name}][Item: {itemName}] {message}", highlight);
+        Debug.Log($"[Recipe: {CurrentRecipe.name}] [Item: {itemName}] {message}", highlight);
     }
 }
