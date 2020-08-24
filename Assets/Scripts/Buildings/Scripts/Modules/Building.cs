@@ -193,7 +193,7 @@ public class Building : MonoBehaviour
     /// The method currently pauses the time via <see cref="TimeManager.PauseTimeCounter(Guid)"/>
     /// </summary>
     /// <param name="newValue">The new value the building was set to</param>
-    private void OnWorkStateChanged(WorkStateEnum newValue)
+    private void OnWorkStateChanged(WorkStateEnum newValue, bool quiet = false)
     {
         for (int i = 0; i < workStateTimes.Count; i++)
         {
@@ -211,15 +211,18 @@ public class Building : MonoBehaviour
             }
         }
 
-        if (mc.BuildingIOManager == null && mc.BuildingIOManager.isConveyor)
+        if (mc.BuildingIOManager != null && mc.BuildingIOManager.isConveyor)
         {
-            Debug.Log("Returned");
+            if (newValue == WorkStateEnum.On)
+                mc.BuildingIOManager.ChangeConveyorState(true);
+            else if (newValue == WorkStateEnum.Off)
+                mc.BuildingIOManager.ChangeConveyorState(false);
+
             return;
         }
 
-        mc.BuildingIOManager.SetConveyorGroupState(newValue);
-
-        
+        if (!quiet)
+            mc.BuildingIOManager.SetConveyorGroupState(newValue);  
     }
     #endregion
 
@@ -295,6 +298,8 @@ public class Building : MonoBehaviour
     /// </summary>
     public void SetWorkstateSilent(WorkStateEnum newWorkState)
     {
-        this.workState = newWorkState;
+        workState = newWorkState;
+        OnWorkStateChanged(newWorkState, true);
     }
 }
+ 

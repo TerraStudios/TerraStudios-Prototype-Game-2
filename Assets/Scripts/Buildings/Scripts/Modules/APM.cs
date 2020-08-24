@@ -66,6 +66,7 @@ public class APM : MonoBehaviour
         {
             if (value == APMStatus.Crafting)
                 mc.BuildingIOManager.SetConveyorGroupState(WorkStateEnum.Off);
+                
             else
                 mc.BuildingIOManager.SetConveyorGroupState(WorkStateEnum.On);
 
