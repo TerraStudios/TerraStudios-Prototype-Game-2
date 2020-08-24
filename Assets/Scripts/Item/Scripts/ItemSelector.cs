@@ -28,13 +28,9 @@ public class ItemSelector : MonoBehaviour
         Ray ray = MainCamera.ScreenPointToRay(mousePos);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ItemLayer))
-        {
             return hit.transform;
-        }
         else
-        {
             return null;
-        }
     }
 
     public void SelectItem(Transform hit) 
