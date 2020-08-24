@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 996761053345596490}
   - component: {fileID: 5332538328071552302}
   - component: {fileID: -4508205616614499244}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PF_Item_Ball_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}

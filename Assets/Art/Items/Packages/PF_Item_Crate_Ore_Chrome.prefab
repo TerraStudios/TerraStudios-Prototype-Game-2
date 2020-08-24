@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8517430369856967778}
   - component: {fileID: 122488692494120518}
   - component: {fileID: 7641130167161631965}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PF_Item_Crate_Ore_Chrome
   m_TagString: Untagged
   m_Icon: {fileID: 0}

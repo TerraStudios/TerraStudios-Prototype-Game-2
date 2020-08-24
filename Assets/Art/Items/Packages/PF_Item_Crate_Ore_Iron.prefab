@@ -65,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 777848860323402586, guid: e08ce273640539e4193cf43c47e6e99a,
         type: 3}
       propertyPath: m_Name
-      value: PF_Item_Crate_Ore_
+      value: PF_Item_Crate_Ore_Iron
       objectReference: {fileID: 0}
     - target: {fileID: 7641130167161631965, guid: e08ce273640539e4193cf43c47e6e99a,
         type: 3}

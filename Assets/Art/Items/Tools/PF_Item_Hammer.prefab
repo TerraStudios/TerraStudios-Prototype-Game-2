@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7974608788801261368}
   - component: {fileID: 2690363811644674214}
   - component: {fileID: 1461502810662244948}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PF_Item_Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

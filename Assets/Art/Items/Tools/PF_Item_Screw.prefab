@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -5621533802098616680}
   - component: {fileID: 9012722724245658825}
   - component: {fileID: 3759895306747732502}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PF_Item_Screw
   m_TagString: Untagged
   m_Icon: {fileID: 0}

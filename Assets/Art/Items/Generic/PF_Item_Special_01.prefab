@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3451135172461170002}
   - component: {fileID: -4486877281705733777}
   - component: {fileID: 3789431050841682854}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PF_Item_Special_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

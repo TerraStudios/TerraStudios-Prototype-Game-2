@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -5213472983340452429}
   - component: {fileID: 2998758184064674810}
   - component: {fileID: 3893063280966480604}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PF_Item_Spring_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

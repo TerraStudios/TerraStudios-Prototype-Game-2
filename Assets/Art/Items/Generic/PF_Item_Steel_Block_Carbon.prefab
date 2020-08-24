@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -8705191237329369903}
   - component: {fileID: 6888313263582467076}
   - component: {fileID: -7839143202449821588}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PF_Item_Steel_Block_Carbon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

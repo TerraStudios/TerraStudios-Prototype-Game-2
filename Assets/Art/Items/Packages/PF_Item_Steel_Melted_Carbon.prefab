@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6085106201588972440}
   - component: {fileID: 3206021193120878199}
   - component: {fileID: 7435068574975735938}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PF_Item_Steel_Melted_Carbon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

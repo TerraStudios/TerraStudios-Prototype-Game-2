@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -8480860464241423900}
   - component: {fileID: -8620570565630156302}
   - component: {fileID: 3927687194701755060}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PF_Item_Gear_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
