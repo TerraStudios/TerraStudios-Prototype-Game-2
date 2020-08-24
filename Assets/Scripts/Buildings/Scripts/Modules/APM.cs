@@ -29,7 +29,7 @@ public class APM : MonoBehaviour
     public RecipeFilter recipePreset;
     private MachineRecipe currentRecipe;
     public float baseTimeMultiplier = 1;
-    public APMStatus CurrentStatus;
+    private APMStatus currentStatus;
 
     // Key is the needed recipe item
     // Value is outputID
@@ -56,6 +56,20 @@ public class APM : MonoBehaviour
                 CurrentStatus = APMStatus.Blocked;
             else
                 CurrentStatus = APMStatus.Idle;
+        }
+    }
+
+    public APMStatus CurrentStatus 
+    {
+        get => currentStatus;
+        set
+        {
+            if (value == APMStatus.Crafting)
+                mc.BuildingIOManager.SetConveyorGroupState(WorkStateEnum.Off);
+            else
+                mc.BuildingIOManager.SetConveyorGroupState(WorkStateEnum.On);
+
+            currentStatus = value;
         }
     }
 
@@ -111,7 +125,7 @@ public class APM : MonoBehaviour
             StartCrafting();
     }
 
-    private bool IsAllowedToEnter(OnItemEnterEvent ItemEnterInfo) 
+    private bool IsAllowedToEnter(OnItemEnterEvent ItemEnterInfo)
     {
         if (!CurrentRecipe) // check if we have any recipe to work with
         {
@@ -183,7 +197,7 @@ public class APM : MonoBehaviour
         return true;
     }
 
-    private bool IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo) 
+    private bool IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
     {
         foreach (MachineRecipe.InputData inputData in CurrentRecipe.inputs)
         {
