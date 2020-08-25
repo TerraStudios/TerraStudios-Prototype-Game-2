@@ -15,7 +15,7 @@ public class ItemSelector : MonoBehaviour
         {
             Transform hit = GetItemHit(Input.mousePosition);
 
-            if (hit)
+            if (SelectedItem != hit)
                 SelectItem(hit);
         }
     }
@@ -23,7 +23,7 @@ public class ItemSelector : MonoBehaviour
     private Transform GetItemHit(Vector3 mousePos) 
     {
         if (EventSystem.current.IsPointerOverGameObject())
-            return null;
+            return SelectedItem;
 
         Ray ray = MainCamera.ScreenPointToRay(mousePos);
 
@@ -36,6 +36,9 @@ public class ItemSelector : MonoBehaviour
     public void SelectItem(Transform hit) 
     {
         SelectedItem = hit;
-        Debug.Log("Selected " + hit.gameObject.name);
+        if (hit)
+            Debug.Log("Selected " + hit.gameObject.name);
+        else
+            Debug.Log("Unselected item");
     }
 }
