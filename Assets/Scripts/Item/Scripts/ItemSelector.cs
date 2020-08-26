@@ -8,6 +8,7 @@ public class ItemSelector : MonoBehaviour
 
     [Header("Components")]
     public Camera MainCamera;
+    public ItemInfoUI itemInfoUI;
 
     void Update()
     {
@@ -37,8 +38,19 @@ public class ItemSelector : MonoBehaviour
     {
         SelectedItem = hit;
         if (hit)
-            Debug.Log("Selected " + hit.gameObject.name);
+        {
+            ItemBehaviour behaviour = SelectedItem.GetComponent<ItemBehaviour>();
+
+            if (behaviour)
+            {
+                itemInfoUI.OnUIOpen(); //enable UI
+                itemInfoUI.SetData(SelectedItem.gameObject, behaviour.data);
+            }
+
+        }
         else
-            Debug.Log("Unselected item");
+        {
+            itemInfoUI.OnUIExit();
+        }
     }
 }
