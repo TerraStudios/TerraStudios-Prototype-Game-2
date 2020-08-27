@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInput: 1
   isOutput: 0
+  ID: 0
   MeshRenderer: {fileID: 5997940533529727660}
   coll: {fileID: 8439528586749638430}
   itemIO: {fileID: 0}
@@ -56,6 +57,7 @@ MonoBehaviour:
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: []
+  outputMaxQueueSize: 5
   attachedIO: {fileID: 0}
   status: 0
   visualizeIO: 1
@@ -188,6 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInput: 0
   isOutput: 1
+  ID: 0
   MeshRenderer: {fileID: 3758598293621683607}
   coll: {fileID: 813299335654338847}
   itemIO: {fileID: 0}
@@ -195,6 +198,7 @@ MonoBehaviour:
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: []
+  outputMaxQueueSize: 5
   attachedIO: {fileID: 0}
   status: 0
   visualizeIO: 1
@@ -327,6 +331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInput: 1
   isOutput: 0
+  ID: 0
   MeshRenderer: {fileID: 415520624291190202}
   coll: {fileID: 2587305228256292872}
   itemIO: {fileID: 0}
@@ -334,6 +339,7 @@ MonoBehaviour:
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: []
+  outputMaxQueueSize: 5
   attachedIO: {fileID: 0}
   status: 0
   visualizeIO: 1
@@ -466,6 +472,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInput: 1
   isOutput: 0
+  ID: 0
   MeshRenderer: {fileID: 507518585646826938}
   coll: {fileID: 2389402444307161096}
   itemIO: {fileID: 0}
@@ -473,6 +480,7 @@ MonoBehaviour:
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: []
+  outputMaxQueueSize: 5
   attachedIO: {fileID: 0}
   status: 0
   visualizeIO: 1
@@ -572,7 +580,7 @@ GameObject:
   - component: {fileID: 5563025563349119533}
   - component: {fileID: 4291032845966266648}
   - component: {fileID: 1367578862775194325}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: PF_Build_Belt_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -677,6 +685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mc: {fileID: 3838661984072794563}
   isSetUp: 0
+  name: 
   prefab: {fileID: 6149695869599097917}
   showDirectionOnVisualize: 1
   price: 50
@@ -709,10 +718,6 @@ MonoBehaviour:
   outputs:
   - {fileID: 5363519669770500868}
   isConveyor: 1
-  ConveyorManagers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!54 &4291032845966266648
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -144,6 +144,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 124487541217681670}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &85841440 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 255182442848961623, guid: ba662ba7495ed674ea8b53f43b706d04,
+    type: 3}
+  m_PrefabInstance: {fileID: 7491834132400660834}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &111672780 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 177638, guid: 0abab5bb77339e4428787a870eb31bd3,
@@ -781,12 +787,12 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000037315235
+      value: -1.595101e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00000001959414
+      value: 2.8274248e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -801,7 +807,7 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8853623
+      value: 0.8853624
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762749, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -821,12 +827,12 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000037315235
+      value: -1.595101e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00000001959414
+      value: 2.8274248e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -841,7 +847,7 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8853623
+      value: 0.8853624
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c3b687b3d9def64994b24f28e9b9bd2, type: 3}
@@ -1132,6 +1138,7 @@ GameObject:
   - component: {fileID: 1384009090}
   - component: {fileID: 1384009091}
   - component: {fileID: 1384009092}
+  - component: {fileID: 1384009093}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1412,6 +1419,41 @@ MonoBehaviour:
   description: {fileID: 553558652}
   itemName: {fileID: 2014074877828924056}
   selector: {fileID: 0}
+--- !u!114 &1384009093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384009077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10c97fdd9e56c2e49bd8573b0d095150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RemovePanel: {fileID: 85841440}
+  brushSize: {fileID: 1387008626}
+  GridManager: {fileID: 1384009082}
+  buildingLayer:
+    serializedVersion: 2
+    m_Bits: 16384
+  itemsLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  removeBuildings: 1
+  removeItems: 1
+--- !u!114 &1387008626 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2821059118435710806, guid: ba662ba7495ed674ea8b53f43b706d04,
+    type: 3}
+  m_PrefabInstance: {fileID: 7491834132400660834}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1404141710 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8397156581920320273, guid: 5817b0d7a71d8f74587baeb428745742,
@@ -2964,16 +3006,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1384009082}
+      objectReference: {fileID: 1384009093}
     - target: {fileID: 3587505965798337162, guid: 0f90d589f21b98547bbfdf8ba3b2c19e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnDeleteModeButtonPressed
+      value: OnRemoveButtonPressed
       objectReference: {fileID: 0}
     - target: {fileID: 3587505965798337162, guid: 0f90d589f21b98547bbfdf8ba3b2c19e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GridManager, Assembly-CSharp
+      value: RemoveSystem, MainAssembly
       objectReference: {fileID: 0}
     - target: {fileID: 3587505965798337162, guid: 0f90d589f21b98547bbfdf8ba3b2c19e,
         type: 3}

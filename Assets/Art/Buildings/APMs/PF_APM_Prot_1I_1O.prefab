@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7947313054608314309}
   - component: {fileID: 6527831780616597528}
   - component: {fileID: 481111163924646872}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: PF_APM_Prot_1I_1O
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,6 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mc: {fileID: 6548164221349463959}
   isSetUp: 0
+  name: 
   prefab: {fileID: 2941611580773582538}
   showDirectionOnVisualize: 1
   price: 6000

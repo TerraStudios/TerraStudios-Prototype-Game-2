@@ -331,9 +331,13 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="pos"></param>
     /// <returns>A locked grid position</returns>
-    private Vector3 GetGridPosition(Vector3 pos)
+    public Vector3 GetGridPosition(Vector3 pos, Vector2Int gridSize = default)
     {
-        Vector2Int buildSize = currentBuilding.GetBuildSize();
+        Vector2Int buildSize;
+        if (!Equals(gridSize, default))
+            buildSize = currentBuilding.GetBuildSize();
+        else
+            buildSize = gridSize;
 
         float x;
         float z;

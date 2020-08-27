@@ -49,17 +49,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInput: 1
   isOutput: 0
+  ID: 0
   MeshRenderer: {fileID: 6356174149196595835}
   coll: {fileID: 9085562675427141577}
   itemIO: {fileID: 0}
-  myManager: {fileID: 1987835161396914966}
-  enableDebug: 0
+  IOManager: {fileID: 0}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: []
+  outputMaxQueueSize: 5
   attachedIO: {fileID: 0}
+  status: 0
   visualizeIO: 1
   arrow: {fileID: 0}
+  itemInside: {fileID: 0}
 --- !u!54 &3392647514530671917
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -91,6 +94,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -115,6 +119,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &9085562675427141577
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -185,17 +190,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInput: 1
   isOutput: 0
+  ID: 0
   MeshRenderer: {fileID: 5565748397498667383}
   coll: {fileID: 7718693699455562949}
   itemIO: {fileID: 0}
-  myManager: {fileID: 1987835161396914966}
-  enableDebug: 0
+  IOManager: {fileID: 0}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: []
+  outputMaxQueueSize: 5
   attachedIO: {fileID: 0}
+  status: 0
   visualizeIO: 1
   arrow: {fileID: 0}
+  itemInside: {fileID: 0}
 --- !u!54 &4187559217261952545
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -227,6 +235,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -251,6 +260,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &7718693699455562949
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -321,17 +331,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInput: 0
   isOutput: 1
+  ID: 0
   MeshRenderer: {fileID: 3956616474391862524}
   coll: {fileID: 687058343388026996}
   itemIO: {fileID: 0}
-  myManager: {fileID: 1987835161396914966}
-  enableDebug: 0
+  IOManager: {fileID: 0}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: []
+  outputMaxQueueSize: 5
   attachedIO: {fileID: 0}
+  status: 0
   visualizeIO: 1
   arrow: {fileID: 0}
+  itemInside: {fileID: 0}
 --- !u!54 &2831878712879632730
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -363,6 +376,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -387,6 +401,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &687058343388026996
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -423,7 +438,7 @@ GameObject:
   - component: {fileID: 1987835161396914966}
   - component: {fileID: 7124501148384470905}
   - component: {fileID: 703060175222841754}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: PF_Build_Belt_02_Alone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -471,6 +486,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -496,6 +512,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4499327881019407246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,9 +527,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mc: {fileID: 0}
   isSetUp: 0
+  name: 
   prefab: {fileID: 6834069572817059416}
-  allowAllInputs: 0
-  inputsAllowed: []
   showDirectionOnVisualize: 1
   price: 50
   healthPercent: 100
@@ -537,16 +553,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mc: {fileID: 0}
-  itemsInside: []
   inputs:
   - {fileID: 1294336673630866002}
   - {fileID: 7449429221765575293}
   - {fileID: 8244288212931551601}
   outputs:
   - {fileID: 5237277603493958255}
-  debug: 0
   isConveyor: 1
-  ConveyorManagers: []
 --- !u!114 &7124501148384470905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,9 +572,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb2d1973a315474b9003a7dc458f76f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
   rb: {fileID: 703060175222841754}
-  itemsOnTop: []
+  speed: 1
 --- !u!54 &703060175222841754
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -627,17 +639,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInput: 1
   isOutput: 0
+  ID: 0
   MeshRenderer: {fileID: 3360374191959669332}
   coll: {fileID: 612981228322611174}
   itemIO: {fileID: 0}
-  myManager: {fileID: 1987835161396914966}
-  enableDebug: 0
+  IOManager: {fileID: 0}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   itemCategoriesAllowedToEnter: []
+  outputMaxQueueSize: 5
   attachedIO: {fileID: 0}
+  status: 0
   visualizeIO: 1
   arrow: {fileID: 0}
+  itemInside: {fileID: 0}
 --- !u!54 &6449931746823722242
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -669,6 +684,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -693,6 +709,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &612981228322611174
 BoxCollider:
   m_ObjectHideFlags: 0
