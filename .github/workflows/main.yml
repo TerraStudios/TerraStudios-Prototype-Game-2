@@ -19,8 +19,8 @@ jobs:
           path: artifacts
       - uses: actions/cache@v1.1.0
         with:
-          path: path/to/your/project/Library
+          path: ~/Library
           key: Library-MyProjectName-TargetPlatform
           restore-keys: |
-            Library-MyProjectName-
+            Library-PBAG-Lite-
             Library-
