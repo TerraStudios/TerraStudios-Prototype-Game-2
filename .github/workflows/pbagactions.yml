@@ -26,19 +26,19 @@ jobs:
 
       # Test
       - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.3
+        uses: webbertakken/unity-test-runner@v1.6
         with:
           unityVersion: 2020.1.2f1
 
       # Build
       - name: Build project
-        uses: webbertakken/unity-builder@v0.10
+        uses: webbertakken/unity-builder@v1.2
         with:
           unityVersion: 2020.1.2f1
           targetPlatform: WebGL
 
       # Output
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2.1.4
         with:
           name: Build
           path: build
