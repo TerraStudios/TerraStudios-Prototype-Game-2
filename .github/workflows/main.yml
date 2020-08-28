@@ -12,7 +12,7 @@ jobs:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           projectPath: path/to/your/project
-          unityVersion: 20XX.X.XXXX
+          unityVersion: 2020.1.2f1
       - uses: actions/upload-artifact@v1
         with:
           name: Test results
