@@ -9,12 +9,6 @@ using UnityEngine.UI;
 
 public class ItemInfoUI : MonoBehaviour
 {
-    /// <summary>
-    /// Determines the discount sell when manually removing an item through the ItemInfoUI.
-    /// </summary>
-    private const decimal REMOVE_PRICE_MULTIPLIER = 0.8M;
-
-
     [Header("Components")]
     public GameObject itemInfoUI;
     public Toggle buyableToggle;
@@ -43,10 +37,7 @@ public class ItemInfoUI : MonoBehaviour
 
     public void OnSellItem()
     {
-        //NOTE: If there is a different price variable, change currentData.startingPriceInShop to whatever is needed.
-        Debug.Log($"Adding {currentData.startingPriceInShop * REMOVE_PRICE_MULTIPLIER} to the balance.");
-        EconomyManager.instance.Balance += currentData.startingPriceInShop * REMOVE_PRICE_MULTIPLIER;
-        ObjectPoolManager.instance.DestroyObject(currentItem); //destroy object 
+        RemoveSystem.instance.DeleteItem(currentData, currentItem);
 
         //clean up 
         currentItem = null;

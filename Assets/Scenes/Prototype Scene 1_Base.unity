@@ -1440,8 +1440,6 @@ MonoBehaviour:
   itemsLayer:
     serializedVersion: 2
     m_Bits: 2048
-  removeBuildings: 1
-  removeItems: 1
 --- !u!114 &1387008626 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2821059118435710806, guid: ba662ba7495ed674ea8b53f43b706d04,
@@ -2881,7 +2879,7 @@ PrefabInstance:
     - target: {fileID: 4497139628272250753, guid: dcb58347a9f0bb240913ea0df53ca81d,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 151.6
+      value: 151.5
       objectReference: {fileID: 0}
     - target: {fileID: 4497139628272250753, guid: dcb58347a9f0bb240913ea0df53ca81d,
         type: 3}
@@ -4271,6 +4269,21 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1899274862494362761, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1384009093}
+    - target: {fileID: 1899274862494362761, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDisableRemoveButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 1899274862494362761, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RemoveSystem, MainAssembly
+      objectReference: {fileID: 0}
     - target: {fileID: 2120515520019584341, guid: ba662ba7495ed674ea8b53f43b706d04,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -4315,6 +4328,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -22
+      objectReference: {fileID: 0}
+    - target: {fileID: 3573307447823717638, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3573307447823717638, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3573307447823717638, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3573307447823717638, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1384009093}
+    - target: {fileID: 3573307447823717638, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RemoveSystem, MainAssembly
+      objectReference: {fileID: 0}
+    - target: {fileID: 3573307447823717638, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_RemoveItems
+      objectReference: {fileID: 0}
+    - target: {fileID: 3573307447823717638, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5260151837476517763, guid: ba662ba7495ed674ea8b53f43b706d04,
         type: 3}
@@ -4455,6 +4503,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8936356681566007456, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8936356681566007456, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8936356681566007456, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8936356681566007456, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1384009093}
+    - target: {fileID: 8936356681566007456, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RemoveSystem, MainAssembly
+      objectReference: {fileID: 0}
+    - target: {fileID: 8936356681566007456, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_RemoveBuildings
+      objectReference: {fileID: 0}
+    - target: {fileID: 8936356681566007456, guid: ba662ba7495ed674ea8b53f43b706d04,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba662ba7495ed674ea8b53f43b706d04, type: 3}

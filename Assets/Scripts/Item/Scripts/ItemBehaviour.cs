@@ -8,6 +8,25 @@ public class ItemBehaviour : MonoBehaviour
     public ItemData data;
     private BuildingIO insideIO;
 
+    public Material originalMaterial;
+    public bool markedForDelete;
+
+    public void MarkForDelete()
+    {
+        if (markedForDelete)
+            return;
+        markedForDelete = true;
+        originalMaterial = GetComponent<MeshRenderer>().material;
+        GetComponent<MeshRenderer>().material = BuildingManager.instance.redArrow;
+    }
+
+    public void UnmarkForDelete()
+    {
+        if (!markedForDelete)
+            return;
+        GetComponent<MeshRenderer>().material = originalMaterial;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer.Equals(12))

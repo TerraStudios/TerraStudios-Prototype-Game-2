@@ -54,25 +54,17 @@ public class BuildingManager : BuildingSystem
     /// </summary>
     public override void OnBuildingSelected(Building b)
     {
-        //Check if the GridManager is currently in delete build, if it is attempt to delete the building, otherwise do normal selection
-        if (GridManager.instance.isInDeleteMode)
-        {
-            GridManager.instance.DeleteBuilding(b);
-        }
-        else
-        {
-            base.OnBuildingSelected(b);
+        base.OnBuildingSelected(b);
 
-            b.mc.BuildingIOManager.VisualizeAll();
+        b.mc.BuildingIOManager.VisualizeAll();
 
-            BuildingInfo.SetActive(true);
+        BuildingInfo.SetActive(true);
 
-            RefreshRecipeList();
-            RefreshOutputsUI();
+        RefreshRecipeList();
+        RefreshOutputsUI();
 
-            if (b.mc.BuildingIOManager.isConveyor && enableDebugSpawn)
-                b.mc.BuildingIOManager.outputs[0].AddToSpawnQueue(testItemToSpawn, 0);
-        }
+        if (b.mc.BuildingIOManager.isConveyor && enableDebugSpawn)
+            b.mc.BuildingIOManager.outputs[0].AddToSpawnQueue(testItemToSpawn, 0);
     }
 
     /// <summary>

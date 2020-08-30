@@ -83,7 +83,7 @@ public class Building : MonoBehaviour
         StartWorkStateCounters();
         GenerateBuildingHealth();
 
-        
+
     }
 
     #region Health Submodule
@@ -222,7 +222,7 @@ public class Building : MonoBehaviour
         }
 
         if (!quiet)
-            mc.BuildingIOManager.SetConveyorGroupState(newValue);  
+            mc.BuildingIOManager.SetConveyorGroupState(newValue);
     }
     #endregion
 
@@ -301,5 +301,22 @@ public class Building : MonoBehaviour
         workState = newWorkState;
         OnWorkStateChanged(newWorkState, true);
     }
+
+    private Material originalMaterial;
+    private bool markedForDelete;
+    public void MarkForDelete()
+    {
+        if (markedForDelete)
+            return;
+        markedForDelete = true;
+        originalMaterial = GetComponent<MeshRenderer>().material;
+        GetComponent<MeshRenderer>().material = BuildingManager.instance.redArrow;
+    }
+
+    public void UnmarkForDelete()
+    {
+        if (!markedForDelete)
+            return;
+        GetComponent<MeshRenderer>().material = originalMaterial;
+    }
 }
- 
