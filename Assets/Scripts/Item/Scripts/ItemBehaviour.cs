@@ -24,6 +24,7 @@ public class ItemBehaviour : MonoBehaviour
     {
         if (!markedForDelete)
             return;
+        markedForDelete = false;
         GetComponent<MeshRenderer>().material = originalMaterial;
     }
 

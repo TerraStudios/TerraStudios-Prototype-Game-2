@@ -317,6 +317,7 @@ public class Building : MonoBehaviour
     {
         if (!markedForDelete)
             return;
+        markedForDelete = false;
         GetComponent<MeshRenderer>().material = originalMaterial;
     }
 }

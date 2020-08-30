@@ -51,16 +51,22 @@ public class RemoveSystem : MonoBehaviour
                 inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
             }
 
-            // if same position, ignore
+            Vector3 snappedPos = GetSnappedPos();
 
+            // check if we're at the same position
+            if (snappedPos.Equals(default))
+                return;
+
+            // unmark for delete all previous items/buildings
             foreach (ItemBehaviour t in inRange.Item1)
                 t.UnmarkForDelete();
             foreach (Building b in inRange.Item2)
                 b.UnmarkForDelete();
 
-            if (!SaveInRange())
-                return;
+            // store new items/buildings inside
+            SaveInRange(snappedPos);
 
+            // mark for delete all of them
             foreach (ItemBehaviour t in inRange.Item1)
                 t.MarkForDelete();
             foreach (Building b in inRange.Item2)
@@ -81,19 +87,15 @@ public class RemoveSystem : MonoBehaviour
         removeModeEnabled = false;
     }
 
-    private bool SaveInRange()
+    private void SaveInRange(Vector3 snappedPos)
     {
-        Vector3 snappedPos = GetSnappedPos();
-
-        if (snappedPos.Equals(default))
-            return false;
-
         lastSnappedPos = snappedPos;
 
         List<ItemBehaviour> itemsToReturn = new List<ItemBehaviour>();
         List<Building> buildingsToReturn = new List<Building>();
 
         Vector3 scale = new Vector3() { x = brushSize.value / 2, y = 2, z = brushSize.value / 2 };
+        ExtDebug.DrawBox(snappedPos, scale, Quaternion.identity, Color.red);
 
         if (RemoveBuildings)
             foreach (RaycastHit hit in Physics.BoxCastAll(snappedPos, scale, transform.forward, Quaternion.identity, 100, buildingLayer))
@@ -111,14 +113,13 @@ public class RemoveSystem : MonoBehaviour
         Debug.Log($"Found + { itemsToReturn.Count + buildingsToReturn.Count }");
 
         inRange = new Tuple<List<ItemBehaviour>, List<Building>>(itemsToReturn, buildingsToReturn);
-        return true;
     }
 
     private Vector3 GetSnappedPos() 
     {
         RaycastHit? gridHit = GridManager.instance.FindGridHit();
         if (gridHit == null) return default;
-        Vector3 snappedPos = GridManager.instance.GetGridPosition(gridHit.Value.point, new Vector2Int() { x = brushSize.value.ToInt(), y = brushSize.value.ToInt() });
+        Vector3 snappedPos = GridManager.instance.GetGridPosition(gridHit.Value.point, new Vector2Int() { x = brushSize.value.ToInt() , y = brushSize.value.ToInt() });
         if (snappedPos == lastSnappedPos) return default;
         return snappedPos;
     }
