@@ -31,6 +31,8 @@ public class RemoveSystem : MonoBehaviour
     public bool RemoveBuildings { get; set; } = true;
     public bool RemoveItems { get; set; } = true;
 
+    private Vector3 lastSnappedPos;
+
     private void Awake()
     {
         instance = this;
@@ -40,36 +42,29 @@ public class RemoveSystem : MonoBehaviour
     {
         if (removeModeEnabled)
         {
-            foreach (ItemBehaviour t in inRange.Item1)
-                t.UnmarkForDelete();
-            foreach (Building b in inRange.Item2)
-                b.UnmarkForDelete();
-/*
-            if (inRange.)
-                for (int i = 0; i < inRange.Item1.Count; i++)
-                {
-
-                }
-
-            for (int i = 0; i < inRange.Item2.Count; i++)
-            {
-
-            }*/
-
-            SaveInRange();
-
-            foreach (ItemBehaviour t in inRange.Item1)
-                t.MarkForDelete();
-            foreach (Building b in inRange.Item2)
-                b.MarkForDelete();
-
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 foreach (ItemBehaviour t in inRange.Item1)
                     DeleteItem(t.data, t.gameObject);
                 foreach (Building b in inRange.Item2)
                     DeleteBuilding(b);
+                inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
             }
+
+            // if same position, ignore
+
+            foreach (ItemBehaviour t in inRange.Item1)
+                t.UnmarkForDelete();
+            foreach (Building b in inRange.Item2)
+                b.UnmarkForDelete();
+
+            if (!SaveInRange())
+                return;
+
+            foreach (ItemBehaviour t in inRange.Item1)
+                t.MarkForDelete();
+            foreach (Building b in inRange.Item2)
+                b.MarkForDelete();
         }
     }
 
@@ -86,12 +81,14 @@ public class RemoveSystem : MonoBehaviour
         removeModeEnabled = false;
     }
 
-    private void SaveInRange()
+    private bool SaveInRange()
     {
-        RaycastHit? gridHit = GridManager.instance.FindGridHit();
-        if (gridHit == null) return;
+        Vector3 snappedPos = GetSnappedPos();
 
-        Vector3 snappedPos = GridManager.instance.GetGridPosition(gridHit.Value.point, new Vector2Int() { x = brushSize.value.ToInt() / 2, y = brushSize.value.ToInt() / 2 });
+        if (snappedPos.Equals(default))
+            return false;
+
+        lastSnappedPos = snappedPos;
 
         List<ItemBehaviour> itemsToReturn = new List<ItemBehaviour>();
         List<Building> buildingsToReturn = new List<Building>();
@@ -114,6 +111,16 @@ public class RemoveSystem : MonoBehaviour
         Debug.Log($"Found + { itemsToReturn.Count + buildingsToReturn.Count }");
 
         inRange = new Tuple<List<ItemBehaviour>, List<Building>>(itemsToReturn, buildingsToReturn);
+        return true;
+    }
+
+    private Vector3 GetSnappedPos() 
+    {
+        RaycastHit? gridHit = GridManager.instance.FindGridHit();
+        if (gridHit == null) return default;
+        Vector3 snappedPos = GridManager.instance.GetGridPosition(gridHit.Value.point, new Vector2Int() { x = brushSize.value.ToInt(), y = brushSize.value.ToInt() });
+        if (snappedPos == lastSnappedPos) return default;
+        return snappedPos;
     }
 
     public void DeleteBuilding(Building b)

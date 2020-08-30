@@ -337,7 +337,6 @@ public class GridManager : MonoBehaviour
             z = buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
         }
 
-        Debug.Log("Snapped pos:" + new Vector3(x, pos.y, z));
         return new Vector3(x, pos.y, z);
     }
 
