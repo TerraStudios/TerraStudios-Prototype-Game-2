@@ -151,6 +151,14 @@ public class RemoveSystem : MonoBehaviour
             }
         }
 
+        foreach (BuildingIO io in b.mc.BuildingIOManager.outputs)
+        {
+            foreach (ItemSpawnData item in io.itemsToSpawn)
+            {
+                DeleteItem(item.itemToSpawn);
+            }
+        }
+
         BuildingSystem.RegisteredBuildings.Remove(b);
         Destroy(b.gameObject); // Destroy game object
     }
