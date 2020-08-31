@@ -9,7 +9,7 @@ public class EconomySystem : MonoBehaviour
 {
     [Header("Components")]
     public TimeManager TimeManager;
-    public GameManger GameManager;
+    public GameManager GameManager;
 
     [Header("Constant variables")]
     public int startBalance = 1456536;

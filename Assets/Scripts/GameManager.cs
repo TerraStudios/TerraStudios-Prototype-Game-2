@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Globalization;
 
-public class GameManger : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public string CountryCode = "fr-FR";
+    public string CountryCode = "en-US";
     public bool DebugMode = false; //May be moved to Super Secret Settings later on
 
     [HideInInspector] public CultureInfo currentCulture;
+
+    [Header("Remove System")]
+    public float removePenaltyMultiplier;
+    public float garbageRemoveMultiplier;
 
     private void Awake()
     {

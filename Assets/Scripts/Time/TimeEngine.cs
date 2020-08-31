@@ -10,7 +10,7 @@ public class TimeEngine : MonoBehaviour
 
     [Header("Components")]
     [Tooltip("A reference to the GameManager")]
-    public GameManger GameManager;
+    public GameManager GameManager;
     [Tooltip("A reference to the UMTD")]
     public UMTD UMTD;
 

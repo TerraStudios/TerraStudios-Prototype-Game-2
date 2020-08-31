@@ -30,6 +30,7 @@ public class ItemData : ItemOrCategory
     //[Header("Health System Properties")]
 
     [Header("Basic Processing Machine Properties")]
+    public bool isGarbage;
     public float materialHardness;
     public float meltTemperature;
     public float secondsToMelt;

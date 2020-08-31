@@ -5,25 +5,25 @@ using System.Collections.Generic;
 using Tayx.Graphy.Utils.NumString;
 using UnityEngine.EventSystems;
 using System;
-using System.Linq;
 
 public class RemoveSystem : MonoBehaviour
 {
     [Header("UI Components")]
     public GameObject RemovePanel;
     public Slider brushSize;
+    public TMP_Text brushText;
 
     [Header("Components")]
+    public GameManager GameManager;
     public GridManager GridManager;
 
     [Header("Variables")]
     public LayerMask buildingLayer;
     public LayerMask itemsLayer;
-    public float itemRemoveMultiplier;
-    public float buildingRemoveMultiplier;
+    
 
     [Header("Dynamic variables")]
-    private bool removeModeEnabled;
+    public bool removeModeEnabled;
     private Tuple<List<ItemBehaviour>, List<Building>> inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
 
     public static RemoveSystem instance;
@@ -85,6 +85,13 @@ public class RemoveSystem : MonoBehaviour
     {
         RemovePanel.SetActive(false);
         removeModeEnabled = false;
+
+        foreach (ItemBehaviour t in inRange.Item1)
+            t.UnmarkForDelete();
+        foreach (Building b in inRange.Item2)
+            b.UnmarkForDelete();
+
+        inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
     }
 
     private void SaveInRange(Vector3 snappedPos)
@@ -94,17 +101,17 @@ public class RemoveSystem : MonoBehaviour
         List<ItemBehaviour> itemsToReturn = new List<ItemBehaviour>();
         List<Building> buildingsToReturn = new List<Building>();
 
-        Vector3 scale = new Vector3() { x = brushSize.value / 2, y = 2, z = brushSize.value / 2 };
+        Vector3 scale = new Vector3() { x = (brushSize.value + 1) / 2, y = 2, z = (brushSize.value + 1) / 2 };
         ExtDebug.DrawBox(snappedPos, scale, Quaternion.identity, Color.red);
 
         if (RemoveBuildings)
-            foreach (RaycastHit hit in Physics.BoxCastAll(snappedPos, scale, transform.forward, Quaternion.identity, 100, buildingLayer))
+            foreach (Collider hit in Physics.OverlapBox(snappedPos, scale, Quaternion.identity, buildingLayer))
             {
                 buildingsToReturn.Add(hit.transform.GetComponent<Building>());
             }
                 
         if (RemoveItems)
-            foreach (RaycastHit hit in Physics.BoxCastAll(snappedPos, scale, transform.forward, Quaternion.identity, 100, itemsLayer))
+            foreach (Collider hit in Physics.OverlapBox(snappedPos, scale, Quaternion.identity, itemsLayer))
             {
                 itemsToReturn.Add(hit.transform.GetComponent<ItemBehaviour>());
             }
@@ -119,7 +126,7 @@ public class RemoveSystem : MonoBehaviour
     {
         RaycastHit? gridHit = GridManager.instance.FindGridHit();
         if (gridHit == null) return default;
-        Vector3 snappedPos = GridManager.instance.GetGridPosition(gridHit.Value.point, new Vector2Int() { x = brushSize.value.ToInt() , y = brushSize.value.ToInt() });
+        Vector3 snappedPos = GridManager.instance.GetGridPosition(gridHit.Value.point, new Vector2Int() { x = brushSize.value.ToInt() + 1, y = brushSize.value.ToInt() + 1 });
         if (snappedPos == lastSnappedPos) return default;
         return snappedPos;
     }
@@ -134,17 +141,58 @@ public class RemoveSystem : MonoBehaviour
             ConveyorManager.instance.conveyors.Remove(b.mc.Conveyor);
         }
 
-        Debug.Log($"Adding {b.healthPercent * b.price - b.price * buildingRemoveMultiplier} to the balance.");
-        EconomyManager.instance.Balance += (decimal)(b.healthPercent * b.price - b.price * buildingRemoveMultiplier);
+        Debug.Log($"Adding {b.healthPercent * b.price - b.price * GameManager.removePenaltyMultiplier} to the balance.");
+        EconomyManager.instance.Balance += (decimal)(b.healthPercent * b.price - b.price * GameManager.removePenaltyMultiplier);
+
+        foreach (KeyValuePair<ItemData, int> item in b.mc.BuildingIOManager.itemsInside)
+        {
+            for (int i = 0; i < item.Value; i++)
+            {
+                DeleteItem(item.Key);
+            }
+        }
 
         BuildingSystem.RegisteredBuildings.Remove(b);
         Destroy(b.gameObject); // Destroy game object
     }
 
-    public void DeleteItem(ItemData data, GameObject obj)
+    public void DeleteItem(ItemData data, GameObject obj = null)
     {
-        Debug.Log($"Adding {data.startingPriceInShop * itemRemoveMultiplier} to the balance.");
-        EconomyManager.instance.Balance += (decimal)(data.startingPriceInShop * itemRemoveMultiplier);
-        ObjectPoolManager.instance.DestroyObject(obj); //destroy object 
+        Debug.Log($"Adding {data.startingPriceInShop * GameManager.removePenaltyMultiplier} to the balance.");
+        if (data.isGarbage)
+            EconomyManager.instance.Balance += (decimal)(data.startingPriceInShop + (data.startingPriceInShop * GameManager.garbageRemoveMultiplier));
+        else
+            EconomyManager.instance.Balance += (decimal)(data.startingPriceInShop * GameManager.removePenaltyMultiplier);
+
+        if (obj)
+            ObjectPoolManager.instance.DestroyObject(obj); //destroy object 
+    }
+
+    public void OnBrushSliderValueChanged() 
+    {
+        float brushSizeToDisplay = brushSize.value + 1;
+        brushText.text = brushSizeToDisplay + "x" + brushSizeToDisplay;
+    }
+
+    // subtract == true => Decrease value by 1
+    // subtract == false => Increase value by 1
+    public void OnManualBrushSizeChange(bool subtract) 
+    {
+        float newBrushSize;
+        if (subtract)
+        {
+            newBrushSize = brushSize.value - 1;
+            if (newBrushSize < brushSize.minValue)
+                newBrushSize = 0;
+        }
+        else
+        {
+            newBrushSize = brushSize.value + 1;
+            if (newBrushSize > brushSize.maxValue)
+                newBrushSize = brushSize.maxValue;
+        }
+            
+        brushSize.value = newBrushSize;
+        brushText.text = (newBrushSize + 1) + "x" + (newBrushSize + 1);
     }
 }
