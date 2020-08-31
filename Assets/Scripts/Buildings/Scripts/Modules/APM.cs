@@ -184,6 +184,11 @@ public class APM : MonoBehaviour
             }
         }
 
+        return true;
+    }
+
+    private bool IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
+    {
         // check if the outputs' queues have enough space to fit the output items
         foreach (KeyValuePair<MachineRecipe.OutputData, int> kvp in outputData)
         {
@@ -195,11 +200,6 @@ public class APM : MonoBehaviour
             }
         }
 
-        return true;
-    }
-
-    private bool IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
-    {
         foreach (MachineRecipe.InputData inputData in CurrentRecipe.inputs)
         {
             if (inputData.item is ItemData)
