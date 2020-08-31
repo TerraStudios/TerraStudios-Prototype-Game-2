@@ -83,7 +83,7 @@ public class Building : MonoBehaviour
         StartWorkStateCounters();
         GenerateBuildingHealth();
 
-
+        originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
     }
 
     #region Health Submodule
@@ -309,7 +309,6 @@ public class Building : MonoBehaviour
         if (markedForDelete)
             return;
         markedForDelete = true;
-        originalMaterial = GetComponent<MeshRenderer>().material;
         GetComponent<MeshRenderer>().material = BuildingManager.instance.redArrow;
     }
 

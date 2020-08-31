@@ -115,9 +115,6 @@ public class RemoveSystem : MonoBehaviour
             {
                 itemsToReturn.Add(hit.transform.GetComponent<ItemBehaviour>());
             }
-                
-
-        Debug.Log($"Found + { itemsToReturn.Count + buildingsToReturn.Count }");
 
         inRange = new Tuple<List<ItemBehaviour>, List<Building>>(itemsToReturn, buildingsToReturn);
     }

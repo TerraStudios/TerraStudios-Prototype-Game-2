@@ -8,15 +8,19 @@ public class ItemBehaviour : MonoBehaviour
     public ItemData data;
     private BuildingIO insideIO;
 
-    public Material originalMaterial;
-    public bool markedForDelete;
+    private Material originalMaterial;
+    private bool markedForDelete;
+
+    private void Awake()
+    {
+        originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
+    }
 
     public void MarkForDelete()
     {
         if (markedForDelete)
             return;
         markedForDelete = true;
-        originalMaterial = GetComponent<MeshRenderer>().material;
         GetComponent<MeshRenderer>().material = BuildingManager.instance.redArrow;
     }
 
