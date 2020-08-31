@@ -163,7 +163,7 @@ public class APM : MonoBehaviour
             }
         }
 
-        if (recipeData.item is ItemData)
+        /*if (recipeData.item is ItemData)
         {
             ItemData itemToCheck = recipeData.item as ItemData;
 
@@ -182,7 +182,7 @@ public class APM : MonoBehaviour
                 ItemLog(ItemEnterInfo.item.name, "We're already full of this item!", this); // check if we're full of that item
                 return false;
             }
-        }
+        }*/
 
         return true;
     }
