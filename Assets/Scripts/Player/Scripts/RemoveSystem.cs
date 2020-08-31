@@ -159,7 +159,7 @@ public class RemoveSystem : MonoBehaviour
         if (data.isGarbage)
             EconomyManager.instance.Balance += data.startingPriceInShop + data.startingPriceInShop * (decimal)GameManager.garbageRemoveMultiplier;
         else
-            EconomyManager.instance.Balance += (data.startingPriceInShop * (decimal)GameManager.removePenaltyMultiplier);
+            EconomyManager.instance.Balance += data.startingPriceInShop - (data.startingPriceInShop * (decimal)GameManager.removePenaltyMultiplier);
 
         if (obj)
             ObjectPoolManager.instance.DestroyObject(obj); //destroy object 
