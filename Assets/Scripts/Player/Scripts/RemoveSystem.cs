@@ -139,7 +139,7 @@ public class RemoveSystem : MonoBehaviour
         {
             ConveyorManager.instance.conveyors.Remove(b.mc.Conveyor);
         }
-        decimal toAdd = (decimal)(b.healthPercent / 100 * b.price - (b.price * GameManager.removePenaltyMultiplier));
+        decimal toAdd = (decimal)((float)b.healthPercent / 100 * b.price - (b.price * GameManager.removePenaltyMultiplier));
         EconomyManager.instance.Balance += toAdd;
         Debug.Log("Adding" + toAdd + "to the balance.");
 
