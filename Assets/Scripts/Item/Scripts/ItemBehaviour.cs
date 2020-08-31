@@ -59,5 +59,6 @@ public class ItemBehaviour : MonoBehaviour
     {
         if (insideIO)
             insideIO.itemInside = null;
+        UnmarkForDelete();
     }
 }
