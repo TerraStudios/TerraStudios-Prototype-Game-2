@@ -101,7 +101,7 @@ public class RemoveSystem : MonoBehaviour
         List<ItemBehaviour> itemsToReturn = new List<ItemBehaviour>();
         List<Building> buildingsToReturn = new List<Building>();
 
-        Vector3 scale = new Vector3() { x = (brushSize.value + 1) / 2, y = 2, z = (brushSize.value + 1) / 2 };
+        Vector3 scale = new Vector3() { x = (brushSize.value + 1) / 2 - 0.1f, y = 2, z = (brushSize.value + 1) / 2 - 0.1f };
         ExtDebug.DrawBox(snappedPos, scale, Quaternion.identity, Color.red);
 
         if (RemoveBuildings)
