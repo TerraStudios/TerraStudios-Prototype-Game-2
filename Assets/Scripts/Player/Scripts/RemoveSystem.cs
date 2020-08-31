@@ -79,6 +79,7 @@ public class RemoveSystem : MonoBehaviour
         RemovePanel.SetActive(true);
         removeModeEnabled = true;
         BuildingManager.instance.OnBuildingDeselected();
+        TimeEngine.IsPaused = true;
     }
 
     public void OnDisableRemoveButtonPressed() 
@@ -92,6 +93,7 @@ public class RemoveSystem : MonoBehaviour
             b.UnmarkForDelete();
 
         inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
+        TimeEngine.IsPaused = false;
     }
 
     private void SaveInRange(Vector3 snappedPos)
