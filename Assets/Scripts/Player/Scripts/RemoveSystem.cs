@@ -137,9 +137,9 @@ public class RemoveSystem : MonoBehaviour
         {
             ConveyorManager.instance.conveyors.Remove(b.mc.Conveyor);
         }
-
-        Debug.Log($"Adding {b.healthPercent * b.price - b.price * GameManager.removePenaltyMultiplier} to the balance.");
-        EconomyManager.instance.Balance += (decimal)(b.healthPercent * b.price - b.price * GameManager.removePenaltyMultiplier);
+        decimal toAdd = b.healthPercent * b.price - (decimal)(b.price * GameManager.removePenaltyMultiplier);
+        EconomyManager.instance.Balance += toAdd;
+        Debug.Log("Adding" + toAdd + "to the balance.");
 
         foreach (KeyValuePair<ItemData, int> item in b.mc.BuildingIOManager.itemsInside)
         {
@@ -155,9 +155,9 @@ public class RemoveSystem : MonoBehaviour
 
     public void DeleteItem(ItemData data, GameObject obj = null)
     {
-        Debug.Log($"Adding {data.startingPriceInShop * GameManager.removePenaltyMultiplier} to the balance.");
+        //Debug.Log($"Adding {data.startingPriceInShop * GameManager.removePenaltyMultiplier} to the balance.");
         if (data.isGarbage)
-            EconomyManager.instance.Balance += (decimal)(data.startingPriceInShop + (data.startingPriceInShop * GameManager.garbageRemoveMultiplier));
+            EconomyManager.instance.Balance += data.startingPriceInShop + (decimal)(data.startingPriceInShop * GameManager.garbageRemoveMultiplier);
         else
             EconomyManager.instance.Balance += (decimal)(data.startingPriceInShop * GameManager.removePenaltyMultiplier);
 
