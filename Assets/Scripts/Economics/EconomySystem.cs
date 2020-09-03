@@ -25,7 +25,10 @@ public class EconomySystem : MonoBehaviour
         get { return _balance; }
         set
         {
-            _balance = value;
+            if (value < Balance)
+                _balance = (Balance - value) * (decimal)GameManager.profile.globalPriceMultiplier;
+            else
+                _balance = value;
             OnBalanceUpdate();
         }
     }
@@ -48,6 +51,9 @@ public class EconomySystem : MonoBehaviour
 
     private void MakeBankruptcyCheck()
     {
+        if (!GameManager.profile.enableBankruptcySystem)
+            return;
+
         if (Balance < 0 && !isInBankruptcy)
         {
             OnEnterBankruptcy();

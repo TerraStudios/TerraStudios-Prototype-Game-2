@@ -8,12 +8,25 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public CultureInfo currentCulture;
 
-    [Header("Remove System")]
-    public float removePenaltyMultiplier;
-    public float garbageRemoveMultiplier;
+    [Header("Game Settings")]
+    public GameProfile Profile;
+    public static GameProfile profile
+    {
+        get
+        {
+            return instance.Profile;
+        }
+    }
+    public GameProfile EasyProfile;
+    public GameProfile MediumProfile;
+    public GameProfile HardProfile;
+
+    public static GameManager instance;
 
     private void Awake()
     {
+        instance = this;
+
         currentCulture = CultureInfo.CreateSpecificCulture(CountryCode);
         Log.DEBUG_MODE = DebugMode; //Set the debug mode for logging
     }
