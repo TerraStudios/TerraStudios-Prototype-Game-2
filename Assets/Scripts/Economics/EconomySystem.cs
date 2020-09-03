@@ -25,8 +25,10 @@ public class EconomySystem : MonoBehaviour
         get { return _balance; }
         set
         {
-            if (value < Balance)
+            if (value < Balance) // check if we subtracted for the balance and if so, apply multiplier
                 _balance = (Balance - value) * (decimal)GameManager.profile.globalPriceMultiplier;
+            if (value < 0)
+                _balance = 0;
             else
                 _balance = value;
             OnBalanceUpdate();
