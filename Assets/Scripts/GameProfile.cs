@@ -24,7 +24,6 @@ public class GameProfile : ScriptableObject
     public float timeToFixMultiplier = 1;
 
     public float buildingPenaltyForFixMultiplier = 1;
-    public float buildingTimeToFixMultiplier = 1;
 
     public bool enableElectricityCalculations = true;
     public float wattsPerHourIdleMultiplier = 1;
