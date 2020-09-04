@@ -1215,8 +1215,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CountryCode: en-US
   DebugMode: 1
-  removePenaltyMultiplier: 1
-  garbageRemoveMultiplier: 2
+  Profile: {fileID: 11400000, guid: 398a01efedc0f0e41bb8275eb8c46b12, type: 2}
+  EasyProfile: {fileID: 0}
+  MediumProfile: {fileID: 0}
+  HardProfile: {fileID: 0}
 --- !u!114 &1384009082
 MonoBehaviour:
   m_ObjectHideFlags: 0
