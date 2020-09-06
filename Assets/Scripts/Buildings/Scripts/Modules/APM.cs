@@ -126,7 +126,7 @@ public class APM : MonoBehaviour
             StartCrafting();
     }
 
-    private bool IsAllowedToEnter(OnItemEnterEvent ItemEnterInfo)
+    public bool IsAllowedToEnter(OnItemEnterEvent ItemEnterInfo)
     {
         if (!CurrentRecipe) // check if we have any recipe to work with
         {
