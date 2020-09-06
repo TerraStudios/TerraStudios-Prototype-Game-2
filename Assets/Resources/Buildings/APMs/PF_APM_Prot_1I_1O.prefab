@@ -117,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mc: {fileID: 6548164221349463959}
   isSetUp: 0
-  name: 
+  name: Proto APM
   prefab: {fileID: 2941611580773582538}
   showDirectionOnVisualize: 1
   price: 6000

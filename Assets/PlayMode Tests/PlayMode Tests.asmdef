@@ -1,12 +1,9 @@
 ﻿{
-    "name": "Tests",
+    "name": "PlayModeTests",
     "references": [
         "MainAssembly"
 	],
     "optionalUnityReferences": [
         "TestAssemblies"
-    ],
-    "includePlatforms": [
-        "Editor"
     ]
 }

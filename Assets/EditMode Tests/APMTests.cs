@@ -7,9 +7,8 @@ using UnityEngine.TestTools;
 
 namespace Assets.Tests
 {
-    class CategoryTests
+    class APMTests
     {
-
         /// <summary>
         /// Loops through each registered Category and checks different values to be non empty
         /// </summary>
@@ -23,7 +22,5 @@ namespace Assets.Tests
                 Assert.IsNotEmpty(category.name, "", $"The category {category.formattedName} had a blank name.");
             }
         }
-
-
     }
 }

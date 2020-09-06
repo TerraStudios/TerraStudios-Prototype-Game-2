@@ -71,6 +71,8 @@ public class BuildingIO : MonoBehaviour
     private void Awake()
     {
         IOMask = LayerMask.GetMask("IOPort");
+
+        if (BuildingManager.instance != null)
         VisualizeArrow(BuildingManager.instance.blueArrow);
     }
 

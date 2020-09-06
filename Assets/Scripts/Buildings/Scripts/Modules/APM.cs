@@ -126,7 +126,7 @@ public class APM : MonoBehaviour
             StartCrafting();
     }
 
-    private bool IsAllowedToEnter(OnItemEnterEvent ItemEnterInfo)
+    public bool IsAllowedToEnter(OnItemEnterEvent ItemEnterInfo)
     {
         if (!CurrentRecipe) // check if we have any recipe to work with
         {
@@ -198,7 +198,7 @@ public class APM : MonoBehaviour
         return true;
     }
 
-    private bool IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
+    public bool IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
     {
         foreach (MachineRecipe.InputData inputData in CurrentRecipe.inputs)
         {

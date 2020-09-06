@@ -1,0 +1,139 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
+using UnityEditor.VersionControl;
+using UnityEngine;
+using UnityEngine.TestTools;
+
+namespace Assets.Tests
+{
+    class BuildingTests
+    {
+
+        [Test]
+        public void CheckRenderingData()
+        {
+            GameObject[] objs = Resources.LoadAll<GameObject>("Buildings");
+
+            foreach (var go in objs)
+            {
+                Building building = go.GetComponent<Building>();
+
+                if (building)
+                {
+                    Assert.IsFalse(go.GetComponent<MeshRenderer>().receiveShadows, $"Receive Shadows needs to be disabled on GameObject {go.name}");
+                    Assert.IsTrue(go.GetComponent<MeshRenderer>().shadowCastingMode == UnityEngine.Rendering.ShadowCastingMode.Off, $"Cast Shadows needs to be disabled on GameObject {go.name}");
+                }
+            }
+
+        }
+
+
+        [Test]
+        public void CheckBuildingData()
+        {
+            GameObject[] objs = Resources.LoadAll<GameObject>("Buildings");
+
+            foreach (var go in objs)
+            {
+                Building building = go.GetComponent<Building>();
+
+                if (building)
+                {
+                    Assert.IsNotEmpty(building.name, $"A Building ({go.name}) was found with an empty name");
+                    //Assert.AreNotEqual(building.EconomyManager.)
+                    Assert.AreNotEqual(building.price, 0, $"{building.name} found with a price of 0");
+                    Assert.AreNotEqual(building.healthPercent, 0, $"{building.name} found with a health percent of 0");
+                    Assert.AreNotEqual(building.monthsLifespanMax, 0, $"{building.name} found with a months lifespan max of 0");
+                    Assert.AreNotEqual(building.monthsLifespanMin, 0, $"{building.name} found with a months lifespan min of 0");
+                    Assert.AreNotEqual(building.penaltyForFix, 0, $"{building.name} found with a penalty for fix of 0");
+                    Assert.AreNotEqual(building.timeToFixMultiplier, 0, $"{building.name} found with a time to fix multiplier of 0");
+                    Assert.AreNotEqual(building.wattsPerHourIdle, 0, $"{building.name} found with a watts per hour idle of 0");
+                    Assert.AreNotEqual(building.wattsPerHourWork, 0, $"{building.name} found with a watts per hour work of 0");
+
+                    
+
+                }
+
+            }
+
+        }
+
+        [Test]
+        public void CheckConveyorData()
+        {
+            GameObject[] objs = Resources.LoadAll<GameObject>("Buildings");
+
+            foreach (var go in objs)
+            {
+                Conveyor conveyor = go.GetComponent<Conveyor>();
+
+                if (conveyor)
+                {
+                    Assert.AreNotEqual(conveyor.speed, 0, $"{go.name} found with a speed of 0");
+                    Assert.IsNotNull(conveyor.rb, $"{go.name} found with a null rb field");
+                }
+            }
+
+        }
+
+        [Test]
+        public void CheckModuleConnectorData()
+        {
+            GameObject[] objs = Resources.LoadAll<GameObject>("Buildings");
+
+            foreach (var go in objs)
+            {
+                Building building = go.GetComponent<Building>();
+
+                if (building)
+                {
+                    Assert.IsNotNull(building.mc, $"{go.name} is missing a ModuleConnector");
+
+                    ModuleConnector mc = building.mc;
+
+                    Assert.IsNotNull(mc.BuildingIOManager, $"{go.name}'s ModuleConnector is missing a BuildingIOManager");
+                    Assert.IsNotNull(mc.Building, $"{go.name}'s ModuleConnector is missing a Building");
+                }
+            }
+
+        }
+
+        [Test]
+        public void TestBuildingIOData()
+        {
+            GameObject[] objs = Resources.LoadAll<GameObject>("Buildings");
+
+            foreach (var go in objs)
+            {
+                Building building = go.GetComponent<Building>();
+
+                if (building && building.mc)
+                {
+                    if (building.mc.BuildingIOManager)
+                    {
+                        List<BuildingIO> allIOs = building.mc.BuildingIOManager.inputs.Concat(building.mc.BuildingIOManager.outputs).ToList();
+
+                        HashSet<BuildingIO> set = new HashSet<BuildingIO>();
+
+                        foreach (var io in allIOs)
+                        {
+                            if (!set.Add(io))
+                            {
+                                throw new Exception($"Duplicate BuildingIO found in building {building.name}");
+                            }
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+        
+
+
+    }
+}
