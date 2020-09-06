@@ -41,7 +41,7 @@ public class BuildingIO : MonoBehaviour
     [Header("Output Configuration")]
     public int outputMaxQueueSize = 5;
 
-    //[Header("Dynamic variables")]
+    [Header("Dynamic variables")]
     public BuildingIO attachedIO;
 
     private BuildingIO onPort;

@@ -221,23 +221,6 @@ public class GridManager : MonoBehaviour
 
     #region Building
 
-    public void DeleteBuilding(Building b)
-    {
-        b.mc.BuildingIOManager.DevisualizeAll();
-        b.mc.BuildingIOManager.UnlinkAll();
-
-        if (b.mc.BuildingIOManager.isConveyor)
-        {
-            ConveyorManager.instance.conveyors.Remove(b.mc.Conveyor);
-        }
-
-        //Deposit health * price
-        EconomyManager.instance.Balance += (decimal) ((b.healthPercent / 100.0) * b.price);
-
-        BuildingSystem.RegisteredBuildings.Remove(b);
-        Destroy(b.gameObject); // Destroy game object
-    }
-
     /// <summary>
     /// Instantiates the building visualization and sets the appropriate material
     /// </summary>
@@ -331,13 +314,13 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="pos"></param>
     /// <returns>A locked grid position</returns>
-    public Vector3 GetGridPosition(Vector3 pos, Vector2Int gridSize = default)
+    public Vector3 GetGridPosition(Vector3 pos, Vector2Int gridSize = default) // when argument is supplied - use it instead of GetBuildSize
     {
         Vector2Int buildSize;
-        if (!Equals(gridSize, default))
-            buildSize = currentBuilding.GetBuildSize();
-        else
+        if (!Equals(gridSize, default(Vector2Int)))
             buildSize = gridSize;
+        else
+            buildSize = currentBuilding.GetBuildSize();
 
         float x;
         float z;
@@ -361,7 +344,7 @@ public class GridManager : MonoBehaviour
     /// Attempts to Raycast from the mouse position in order to find the grid.
     /// </summary>
     /// <returns>The RayCastHit of the floor, or null if nothing is found.</returns>
-    private RaycastHit? FindGridHit()
+    public RaycastHit? FindGridHit()
     {
         if (Physics.Raycast(MainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 30000f, LayerMask.GetMask("GridFloor")))
         {
@@ -439,18 +422,6 @@ public class GridManager : MonoBehaviour
         currentBuilding = conveyor;
         IsInBuildMode = true;
     }
-
-    public void OnDeleteModeButtonPressed()
-    {
-        Log.LogConsole((!isInDeleteMode ? "Enabling" : "Disabling") + " DeleteMode");
-
-        if (isInBuildMode || visualization) return;
-
-        isInDeleteMode = !isInDeleteMode;
-
-        removeModeEnabledText.SetActive(isInDeleteMode);
-    }
-
 }
 
 #endregion

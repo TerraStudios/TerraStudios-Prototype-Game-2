@@ -83,13 +83,13 @@ public class Building : MonoBehaviour
         StartWorkStateCounters();
         GenerateBuildingHealth();
 
-        
+        originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
     }
 
     #region Health Submodule
     public void GenerateBuildingHealth()
     {
-        monthsLifespan = UnityEngine.Random.Range(monthsLifespanMin, monthsLifespanMax);
+        monthsLifespan = Mathf.RoundToInt(UnityEngine.Random.Range(monthsLifespanMin, monthsLifespanMax) * GameManager.profile.monthsLifespanMultiplier);
         TimeSpan timeToWait = TimeManager.CurrentTime.AddMonths(monthsLifespan) - TimeManager.CurrentTime;
         timeToDrainHealth = new TimeSpan(timeToWait.Ticks / healthPercent);
         DepleteHealthEvent();
@@ -97,7 +97,8 @@ public class Building : MonoBehaviour
 
     public void OnHealthTimeUpdate()
     {
-        healthPercent--;
+        if (GameManager.profile.enableBuildingDamage)
+            healthPercent--;
 
         if (healthPercent <= 0)
         {
@@ -126,7 +127,7 @@ public class Building : MonoBehaviour
         if (isFixRunning)
             return;
 
-        float priceForFix = ((float)(healthPercent + 1) / 100) * price * penaltyForFix;
+        float priceForFix = (float)(healthPercent + 1) / 100 * price * penaltyForFix * GameManager.profile.buildingPenaltyForFixMultiplier;
         if (EconomyManager.Balance >= (decimal)priceForFix)
         {
             WorkState = WorkStateEnum.Off;
@@ -142,7 +143,7 @@ public class Building : MonoBehaviour
 
         isFixRunning = true;
 
-        float timeToWait = (100 - healthPercent) * timeToFixMultiplier;
+        float timeToWait = (100 - healthPercent) * timeToFixMultiplier * GameManager.profile.timeToFixMultiplier;
         StartCoroutine(FixCountdown());
 
         IEnumerator FixCountdown()
@@ -222,7 +223,7 @@ public class Building : MonoBehaviour
         }
 
         if (!quiet)
-            mc.BuildingIOManager.SetConveyorGroupState(newValue);  
+            mc.BuildingIOManager.SetConveyorGroupState(newValue);
     }
     #endregion
 
@@ -301,5 +302,22 @@ public class Building : MonoBehaviour
         workState = newWorkState;
         OnWorkStateChanged(newWorkState, true);
     }
+
+    private Material originalMaterial;
+    private bool markedForDelete;
+    public void MarkForDelete()
+    {
+        if (markedForDelete)
+            return;
+        markedForDelete = true;
+        GetComponent<MeshRenderer>().material = BuildingManager.instance.redArrow;
+    }
+
+    public void UnmarkForDelete()
+    {
+        if (!markedForDelete)
+            return;
+        markedForDelete = false;
+        GetComponent<MeshRenderer>().material = originalMaterial;
+    }
 }
- 

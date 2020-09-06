@@ -10,9 +10,9 @@ public class ItemSelector : MonoBehaviour
     public Camera MainCamera;
     public ItemInfoUI itemInfoUI;
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !RemoveSystem.instance.removeModeEnabled)
         {
             Transform hit = GetItemHit(Input.mousePosition);
 

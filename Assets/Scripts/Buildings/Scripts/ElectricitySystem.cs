@@ -8,7 +8,11 @@ public class ElectricitySystem : MonoBehaviour
     public int GetTotalElectricityUsed(WorkStateEnum ws)
     {
         int toReturn = 0;
-        foreach (Building b in BuildingManager.RegisteredBuildings)
+
+        if (!GameManager.profile.enableElectricityCalculations)
+            return 0;
+
+        foreach (Building b in BuildingSystem.RegisteredBuildings)
         {
             toReturn += b.GetUsedElectricity(ws);
         }

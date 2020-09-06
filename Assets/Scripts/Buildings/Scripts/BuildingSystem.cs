@@ -45,7 +45,7 @@ public class BuildingSystem : MonoBehaviour
     /// <param name="mousePos">The Vector3 to start the Raycast from</param>
     public void CheckForHit(Vector3 mousePos)
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current.IsPointerOverGameObject() || RemoveSystem.instance.removeModeEnabled)
             return;
 
         Ray ray = MainCamera.ScreenPointToRay(mousePos);

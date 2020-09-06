@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41d63baff16e30749bd501f20d3688cd, type: 3}
+  m_Name: New Game Profile
+  m_EditorClassIdentifier: 
+  enableIncomeTax: 1
+  incomeTaxType: 0
+  enableSalesTax: 1
+  enableEcoTax: 1
+  enableElectricityTax: 1
+  enableBuildingDamage: 1
+  monthsLifespanMultiplier: 1
+  timeToFixMultiplier: 1
+  buildingPenaltyForFixMultiplier: 1
+  enableElectricityCalculations: 1
+  wattsPerHourIdleMultiplier: 1
+  wattsPerHourWorkMultiplier: 1
+  removePenaltyMultiplier: 1
+  garbageRemoveMultiplier: 2
+  globalPriceMultiplier: 1
+  enableBankruptcySystem: 1

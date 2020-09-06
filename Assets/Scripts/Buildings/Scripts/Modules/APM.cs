@@ -126,7 +126,7 @@ public class APM : MonoBehaviour
             StartCrafting();
     }
 
-    public bool IsAllowedToEnter(OnItemEnterEvent ItemEnterInfo)
+    private bool IsAllowedToEnter(OnItemEnterEvent ItemEnterInfo)
     {
         if (!CurrentRecipe) // check if we have any recipe to work with
         {
@@ -163,7 +163,7 @@ public class APM : MonoBehaviour
             }
         }
 
-        if (recipeData.item is ItemData)
+        /*if (recipeData.item is ItemData)
         {
             ItemData itemToCheck = recipeData.item as ItemData;
 
@@ -182,8 +182,13 @@ public class APM : MonoBehaviour
                 ItemLog(ItemEnterInfo.item.name, "We're already full of this item!", this); // check if we're full of that item
                 return false;
             }
-        }
+        }*/
 
+        return true;
+    }
+
+    private bool IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
+    {
         // check if the outputs' queues have enough space to fit the output items
         foreach (KeyValuePair<MachineRecipe.OutputData, int> kvp in outputData)
         {
@@ -195,11 +200,6 @@ public class APM : MonoBehaviour
             }
         }
 
-        return true;
-    }
-
-    public bool IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
-    {
         foreach (MachineRecipe.InputData inputData in CurrentRecipe.inputs)
         {
             if (inputData.item is ItemData)
