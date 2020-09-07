@@ -24,7 +24,7 @@ MonoBehaviour:
   enableElectricityCalculations: 1
   wattsPerHourIdleMultiplier: 1
   wattsPerHourWorkMultiplier: 1
-  removePenaltyMultiplier: 1
+  removePenaltyMultiplier: 0.4
   garbageRemoveMultiplier: 2
   globalPriceMultiplier: 1
   enableBankruptcySystem: 1

@@ -30,7 +30,7 @@ public class GameProfile : ScriptableObject
     public float wattsPerHourWorkMultiplier = 1;
 
     [Header("Remove System Multipliers")]
-    public float removePenaltyMultiplier = 1;
+    public float removePenaltyMultiplier = 0.4f;
     public float garbageRemoveMultiplier = 2;
 
     [Header("Economy System")]
