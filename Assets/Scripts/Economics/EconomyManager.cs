@@ -17,7 +17,13 @@ public class EconomyManager : EconomySystem
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B)) { Balance += balanceChangeTest; }
+        if (Input.GetKeyDown(KeyCode.B)) 
+        {
+            if (balanceChangeTest > 0)
+                AddToBalance(Mathf.Abs(balanceChangeTest));
+            else if (balanceChangeTest < 0)
+                MakePurchase(Mathf.Abs(balanceChangeTest));
+        }
     }
 
     public override void OnBalanceUpdate()

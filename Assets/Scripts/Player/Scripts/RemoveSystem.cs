@@ -139,7 +139,7 @@ public class RemoveSystem : MonoBehaviour
             ConveyorManager.instance.conveyors.Remove(b.mc.Conveyor);
         }
         decimal toAdd = (decimal)((float)b.healthPercent / 100 * b.price - (b.price * GameManager.profile.removePenaltyMultiplier));
-        EconomyManager.instance.Balance += toAdd;
+        EconomyManager.instance.AddToBalance(toAdd);
         Debug.Log("Adding" + toAdd + "to the balance.");
 
         foreach (KeyValuePair<ItemData, int> item in b.mc.BuildingIOManager.itemsInside)
@@ -166,9 +166,9 @@ public class RemoveSystem : MonoBehaviour
     {
         //Debug.Log($"Adding {data.startingPriceInShop * GameManager.removePenaltyMultiplier} to the balance.");
         if (data.isGarbage)
-            EconomyManager.instance.Balance += (decimal)(data.startingPriceInShop + data.startingPriceInShop * GameManager.profile.garbageRemoveMultiplier);
+            EconomyManager.instance.MakePurchase((decimal)(data.startingPriceInShop + (data.startingPriceInShop * GameManager.profile.garbageRemoveMultiplier)));
         else
-            EconomyManager.instance.Balance += (decimal)(data.startingPriceInShop - (data.startingPriceInShop * GameManager.profile.removePenaltyMultiplier));
+            EconomyManager.instance.MakePurchase((decimal)(data.startingPriceInShop - (data.startingPriceInShop * GameManager.profile.removePenaltyMultiplier)));
 
         if (obj)
             ObjectPoolManager.instance.DestroyObject(obj); //destroy object 

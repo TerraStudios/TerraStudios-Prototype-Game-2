@@ -261,9 +261,13 @@ public class GridManager : MonoBehaviour
             return;
         if (CanPlace(hit.Value, center))
         {
+            Building b = visualization.GetComponent<Building>();
+
+            if (!EconomyManager.IsCreditSufficient(b.price))
+                return;
+
             visualization.gameObject.AddComponent<BoxCollider>();
             visualization.GetComponent<MeshRenderer>().material = tempMat;
-            Building b = visualization.GetComponent<Building>();
 
             BuildingManager.SetUpBuilding(b);
             b.RemoveIndicator();
@@ -271,7 +275,7 @@ public class GridManager : MonoBehaviour
             b.mc.BuildingIOManager.UpdateIOPhysics();
             b.mc.BuildingIOManager.LinkAll();
 
-
+           EconomyManager.MakePurchase(b.price);
 
             IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
 

@@ -23,14 +23,9 @@ public class EconomySystem : MonoBehaviour
     public decimal Balance
     {
         get { return _balance; }
-        set
+        set 
         {
-            if (value < Balance) // check if we subtracted for the balance and if so, apply multiplier
-                _balance = (Balance - value) * (decimal)GameManager.profile.globalPriceMultiplier;
-            if (value < 0)
-                _balance = 0;
-            else
-                _balance = value;
+            _balance = value;
             OnBalanceUpdate();
         }
     }
@@ -99,5 +94,30 @@ public class EconomySystem : MonoBehaviour
     {
         string after = "Balance: " + Balance.ToString("C", CurrentCulture);
         return after;
+    }
+
+    public bool IsCreditSufficient(decimal priceToCheck) 
+    {
+        if (Balance - priceToCheck * (decimal)GameManager.instance.Profile.globalPriceMultiplier <= 0)
+            return false;
+        else
+            return true;
+    }
+
+    public void MakePurchase(decimal price) 
+    {
+        decimal balanceToApply = Balance - price * (decimal)GameManager.instance.Profile.globalPriceMultiplier;
+
+        if (balanceToApply <= 0 && !GameManager.instance.Profile.enableBankruptcySystem)
+        {
+            balanceToApply = 0;
+        }
+
+        Balance = balanceToApply;
+    }
+
+    public void AddToBalance(decimal toAdd) 
+    {
+        Balance += toAdd;
     }
 }
