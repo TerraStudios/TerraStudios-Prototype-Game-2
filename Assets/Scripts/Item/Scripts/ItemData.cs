@@ -18,7 +18,10 @@ public class ItemData : ItemOrCategory
     public ItemCategory ItemCategory;
 
     [Header("Economic Simulation Properties")]
-    public int startingPriceInShop;
+    public float startingPriceInShop;
+
+    public float StartingPriceInShop { get => startingPriceInShop * GameManager.instance.Profile.globalPriceMultiplierItems; set => startingPriceInShop = value; }
+
     public bool isBuyable;
     public int ecoTax;
     public AnimationCurve demandCurve;

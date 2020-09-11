@@ -98,7 +98,7 @@ public class EconomySystem : MonoBehaviour
 
     public bool IsCreditSufficient(decimal priceToCheck) 
     {
-        if (Balance - priceToCheck * (decimal)GameManager.instance.Profile.globalPriceMultiplier <= 0)
+        if (Balance - priceToCheck <= 0)
             return false;
         else
             return true;
@@ -106,7 +106,7 @@ public class EconomySystem : MonoBehaviour
 
     public void MakePurchase(decimal price) 
     {
-        decimal balanceToApply = Balance - price * (decimal)GameManager.instance.Profile.globalPriceMultiplier;
+        decimal balanceToApply = Balance - price;
 
         if (balanceToApply <= 0 && !GameManager.instance.Profile.enableBankruptcySystem)
         {

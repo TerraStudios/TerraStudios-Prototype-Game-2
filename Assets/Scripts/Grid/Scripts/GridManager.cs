@@ -263,7 +263,7 @@ public class GridManager : MonoBehaviour
         {
             Building b = visualization.GetComponent<Building>();
 
-            if (!EconomyManager.IsCreditSufficient(b.price))
+            if (!EconomyManager.IsCreditSufficient((decimal)b.Price))
                 return;
 
             visualization.gameObject.AddComponent<BoxCollider>();
@@ -275,7 +275,7 @@ public class GridManager : MonoBehaviour
             b.mc.BuildingIOManager.UpdateIOPhysics();
             b.mc.BuildingIOManager.LinkAll();
 
-           EconomyManager.MakePurchase(b.price);
+           EconomyManager.MakePurchase((decimal)b.Price);
 
             IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
 

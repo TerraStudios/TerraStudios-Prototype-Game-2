@@ -33,8 +33,9 @@ public class GameProfile : ScriptableObject
     public float removePenaltyMultiplier = 0.4f;
     public float garbageRemoveMultiplier = 2;
 
-    [Header("Economy System")]
-    public float globalPriceMultiplier = 1;
+    [Header("Economy System - Global Multipliers")]
+    public float globalPriceMultiplierItems = 1;
+    public float globalPriceMultiplierBuildings = 1;
     [Tooltip("If disabled, the player can't go bellow 0 balance")]
     public bool enableBankruptcySystem = true;
 }

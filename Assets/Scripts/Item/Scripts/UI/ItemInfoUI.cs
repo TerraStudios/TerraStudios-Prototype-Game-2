@@ -26,7 +26,7 @@ public class ItemInfoUI : MonoBehaviour
     public void SetData(GameObject gameObj, ItemData item)
     {
         buyableToggle.isOn = item.isBuyable;
-        startingPrice.text = item.startingPriceInShop.ToString();
+        startingPrice.text = item.StartingPriceInShop.ToString();
         category.text = item.ItemCategory.formattedName;
         description.text = item.description;
         itemName.text = item.name;

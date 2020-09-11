@@ -23,7 +23,9 @@ public class Building : MonoBehaviour
     private GameObject currentIndicator;
 
     [Header("Economics")]
-    public int price;
+    public float price;
+
+    public float Price { get => price * GameManager.instance.Profile.globalPriceMultiplierBuildings; set => price = value; }
 
     [Header("Work States")]
     private WorkStateEnum workState;
@@ -36,6 +38,7 @@ public class Building : MonoBehaviour
             OnWorkStateChanged(value);
         }
     }
+
     private Dictionary<WorkStateEnum, Guid> workStateTimes = new Dictionary<WorkStateEnum, Guid>();
 
     [Header("Health")]
