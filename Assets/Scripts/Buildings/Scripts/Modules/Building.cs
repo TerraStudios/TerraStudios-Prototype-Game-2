@@ -134,7 +134,7 @@ public class Building : MonoBehaviour
         if (EconomyManager.Balance >= (decimal)priceForFix)
         {
             WorkState = WorkStateEnum.Off;
-            EconomyManager.MakePurchase((decimal)priceForFix);
+            EconomyManager.TakeBalance((decimal)priceForFix);
             SetIndicator(BuildingManager.instance.FixingIndicator);
             foreach (TimeWaitEvent ev in healthWaitEvents) { TimeManager.UnregisterTimeWaiter(ev); }
         }

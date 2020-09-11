@@ -104,7 +104,12 @@ public class EconomySystem : MonoBehaviour
             return true;
     }
 
-    public void MakePurchase(decimal price) 
+    public void AddToBalance(decimal toAdd) 
+    {
+        Balance += toAdd;
+    }
+
+    public void TakeBalance(decimal price)
     {
         decimal balanceToApply = Balance - price;
 
@@ -114,10 +119,5 @@ public class EconomySystem : MonoBehaviour
         }
 
         Balance = balanceToApply;
-    }
-
-    public void AddToBalance(decimal toAdd) 
-    {
-        Balance += toAdd;
     }
 }

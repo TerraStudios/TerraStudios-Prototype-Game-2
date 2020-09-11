@@ -166,9 +166,9 @@ public class RemoveSystem : MonoBehaviour
     {
         //Debug.Log($"Adding {data.startingPriceInShop * GameManager.removePenaltyMultiplier} to the balance.");
         if (data.isGarbage)
-            EconomyManager.instance.MakePurchase((decimal)(data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.profile.garbageRemoveMultiplier)));
+            EconomyManager.instance.TakeBalance((decimal)(data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.profile.garbageRemoveMultiplier)));
         else
-            EconomyManager.instance.MakePurchase((decimal)(data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.profile.removePenaltyMultiplier)));
+            EconomyManager.instance.TakeBalance((decimal)(data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.profile.removePenaltyMultiplier)));
 
         if (obj)
             ObjectPoolManager.instance.DestroyObject(obj); //destroy object 

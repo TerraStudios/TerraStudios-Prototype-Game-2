@@ -22,7 +22,7 @@ public class EconomyManager : EconomySystem
             if (balanceChangeTest > 0)
                 AddToBalance(Mathf.Abs(balanceChangeTest));
             else if (balanceChangeTest < 0)
-                MakePurchase(Mathf.Abs(balanceChangeTest));
+                TakeBalance(Mathf.Abs(balanceChangeTest));
         }
     }
 

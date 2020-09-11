@@ -275,7 +275,7 @@ public class GridManager : MonoBehaviour
             b.mc.BuildingIOManager.UpdateIOPhysics();
             b.mc.BuildingIOManager.LinkAll();
 
-           EconomyManager.MakePurchase((decimal)b.Price);
+           EconomyManager.TakeBalance((decimal)b.Price);
 
             IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
 
