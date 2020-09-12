@@ -142,7 +142,7 @@ public class RemoveSystem : MonoBehaviour
         decimal toAdd = (decimal)((float)b.healthPercent / 100 * b.Price - (b.Price * GameManager.profile.removePenaltyMultiplier));
         if (!EconomyManager.instance.UpdateBalance(toAdd))
         {
-            Debug.LogWarning("Credit unsufficient to remove this building!");
+            Debug.LogWarning("Credit insufficient to remove this building!");
             return;
         }
 

@@ -100,6 +100,8 @@ public class EconomySystem : MonoBehaviour
     {
         if (Balance - priceToCheck <= 0)
             return false;
+        else if (Balance <= 0)
+            return true;
         else
             return true;
     }
@@ -107,20 +109,30 @@ public class EconomySystem : MonoBehaviour
     /// <summary>
     /// Updates the balanace in a positive or negative way.
     /// </summary>
-    /// <param name="price">The price to apply to the balance. Can be either positive or negative.</param>
+    /// <param name="valueToApply">The price to apply to the balance. Can be either positive or negative.</param>
     /// <returns>Returns whether the transaction succeeded.</returns>
-    public bool UpdateBalance(decimal price)
+    public bool UpdateBalance(decimal valueToApply)
     {
-        if (!IsCreditSufficient(price))
-            return false;
+        if (valueToApply == 0)
+        {
+            Debug.Log("ES: Processed an empty transaction");
+            return true;
+        }
 
-        decimal balanaceChange = Balance - price;
+        if (valueToApply < 0 && !IsCreditSufficient(valueToApply))
+        {
+            Debug.LogWarning("ES: Failed to process a transaction - insufficient funds! Balanace " + Balance + ", price " + valueToApply);
+            return false;
+        }
+
+        decimal balanaceChange = Balance + valueToApply;
 
         if (balanaceChange <= 0 && !GameManager.instance.Profile.enableBankruptcySystem)
         {
             balanaceChange = 0;
         }
 
+        Debug.Log("ES: Transaction succeeded! New Balanace " + balanaceChange + ", price " + valueToApply + ", old balance " + Balance);
         Balance = balanaceChange;
         return true;
     }

@@ -27,7 +27,6 @@ public class EconomyManager : EconomySystem
     public override void OnBalanceUpdate()
     {
         base.OnBalanceUpdate();
-        Debug.Log("New balance: " + Balance);
         currentBalanceText.text = GetReadableBalance();
 
         if (Balance > 0) { currentBalanceText.color = Color.white; }

@@ -263,7 +263,7 @@ public class GridManager : MonoBehaviour
         {
             Building b = visualization.GetComponent<Building>();
 
-            if (!EconomyManager.UpdateBalance((decimal)b.Price))
+            if (!EconomyManager.UpdateBalance(-(decimal)b.Price))
                 return;
 
             visualization.gameObject.AddComponent<BoxCollider>();
