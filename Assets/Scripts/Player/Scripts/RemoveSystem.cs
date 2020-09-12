@@ -44,9 +44,17 @@ public class RemoveSystem : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 foreach (ItemBehaviour t in inRange.Item1)
-                    DeleteItem(t.data, t.gameObject);
+                {
+                    if (!DeleteItem(t.data, t.gameObject))
+                        return;
+                }
+                    
                 foreach (Building b in inRange.Item2)
-                    DeleteBuilding(b);
+                {
+                    if (!DeleteBuilding(b))
+                        return;
+                }
+                    
                 inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
             }
 
@@ -129,21 +137,21 @@ public class RemoveSystem : MonoBehaviour
         return snappedPos;
     }
 
-    public void DeleteBuilding(Building b)
+    public bool DeleteBuilding(Building b)
     {
+        decimal change = (decimal)((float)b.healthPercent / 100 * b.Price - (b.Price * GameManager.profile.removePenaltyMultiplier));
+        if (!EconomyManager.instance.UpdateBalance(change))
+        {
+            Debug.LogWarning("Credit insufficient to remove this building!");
+            return false;
+        }
+
         b.mc.BuildingIOManager.DevisualizeAll();
         b.mc.BuildingIOManager.UnlinkAll();
 
         if (b.mc.BuildingIOManager.isConveyor)
         {
             ConveyorManager.instance.conveyors.Remove(b.mc.Conveyor);
-        }
-
-        decimal toAdd = (decimal)((float)b.healthPercent / 100 * b.Price - (b.Price * GameManager.profile.removePenaltyMultiplier));
-        if (!EconomyManager.instance.UpdateBalance(toAdd))
-        {
-            Debug.LogWarning("Credit insufficient to remove this building!");
-            return;
         }
 
         foreach (KeyValuePair<ItemData, int> item in b.mc.BuildingIOManager.itemsInside)
@@ -164,9 +172,10 @@ public class RemoveSystem : MonoBehaviour
 
         BuildingSystem.RegisteredBuildings.Remove(b);
         Destroy(b.gameObject); // Destroy game object
+        return true;
     }
 
-    public void DeleteItem(ItemData data, GameObject obj = null)
+    public bool DeleteItem(ItemData data, GameObject obj = null)
     {
         //Debug.Log($"Adding {data.startingPriceInShop * GameManager.removePenaltyMultiplier} to the balance.");
         if (data.isGarbage)
@@ -174,8 +183,8 @@ public class RemoveSystem : MonoBehaviour
             decimal change = (decimal)(data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.profile.garbageRemoveMultiplier));
             if (!EconomyManager.instance.UpdateBalance(change))
             {
-                Debug.LogWarning("Credit unsufficient to remove this building!");
-                return;
+                Debug.LogWarning("Credit unsufficient to remove this item!");
+                return false;
             }
         }
             
@@ -184,13 +193,14 @@ public class RemoveSystem : MonoBehaviour
             decimal change = (decimal)(data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.profile.removePenaltyMultiplier));
             if (!EconomyManager.instance.UpdateBalance(change))
             {
-                Debug.LogWarning("Credit unsufficient to remove this building!");
-                return;
+                Debug.LogWarning("Credit unsufficient to remove this item!");
+                return false;
             }
         }
 
         if (obj)
-            ObjectPoolManager.instance.DestroyObject(obj); //destroy object 
+            ObjectPoolManager.instance.DestroyObject(obj); //destroy object
+        return true;
     }
 
     public void OnBrushSliderValueChanged() 
