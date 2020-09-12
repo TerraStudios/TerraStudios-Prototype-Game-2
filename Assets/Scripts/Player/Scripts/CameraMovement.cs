@@ -9,6 +9,7 @@ public class CameraMovement : MonoBehaviour
 
     public float movementSpeed;
     public float movementTime;
+    public float rotationSpeed = 100;
     public float dragSpeed;
     public float zoomSpeed;
 
@@ -63,17 +64,16 @@ public class CameraMovement : MonoBehaviour
         }
 
         // Q and E 90 degrees rotation
-        /*
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKey(KeyCode.Q))
         {
-            newRotation *= Quaternion.Euler(0, 90, 0);
+            transform.rotation *= Quaternion.Euler(0, rotationSpeed / 200f, 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKey(KeyCode.E))
         {
-            newRotation *= Quaternion.Euler(0, -90, 0);
+            transform.rotation *= Quaternion.Euler(0, -rotationSpeed / 200f, 0);
         }
-        */
+        
     }
 
     private void HandleMouseMovement()
