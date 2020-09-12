@@ -131,16 +131,16 @@ public class Building : MonoBehaviour
             return;
 
         float priceForFix = (float)(healthPercent + 1) / 100 * price * penaltyForFix * GameManager.profile.buildingPenaltyForFixMultiplier;
-        if (EconomyManager.Balance >= (decimal)priceForFix)
+        if (!EconomyManager.UpdateBalance((decimal)priceForFix))
         {
             WorkState = WorkStateEnum.Off;
-            EconomyManager.TakeBalance((decimal)priceForFix);
+            
             SetIndicator(BuildingManager.instance.FixingIndicator);
             foreach (TimeWaitEvent ev in healthWaitEvents) { TimeManager.UnregisterTimeWaiter(ev); }
         }
         else
         {
-            Debug.LogError("Insufficent balance!");
+            Debug.LogError("Insufficent balance to fix this building!");
             return;
         }
 

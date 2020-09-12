@@ -138,9 +138,13 @@ public class RemoveSystem : MonoBehaviour
         {
             ConveyorManager.instance.conveyors.Remove(b.mc.Conveyor);
         }
+
         decimal toAdd = (decimal)((float)b.healthPercent / 100 * b.Price - (b.Price * GameManager.profile.removePenaltyMultiplier));
-        EconomyManager.instance.AddToBalance(toAdd);
-        Debug.Log("Adding" + toAdd + "to the balance.");
+        if (!EconomyManager.instance.UpdateBalance(toAdd))
+        {
+            Debug.LogWarning("Credit unsufficient to remove this building!");
+            return;
+        }
 
         foreach (KeyValuePair<ItemData, int> item in b.mc.BuildingIOManager.itemsInside)
         {
@@ -166,9 +170,24 @@ public class RemoveSystem : MonoBehaviour
     {
         //Debug.Log($"Adding {data.startingPriceInShop * GameManager.removePenaltyMultiplier} to the balance.");
         if (data.isGarbage)
-            EconomyManager.instance.TakeBalance((decimal)(data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.profile.garbageRemoveMultiplier)));
+        {
+            decimal change = (decimal)(data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.profile.garbageRemoveMultiplier));
+            if (!EconomyManager.instance.UpdateBalance(change))
+            {
+                Debug.LogWarning("Credit unsufficient to remove this building!");
+                return;
+            }
+        }
+            
         else
-            EconomyManager.instance.TakeBalance((decimal)(data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.profile.removePenaltyMultiplier)));
+        {
+            decimal change = (decimal)(data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.profile.removePenaltyMultiplier));
+            if (!EconomyManager.instance.UpdateBalance(change))
+            {
+                Debug.LogWarning("Credit unsufficient to remove this building!");
+                return;
+            }
+        }
 
         if (obj)
             ObjectPoolManager.instance.DestroyObject(obj); //destroy object 

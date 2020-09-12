@@ -104,20 +104,24 @@ public class EconomySystem : MonoBehaviour
             return true;
     }
 
-    public void AddToBalance(decimal toAdd) 
+    /// <summary>
+    /// Updates the balanace in a positive or negative way.
+    /// </summary>
+    /// <param name="price">The price to apply to the balance. Can be either positive or negative.</param>
+    /// <returns>Returns whether the transaction succeeded.</returns>
+    public bool UpdateBalance(decimal price)
     {
-        Balance += toAdd;
-    }
+        if (!IsCreditSufficient(price))
+            return false;
 
-    public void TakeBalance(decimal price)
-    {
-        decimal balanceToApply = Balance - price;
+        decimal balanaceChange = Balance - price;
 
-        if (balanceToApply <= 0 && !GameManager.instance.Profile.enableBankruptcySystem)
+        if (balanaceChange <= 0 && !GameManager.instance.Profile.enableBankruptcySystem)
         {
-            balanceToApply = 0;
+            balanaceChange = 0;
         }
 
-        Balance = balanceToApply;
+        Balance = balanaceChange;
+        return true;
     }
 }

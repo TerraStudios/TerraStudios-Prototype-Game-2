@@ -19,10 +19,8 @@ public class EconomyManager : EconomySystem
     {
         if (Input.GetKeyDown(KeyCode.B)) 
         {
-            if (balanceChangeTest > 0)
-                AddToBalance(Mathf.Abs(balanceChangeTest));
-            else if (balanceChangeTest < 0)
-                TakeBalance(Mathf.Abs(balanceChangeTest));
+            if (!UpdateBalance(Mathf.Abs(balanceChangeTest)))
+                Debug.LogWarning("Unable to apply test balance update.");
         }
     }
 
