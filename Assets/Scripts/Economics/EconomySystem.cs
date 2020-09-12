@@ -98,12 +98,12 @@ public class EconomySystem : MonoBehaviour
 
     public bool IsCreditSufficient(decimal priceToCheck) 
     {
-        if (Balance - priceToCheck <= 0)
-            return false;
+        if (Balance - Math.Abs(priceToCheck) >= 0) // check if the difference is higher or equal to 0
+            return true;
         else if (Balance <= 0)
             return true;
         else
-            return true;
+            return false;
     }
 
     /// <summary>
