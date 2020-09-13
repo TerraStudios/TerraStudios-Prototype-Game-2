@@ -14,7 +14,7 @@ cf7500
 
 others based on palette2:
 211F1B
-
+E69E0B
 
 palette3
 https://colorhunt.co/palette/201444
