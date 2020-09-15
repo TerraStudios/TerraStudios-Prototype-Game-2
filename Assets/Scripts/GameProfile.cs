@@ -36,6 +36,11 @@ public class GameProfile : ScriptableObject
     [Header("Economy System - Global Multipliers")]
     public float globalPriceMultiplierItems = 1;
     public float globalPriceMultiplierBuildings = 1;
+
+    [Header("Economy System - Currency Visualization")]
+    public bool forceManualCurrencyCC;
+    public string currencyCC;
+
     [Tooltip("If disabled, the player can't go bellow 0 balance")]
     public bool enableBankruptcySystem = true;
 }

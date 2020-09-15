@@ -24,7 +24,7 @@ public class TimeSystem : TimeEngine
 {
     [HideInInspector] public List<TimeWaitEvent> timeWaiters = new List<TimeWaitEvent>();
     [HideInInspector] public List<TimeCountEvent> timeCounters = new List<TimeCountEvent>();
-    [HideInInspector] public CultureInfo CurrentCulture { get { return GameManager.currentCulture; } }
+    [HideInInspector] public CultureInfo CurrentCulture { get { return GameManager.currentCultureTimeDate; } }
 
     public void StartCounting(DateTime? startTime)
     {

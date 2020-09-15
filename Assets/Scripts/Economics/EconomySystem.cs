@@ -33,7 +33,6 @@ public class EconomySystem : MonoBehaviour
     public DateTime LastBankruptcyStart;
     public DateTime LastBankruptcyEnd;
 
-    [HideInInspector] public CultureInfo CurrentCulture { get { return GameManager.currentCulture; } }
     [HideInInspector] private List<TimeWaitEvent> bankruptcyTimers = new List<TimeWaitEvent>();
 
     public virtual void OnBalanceUpdate() { MakeBankruptcyCheck(); }
@@ -92,7 +91,7 @@ public class EconomySystem : MonoBehaviour
 
     public string GetReadableBalance()
     {
-        string after = "Balance: " + Balance.ToString("C", CurrentCulture);
+        string after = "Balance: " + Balance.ToString("C", GameManager.currentCultureCurrency);
         return after;
     }
 

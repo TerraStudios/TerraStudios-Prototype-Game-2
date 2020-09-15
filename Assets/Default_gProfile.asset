@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41d63baff16e30749bd501f20d3688cd, type: 3}
-  m_Name: New Game Profile
+  m_Name: Default_gProfile
   m_EditorClassIdentifier: 
   enableIncomeTax: 1
   incomeTaxType: 0
@@ -24,7 +24,10 @@ MonoBehaviour:
   enableElectricityCalculations: 1
   wattsPerHourIdleMultiplier: 1
   wattsPerHourWorkMultiplier: 1
-  removePenaltyMultiplier: 0.4
+  removePenaltyMultiplier: 5
   garbageRemoveMultiplier: 2
-  globalPriceMultiplier: 1
-  enableBankruptcySystem: 1
+  globalPriceMultiplierItems: 1
+  globalPriceMultiplierBuildings: 10
+  forceManualCurrencyCC: 0
+  currencyCC: 
+  enableBankruptcySystem: 0
