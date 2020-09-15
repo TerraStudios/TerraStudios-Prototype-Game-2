@@ -11,7 +11,7 @@ jobs:
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          projectPath: ~/PBAG-Project
+          projectPath: PBAG-Project
           unityVersion: 2020.1.2f1
       - uses: actions/upload-artifact@v1
         with:
