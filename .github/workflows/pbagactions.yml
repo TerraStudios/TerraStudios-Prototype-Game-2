@@ -14,8 +14,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        projectPath:
-          - ~/
         unityVersion:
           - 2020.1.2f1
         targetPlatform:
@@ -41,7 +39,6 @@ jobs:
       - uses: webbertakken/unity-test-runner@v1.6
         id: testRunner
         with:
-          projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
