@@ -9,7 +9,7 @@ jobs:
         id: getManualLicenseFile
         uses: webbertakken/unity-request-manual-activation-file@v1.1
         with:
-          unityVersion: 2020.1.2f1 
+          unityVersion: 2020.1.6f1 
       - name: Expose as artifact
         uses: actions/upload-artifact@v2
         with:
