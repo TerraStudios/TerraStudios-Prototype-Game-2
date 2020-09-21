@@ -5,7 +5,6 @@ jobs:
   run_tests:
     name: Run Tests
     runs-on: ubuntu-latest
-    
     steps: 
       - uses: webbertakken/unity-test-runner@v1.6
         env:
