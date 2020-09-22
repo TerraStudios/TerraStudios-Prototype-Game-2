@@ -42,7 +42,6 @@ jobs:
           customParameters: |
             -enableCodeCoverage
             -coverageResultsPath ${{ matrix.testMode }}-artifacts
-            -coverageOptions generateHtmlReport;generateBadgeReport;assemblyFilters:-PropHunt.Test*,-EditModeTests,-Assembly*;pathFilters:-Assets/NetCodeGenerated/*
             -nographics
       - uses: actions/upload-artifact@v1
         with:
