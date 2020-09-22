@@ -47,13 +47,12 @@ jobs:
         with:
           name: Test results (all modes)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
-     # - uses: webbertakken/unity-builder@v1.2
-      #  with:
-       #   projectPath: ${{ matrix.projectPath }}
-        #  unityVersion: ${{ matrix.unityVersion }}
-         # targetPlatform: ${{ matrix.targetPlatform }}
-          # customParameters: '-nographics'
-      #- uses: actions/upload-artifact@v1
-       # with:
-        #  name: Build
-         # path: build
+      - uses: webbertakken/unity-builder@v1.2
+        with:
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          versioning: Semantic 
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: build
