@@ -26,16 +26,13 @@ jobs:
           - playmode
           - editmode
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.2
         with:
           lfs: true
-#       - uses: actions/cache@v1.1.0
-#         with:
-#           path: ${{ matrix.projectPath }}/Library
-#           key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-#           restore-keys: |
-#             Library-${{ matrix.projectPath }}-
-#             Library-
+      - uses: actions/cache@v2.1.1
+        with:
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}
       - uses: webbertakken/unity-test-runner@v1.6
         id: testRunner
         with:
