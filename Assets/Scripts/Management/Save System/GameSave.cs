@@ -15,6 +15,13 @@ public class GameSave
 
             return _current;
         }
+        set
+        {
+            if (value != null)
+            {
+                _current = value;
+            }
+        }
     }
 
     public TimeSaveData TimeSaveData;

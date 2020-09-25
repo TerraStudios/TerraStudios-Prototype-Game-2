@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class TimeSaveData
+public class EconomicsSaveData
 {
-    public bool isPaused;
-    public int timeMultiplier;
-    public DateTime currentTime;
+    public decimal balanace;
 }

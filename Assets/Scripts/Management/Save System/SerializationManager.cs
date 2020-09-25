@@ -59,10 +59,14 @@ public class SerializationManager
         SurrogateSelector selector = new SurrogateSelector();
 
         Vector3SerializationSurrogate vector3Surrogate = new Vector3SerializationSurrogate();
-        selector.AddSurrogate(typeof(Vector3), new StreamingContext(StreamingContextStates.All), vector3Surrogate);
-
         QuaternionSerializationSurrogate quaternionSurrogate = new QuaternionSerializationSurrogate();
+        ColorSerializationSurrogate colorSurrogate = new ColorSerializationSurrogate();
+
+        selector.AddSurrogate(typeof(Vector3), new StreamingContext(StreamingContextStates.All), vector3Surrogate);
         selector.AddSurrogate(typeof(Quaternion), new StreamingContext(StreamingContextStates.All), quaternionSurrogate);
+        selector.AddSurrogate(typeof(Color), new StreamingContext(StreamingContextStates.All), colorSurrogate);
+
+        formatter.SurrogateSelector = selector;
 
         return formatter;
     }
