@@ -24,5 +24,5 @@ public class GameSave
         }
     }
 
-    public TimeSaveData TimeSaveData;
+    public TimeSaveData TimeSaveData = new TimeSaveData();
 }

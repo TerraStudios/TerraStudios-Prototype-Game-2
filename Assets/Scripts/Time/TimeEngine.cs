@@ -31,7 +31,6 @@ public class TimeEngine : MonoBehaviour
                 Debug.LogError("Attempting to apply value for TimeMultiplier <= 0. That's not allowed. Use TimeEngine.isPaused instead, if you want to pause time!");
                 return;
             }
-            GameSave.current.TimeSaveData.timeMultiplier = value;
             timeMultiplier = value;
         }
     }
@@ -48,7 +47,6 @@ public class TimeEngine : MonoBehaviour
             else
                 Time.timeScale = TimeMultiplier;
 
-            GameSave.current.TimeSaveData.isPaused = value;
             isPaused = value;
         }
     }

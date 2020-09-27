@@ -25,12 +25,11 @@ public class SerializationManager
         return true;
     }
 
-    public static object Load(string saveName)
+    public static object Load(string path)
     {
-        string path = Application.persistentDataPath + "/saves/" + saveName + ".pbag";
-
         if (!File.Exists(path))
         {
+            Debug.LogError("File not found!");
             return null;
         }
 
@@ -42,6 +41,7 @@ public class SerializationManager
         {
             object save = formatter.Deserialize(file);
             file.Close();
+            Debug.Log("Loaded save at path " + path);
             return save;
         }
         catch
