@@ -577,6 +577,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 124487541217681670}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &684553706 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 612778395846576487, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
+    type: 3}
+  m_PrefabInstance: {fileID: 977995426}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &753113850
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,6 +919,16 @@ PrefabInstance:
       propertyPath: CinemachineFollowZoom
       value: 
       objectReference: {fileID: 1797843145}
+    - target: {fileID: 1413420034687812705, guid: 47177d67d72cf4641ac7609b5b879b77,
+        type: 3}
+      propertyPath: CameraGO1
+      value: 
+      objectReference: {fileID: 1334802776}
+    - target: {fileID: 1413420034687812705, guid: 47177d67d72cf4641ac7609b5b879b77,
+        type: 3}
+      propertyPath: CameraGO2
+      value: 
+      objectReference: {fileID: 684553706}
     - target: {fileID: 2643007424386464553, guid: 47177d67d72cf4641ac7609b5b879b77,
         type: 3}
       propertyPath: m_Name
@@ -1131,6 +1147,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1334802776 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
+    type: 3}
+  m_PrefabInstance: {fileID: 977995426}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1349824576 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1785634975861949008, guid: c7eb35b4e665ee34bb81ccb491b5a9dd,

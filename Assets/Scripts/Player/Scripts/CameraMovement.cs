@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public Transform CameraGO;
+    public Transform CameraGO1;
+    public Transform CameraGO2;
+
     public CinemachineFollowZoom CinemachineFollowZoom;
 
     public float movementSpeed;
@@ -72,6 +74,19 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             transform.rotation *= Quaternion.Euler(0, -rotationSpeed / 200f, 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (CameraGO1.gameObject.activeInHierarchy)
+            {
+                CameraGO1.gameObject.SetActive(false);
+                CameraGO2.gameObject.SetActive(true);
+            } else
+            {
+                CameraGO1.gameObject.SetActive(true);
+                CameraGO2.gameObject.SetActive(false);
+            }
         }
         
     }

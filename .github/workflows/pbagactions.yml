@@ -1,5 +1,4 @@
 name: PBAG Actions
-
 on:
   pull_request: {}
   push: { branches: [master] }
@@ -26,16 +25,13 @@ jobs:
           - playmode
           - editmode
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.2
         with:
           lfs: true
-      - uses: actions/cache@v1.1.0
+      - uses: actions/cache@v2.1.1
         with:
-          path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-          restore-keys: |
-            Library-${{ matrix.projectPath }}-
-            Library-
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}
       - uses: webbertakken/unity-test-runner@v1.6
         id: testRunner
         with:
@@ -45,19 +41,19 @@ jobs:
           customParameters: |
             -enableCodeCoverage
             -coverageResultsPath ${{ matrix.testMode }}-artifacts
-            -coverageOptions generateHtmlReport;generateBadgeReport;assemblyFilters:-PropHunt.Test*,-EditModeTests,-Assembly*;pathFilters:-Assets/NetCodeGenerated/*
             -nographics
       - uses: actions/upload-artifact@v1
         with:
           name: Test results (all modes)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
-     # - uses: webbertakken/unity-builder@v1.2
-      #  with:
-       #   projectPath: ${{ matrix.projectPath }}
-        #  unityVersion: ${{ matrix.unityVersion }}
-         # targetPlatform: ${{ matrix.targetPlatform }}
-          # customParameters: '-nographics'
-      #- uses: actions/upload-artifact@v1
-       # with:
-        #  name: Build
-         # path: build
+#       - uses: webbertakken/unity-builder@v1.2
+#         with:
+#           unityVersion: ${{ matrix.unityVersion }}
+#           targetPlatform: ${{ matrix.targetPlatform }}
+#           versioning: Semantic 
+#           customParameters: |
+#              -allowDirtyBuild
+#       - uses: actions/upload-artifact@v1
+#         with:
+#           name: Build
+#           path: build
