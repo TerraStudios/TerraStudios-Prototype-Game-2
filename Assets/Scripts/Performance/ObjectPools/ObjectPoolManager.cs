@@ -8,8 +8,6 @@ public class ObjectPoolManager : MonoBehaviour
 
     private Dictionary<string, Queue<PoolInstance>> pooledObjects = new Dictionary<string, Queue<PoolInstance>>();
 
-    private static ObjectPoolManager _instance;
-
     /// <summary>
     /// Returns the instance of the <see cref="ObjectPoolManager"/>.
     /// </summary>
