@@ -13,19 +13,9 @@ public class ObjectPoolManager : MonoBehaviour
     /// <summary>
     /// Returns the instance of the <see cref="ObjectPoolManager"/>.
     /// </summary>
-    public static ObjectPoolManager instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<ObjectPoolManager>();
-            }
+    public static ObjectPoolManager instance;
 
-            return _instance;
-        }
-
-    }
+    private void Awake() => instance = this;
 
     /// <summary>
     /// Initializes an object pool for a prefab with an initial size. If the amount of active objects exceeds the initial pool size more objects will be instantiated to compensate.
