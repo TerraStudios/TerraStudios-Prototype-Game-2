@@ -28,6 +28,7 @@ public class ItemManagement : MonoBehaviour
 
     private void LoadItemDB()
     {
+        db.Clear();
         ItemData[] itemDB = Resources.LoadAll<ItemData>("");
         for (int i = 0; i < itemDB.Count(); i++)
         {
@@ -38,7 +39,8 @@ public class ItemManagement : MonoBehaviour
         
         Debug.Log("[Item Management] Loaded " + db.Count + " items");
 
-        foreach (ItemData data in db) {
+        foreach (ItemData data in db) 
+        {
             ObjectPoolManager.instance.CreatePool(data.obj.gameObject, initialPoolSize);
         }
     }

@@ -42,6 +42,7 @@ public class SaveManager : MonoBehaviour
     public void OnSaveSelected(string saveName)
     {
         GameSave.current = (GameSave)SerializationManager.Load(saveName);
+        GameManager.instance.ResetGame();
     }
 
     public void OnSaveGame()
