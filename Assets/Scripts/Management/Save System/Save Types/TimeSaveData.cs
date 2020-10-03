@@ -7,6 +7,6 @@ using UnityEngine;
 public class TimeSaveData
 {
     public bool isPaused;
-    public int timeMultiplier;
+    public int timeMultiplier = 1;
     public DateTime currentTime;
 }
