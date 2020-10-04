@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class TimeSaveData
@@ -9,4 +7,6 @@ public class TimeSaveData
     public bool isPaused;
     public int timeMultiplier = 1;
     public DateTime currentTime;
+    public List<TimeWaitEvent> timeWaiters = new List<TimeWaitEvent>();
+    public List<TimeCountEvent> timeCounters = new List<TimeCountEvent>();
 }

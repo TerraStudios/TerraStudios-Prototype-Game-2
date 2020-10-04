@@ -115,9 +115,7 @@ public class Building : MonoBehaviour
 
     private void DepleteHealthEvent()
     {
-        UnityEvent callback = new UnityEvent();
-        callback.AddListener(OnHealthTimeUpdate);
-        healthWaitEvents.Add(TimeManager.RegisterTimeWaiter(timeToDrainHealth, callback));
+        healthWaitEvents.Add(TimeManager.RegisterTimeWaiter(timeToDrainHealth, OnHealthTimeUpdate));
     }
 
     public virtual void OnBuildingBreak()

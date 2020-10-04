@@ -12,15 +12,17 @@ public class EconomyManager : EconomySystem
     private void Awake()
     {
         instance = this;
-        Balance = startBalance;
+        if (GameSave.current.EconomySaveData.balanace == default)
+            Balance = startBalance;
+        else
+            Balance = GameSave.current.EconomySaveData.balanace;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B)) 
         {
-            if (!UpdateBalance(Mathf.Abs(balanceChangeTest)))
-                Debug.LogWarning("Unable to apply test balance update.");
+            Balance += balanceChangeTest;
         }
     }
 

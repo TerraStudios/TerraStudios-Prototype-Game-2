@@ -29,11 +29,10 @@ public class EconomySystem : MonoBehaviour
             OnBalanceUpdate();
         }
     }
+    public DateTime LastBankruptcyStart { get => GameSave.current.EconomySaveData.LastBankruptcyStart; set => GameSave.current.EconomySaveData.LastBankruptcyStart = value; }
+    public DateTime LastBankruptcyEnd { get => GameSave.current.EconomySaveData.LastBankruptcyEnd; set => GameSave.current.EconomySaveData.LastBankruptcyEnd = value; }
 
-    public DateTime LastBankruptcyStart;
-    public DateTime LastBankruptcyEnd;
-
-    [HideInInspector] private List<TimeWaitEvent> bankruptcyTimers = new List<TimeWaitEvent>();
+    public List<TimeWaitEvent> BankruptcyTimers { get => GameSave.current.EconomySaveData.bankruptcyTimers; set => GameSave.current.EconomySaveData.bankruptcyTimers = value; }
 
     public virtual void OnBalanceUpdate() { MakeBankruptcyCheck(); }
 
@@ -67,18 +66,12 @@ public class EconomySystem : MonoBehaviour
         isInBankruptcy = true;
         LastBankruptcyStart = TimeManager.CurrentTime;
 
-        UnityEvent callback = new UnityEvent();
-        callback.AddListener(OnSeriousBankruptcy);
-
-        bankruptcyTimers.Add(TimeManager.RegisterTimeWaiter(TimeSpan.FromDays(daysBeforeSeriousBankruptcy), callback));
+        BankruptcyTimers.Add(TimeManager.RegisterTimeWaiter(TimeSpan.FromDays(daysBeforeSeriousBankruptcy), OnSeriousBankruptcy));
     }
 
     public virtual void OnSeriousBankruptcy()
     {
-        UnityEvent callback = new UnityEvent();
-        callback.AddListener(GameManager.GameOver);
-
-        bankruptcyTimers.Add(TimeManager.RegisterTimeWaiter(TimeSpan.FromDays(daysBeforeGameOverBankruptcy), callback));
+        BankruptcyTimers.Add(TimeManager.RegisterTimeWaiter(TimeSpan.FromDays(daysBeforeGameOverBankruptcy), GameManager.GameOver));
     }
 
     public virtual void OnEndBankruptcy()
@@ -86,7 +79,7 @@ public class EconomySystem : MonoBehaviour
         isInBankruptcy = false;
         LastBankruptcyEnd = TimeManager.CurrentTime;
 
-        foreach (TimeWaitEvent ev in bankruptcyTimers) { TimeManager.UnregisterTimeWaiter(ev); }
+        foreach (TimeWaitEvent ev in BankruptcyTimers) { TimeManager.UnregisterTimeWaiter(ev); }
     }
 
     public string GetReadableBalance()

@@ -6,13 +6,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
+[Serializable]
 public struct TimeWaitEvent 
 {
     public DateTime currentTime;
     public TimeSpan waitTime;
-    public UnityEvent ev;
+    public Action ev;
 }
 
+[Serializable]
 public class TimeCountEvent
 {
     public Guid hash;
@@ -22,9 +24,10 @@ public class TimeCountEvent
 
 public class TimeSystem : TimeEngine
 {
-    [HideInInspector] public List<TimeWaitEvent> timeWaiters = new List<TimeWaitEvent>();
-    [HideInInspector] public List<TimeCountEvent> timeCounters = new List<TimeCountEvent>();
     [HideInInspector] public CultureInfo CurrentCulture { get { return GameManager.currentCultureTimeDate; } }
+
+    public List<TimeWaitEvent> TimeWaiters { get => GameSave.current.TimeSaveData.timeWaiters; set => GameSave.current.TimeSaveData.timeWaiters = value; }
+    public List<TimeCountEvent> TimeCounters { get => GameSave.current.TimeSaveData.timeCounters; set => GameSave.current.TimeSaveData.timeCounters = value; }
 
     public void StartCounting(DateTime? startTime)
     {
@@ -35,20 +38,20 @@ public class TimeSystem : TimeEngine
 
     public override void OnCounterTick()
     {
-        for (int i = 0; i < timeWaiters.Count; i++)
+        for (int i = 0; i < TimeWaiters.Count; i++)
         {
-            TimeWaitEvent ev = timeWaiters[i];
+            TimeWaitEvent ev = TimeWaiters[i];
             if (CurrentTime - ev.currentTime >= ev.waitTime)
             {
                 ev.ev.Invoke();
-                timeWaiters.Remove(ev);
+                TimeWaiters.Remove(ev);
                 break;
             }
         }
 
-        for (int i = 0; i < timeCounters.Count; i++)
+        for (int i = 0; i < TimeCounters.Count; i++)
         {
-            TimeCountEvent ev = timeCounters[i];
+            TimeCountEvent ev = TimeCounters[i];
             if (!ev.isPaused) 
             {
                 ev.timePassed += TimeSpan.FromMinutes(1);
@@ -56,7 +59,7 @@ public class TimeSystem : TimeEngine
         }
     }
 
-    public TimeWaitEvent RegisterTimeWaiter(TimeSpan waitTime, UnityEvent methodToCall)
+    public TimeWaitEvent RegisterTimeWaiter(TimeSpan waitTime, Action methodToCall)
     {
         TimeWaitEvent waitEvent = new TimeWaitEvent()
         {
@@ -64,12 +67,12 @@ public class TimeSystem : TimeEngine
             currentTime = CurrentTime,
             ev = methodToCall
         };
-        timeWaiters.Add(waitEvent);
+        TimeWaiters.Add(waitEvent);
 
         return waitEvent;
     }
 
-    public void UnregisterTimeWaiter(TimeWaitEvent ev) => timeWaiters.Remove(ev);
+    public void UnregisterTimeWaiter(TimeWaitEvent ev) => TimeWaiters.Remove(ev);
 
     public TimeCountEvent StartTimeCounter()
     {
@@ -77,7 +80,7 @@ public class TimeSystem : TimeEngine
         {
             hash = Guid.NewGuid(),
         };
-        timeCounters.Add(waitEvent);
+        TimeCounters.Add(waitEvent);
 
         return waitEvent;
     }
@@ -105,13 +108,13 @@ public class TimeSystem : TimeEngine
     public TimeSpan StopTimeCounter(Guid hash)
     {
         TimeCountEvent ev = GetTCEFromGUID(hash);
-        timeCounters.Remove(ev);
+        TimeCounters.Remove(ev);
         return ev.timePassed;
     }
 
     private TimeCountEvent GetTCEFromGUID(Guid hash) 
     {
-        foreach (TimeCountEvent ev in timeCounters)
+        foreach (TimeCountEvent ev in TimeCounters)
         {
             if (ev.hash == hash)
                 return ev;
