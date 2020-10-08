@@ -66,6 +66,8 @@ public class Building : MonoBehaviour
     [HideInInspector] public TimeManager TimeManager;
     [HideInInspector] public EconomyManager EconomyManager;
 
+    private int HealthUpdateID;
+
     private bool isFixRunning;
 
     /// <summary>
@@ -83,6 +85,7 @@ public class Building : MonoBehaviour
 
         isSetUp = true;
 
+        HealthUpdateID = CallbackHandler.instance.RegisterCallback(OnHealthTimeUpdate);
         StartWorkStateCounters();
         GenerateBuildingHealth();
 
@@ -115,7 +118,7 @@ public class Building : MonoBehaviour
 
     private void DepleteHealthEvent()
     {
-        healthWaitEvents.Add(TimeManager.RegisterTimeWaiter(timeToDrainHealth, OnHealthTimeUpdate));
+        healthWaitEvents.Add(TimeManager.RegisterTimeWaiter(timeToDrainHealth, HealthUpdateID));
     }
 
     public virtual void OnBuildingBreak()

@@ -16,6 +16,9 @@ public class EconomyManager : EconomySystem
             Balance = startBalance;
         else
             Balance = GameSave.current.EconomySaveData.balanace;
+
+        SeriousBankruptcyID = CallbackHandler.instance.RegisterCallback(OnSeriousBankruptcy);
+        GameOverID = CallbackHandler.instance.RegisterCallback(GameManager.GameOver);
     }
 
     private void Update()

@@ -19,13 +19,12 @@ public class EconomySystem : MonoBehaviour
 
     [Header("Dynamic variables")]
     public bool isInBankruptcy;
-    public decimal _balance { get; private set; } // writable only inside this class
     public decimal Balance
     {
-        get { return _balance; }
+        get { return GameSave.current.EconomySaveData.balanace; }
         set 
         {
-            _balance = value;
+            GameSave.current.EconomySaveData.balanace = value;
             OnBalanceUpdate();
         }
     }
@@ -33,6 +32,9 @@ public class EconomySystem : MonoBehaviour
     public DateTime LastBankruptcyEnd { get => GameSave.current.EconomySaveData.LastBankruptcyEnd; set => GameSave.current.EconomySaveData.LastBankruptcyEnd = value; }
 
     public List<TimeWaitEvent> BankruptcyTimers { get => GameSave.current.EconomySaveData.bankruptcyTimers; set => GameSave.current.EconomySaveData.bankruptcyTimers = value; }
+
+    public int SeriousBankruptcyID;
+    public int GameOverID;
 
     public virtual void OnBalanceUpdate() { MakeBankruptcyCheck(); }
 
@@ -66,12 +68,12 @@ public class EconomySystem : MonoBehaviour
         isInBankruptcy = true;
         LastBankruptcyStart = TimeManager.CurrentTime;
 
-        BankruptcyTimers.Add(TimeManager.RegisterTimeWaiter(TimeSpan.FromDays(daysBeforeSeriousBankruptcy), OnSeriousBankruptcy));
+        BankruptcyTimers.Add(TimeManager.RegisterTimeWaiter(TimeSpan.FromDays(daysBeforeSeriousBankruptcy), SeriousBankruptcyID));
     }
 
     public virtual void OnSeriousBankruptcy()
     {
-        BankruptcyTimers.Add(TimeManager.RegisterTimeWaiter(TimeSpan.FromDays(daysBeforeGameOverBankruptcy), GameManager.GameOver));
+        BankruptcyTimers.Add(TimeManager.RegisterTimeWaiter(TimeSpan.FromDays(daysBeforeGameOverBankruptcy), GameOverID));
     }
 
     public virtual void OnEndBankruptcy()

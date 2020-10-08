@@ -30,4 +30,4 @@ MonoBehaviour:
   globalPriceMultiplierBuildings: 10
   forceManualCurrencyCC: 0
   currencyCC: 
-  enableBankruptcySystem: 0
+  enableBankruptcySystem: 1

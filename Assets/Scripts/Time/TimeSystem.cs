@@ -11,7 +11,7 @@ public struct TimeWaitEvent
 {
     public DateTime currentTime;
     public TimeSpan waitTime;
-    public Action ev;
+    public int methodID;
 }
 
 [Serializable]
@@ -43,7 +43,7 @@ public class TimeSystem : TimeEngine
             TimeWaitEvent ev = TimeWaiters[i];
             if (CurrentTime - ev.currentTime >= ev.waitTime)
             {
-                ev.ev.Invoke();
+                CallbackHandler.instance.GetEvent(ev.methodID).Invoke();
                 TimeWaiters.Remove(ev);
                 break;
             }
@@ -59,13 +59,13 @@ public class TimeSystem : TimeEngine
         }
     }
 
-    public TimeWaitEvent RegisterTimeWaiter(TimeSpan waitTime, Action methodToCall)
+    public TimeWaitEvent RegisterTimeWaiter(TimeSpan waitTime, int methodID)
     {
         TimeWaitEvent waitEvent = new TimeWaitEvent()
         {
             waitTime = waitTime,
             currentTime = CurrentTime,
-            ev = methodToCall
+            methodID = methodID
         };
         TimeWaiters.Add(waitEvent);
 
