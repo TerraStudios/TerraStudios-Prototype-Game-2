@@ -26,4 +26,5 @@ public class GameSave
 
     public TimeSaveData TimeSaveData = new TimeSaveData();
     public EconomySaveData EconomySaveData = new EconomySaveData();
+    public WorldSaveData WorldSaveData = new WorldSaveData();
 }

@@ -115,21 +115,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dd24aa3e77d2c40883052ab649024e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Base:
+    name: Proto APM
+    price: 6000
+    workState: 0
+    monthsLifespanMin: 18
+    monthsLifespanMax: 24
+    penaltyForFix: 1.2
+    timeToFixMultiplier: 1.5
+    healthPercent: 100
+    monthsLifespan: 0
+    healthWaitEvents: []
+    isFixRunning: 0
+    wattsPerHourIdle: 20
+    wattsPerHourWork: 500
   mc: {fileID: 6548164221349463959}
   isSetUp: 0
-  name: Proto APM
   prefab: {fileID: 2941611580773582538}
   showDirectionOnVisualize: 1
-  price: 6000
-  healthPercent: 100
-  monthsLifespanMin: 18
-  monthsLifespanMax: 24
-  penaltyForFix: 1.2
-  timeToFixMultiplier: 1.5
-  wattsPerHourIdle: 20
-  wattsPerHourWork: 500
   TimeManager: {fileID: 0}
   EconomyManager: {fileID: 0}
+  prefabLocation: 
 --- !u!114 &6527831780616597528
 MonoBehaviour:
   m_ObjectHideFlags: 0

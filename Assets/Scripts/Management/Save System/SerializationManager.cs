@@ -9,7 +9,7 @@ public class SerializationManager
 {
     public static bool Save(string saveName, object save)
     {
-        BinaryFormatter bFormatter = new BinaryFormatter();
+        BinaryFormatter bFormatter = GetBinaryFormatter();
 
         if (!Directory.Exists(Application.persistentDataPath + "/saves"))
         {
@@ -52,17 +52,21 @@ public class SerializationManager
         }
     }
 
-    public static BinaryFormatter GetBinaryFormatter() 
+    public static BinaryFormatter GetBinaryFormatter()
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
         SurrogateSelector selector = new SurrogateSelector();
 
         Vector3SerializationSurrogate vector3Surrogate = new Vector3SerializationSurrogate();
+        Vector2IntSerializationSurrogate vectorInt2Surrogate = new Vector2IntSerializationSurrogate();
+        Vector2SerializationSurrogate vector2Surrogate = new Vector2SerializationSurrogate();
         QuaternionSerializationSurrogate quaternionSurrogate = new QuaternionSerializationSurrogate();
         ColorSerializationSurrogate colorSurrogate = new ColorSerializationSurrogate();
 
         selector.AddSurrogate(typeof(Vector3), new StreamingContext(StreamingContextStates.All), vector3Surrogate);
+        selector.AddSurrogate(typeof(Vector2Int), new StreamingContext(StreamingContextStates.All), vectorInt2Surrogate);
+        selector.AddSurrogate(typeof(Vector2), new StreamingContext(StreamingContextStates.All), vector2Surrogate);
         selector.AddSurrogate(typeof(Quaternion), new StreamingContext(StreamingContextStates.All), quaternionSurrogate);
         selector.AddSurrogate(typeof(Color), new StreamingContext(StreamingContextStates.All), colorSurrogate);
 

@@ -139,7 +139,7 @@ public class RemoveSystem : MonoBehaviour
 
     public bool DeleteBuilding(Building b)
     {
-        decimal change = (decimal)((float)b.healthPercent / 100 * b.Price - (b.Price * GameManager.profile.removePenaltyMultiplier));
+        decimal change = (decimal)((float)b.Base.healthPercent / 100 * b.Base.Price - (b.Base.Price * GameManager.profile.removePenaltyMultiplier));
         if (!EconomyManager.instance.UpdateBalance(change))
         {
             Debug.LogWarning("Credit insufficient to remove this building!");
@@ -170,7 +170,7 @@ public class RemoveSystem : MonoBehaviour
             }
         }
 
-        BuildingSystem.RegisteredBuildings.Remove(b);
+        BuildingSystem.UnRegisterBuilding(b);
         Destroy(b.gameObject); // Destroy game object
         return true;
     }

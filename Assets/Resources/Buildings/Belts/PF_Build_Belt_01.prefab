@@ -683,21 +683,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dd24aa3e77d2c40883052ab649024e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Base:
+    name: Conveyor Belt
+    price: 50
+    workState: 0
+    monthsLifespanMin: 2
+    monthsLifespanMax: 3
+    penaltyForFix: 1
+    timeToFixMultiplier: 1
+    healthPercent: 100
+    monthsLifespan: 0
+    healthWaitEvents: []
+    isFixRunning: 0
+    wattsPerHourIdle: 55
+    wattsPerHourWork: 100
   mc: {fileID: 3838661984072794563}
   isSetUp: 0
-  name: Conveyor Belt
   prefab: {fileID: 6149695869599097917}
   showDirectionOnVisualize: 1
-  price: 50
-  healthPercent: 100
-  monthsLifespanMin: 2
-  monthsLifespanMax: 3
-  penaltyForFix: 1
-  timeToFixMultiplier: 1
-  wattsPerHourIdle: 55
-  wattsPerHourWork: 100
   TimeManager: {fileID: 0}
   EconomyManager: {fileID: 0}
+  prefabLocation: 
 --- !u!114 &5563025563349119533
 MonoBehaviour:
   m_ObjectHideFlags: 0

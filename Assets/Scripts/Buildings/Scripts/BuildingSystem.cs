@@ -1,18 +1,40 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class BuildingSystem : MonoBehaviour
 {
     [HideInInspector] public Building FocusedBuilding;
-    [HideInInspector] public static List<Building> RegisteredBuildings = new List<Building>();
     public LayerMask ignoreFocusLayers;
 
     [Header("Components")]
     public TimeManager TimeManager;
+
     public Camera MainCamera;
     public GridManager GridManager;
     public EconomyManager EconomyManager;
+
+    public static readonly List<Building> RegisteredBuildings = new List<Building>();
+
+    public static void RegisterBuilding(Building b)
+    {
+        RegisteredBuildings.Add(b);
+        BuildingSave toSave = new BuildingSave()
+        {
+            location = b.transform.position,
+            rotation = b.transform.rotation,
+            building = b.Base,
+            prefabLocation = b.prefabLocation
+        };
+        GameSave.current.WorldSaveData.PlacedBuildings.Add(toSave);
+    }
+
+    public static void UnRegisterBuilding(Building b)
+    {
+        RegisteredBuildings.Remove(b);
+        GameSave.current.WorldSaveData.PlacedBuildings.Where(bSave => bSave.building == b.Base);
+    }
 
     /// <summary>
     /// Main update loop for the BuildingSystem, refreshes the UI with OnBuildingUpdateUI
@@ -20,6 +42,15 @@ public class BuildingSystem : MonoBehaviour
     private void Update()
     {
         OnBuildingUpdateUI();
+    }
+
+    public void LoadAllBuildingsFromSave()
+    {
+        foreach (BuildingSave b in GameSave.current.WorldSaveData.PlacedBuildings)
+        {
+            Transform t = Instantiate(b.GetObj(), b.location, b.rotation);
+            t.GetComponent<Building>().Base = b.building;
+        }
     }
 
     /// <summary>
@@ -30,7 +61,7 @@ public class BuildingSystem : MonoBehaviour
     {
         b.TimeManager = TimeManager;
         b.EconomyManager = EconomyManager;
-        RegisteredBuildings.Add(b);
+        RegisterBuilding(b);
         b.Init();
 
         if (b.mc.BuildingIOManager.isConveyor)
@@ -63,33 +94,27 @@ public class BuildingSystem : MonoBehaviour
                     }
                     OnBuildingSelected(b);
                 }
-            } else
+            }
+            else
             {
                 if (FocusedBuilding)
                 {
                     OnBuildingDeselected();
-
                 }
             }
-        } else
+        }
+        else
         {
             if (FocusedBuilding)
             {
                 OnBuildingDeselected();
-
             }
         }
     }
 
-    public virtual void OnBuildingSelected(Building b)
-    { 
-        FocusedBuilding = b;    
-    }
+    public virtual void OnBuildingSelected(Building b) => FocusedBuilding = b;
 
-    public virtual void OnBuildingDeselected()
-    {
-        FocusedBuilding = null;
-    }
+    public virtual void OnBuildingDeselected() => FocusedBuilding = null;
 
     public virtual void OnBuildingUpdateUI() { }
 }

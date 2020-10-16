@@ -1,6 +1,4 @@
-﻿using System;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
@@ -8,17 +6,19 @@ public class GridManager : MonoBehaviour
 
     [Header("Components")]
     public BuildingManager BuildingManager;
+
     public EconomyManager EconomyManager;
     public Camera MainCamera;
     public GameObject removeModeEnabledText;
 
     [Header("Constant variables")]
     public float tileSize;
-    public LayerMask canPlaceIgnoreLayers;
 
+    public LayerMask canPlaceIgnoreLayers;
 
     [Header("Dynamic variables")]
     private bool isInBuildMode;
+
     [HideInInspector] public bool isInDeleteMode = false;
     [HideInInspector] public bool forceVisualizeAll;
 
@@ -36,13 +36,14 @@ public class GridManager : MonoBehaviour
     }
 
     private Building currentBuilding;
-    public Building APM1;
-    public Building APM2;
-    public Building APM3;
-    public Building conveyor;
+    public string APM1Location;
+    public string APM2Location;
+    public string APM3Location;
+    public string ConveyorLocation;
 
     [Header("Controls / Shortcuts")]
     public KeyCode flipBuildingRight = KeyCode.R;
+
     public KeyCode flipBuildingLeft = KeyCode.F;
 
     private Vector3 lastVisualize;
@@ -93,15 +94,12 @@ public class GridManager : MonoBehaviour
     [Tooltip("Used for drawing IO collision checks in the Scene view")]
     public bool debugMode = false;
 
-
     #region Unity Events
 
     private void Awake()
     {
         instance = this;
     }
-
-
 
     /// <summary>
     /// Main update loop handles the visualization and rotation, as well as the building procedure.
@@ -129,10 +127,8 @@ public class GridManager : MonoBehaviour
 
                 click = true;
                 lastClick = Time.unscaledTime;
-
             }
         }
-
         else if (Input.GetMouseButtonUp(0))
         {
             if (click)
@@ -140,10 +136,9 @@ public class GridManager : MonoBehaviour
                 click = false;
             }
         }
-
     }
 
-    #endregion
+    #endregion Unity Events
 
     #region Rotation
 
@@ -155,7 +150,6 @@ public class GridManager : MonoBehaviour
         if (Input.GetKeyDown(flipBuildingRight))
         {
             RotationChange *= Quaternion.Euler(0, 90, 0);
-
         }
         if (Input.GetKeyDown(flipBuildingLeft))
         {
@@ -163,9 +157,10 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    #endregion
+    #endregion Rotation
 
     #region Visualization
+
     /// <summary>
     /// Updates the visualization position, material and IOs
     /// </summary>
@@ -195,7 +190,6 @@ public class GridManager : MonoBehaviour
 
             canPlace = CanPlace(hit.Value, center);
 
-
             if (canPlace)
             {
                 visualization.GetComponent<MeshRenderer>().material = BuildingManager.greenArrow;
@@ -212,12 +206,11 @@ public class GridManager : MonoBehaviour
             b.mc.BuildingIOManager.UpdateArrows();
         }
 
-
         lastRotation = RotationChange;
         lastVisualize = center;
     }
 
-    #endregion
+    #endregion Visualization
 
     #region Building
 
@@ -263,7 +256,7 @@ public class GridManager : MonoBehaviour
         {
             Building b = visualization.GetComponent<Building>();
 
-            if (!EconomyManager.UpdateBalance(-(decimal)b.Price))
+            if (!EconomyManager.UpdateBalance(-(decimal)b.Base.Price))
                 return;
 
             visualization.gameObject.AddComponent<BoxCollider>();
@@ -286,10 +279,9 @@ public class GridManager : MonoBehaviour
                 visBuilding.mc.BuildingIOManager.UpdateIOPhysics();
             }
         }
-
     }
 
-    #endregion
+    #endregion Building
 
     #region Grid Utilities
 
@@ -331,7 +323,6 @@ public class GridManager : MonoBehaviour
         {
             x = buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
             z = buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
-
         }
         else
         {
@@ -358,7 +349,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    #endregion
+    #endregion Grid Utilities
 
     #region Events
 
@@ -402,16 +393,18 @@ public class GridManager : MonoBehaviour
         switch (buildingID)
         {
             case 1:
-                currentBuilding = APM1;
+                currentBuilding = GetBuildingFromLocation(APM1Location);
                 break;
+
             case 2:
-                currentBuilding = APM2;
+                currentBuilding = GetBuildingFromLocation(APM2Location);
                 break;
+
             case 3:
-                currentBuilding = APM3;
+                currentBuilding = GetBuildingFromLocation(APM3Location);
                 break;
         }
-        
+
         IsInBuildMode = true;
     }
 
@@ -421,9 +414,17 @@ public class GridManager : MonoBehaviour
     public void OnConveyorBuildButtonPressed()
     {
         DeconstructVisualization();
-        currentBuilding = conveyor;
+        currentBuilding = GetBuildingFromLocation(ConveyorLocation);
         IsInBuildMode = true;
+    }
+
+    public Building GetBuildingFromLocation(string resourcesLocation)
+    {
+        Transform tr = Resources.Load<Transform>(resourcesLocation);
+        Building b = tr.GetComponent<Building>();
+        b.prefabLocation = resourcesLocation;
+        return b;
     }
 }
 
-#endregion
+#endregion Events

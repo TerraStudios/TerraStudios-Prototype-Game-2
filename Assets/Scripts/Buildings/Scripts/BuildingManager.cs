@@ -45,6 +45,8 @@ public class BuildingManager : BuildingSystem
         ObjectPoolManager.instance.CreatePool(BrokenIndicator.gameObject, 50);
         ObjectPoolManager.instance.CreatePool(ErrorIndicator.gameObject, 50);
         ObjectPoolManager.instance.CreatePool(FixingIndicator.gameObject, 50);
+
+        LoadAllBuildingsFromSave();
     }
 
     //Static because the building manager doesn't have access to BuildingManager, and it doesn't make sense to put it in BuildingIOManager (multiple instances)
@@ -94,7 +96,7 @@ public class BuildingManager : BuildingSystem
         base.OnBuildingUpdateUI();
         if (FocusedBuilding)
         {
-            buildHealth.text = FocusedBuilding.healthPercent.ToString();
+            buildHealth.text = FocusedBuilding.Base.healthPercent.ToString();
             //onTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.On).Duration().ToString();
             //idleTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.Idle).Duration().ToString();
             //offTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.Off).Duration().ToString();
@@ -107,7 +109,7 @@ public class BuildingManager : BuildingSystem
     /// </summary>
     public void OnFixButtonPressed()
     {
-        if (FocusedBuilding.healthPercent != 100)
+        if (FocusedBuilding.Base.healthPercent != 100)
         {
             FocusedBuilding.Fix();
         }

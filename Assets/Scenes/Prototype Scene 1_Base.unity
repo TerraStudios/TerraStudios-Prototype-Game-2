@@ -794,12 +794,12 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1.595101e-15
+      value: -1.595101e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -2.8274248e-15
+      value: 2.8274248e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -834,12 +834,12 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1.595101e-15
+      value: -1.595101e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -2.8274248e-15
+      value: 2.8274248e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -1233,6 +1233,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1384009079}
+  - component: {fileID: 1384009090}
   - component: {fileID: 1384009078}
   - component: {fileID: 1384009080}
   - component: {fileID: 1384009082}
@@ -1249,7 +1250,6 @@ GameObject:
   - component: {fileID: 1384009094}
   - component: {fileID: 1384009085}
   - component: {fileID: 1384009081}
-  - component: {fileID: 1384009090}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1311,6 +1311,8 @@ MonoBehaviour:
   daysBeforeSeriousBankruptcy: 5
   daysBeforeGameOverBankruptcy: 7
   isInBankruptcy: 0
+  SeriousBankruptcyID: 0
+  GameOverID: 0
   currentBalanceText: {fileID: 1298953742}
 --- !u!114 &1384009081
 MonoBehaviour:
@@ -1346,11 +1348,10 @@ MonoBehaviour:
     m_Bits: 12800
   isInDeleteMode: 0
   forceVisualizeAll: 0
-  APM1: {fileID: 7947313054608314309, guid: c1fe1648509854e46be06abb82c9a485, type: 3}
-  APM2: {fileID: 704351341652983265, guid: 6325da437abe8d542971ff11daa8fc7a, type: 3}
-  APM3: {fileID: 704351341652983265, guid: 1e25b828af212fe49be104b5fd02a02b, type: 3}
-  conveyor: {fileID: 3826658444029601288, guid: 32643e6fe435b6543a6342d0a31649d1,
-    type: 3}
+  APM1Location: Buildings/APMs/PF_APM_Prot_1I_1O
+  APM2Location: Buildings/APMs/PF_APM_Prot_1I_2O
+  APM3Location: Buildings/APMs/PF_APM_Prot_2I_2O
+  ConveyorLocation: Buildings/Belts/PF_Build_Belt_01
   flipBuildingRight: 114
   flipBuildingLeft: 102
   visualization: {fileID: 0}
