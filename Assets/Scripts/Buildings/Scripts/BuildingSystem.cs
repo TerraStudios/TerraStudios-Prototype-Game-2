@@ -48,8 +48,11 @@ public class BuildingSystem : MonoBehaviour
     {
         foreach (BuildingSave b in GameSave.current.WorldSaveData.PlacedBuildings)
         {
-            Transform t = Instantiate(b.GetObj(), b.location, b.rotation);
-            t.GetComponent<Building>().Base = b.building;
+            Transform t = ObjectPoolManager.instance.ReuseObject(b.GetObj().gameObject, b.location, b.rotation).transform;
+            Building building = t.GetComponent<Building>();
+            building.Base = b.building;
+            RegisteredBuildings.Add(building);
+            SetUpBuilding(building, false);
         }
     }
 
@@ -57,12 +60,13 @@ public class BuildingSystem : MonoBehaviour
     /// Initializes all of the needed data for the building in question
     /// </summary>
     /// <param name="b"></param>
-    public void SetUpBuilding(Building b)
+    public void SetUpBuilding(Building b, bool register = true)
     {
         b.TimeManager = TimeManager;
         b.EconomyManager = EconomyManager;
-        RegisterBuilding(b);
-        b.Init();
+        if (register)
+            RegisterBuilding(b);
+        b.Init(!register);
 
         if (b.mc.BuildingIOManager.isConveyor)
         {
@@ -80,6 +84,9 @@ public class BuildingSystem : MonoBehaviour
             return;
 
         Ray ray = MainCamera.ScreenPointToRay(mousePos);
+
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(transform.position, transform.forward, 100.0F);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ~ignoreFocusLayers))
         {

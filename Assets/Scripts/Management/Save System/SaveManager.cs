@@ -13,6 +13,7 @@ public class SaveManager : MonoBehaviour
     public TMP_InputField GameSaveName;
 
     public string[] saveFiles;
+    public static bool saveLoaded;
 
     public void ShowLoadScreen()
     {
@@ -41,6 +42,7 @@ public class SaveManager : MonoBehaviour
 
     public void OnSaveSelected(string saveName)
     {
+        saveLoaded = true;
         GameSave.current = (GameSave)SerializationManager.Load(saveName);
         GameManager.instance.ResetGame();
     }

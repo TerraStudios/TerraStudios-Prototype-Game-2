@@ -72,8 +72,8 @@ public class BuildingIO : MonoBehaviour
     {
         IOMask = LayerMask.GetMask("IOPort");
 
-        if (BuildingManager.instance != null)
-        VisualizeArrow(BuildingManager.instance.blueArrow);
+        if (BuildingManager.instance != null && !SaveManager.saveLoaded)
+            VisualizeArrow(BuildingManager.instance.blueArrow);
     }
 
     #endregion

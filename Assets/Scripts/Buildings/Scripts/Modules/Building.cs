@@ -82,7 +82,7 @@ public class Building : MonoBehaviour
     /// <summary>
     /// Initializes the building's properties and work state.
     /// </summary>
-    public void Init()
+    public void Init(bool newBasePresent = false)
     {
         if (mc.BuildingIOManager != null)
             mc.BuildingIOManager.Init();
@@ -95,10 +95,18 @@ public class Building : MonoBehaviour
         isSetUp = true;
 
         HealthUpdateID = CallbackHandler.instance.RegisterCallback(OnHealthTimeUpdate);
-        StartWorkStateCounters();
-        GenerateBuildingHealth();
+
+        if (!newBasePresent)
+        {
+            StartWorkStateCounters();
+            GenerateBuildingHealth();
+        }
 
         originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
+        gameObject.AddComponent<BoxCollider>();
+        RemoveIndicator();
+        if (mc.BuildingIOManager)
+            mc.BuildingIOManager.UpdateIOPhysics();
     }
 
     #region Health Submodule
