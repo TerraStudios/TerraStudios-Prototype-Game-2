@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,8 +21,10 @@ public class BuildingIO : MonoBehaviour
 {
     [Tooltip("Toggles whether the BuildingIO is an input collider")]
     public bool isInput;
+
     [Tooltip("Toggles whether the BuildingIO is an exit collider")]
     public bool isOutput;
+
     [HideInInspector] public int ID;
     public MeshRenderer MeshRenderer;
     public Collider coll;
@@ -33,8 +34,10 @@ public class BuildingIO : MonoBehaviour
     [Header("Input Configuration")]
     [Tooltip("Determines whether an IO is a trashcan output")]
     public bool isTrashcanOutput;
+
     [Tooltip("Determines the items allowed to enter the building")]
     public ItemData[] itemsAllowedToEnter;
+
     [Tooltip("Determines the item categories allowed to enter the building")]
     public ItemCategory[] itemCategoriesAllowedToEnter;
 
@@ -72,33 +75,31 @@ public class BuildingIO : MonoBehaviour
     {
         IOMask = LayerMask.GetMask("IOPort");
 
-        if (BuildingManager.instance != null && !SaveManager.saveLoaded)
+        if (BuildingManager.instance != null)
             VisualizeArrow(BuildingManager.instance.blueArrow);
     }
 
-    #endregion
+    #endregion Initialization
 
     #region IO Trigger Events
 
     /// <summary>
     /// Event for when the visualization is moved. Currently it does the following:
-    /// - Call <see cref="Physics.OverlapBox(Vector3, Vector3, Quaternion, int)"/> with a layer mask limiting to only <see cref="BuildingIO"/>s 
+    /// - Call <see cref="Physics.OverlapBox(Vector3, Vector3, Quaternion, int)"/> with a layer mask limiting to only <see cref="BuildingIO"/>s
     /// - Loop through all of the resulting colliders and check whether they're inside or outside the <see cref="iosInside"/> list
     /// Depending on the result of the previous bullet point the method may call either <see cref="OnIOEnter(Collider)"/> or <see cref="OnIOExit(Collider)"/>.
-    /// 
+    ///
     /// </summary>
     public void OnVisualizationMoved()
     {
-        //check for any collisions inside of box 
+        //check for any collisions inside of box
         Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale * .5f, Quaternion.identity, IOMask);
-
 
         foreach (Collider inside in iosInside.ToList())
         {
             BuildingIO hitIO = inside.GetComponent<BuildingIO>();
             if (!IOManager.Equals(hitIO.IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
             {
-
                 iosInside.Remove(inside);
                 OnIOExit(hitIO);
             }
@@ -114,8 +115,6 @@ public class BuildingIO : MonoBehaviour
                 OnIOEnter(hitIO); //on enter
             }
         }
-
-
     }
 
     /// <summary>
@@ -135,7 +134,6 @@ public class BuildingIO : MonoBehaviour
     /// <param name="io">The <see cref="BuildingIO"/> that entered</param>
     private void OnIOEnter(BuildingIO io)
     {
-
         if (io)
         {
             if (!attachedIO && !io.attachedIO)
@@ -144,12 +142,8 @@ public class BuildingIO : MonoBehaviour
                 io.onPort = this;
             }
 
-
-
             if (IsInputSupported(io))
             {
-
-
                 VisualizeArrow(BuildingManager.instance.greenArrow); //visualize green arrow
 
                 if (!attachedIO && !io.attachedIO)
@@ -160,7 +154,6 @@ public class BuildingIO : MonoBehaviour
             }
             else
             {
-
                 VisualizeArrow(BuildingManager.instance.redArrow); //visualize red arrow
 
                 if (!attachedIO && !io.attachedIO)
@@ -178,7 +171,6 @@ public class BuildingIO : MonoBehaviour
     /// <param name="io">The <see cref="BuildingIO"/> that exited</param>
     private void OnIOExit(BuildingIO io)
     {
-
         if (io)
         {
             onPort = null;
@@ -190,7 +182,6 @@ public class BuildingIO : MonoBehaviour
             }
             else
             {
-
                 VisualizeArrow(BuildingManager.instance.blueArrow);
 
                 if (!attachedIO && !io.attachedIO)
@@ -200,7 +191,6 @@ public class BuildingIO : MonoBehaviour
                 }
             }
         }
-
     }
 
     /// <summary>
@@ -239,7 +229,8 @@ public class BuildingIO : MonoBehaviour
     {
         itemInside = null;
     }
-    #endregion
+
+    #endregion IO Trigger Events
 
     #region Item Instantiation
 
@@ -266,7 +257,7 @@ public class BuildingIO : MonoBehaviour
         StartCoroutine(ProcessSpawn(itemToSpawn, timeToSpawn));
     }
 
-    IEnumerator ProcessSpawn(ItemData itemToSpawn, int timeToSpawn = 1)
+    private IEnumerator ProcessSpawn(ItemData itemToSpawn, int timeToSpawn = 1)
     {
         yield return new WaitUntil(() => !itemInside);
         yield return new WaitForSeconds(timeToSpawn);
@@ -280,7 +271,7 @@ public class BuildingIO : MonoBehaviour
 
         ObjectPoolManager.instance.ReuseObject(itemToSpawn.obj.gameObject, spawnPos, Quaternion.identity);
         //An item has been instantiated, attempt to allow APM (if present) to insert an item
-        if (IOManager.mc.APM) 
+        if (IOManager.mc.APM)
         {
             IOManager.IOForEach(io =>
             {
@@ -288,13 +279,13 @@ public class BuildingIO : MonoBehaviour
                 {
                     IOManager.ProceedItemEnter(io.itemInside.gameObject, io.itemInside.data, io.ID);
                 }
-            });        
+            });
         }
 
         FinishSpawn();
     }
 
-    void FinishSpawn()
+    private void FinishSpawn()
     {
         itemsToSpawn.Dequeue();
 
@@ -305,15 +296,15 @@ public class BuildingIO : MonoBehaviour
         }
     }
 
-    #endregion
+    #endregion Item Instantiation
 
     #region Indicator Visualization
 
     /// <summary>
     /// Attempts to visualize an arrow, using the current <see cref="IOAttachmentStatus"/>
-    /// 
-    /// - If the arrow is already visible, only the material will be updated 
-    /// - If the arrow is <b>not</b> visible, an arrow will be instantiated using the <see cref="ObjectPoolManager"/>. 
+    ///
+    /// - If the arrow is already visible, only the material will be updated
+    /// - If the arrow is <b>not</b> visible, an arrow will be instantiated using the <see cref="ObjectPoolManager"/>.
     /// </summary>
     public void VisualizeArrow()
     {
@@ -322,9 +313,11 @@ public class BuildingIO : MonoBehaviour
             case IOAttachmentStatus.Unconnected:
                 VisualizeArrow(BuildingManager.instance.blueArrow);
                 break;
+
             case IOAttachmentStatus.InvalidConnection:
                 VisualizeArrow(BuildingManager.instance.redArrow);
                 break;
+
             case IOAttachmentStatus.SuccessfulConnection:
                 VisualizeArrow(BuildingManager.instance.greenArrow);
                 break;
@@ -333,9 +326,9 @@ public class BuildingIO : MonoBehaviour
 
     /// <summary>
     /// Attempts to visualize an arrow with a specific material
-    /// 
-    /// - If the arrow is already visible, only the material will be updated 
-    /// - If the arrow is <b>not</b> visible, an arrow will be instantiated using the <see cref="ObjectPoolManager"/>. 
+    ///
+    /// - If the arrow is already visible, only the material will be updated
+    /// - If the arrow is <b>not</b> visible, an arrow will be instantiated using the <see cref="ObjectPoolManager"/>.
     /// </summary>
     /// <param name="material">The material for the <see cref="arrow"/> <see cref="GameObject"/>.</param>
     public void VisualizeArrow(Material material)
@@ -353,7 +346,6 @@ public class BuildingIO : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Devisualizes the indicator is one is currently visible.
     /// </summary>
@@ -366,16 +358,15 @@ public class BuildingIO : MonoBehaviour
             visualizeIO = false;
             arrow = null;
         }
-
     }
 
-    #endregion
+    #endregion Indicator Visualization
 
     #region IO Update
 
     /// <summary>
     /// Attempts to make a link if the <see cref="onPort"/> variable isn't null
-    /// 
+    ///
     /// - If the IO was attached successfully, the IO will call <see cref="Devisualize()"/> and set the attachedIO for the other IO
     /// </summary>
     public void MakeLink()
@@ -388,7 +379,6 @@ public class BuildingIO : MonoBehaviour
             attachedIO.attachedIO = this;
             attachedIO.status = status;
         }
-
     }
 
     public void Unlink()
@@ -425,12 +415,12 @@ public class BuildingIO : MonoBehaviour
 
         if (other.attachedIO) return false; //Building already has an attached IO there, return red
 
-        if (!GridManager.instance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
+        if (GridManager.instance.visualization && !GridManager.instance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
 
         return toReturn;
     }
 
-    #endregion
+    #endregion IO Update
 
     #region Editor
 
@@ -440,7 +430,6 @@ public class BuildingIO : MonoBehaviour
     /// </summary>
     private void OnDrawGizmosSelected()
     {
-
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, transform.forward * 0.5f);
 
@@ -450,6 +439,5 @@ public class BuildingIO : MonoBehaviour
         Gizmos.DrawRay(transform.position + transform.forward * 0.5f, left * 0.15f);
     }
 
-    #endregion
-
+    #endregion Editor
 }

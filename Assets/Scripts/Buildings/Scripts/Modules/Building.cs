@@ -84,8 +84,13 @@ public class Building : MonoBehaviour
     /// </summary>
     public void Init(bool newBasePresent = false)
     {
+        gameObject.AddComponent<BoxCollider>();
         if (mc.BuildingIOManager != null)
+        {
             mc.BuildingIOManager.Init();
+            mc.BuildingIOManager.UpdateIOPhysics();
+            mc.BuildingIOManager.LinkAll();
+        }
         else
             Debug.LogWarning("Skipping Building IO Initialization");
 
@@ -103,10 +108,7 @@ public class Building : MonoBehaviour
         }
 
         originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
-        gameObject.AddComponent<BoxCollider>();
         RemoveIndicator();
-        if (mc.BuildingIOManager)
-            mc.BuildingIOManager.UpdateIOPhysics();
     }
 
     #region Health Submodule

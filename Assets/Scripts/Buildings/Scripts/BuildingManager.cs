@@ -46,6 +46,7 @@ public class BuildingManager : BuildingSystem
         ObjectPoolManager.instance.CreatePool(ErrorIndicator.gameObject, 50);
         ObjectPoolManager.instance.CreatePool(FixingIndicator.gameObject, 50);
 
+        ClearRegisteredBuildings();
         LoadAllBuildingsFromSave();
     }
 

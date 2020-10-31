@@ -46,7 +46,6 @@ public class BuildingIOManager : MonoBehaviour
     public void Init()
     {
         IOForEach(io => io.Init());
-        LinkAll();
 
         for (int i = 0; i < inputs.Length; i++)
             inputs[i].ID = i;

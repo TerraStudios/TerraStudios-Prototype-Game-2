@@ -17,7 +17,22 @@ public class BuildingSystem : MonoBehaviour
 
     public static readonly List<Building> RegisteredBuildings = new List<Building>();
 
-    public static void RegisterBuilding(Building b)
+    private GameObject _buildingHolder;
+
+    private GameObject buildingHolder
+    {
+        get
+        {
+            if (_buildingHolder == null)
+            {
+                _buildingHolder = new GameObject("Buildings");
+            }
+
+            return _buildingHolder;
+        }
+    }
+
+    public static void RegisterBuilding(Building b, bool save = true)
     {
         RegisteredBuildings.Add(b);
         BuildingSave toSave = new BuildingSave()
@@ -27,7 +42,8 @@ public class BuildingSystem : MonoBehaviour
             building = b.Base,
             prefabLocation = b.prefabLocation
         };
-        GameSave.current.WorldSaveData.PlacedBuildings.Add(toSave);
+        if (save)
+            GameSave.current.WorldSaveData.PlacedBuildings.Add(toSave);
     }
 
     public static void UnRegisterBuilding(Building b)
@@ -35,6 +51,8 @@ public class BuildingSystem : MonoBehaviour
         RegisteredBuildings.Remove(b);
         GameSave.current.WorldSaveData.PlacedBuildings.Where(bSave => bSave.building == b.Base);
     }
+
+    public void ClearRegisteredBuildings() { RegisteredBuildings.Clear(); }
 
     /// <summary>
     /// Main update loop for the BuildingSystem, refreshes the UI with OnBuildingUpdateUI
@@ -48,10 +66,9 @@ public class BuildingSystem : MonoBehaviour
     {
         foreach (BuildingSave b in GameSave.current.WorldSaveData.PlacedBuildings)
         {
-            Transform t = ObjectPoolManager.instance.ReuseObject(b.GetObj().gameObject, b.location, b.rotation).transform;
+            Transform t = Instantiate(b.GetObj().gameObject, b.location, b.rotation).transform;
             Building building = t.GetComponent<Building>();
             building.Base = b.building;
-            RegisteredBuildings.Add(building);
             SetUpBuilding(building, false);
         }
     }
@@ -62,10 +79,10 @@ public class BuildingSystem : MonoBehaviour
     /// <param name="b"></param>
     public void SetUpBuilding(Building b, bool register = true)
     {
+        b.transform.parent = buildingHolder.transform;
         b.TimeManager = TimeManager;
         b.EconomyManager = EconomyManager;
-        if (register)
-            RegisterBuilding(b);
+        RegisterBuilding(b, register);
         b.Init(!register);
 
         if (b.mc.BuildingIOManager.isConveyor)

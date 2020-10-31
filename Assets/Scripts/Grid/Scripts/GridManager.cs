@@ -173,7 +173,7 @@ public class GridManager : MonoBehaviour
 
             Building b = visualization.GetComponent<Building>();
 
-            canPlace = CanPlace(hit.Value, center);
+            canPlace = CanPlace(center);
 
             if (canPlace)
             {
@@ -206,7 +206,7 @@ public class GridManager : MonoBehaviour
     private void ConstructVisualization(Vector3 center)
     {
         BuildingManager.OnBuildingDeselected();
-        TimeEngine.IsPaused = true;
+        //TimeEngine.IsPaused = true;
         visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
         visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.DirectionIndicator);
         tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
@@ -237,7 +237,7 @@ public class GridManager : MonoBehaviour
 
         if (center == Vector3.zero)
             return;
-        if (CanPlace(hit.Value, center))
+        if (CanPlace(center))
         {
             Building b = visualization.GetComponent<Building>();
 
@@ -259,14 +259,13 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Returns whether the currently selected building can be placed with a pivot point from a RaycastHit.
     /// </summary>
-    /// <param name="hit">The returned RaycastHit (most likely from FindGridHit())</param>
     /// <param name="grid">The grid position of the vector3 returned by the RaycastHit</param>
-    /// <returns></returns>
-    private bool CanPlace(RaycastHit hit, Vector3 grid)
+    /// <returns>Whether the current building can be placed at this position</returns>
+    private bool CanPlace(Vector3 grid)
     {
         Vector2 buildingSize = currentBuilding.GetBuildSize();
 
-        ExtDebug.DrawBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f, 1f, buildingSize.y * 0.5f), RotationChange, Color.red);
+        ExtDebug.DrawBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange, Color.red);
 
         if (Physics.CheckBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange, ~canPlaceIgnoreLayers))
             return false;
@@ -341,7 +340,7 @@ public class GridManager : MonoBehaviour
         }
         else
         {
-            TimeEngine.IsPaused = false;
+            //TimeEngine.IsPaused = false;
             visualization = null;
             if (!forceVisualizeAll)
                 foreach (Building b in BuildingSystem.RegisteredBuildings)

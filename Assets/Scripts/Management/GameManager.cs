@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 
     public void InitGame() 
     {
-        
+        Time.timeScale = GameSave.current.TimeSaveData.timeMultiplier;
     }
 
     public void GameOver() 
