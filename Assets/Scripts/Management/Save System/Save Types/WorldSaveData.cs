@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Contains data to save for each building
+/// </summary>
 [Serializable]
 public class BuildingSave
 {
@@ -12,12 +15,15 @@ public class BuildingSave
     public BuildingBase building;
     public string prefabLocation;
 
-    public Transform GetObj() 
+    public Transform GetObj()
     {
         return Resources.Load<Transform>(prefabLocation);
     }
 }
 
+/// <summary>
+/// Contains data to save about the world
+/// </summary>
 [Serializable]
 public class WorldSaveData
 {

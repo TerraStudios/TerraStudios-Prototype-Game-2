@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
+/// <summary>
+/// Stores components for the game save button
+/// </summary>
 public class GameSaveBtn : MonoBehaviour
 {
     public TMP_Text SaveName;

@@ -1,14 +1,17 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Loads, Unloads the game scenes
+/// </summary>
 public class SceneHandler : MonoBehaviour
 {
     public static SceneHandler instance;
 
     [Header("Build Indexes")]
     public int mainMenuSceneIndex;
+
     public int baseSceneIndex;
     public int staticSceneIndex;
 
@@ -23,7 +26,7 @@ public class SceneHandler : MonoBehaviour
         instance = this;
     }
 
-    public void UnloadMainMenu() 
+    public void UnloadMainMenu()
     {
         SceneManager.UnloadSceneAsync(mainMenuSceneIndex);
     }

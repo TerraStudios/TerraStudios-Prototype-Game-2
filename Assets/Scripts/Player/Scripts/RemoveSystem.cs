@@ -1,28 +1,32 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+﻿using System;
 using System.Collections.Generic;
 using Tayx.Graphy.Utils.NumString;
+using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using System;
+using UnityEngine.UI;
 
 public class RemoveSystem : MonoBehaviour
 {
     [Header("UI Components")]
     public GameObject RemovePanel;
+
     public Slider brushSize;
     public TMP_Text brushText;
 
     [Header("Components")]
     public GameManager GameManager;
+
     public GridManager GridManager;
 
     [Header("Variables")]
     public LayerMask buildingLayer;
+
     public LayerMask itemsLayer;
 
     [Header("Dynamic variables")]
     public bool removeModeEnabled;
+
     private Tuple<List<ItemBehaviour>, List<Building>> inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
 
     public static RemoveSystem instance;
@@ -48,13 +52,13 @@ public class RemoveSystem : MonoBehaviour
                     if (!DeleteItem(t.data, t.gameObject))
                         return;
                 }
-                    
+
                 foreach (Building b in inRange.Item2)
                 {
                     if (!DeleteBuilding(b))
                         return;
                 }
-                    
+
                 inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
             }
 
@@ -81,7 +85,7 @@ public class RemoveSystem : MonoBehaviour
         }
     }
 
-    public void OnRemoveButtonPressed() 
+    public void OnRemoveButtonPressed()
     {
         RemovePanel.SetActive(true);
         removeModeEnabled = true;
@@ -89,7 +93,7 @@ public class RemoveSystem : MonoBehaviour
         TimeEngine.IsPaused = true;
     }
 
-    public void OnDisableRemoveButtonPressed() 
+    public void OnDisableRemoveButtonPressed()
     {
         RemovePanel.SetActive(false);
         removeModeEnabled = false;
@@ -118,7 +122,7 @@ public class RemoveSystem : MonoBehaviour
             {
                 buildingsToReturn.Add(hit.transform.GetComponent<Building>());
             }
-                
+
         if (RemoveItems)
             foreach (Collider hit in Physics.OverlapBox(snappedPos, scale, Quaternion.identity, itemsLayer))
             {
@@ -128,7 +132,7 @@ public class RemoveSystem : MonoBehaviour
         inRange = new Tuple<List<ItemBehaviour>, List<Building>>(itemsToReturn, buildingsToReturn);
     }
 
-    private Vector3 GetSnappedPos() 
+    private Vector3 GetSnappedPos()
     {
         RaycastHit? gridHit = GridManager.instance.FindGridHit();
         if (gridHit == null) return default;
@@ -187,7 +191,6 @@ public class RemoveSystem : MonoBehaviour
                 return false;
             }
         }
-            
         else
         {
             decimal change = (decimal)(data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.profile.removePenaltyMultiplier));
@@ -203,7 +206,7 @@ public class RemoveSystem : MonoBehaviour
         return true;
     }
 
-    public void OnBrushSliderValueChanged() 
+    public void OnBrushSliderValueChanged()
     {
         float brushSizeToDisplay = brushSize.value + 1;
         brushText.text = brushSizeToDisplay + "x" + brushSizeToDisplay;
@@ -211,7 +214,7 @@ public class RemoveSystem : MonoBehaviour
 
     // subtract == true => Decrease value by 1
     // subtract == false => Increase value by 1
-    public void OnManualBrushSizeChange(bool subtract) 
+    public void OnManualBrushSizeChange(bool subtract)
     {
         float newBrushSize;
         if (subtract)
@@ -226,7 +229,7 @@ public class RemoveSystem : MonoBehaviour
             if (newBrushSize > brushSize.maxValue)
                 newBrushSize = brushSize.maxValue;
         }
-            
+
         brushSize.value = newBrushSize;
         brushText.text = (newBrushSize + 1) + "x" + (newBrushSize + 1);
     }

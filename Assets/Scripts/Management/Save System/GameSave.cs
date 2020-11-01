@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿/// <summary>
+/// Contains all variables that are stored inside a game save
+/// </summary>
 [System.Serializable]
 public class GameSave
 {
     private static GameSave _current;
+
     public static GameSave current
     {
         get

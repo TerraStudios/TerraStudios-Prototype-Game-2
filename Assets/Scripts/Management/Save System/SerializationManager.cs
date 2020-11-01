@@ -1,12 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-public class SerializationManager
+/// <summary>
+/// Saves and loads game saves
+/// </summary>
+public static class SerializationManager
 {
+    /// <summary>
+    /// Save game save
+    /// </summary>
+    /// <param name="saveName">The name of the save. Example "exampleSave"</param>
+    /// <param name="save">The game save to save</param>
+    /// <returns>Whether the save was successful</returns>
     public static bool Save(string saveName, object save)
     {
         BinaryFormatter bFormatter = GetBinaryFormatter();
@@ -25,6 +32,11 @@ public class SerializationManager
         return true;
     }
 
+    /// <summary>
+    /// Load game save
+    /// </summary>
+    /// <param name="path">The path to the save file</param>
+    /// <returns>Whether the load was successful</returns>
     public static object Load(string path)
     {
         if (!File.Exists(path))
@@ -52,6 +64,10 @@ public class SerializationManager
         }
     }
 
+    /// <summary>
+    /// Generated a binary formatter with all serialization surrogates
+    /// </summary>
+    /// <returns>BinaryFormatter ready to be used for serialization/deserialization of the game saves</returns>
     public static BinaryFormatter GetBinaryFormatter()
     {
         BinaryFormatter formatter = new BinaryFormatter();
