@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Globalization;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,7 +28,15 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
+
+        DontDestroyOnLoad(this);
 
         // Game Profile always has higher priority than User Profile
 
@@ -44,6 +53,22 @@ public class GameManager : MonoBehaviour
             currentCultureTimeDate = CultureInfo.CurrentCulture;
 
         Log.DEBUG_MODE = DebugMode; //Set the debug mode for logging
+    }
+
+    public void ResetGame() 
+    {
+        StartCoroutine(ResetGameAction());
+    }
+
+    private IEnumerator ResetGameAction()
+    {
+        yield return StartCoroutine(SceneHandler.instance.ReloadLevelAction());
+        InitGame();
+    }
+
+    public void InitGame() 
+    {
+        Time.timeScale = GameSave.current.TimeSaveData.timeMultiplier;
     }
 
     public void GameOver() 

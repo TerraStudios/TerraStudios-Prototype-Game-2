@@ -22,7 +22,12 @@ public class TimeManager : TimeSystem
 
     public void Init()
     {
-        StartCounting(DateTime.Now);
+        if (GameSave.current.TimeSaveData.currentTime == default)
+            StartCounting(DateTime.Now);
+        else
+            StartCounting(GameSave.current.TimeSaveData.currentTime);
+
+        OnCounterTick();
 
         PauseButton.onClick.AddListener(() => OnSpeedButtonClicked(PauseButton));
         x1Button.onClick.AddListener(() => OnSpeedButtonClicked(x1Button));

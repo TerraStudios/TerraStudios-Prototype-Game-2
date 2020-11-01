@@ -1,6 +1,4 @@
-﻿using System;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
@@ -8,17 +6,19 @@ public class GridManager : MonoBehaviour
 
     [Header("Components")]
     public BuildingManager BuildingManager;
+
     public EconomyManager EconomyManager;
     public Camera MainCamera;
     public GameObject removeModeEnabledText;
 
     [Header("Constant variables")]
     public float tileSize;
-    public LayerMask canPlaceIgnoreLayers;
 
+    public LayerMask canPlaceIgnoreLayers;
 
     [Header("Dynamic variables")]
     private bool isInBuildMode;
+
     [HideInInspector] public bool isInDeleteMode = false;
     [HideInInspector] public bool forceVisualizeAll;
 
@@ -36,13 +36,14 @@ public class GridManager : MonoBehaviour
     }
 
     private Building currentBuilding;
-    public Building APM1;
-    public Building APM2;
-    public Building APM3;
-    public Building conveyor;
+    public string APM1Location;
+    public string APM2Location;
+    public string APM3Location;
+    public string ConveyorLocation;
 
     [Header("Controls / Shortcuts")]
     public KeyCode flipBuildingRight = KeyCode.R;
+
     public KeyCode flipBuildingLeft = KeyCode.F;
 
     private Vector3 lastVisualize;
@@ -67,21 +68,6 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private GameObject _buildingHolder;
-
-    private GameObject buildingHolder
-    {
-        get
-        {
-            if (_buildingHolder == null)
-            {
-                _buildingHolder = new GameObject("Buildings");
-            }
-
-            return _buildingHolder;
-        }
-    }
-
     private bool isFlipped;
     private bool click = false;
 
@@ -93,15 +79,12 @@ public class GridManager : MonoBehaviour
     [Tooltip("Used for drawing IO collision checks in the Scene view")]
     public bool debugMode = false;
 
-
     #region Unity Events
 
     private void Awake()
     {
         instance = this;
     }
-
-
 
     /// <summary>
     /// Main update loop handles the visualization and rotation, as well as the building procedure.
@@ -129,10 +112,8 @@ public class GridManager : MonoBehaviour
 
                 click = true;
                 lastClick = Time.unscaledTime;
-
             }
         }
-
         else if (Input.GetMouseButtonUp(0))
         {
             if (click)
@@ -140,10 +121,9 @@ public class GridManager : MonoBehaviour
                 click = false;
             }
         }
-
     }
 
-    #endregion
+    #endregion Unity Events
 
     #region Rotation
 
@@ -155,7 +135,6 @@ public class GridManager : MonoBehaviour
         if (Input.GetKeyDown(flipBuildingRight))
         {
             RotationChange *= Quaternion.Euler(0, 90, 0);
-
         }
         if (Input.GetKeyDown(flipBuildingLeft))
         {
@@ -163,9 +142,10 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    #endregion
+    #endregion Rotation
 
     #region Visualization
+
     /// <summary>
     /// Updates the visualization position, material and IOs
     /// </summary>
@@ -193,8 +173,7 @@ public class GridManager : MonoBehaviour
 
             Building b = visualization.GetComponent<Building>();
 
-            canPlace = CanPlace(hit.Value, center);
-
+            canPlace = CanPlace(center);
 
             if (canPlace)
             {
@@ -212,12 +191,11 @@ public class GridManager : MonoBehaviour
             b.mc.BuildingIOManager.UpdateArrows();
         }
 
-
         lastRotation = RotationChange;
         lastVisualize = center;
     }
 
-    #endregion
+    #endregion Visualization
 
     #region Building
 
@@ -228,7 +206,7 @@ public class GridManager : MonoBehaviour
     private void ConstructVisualization(Vector3 center)
     {
         BuildingManager.OnBuildingDeselected();
-        TimeEngine.IsPaused = true;
+        //TimeEngine.IsPaused = true;
         visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
         visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.DirectionIndicator);
         tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
@@ -259,51 +237,35 @@ public class GridManager : MonoBehaviour
 
         if (center == Vector3.zero)
             return;
-        if (CanPlace(hit.Value, center))
+        if (CanPlace(center))
         {
             Building b = visualization.GetComponent<Building>();
 
-            if (!EconomyManager.UpdateBalance(-(decimal)b.Price))
+            if (!EconomyManager.UpdateBalance(-(decimal)b.Base.Price))
                 return;
 
-            visualization.gameObject.AddComponent<BoxCollider>();
             visualization.GetComponent<MeshRenderer>().material = tempMat;
 
             BuildingManager.SetUpBuilding(b);
-            b.RemoveIndicator();
-
-            b.mc.BuildingIOManager.UpdateIOPhysics();
-            b.mc.BuildingIOManager.LinkAll();
 
             IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
-
-            b.gameObject.transform.parent = buildingHolder.transform;
-
-            if (visualization)
-            {
-                Building visBuilding = visualization.GetComponent<Building>();
-
-                visBuilding.mc.BuildingIOManager.UpdateIOPhysics();
-            }
         }
-
     }
 
-    #endregion
+    #endregion Building
 
     #region Grid Utilities
 
     /// <summary>
     /// Returns whether the currently selected building can be placed with a pivot point from a RaycastHit.
     /// </summary>
-    /// <param name="hit">The returned RaycastHit (most likely from FindGridHit())</param>
     /// <param name="grid">The grid position of the vector3 returned by the RaycastHit</param>
-    /// <returns></returns>
-    private bool CanPlace(RaycastHit hit, Vector3 grid)
+    /// <returns>Whether the current building can be placed at this position</returns>
+    private bool CanPlace(Vector3 grid)
     {
         Vector2 buildingSize = currentBuilding.GetBuildSize();
 
-        ExtDebug.DrawBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f, 1f, buildingSize.y * 0.5f), RotationChange, Color.red);
+        ExtDebug.DrawBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange, Color.red);
 
         if (Physics.CheckBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange, ~canPlaceIgnoreLayers))
             return false;
@@ -331,7 +293,6 @@ public class GridManager : MonoBehaviour
         {
             x = buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
             z = buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
-
         }
         else
         {
@@ -358,7 +319,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    #endregion
+    #endregion Grid Utilities
 
     #region Events
 
@@ -379,7 +340,7 @@ public class GridManager : MonoBehaviour
         }
         else
         {
-            TimeEngine.IsPaused = false;
+            //TimeEngine.IsPaused = false;
             visualization = null;
             if (!forceVisualizeAll)
                 foreach (Building b in BuildingSystem.RegisteredBuildings)
@@ -402,16 +363,18 @@ public class GridManager : MonoBehaviour
         switch (buildingID)
         {
             case 1:
-                currentBuilding = APM1;
+                currentBuilding = GetBuildingFromLocation(APM1Location);
                 break;
+
             case 2:
-                currentBuilding = APM2;
+                currentBuilding = GetBuildingFromLocation(APM2Location);
                 break;
+
             case 3:
-                currentBuilding = APM3;
+                currentBuilding = GetBuildingFromLocation(APM3Location);
                 break;
         }
-        
+
         IsInBuildMode = true;
     }
 
@@ -421,9 +384,17 @@ public class GridManager : MonoBehaviour
     public void OnConveyorBuildButtonPressed()
     {
         DeconstructVisualization();
-        currentBuilding = conveyor;
+        currentBuilding = GetBuildingFromLocation(ConveyorLocation);
         IsInBuildMode = true;
+    }
+
+    public Building GetBuildingFromLocation(string resourcesLocation)
+    {
+        Transform tr = Resources.Load<Transform>(resourcesLocation);
+        Building b = tr.GetComponent<Building>();
+        b.prefabLocation = resourcesLocation;
+        return b;
     }
 }
 
-#endregion
+#endregion Events

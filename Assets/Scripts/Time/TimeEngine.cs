@@ -18,11 +18,9 @@ public class TimeEngine : MonoBehaviour
     [Tooltip("The default multiplier for time-based operations")]
     public int defaultTimeMultiplier;
 
-    [Header("Dynamic variables")]
-    private static int timeMultiplier;
     public static int TimeMultiplier
     {
-        get => timeMultiplier;
+        get => GameSave.current.TimeSaveData.timeMultiplier;
         set
         {
             Time.timeScale = value;
@@ -30,14 +28,30 @@ public class TimeEngine : MonoBehaviour
             {
                 Debug.LogError("Attempting to apply value for TimeMultiplier <= 0. That's not allowed. Use TimeEngine.isPaused instead, if you want to pause time!");
                 return;
-            } 
-            timeMultiplier = value;
+            }
+
+            GameSave.current.TimeSaveData.timeMultiplier = value;
         }
     }
 
-    public static bool IsPaused 
+    // Used for saving ONLY
+    public static bool IsPaused_Save
     {
-        get => isPaused;
+        set
+        {
+            if (PauseMenu.isOpen)
+                GameSave.current.TimeSaveData.isPaused = PauseMenu.wasPaused;
+            else
+                GameSave.current.TimeSaveData.isPaused = value;
+        }
+    }
+
+    private static bool _isPaused;
+
+    // Used for ingame processes
+    public static bool IsPaused
+    {
+        get => _isPaused;
         set
         {
             if (value)
@@ -46,19 +60,20 @@ public class TimeEngine : MonoBehaviour
             }
             else
                 Time.timeScale = TimeMultiplier;
-                
-            isPaused = value;
+
+            IsPaused_Save = value;
+            _isPaused = value;
         }
     }
 
-    [Tooltip("Whether the time is currently paused or not")]
-    private static bool isPaused;
-    [Tooltip("The current DateTime of the game")]
-    public DateTime CurrentTime;
+    public DateTime CurrentTime 
+    {
+        get => GameSave.current.TimeSaveData.currentTime;
+        set => GameSave.current.TimeSaveData.currentTime = value;
+    }
 
     public void StartClock() 
     {
-        TimeMultiplier = 1;
         thread = new Thread(new ThreadStart(CounterWork));
         thread.Start();
     }
@@ -91,5 +106,7 @@ public class TimeEngine : MonoBehaviour
     {
         if (thread != null)
             thread.Abort();
+
+        _isPaused = false;
     }
 }

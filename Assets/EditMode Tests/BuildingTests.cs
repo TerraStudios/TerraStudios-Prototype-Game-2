@@ -44,14 +44,14 @@ namespace Assets.Tests
                 {
                     Assert.IsNotEmpty(building.name, $"A Building ({go.name}) was found with an empty name");
                     //Assert.AreNotEqual(building.EconomyManager.)
-                    Assert.AreNotEqual(building.price, 0, $"{building.name} found with a price of 0");
-                    Assert.AreNotEqual(building.healthPercent, 0, $"{building.name} found with a health percent of 0");
-                    Assert.AreNotEqual(building.monthsLifespanMax, 0, $"{building.name} found with a months lifespan max of 0");
-                    Assert.AreNotEqual(building.monthsLifespanMin, 0, $"{building.name} found with a months lifespan min of 0");
-                    Assert.AreNotEqual(building.penaltyForFix, 0, $"{building.name} found with a penalty for fix of 0");
-                    Assert.AreNotEqual(building.timeToFixMultiplier, 0, $"{building.name} found with a time to fix multiplier of 0");
-                    Assert.AreNotEqual(building.wattsPerHourIdle, 0, $"{building.name} found with a watts per hour idle of 0");
-                    Assert.AreNotEqual(building.wattsPerHourWork, 0, $"{building.name} found with a watts per hour work of 0");
+                    Assert.AreNotEqual(building.Base.price, 0, $"{building.name} found with a price of 0");
+                    Assert.AreNotEqual(building.Base.healthPercent, 0, $"{building.name} found with a health percent of 0");
+                    Assert.AreNotEqual(building.Base.monthsLifespanMax, 0, $"{building.name} found with a months lifespan max of 0");
+                    Assert.AreNotEqual(building.Base.monthsLifespanMin, 0, $"{building.name} found with a months lifespan min of 0");
+                    Assert.AreNotEqual(building.Base.penaltyForFix, 0, $"{building.name} found with a penalty for fix of 0");
+                    Assert.AreNotEqual(building.Base.timeToFixMultiplier, 0, $"{building.name} found with a time to fix multiplier of 0");
+                    Assert.AreNotEqual(building.Base.wattsPerHourIdle, 0, $"{building.name} found with a watts per hour idle of 0");
+                    Assert.AreNotEqual(building.Base.wattsPerHourWork, 0, $"{building.name} found with a watts per hour work of 0");
 
                     
 

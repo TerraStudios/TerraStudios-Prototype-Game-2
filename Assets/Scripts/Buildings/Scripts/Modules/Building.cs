@@ -7,42 +7,20 @@ using UnityEngine.Events;
 
 public enum WorkStateEnum { On, Idle, Off }
 
-[RequireComponent(typeof(ModuleConnector))]
-public class Building : MonoBehaviour
+[Serializable]
+public class BuildingBase
 {
-    public ModuleConnector mc;
-    [HideInInspector] public bool isSetUp;
-    public new string name;
-    [Header("Grid Building Properties")]
-    public Transform prefab;
-
-
-    [Header("Input / Outputs")]
-    public bool showDirectionOnVisualize = true;
-
-    private GameObject currentIndicator;
+    public string name;
 
     [Header("Economics")]
     public float price;
-
     public float Price { get => price * GameManager.instance.Profile.globalPriceMultiplierBuildings; set => price = value; }
-
+ 
     [Header("Work States")]
-    private WorkStateEnum workState;
-    public WorkStateEnum WorkState
-    {
-        get => workState;
-        set
-        {
-            workState = value;
-            OnWorkStateChanged(value);
-        }
-    }
+    public WorkStateEnum workState;
 
-    private Dictionary<WorkStateEnum, Guid> workStateTimes = new Dictionary<WorkStateEnum, Guid>();
+    public Dictionary<WorkStateEnum, Guid> workStateTimes = new Dictionary<WorkStateEnum, Guid>();
 
-    [Header("Health")]
-    public int healthPercent = 100;
     [Tooltip("The minimum TimeSpan the machine will last in months")]
     public int monthsLifespanMin;
     [Tooltip("The maximum TimeSpan the machine will last in months")]
@@ -51,9 +29,13 @@ public class Building : MonoBehaviour
     public float penaltyForFix;
     [Tooltip("The amount of time to fix the building")]
     public float timeToFixMultiplier;
-    private int monthsLifespan;
-    private List<TimeWaitEvent> healthWaitEvents = new List<TimeWaitEvent>();
-    private TimeSpan timeToDrainHealth;
+
+    [Header("Health")]
+    public int healthPercent = 100;
+    [HideInInspector] public int monthsLifespan;
+    [HideInInspector] public List<TimeWaitEvent> healthWaitEvents = new List<TimeWaitEvent>();
+    [HideInInspector] public TimeSpan timeToDrainHealth;
+    [HideInInspector] public bool isFixRunning;
 
     [Header("Electricity")]
     [Tooltip("Determines the energy usage per hour of the machine being idle")]
@@ -61,20 +43,54 @@ public class Building : MonoBehaviour
 
     [Tooltip("Determines the energy usage per hour of the machine being active")]
     public double wattsPerHourWork;
+}
 
+[RequireComponent(typeof(ModuleConnector))]
+public class Building : MonoBehaviour
+{
+    public BuildingBase Base;
+    public ModuleConnector mc;
+    [HideInInspector] public bool isSetUp;
+    
+    [Header("Grid Building Properties")]
+    public Transform prefab;
+
+    [Header("Input / Outputs")]
+    public bool showDirectionOnVisualize = true;
+
+    private GameObject currentIndicator;
+
+    public WorkStateEnum WorkState
+    {
+        get => Base.workState;
+        set
+        {
+            Base.workState = value;
+            OnWorkStateChanged(value);
+        }
+    }
+
+    
     // Required Components (Systems)
     [HideInInspector] public TimeManager TimeManager;
     [HideInInspector] public EconomyManager EconomyManager;
 
-    private bool isFixRunning;
+    private int HealthUpdateID;
+
+    [HideInInspector] public string prefabLocation;
 
     /// <summary>
     /// Initializes the building's properties and work state.
     /// </summary>
-    public void Init()
+    public void Init(bool newBasePresent = false)
     {
+        gameObject.AddComponent<BoxCollider>();
         if (mc.BuildingIOManager != null)
+        {
             mc.BuildingIOManager.Init();
+            mc.BuildingIOManager.UpdateIOPhysics();
+            mc.BuildingIOManager.LinkAll();
+        }
         else
             Debug.LogWarning("Skipping Building IO Initialization");
 
@@ -83,29 +99,35 @@ public class Building : MonoBehaviour
 
         isSetUp = true;
 
-        StartWorkStateCounters();
-        GenerateBuildingHealth();
+        HealthUpdateID = CallbackHandler.instance.RegisterCallback(OnHealthTimeUpdate);
+
+        if (!newBasePresent)
+        {
+            StartWorkStateCounters();
+            GenerateBuildingHealth();
+        }
 
         originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
+        RemoveIndicator();
     }
 
     #region Health Submodule
     public void GenerateBuildingHealth()
     {
-        monthsLifespan = Mathf.RoundToInt(UnityEngine.Random.Range(monthsLifespanMin, monthsLifespanMax) * GameManager.profile.monthsLifespanMultiplier);
-        TimeSpan timeToWait = TimeManager.CurrentTime.AddMonths(monthsLifespan) - TimeManager.CurrentTime;
-        timeToDrainHealth = new TimeSpan(timeToWait.Ticks / healthPercent);
+        Base.monthsLifespan = Mathf.RoundToInt(UnityEngine.Random.Range(Base.monthsLifespanMin, Base.monthsLifespanMax) * GameManager.profile.monthsLifespanMultiplier);
+        TimeSpan timeToWait = TimeManager.CurrentTime.AddMonths(Base.monthsLifespan) - TimeManager.CurrentTime;
+        Base.timeToDrainHealth = new TimeSpan(timeToWait.Ticks / Base.healthPercent);
         DepleteHealthEvent();
     }
 
     public void OnHealthTimeUpdate()
     {
         if (GameManager.profile.enableBuildingDamage)
-            healthPercent--;
+            Base.healthPercent--;
 
-        if (healthPercent <= 0)
+        if (Base.healthPercent <= 0)
         {
-            healthPercent = 0;
+            Base.healthPercent = 0;
             OnBuildingBreak();
             return;
         }
@@ -115,9 +137,7 @@ public class Building : MonoBehaviour
 
     private void DepleteHealthEvent()
     {
-        UnityEvent callback = new UnityEvent();
-        callback.AddListener(OnHealthTimeUpdate);
-        healthWaitEvents.Add(TimeManager.RegisterTimeWaiter(timeToDrainHealth, callback));
+        Base.healthWaitEvents.Add(TimeManager.RegisterTimeWaiter(Base.timeToDrainHealth, HealthUpdateID));
     }
 
     public virtual void OnBuildingBreak()
@@ -127,16 +147,16 @@ public class Building : MonoBehaviour
 
     public void Fix()
     {
-        if (isFixRunning)
+        if (Base.isFixRunning)
             return;
 
-        float priceForFix = (float)(healthPercent + 1) / 100 * price * penaltyForFix * GameManager.profile.buildingPenaltyForFixMultiplier;
+        float priceForFix = (float)(Base.healthPercent + 1) / 100 * Base.price * Base.penaltyForFix * GameManager.profile.buildingPenaltyForFixMultiplier;
         if (!EconomyManager.UpdateBalance((decimal)priceForFix))
         {
             WorkState = WorkStateEnum.Off;
             
             SetIndicator(BuildingManager.instance.FixingIndicator);
-            foreach (TimeWaitEvent ev in healthWaitEvents) { TimeManager.UnregisterTimeWaiter(ev); }
+            foreach (TimeWaitEvent ev in Base.healthWaitEvents) { TimeManager.UnregisterTimeWaiter(ev); }
         }
         else
         {
@@ -144,9 +164,9 @@ public class Building : MonoBehaviour
             return;
         }
 
-        isFixRunning = true;
+        Base.isFixRunning = true;
 
-        float timeToWait = (100 - healthPercent) * timeToFixMultiplier * GameManager.profile.timeToFixMultiplier;
+        float timeToWait = (100 - Base.healthPercent) * Base.timeToFixMultiplier * GameManager.profile.timeToFixMultiplier;
         StartCoroutine(FixCountdown());
 
         IEnumerator FixCountdown()
@@ -157,8 +177,8 @@ public class Building : MonoBehaviour
 
         void FinalizeFix()
         {
-            isFixRunning = false;
-            healthPercent = 100;
+            Base.isFixRunning = false;
+            Base.healthPercent = 100;
             WorkState = WorkStateEnum.On;
             DepleteHealthEvent();
             RemoveIndicator();
@@ -175,7 +195,7 @@ public class Building : MonoBehaviour
         foreach (WorkStateEnum ws in (WorkStateEnum[])Enum.GetValues(typeof(WorkStateEnum)))
         {
             TimeCountEvent ev = TimeManager.StartTimeCounter();
-            workStateTimes.Add(ws, ev.hash);
+            Base.workStateTimes.Add(ws, ev.hash);
         }
 
         WorkState = WorkStateEnum.On;
@@ -188,7 +208,7 @@ public class Building : MonoBehaviour
     /// <returns>A <see cref="TimeSpan"/> of how long the state has been active</returns>
     public TimeSpan GetTimeForWS(WorkStateEnum ws)
     {
-        return TimeManager.GetTCETimeSpan(workStateTimes[ws]);
+        return TimeManager.GetTCETimeSpan(Base.workStateTimes[ws]);
     }
 
     /// <summary>
@@ -199,10 +219,10 @@ public class Building : MonoBehaviour
     /// <param name="newValue">The new value the building was set to</param>
     private void OnWorkStateChanged(WorkStateEnum newValue, bool quiet = false)
     {
-        for (int i = 0; i < workStateTimes.Count; i++)
+        for (int i = 0; i < Base.workStateTimes.Count; i++)
         {
-            WorkStateEnum key = workStateTimes.Keys.ElementAt(i);
-            Guid value = workStateTimes[key];
+            WorkStateEnum key = Base.workStateTimes.Keys.ElementAt(i);
+            Guid value = Base.workStateTimes[key];
 
             if (key != newValue)
             {
@@ -237,10 +257,10 @@ public class Building : MonoBehaviour
         switch (ws)
         {
             case WorkStateEnum.Idle:
-                wattsPerMinute = wattsPerHourIdle / 60;
+                wattsPerMinute = Base.wattsPerHourIdle / 60;
                 break;
             case WorkStateEnum.On:
-                wattsPerMinute = wattsPerHourWork / 60;
+                wattsPerMinute = Base.wattsPerHourWork / 60;
                 break;
             default:
                 wattsPerMinute = 0;
@@ -302,7 +322,7 @@ public class Building : MonoBehaviour
     /// </summary>
     public void SetWorkstateSilent(WorkStateEnum newWorkState)
     {
-        workState = newWorkState;
+        Base.workState = newWorkState;
         OnWorkStateChanged(newWorkState, true);
     }
 
