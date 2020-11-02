@@ -144,11 +144,7 @@ public class RemoveSystem : MonoBehaviour
     public bool DeleteBuilding(Building b)
     {
         decimal change = (decimal)((float)b.Base.healthPercent / 100 * b.Base.Price - (b.Base.Price * GameManager.profile.removePenaltyMultiplier));
-        if (!EconomyManager.instance.UpdateBalance(change))
-        {
-            Debug.LogWarning("Credit insufficient to remove this building!");
-            return false;
-        }
+        EconomyManager.instance.Balance += change;
 
         b.mc.BuildingIOManager.DevisualizeAll();
         b.mc.BuildingIOManager.UnlinkAll();
@@ -185,20 +181,12 @@ public class RemoveSystem : MonoBehaviour
         if (data.isGarbage)
         {
             decimal change = (decimal)(data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.profile.garbageRemoveMultiplier));
-            if (!EconomyManager.instance.UpdateBalance(change))
-            {
-                Debug.LogWarning("Credit unsufficient to remove this item!");
-                return false;
-            }
+            EconomyManager.instance.Balance += change;
         }
         else
         {
             decimal change = (decimal)(data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.profile.removePenaltyMultiplier));
-            if (!EconomyManager.instance.UpdateBalance(change))
-            {
-                Debug.LogWarning("Credit unsufficient to remove this item!");
-                return false;
-            }
+            EconomyManager.instance.Balance += change;
         }
 
         if (obj)

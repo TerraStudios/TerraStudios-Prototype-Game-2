@@ -241,8 +241,13 @@ public class GridManager : MonoBehaviour
         {
             Building b = visualization.GetComponent<Building>();
 
-            if (!EconomyManager.UpdateBalance(-(decimal)b.Base.Price))
+            if (!GameManager.profile.allowBuildingIfBalanceInsufficient && EconomyManager.Balance - (decimal)b.Base.Price < 0)
+            {
+                Debug.LogWarning("Can't build because allowBuildingIfBalanceInsufficient is false");
                 return;
+            }
+
+            EconomyManager.Balance -= (decimal)b.Base.Price;
 
             visualization.GetComponent<MeshRenderer>().material = tempMat;
 

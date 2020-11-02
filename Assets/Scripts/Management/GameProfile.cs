@@ -40,7 +40,20 @@ public class GameProfile : ScriptableObject
     [Header("Economy System - Currency Visualization")]
     public bool forceManualCurrencyCC;
     public string currencyCC;
+    [Tooltip("Freezes the balance to the start balance")]
+    public bool enableGodMode;
 
-    [Tooltip("If disabled, the player can't go bellow 0 balance")]
-    public bool enableBankruptcySystem = true;
+    //[Tooltip("If disabled, the player can't go bellow 0 balance")]
+    //public bool enableBankruptcySystem = true;
+
+    [Header("Bankruptcy System")]
+
+    [Tooltip("Can the player build if *price of the building* > *amount of cash*")]
+    public bool allowBuildingIfBalanceInsufficient = true;
+
+    [Tooltip("Should the bankruptcy system turn on if cash below 0")]
+    public bool enableBankruptcy = true;
+
+    public int daysBeforeSeriousBankruptcy = 5;
+    public int daysBeforeGameOverBankruptcy = 7;
 }
