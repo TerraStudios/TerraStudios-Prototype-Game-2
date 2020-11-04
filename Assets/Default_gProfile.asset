@@ -30,4 +30,8 @@ MonoBehaviour:
   globalPriceMultiplierBuildings: 10
   forceManualCurrencyCC: 0
   currencyCC: 
-  enableBankruptcySystem: 1
+  enableGodMode: 0
+  allowBuildingIfBalanceInsufficient: 1
+  enableBankruptcy: 1
+  daysBeforeSeriousBankruptcy: 5
+  daysBeforeGameOverBankruptcy: 7
