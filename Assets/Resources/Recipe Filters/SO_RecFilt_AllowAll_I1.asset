@@ -12,15 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03321806186f553468c7bca3584dc0d6, type: 3}
   m_Name: SO_RecFilt_AllowAll_I1
   m_EditorClassIdentifier: 
-  allowedRecipes:
-  - {fileID: 11400000, guid: 2617e0719932298459cb16be2555c9bb, type: 2}
-  - {fileID: 11400000, guid: 2c52a3ff1b6a3df45bfd7a9e3fac179d, type: 2}
-  - {fileID: 11400000, guid: ee496541ef571f24aae03ba0570974fe, type: 2}
-  - {fileID: 11400000, guid: ac835c21c7a6a404e80db3542eb18d7e, type: 2}
-  - {fileID: 11400000, guid: f524fcfa617f768478efcd411fdfbe0e, type: 2}
-  - {fileID: 11400000, guid: d92081811d4c06f48aa6285a06f47860, type: 2}
-  - {fileID: 11400000, guid: 473f8d2cd0df6484d80d2e01227799a8, type: 2}
-  - {fileID: 11400000, guid: 4f8cbb259c89b5b4cac967297ac7e62a, type: 2}
-  - {fileID: 11400000, guid: c88c6febfa2192746baf8dcbc8bac930, type: 2}
-  blockedRecipes:
-  - {fileID: 11400000, guid: e2fbbde772ebe23479433c4087969c57, type: 2}
+  enableAutomaticList: 0
+  inputsAmount: 0
+  type: 0
+  manualList:
+  - type: 0
+    list: {fileID: 0}
+  - type: 1
+    list: {fileID: 0}

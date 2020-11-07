@@ -1,30 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+
+public enum RecipeType { Allowed, Blocked }
+
+[Serializable]
+public class ManualRecipeList
+{
+    public RecipeType type;
+    public RecipeFilterList list;
+}
 
 [CreateAssetMenu(fileName = "New Recipe Filter", menuName = "Recipe/Recipe Filter")]
 public class RecipeFilter : ScriptableObject
 {
-    [SerializeField] private List<MachineRecipe> allowedRecipes;
-    public List<MachineRecipe> blockedRecipes;
+    [Header("Automatic List")]
+    public bool enableAutomaticList;
+    public int inputsAmount;
+    public RecipeType type;
 
-    public List<MachineRecipe> AllowedRecipes
-    {
-        get
-        {
-            if (allowedRecipes.Count() != 0)
-                return allowedRecipes;
-            else
-            {
-                List<MachineRecipe> toReturn = new List<MachineRecipe>();
-                foreach (MachineRecipe recipe in RecipeManager.instance.RetrieveRecipes())
-                {
-                    if (!blockedRecipes.Contains(recipe))
-                        toReturn.Add(recipe);
-                }
-                return toReturn;
-            }
-        }
-        set => allowedRecipes = value; 
-    }
+    [Header("Manual List")]
+    public List<ManualRecipeList> manualList;
 }

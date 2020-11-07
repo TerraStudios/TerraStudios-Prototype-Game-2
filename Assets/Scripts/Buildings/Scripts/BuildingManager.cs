@@ -156,9 +156,9 @@ public class BuildingManager : BuildingSystem
             recipeSelection.value = 0;
         }
         
-        for (int i = 0; i < FocusedBuilding.mc.APM.recipePreset.AllowedRecipes.Count(); i++)
+        for (int i = 0; i < FocusedBuilding.mc.APM.allowedRecipes.Count(); i++)
         {
-            MachineRecipe recipe = FocusedBuilding.mc.APM.recipePreset.AllowedRecipes[i];
+            MachineRecipe recipe = FocusedBuilding.mc.APM.allowedRecipes[i];
             recipeSelection.options.Add(new TMP_Dropdown.OptionData() { text = recipe.name });
             if (FocusedBuilding.mc.APM.CurrentRecipe == recipe)
                 recipeSelection.value = i + 1;
@@ -174,7 +174,7 @@ public class BuildingManager : BuildingSystem
         if (changed.value == 0)
             FocusedBuilding.mc.APM.CurrentRecipe = null;
         else
-            FocusedBuilding.mc.APM.CurrentRecipe = FocusedBuilding.mc.APM.recipePreset.AllowedRecipes[changed.value - 1];
+            FocusedBuilding.mc.APM.CurrentRecipe = FocusedBuilding.mc.APM.allowedRecipes[changed.value - 1];
 
         RefreshOutputsUI();
     }

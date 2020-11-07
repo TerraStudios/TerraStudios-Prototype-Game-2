@@ -26,7 +26,8 @@ public class CraftingData
 public class APM : MonoBehaviour
 {
     public ModuleConnector mc;
-    public RecipeFilter recipePreset;
+    public RecipeFilter recipeFilter;
+    public List<MachineRecipe> allowedRecipes = new List<MachineRecipe>();
     private MachineRecipe currentRecipe;
     public float baseTimeMultiplier = 1;
     private APMStatus currentStatus;
@@ -82,6 +83,8 @@ public class APM : MonoBehaviour
             InitOutputData();
         else
             CurrentStatus = APMStatus.Blocked;
+
+        allowedRecipes = RecipeManager.instance.GetRecipes(recipeFilter).allowed;
     }
 
     private void InitOutputData()
