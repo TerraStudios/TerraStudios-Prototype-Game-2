@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: recipeFilter
       value: 
-      objectReference: {fileID: 11400000, guid: a2d4fef1e21f1cc46826b07150c5aed4,
+      objectReference: {fileID: 11400000, guid: 6816d047c197a2a46ad55940b7c863c9,
         type: 2}
     - target: {fileID: 1574133448485325738, guid: c1fe1648509854e46be06abb82c9a485,
         type: 3}
@@ -92,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 7947313054608314309, guid: c1fe1648509854e46be06abb82c9a485,
         type: 3}
       propertyPath: prefabLocation
-      value: 
+      value: Buildings/APMs/PF_APM_Prot_1I_2O
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1fe1648509854e46be06abb82c9a485, type: 3}
