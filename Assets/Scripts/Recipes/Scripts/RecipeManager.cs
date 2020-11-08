@@ -32,28 +32,48 @@ public class RecipeManager : MonoBehaviour
         List<MachineRecipe> allowedRecipes = new List<MachineRecipe>();
         List<MachineRecipe> blockedRecipes = new List<MachineRecipe>();
 
-
         // Get recipes from the automatic fields
         if (filter.enableAutomaticList)
         {
             foreach (MachineRecipe recipe in recipes)
             {
+                /*if (recipe.inputs.Any(data => data.inputID < filter.inputsAmount))
+                {
+                    if (filter.type == RecipeType.Allowed)
+                    {
+                        allowedRecipes.Add(recipe);
+                    }
+                    else if (filter.type == RecipeType.Blocked)
+                    {
+                        blockedRecipes.Add(recipe);
+                    }
+                }*/
+
+                bool fits = false;
                 foreach (MachineRecipe.InputData data in recipe.inputs)
                 {
                     if (data.inputID < filter.inputsAmount)
+                        fits = true;
+                    else
                     {
-                        if (filter.type == RecipeType.Allowed)
-                        {
-                            allowedRecipes.Add(recipe);
-                            break;
-                        }
-                        else if (filter.type == RecipeType.Blocked)
-                        {
-                            blockedRecipes.Add(recipe);
-                            break;
-                        }
+                        fits = false;
+                        break;
                     }
                 }
+
+                if (fits)
+                {
+                    if (filter.type == RecipeType.Allowed)
+                    {
+                        allowedRecipes.Add(recipe);
+                    }
+                    else if (filter.type == RecipeType.Blocked)
+                    {
+                        blockedRecipes.Add(recipe);
+                    }
+                }
+                else
+                    break;
             }
         }
 
