@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 481111163924646872, guid: c1fe1648509854e46be06abb82c9a485,
+        type: 3}
+      propertyPath: recipeFilter
+      value: 
+      objectReference: {fileID: 11400000, guid: a2d4fef1e21f1cc46826b07150c5aed4,
+        type: 2}
     - target: {fileID: 1574133448485325738, guid: c1fe1648509854e46be06abb82c9a485,
         type: 3}
       propertyPath: m_Mesh
@@ -83,6 +89,11 @@ PrefabInstance:
       propertyPath: outputs.Array.data[1]
       value: 
       objectReference: {fileID: 8119415161717991085}
+    - target: {fileID: 7947313054608314309, guid: c1fe1648509854e46be06abb82c9a485,
+        type: 3}
+      propertyPath: prefabLocation
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1fe1648509854e46be06abb82c9a485, type: 3}
 --- !u!4 &5719123923885634798 stripped

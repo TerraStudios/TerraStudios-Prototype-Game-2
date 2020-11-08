@@ -10,9 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03321806186f553468c7bca3584dc0d6, type: 3}
-  m_Name: SO_RecFilt_AllowAll_I1
+  m_Name: SO_RecFIlt_Tools_GearHammer_Allowed
   m_EditorClassIdentifier: 
   enableAutomaticList: 1
-  inputsAmount: 1
+  inputsAmount: 0
   type: 0
-  manualList: []
+  manualList:
+  - type: 1
+    list: {fileID: 11400000, guid: b41cb8612c5db9343afce4685b698c73, type: 2}
+  - type: 0
+    list: {fileID: 11400000, guid: 66e51921353259e43a0349b4fd01a919, type: 2}
