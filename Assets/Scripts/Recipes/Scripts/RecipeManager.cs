@@ -38,12 +38,21 @@ public class RecipeManager : MonoBehaviour
         {
             foreach (MachineRecipe recipe in recipes)
             {
-                if (recipe.inputs.Length < filter.inputsAmount)
+                foreach (MachineRecipe.InputData data in recipe.inputs)
                 {
-                    if (filter.type == RecipeType.Allowed)
-                        allowedRecipes.Add(recipe);
-                    else if (filter.type == RecipeType.Blocked)
-                        blockedRecipes.Add(recipe);
+                    if (data.inputID < filter.inputsAmount)
+                    {
+                        if (filter.type == RecipeType.Allowed)
+                        {
+                            allowedRecipes.Add(recipe);
+                            break;
+                        }
+                        else if (filter.type == RecipeType.Blocked)
+                        {
+                            blockedRecipes.Add(recipe);
+                            break;
+                        }
+                    }
                 }
             }
         }
