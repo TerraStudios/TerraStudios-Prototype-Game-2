@@ -37,18 +37,6 @@ public class RecipeManager : MonoBehaviour
         {
             foreach (MachineRecipe recipe in recipes)
             {
-                /*if (recipe.inputs.Any(data => data.inputID < filter.inputsAmount))
-                {
-                    if (filter.type == RecipeType.Allowed)
-                    {
-                        allowedRecipes.Add(recipe);
-                    }
-                    else if (filter.type == RecipeType.Blocked)
-                    {
-                        blockedRecipes.Add(recipe);
-                    }
-                }*/
-
                 bool fits = false;
                 foreach (MachineRecipe.InputData data in recipe.inputs)
                 {
@@ -73,7 +61,7 @@ public class RecipeManager : MonoBehaviour
                     }
                 }
                 else
-                    break;
+                    continue;
             }
         }
 
