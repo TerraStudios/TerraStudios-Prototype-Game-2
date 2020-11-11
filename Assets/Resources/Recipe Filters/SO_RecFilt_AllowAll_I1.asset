@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SO_RecFilt_AllowAll_I1
   m_EditorClassIdentifier: 
   enableAutomaticList: 1
-  inputsAmount: 1
+  buildingInputsAmount: 1
   type: 0
   manualList: []
