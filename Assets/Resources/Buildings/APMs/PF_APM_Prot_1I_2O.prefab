@@ -7,12 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 481111163924646872, guid: c1fe1648509854e46be06abb82c9a485,
-        type: 3}
-      propertyPath: recipeFilter
-      value: 
-      objectReference: {fileID: 11400000, guid: 6816d047c197a2a46ad55940b7c863c9,
-        type: 2}
     - target: {fileID: 1574133448485325738, guid: c1fe1648509854e46be06abb82c9a485,
         type: 3}
       propertyPath: m_Mesh
