@@ -4,16 +4,15 @@ using System.Linq;
 
 public class RecipeManager : MonoBehaviour
 {
-    private List<MachineRecipe> recipes;
-    private ItemCategory[] categories;
+    private static List<MachineRecipe> recipes;
+    private static ItemCategory[] categories;
 
     public static RecipeManager instance;
 
     private void Awake()
     {
         instance = this;
-        categories = Resources.LoadAll<ItemCategory>("");
-        recipes = Resources.LoadAll<MachineRecipe>("").ToList();
+        LoadResources();
         Debug.Log("Loaded " + recipes.Count() + " recipes and " + categories.Count() + " categories.");
     }
 
@@ -27,7 +26,13 @@ public class RecipeManager : MonoBehaviour
         return categories;
     }
 
-    public (List<MachineRecipe> allowed, List<MachineRecipe> blocked) GetRecipes(RecipeFilter filter)
+    public static void LoadResources() 
+    {
+        categories = Resources.LoadAll<ItemCategory>("");
+        recipes = Resources.LoadAll<MachineRecipe>("").ToList();
+    }
+
+    public static (List<MachineRecipe> allowed, List<MachineRecipe> blocked) GetRecipes(RecipeFilter filter)
     {
         List<MachineRecipe> allowedRecipes = new List<MachineRecipe>();
         List<MachineRecipe> blockedRecipes = new List<MachineRecipe>();
@@ -97,22 +102,6 @@ public class RecipeManager : MonoBehaviour
                 }
             }
         }
-
-        /*for (int i = 0; i < filter.manualList.Count; i++) // loop all manual lists
-        {
-            List<MachineRecipe> recipeList = filter.manualList[i].list.recipes;
-            for (int t = 0; t < recipeList.Count; t++) // loop all machine recipes in manual lists
-            {
-                if ()
-            }
-        }*/
-
-        /*// Remove blocked recipe occurrances from allowedRecipes
-        foreach (MachineRecipe recipe in blockedRecipes)
-        {
-            if (allowedRecipes.Contains(recipe))
-                allowedRecipes.Remove(recipe);
-        }*/
 
         return (allowedRecipes, blockedRecipes);
     }

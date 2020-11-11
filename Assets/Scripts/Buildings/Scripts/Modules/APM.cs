@@ -84,7 +84,7 @@ public class APM : MonoBehaviour
         else
             CurrentStatus = APMStatus.Blocked;
 
-        allowedRecipes = RecipeManager.instance.GetRecipes(recipeFilter).allowed;
+        allowedRecipes = RecipeManager.GetRecipes(recipeFilter).allowed;
     }
 
     private void InitOutputData()
