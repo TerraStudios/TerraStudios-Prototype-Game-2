@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SO_RecFIlt_Tools_ALL_Blocked
   m_EditorClassIdentifier: 
   enableAutomaticList: 1
-  inputsAmount: 0
+  inputsAmount: 2
   type: 0
   manualList:
   - type: 0
