@@ -27,19 +27,30 @@ namespace Tests
             manager.outputs = new BuildingIO[] { GetFakeBuildingIOOutput() };
 
 
-            ItemOrCategory input1 = GetFakeItemOrCategory();
+            ItemData input1 = GetFakeItem();
 
             // Create fake recipe for testing
             MachineRecipe recipe = ScriptableObject.CreateInstance<MachineRecipe>();
 
-            recipe.inputs = new MachineRecipe.InputData[]
+            recipe.inputs = new List<MachineRecipe.InputData[]>
                 {
-                    new MachineRecipe.InputData {item = input1, amount = 1, inputID = 0}
+                    new MachineRecipe.InputData[] 
+                    {
+                        new MachineRecipe.InputData
+                        {
+                            item = input1, amount = 1, inputID = 0
+                        }
+                    }
                 };
-            recipe.outputs =
-                new MachineRecipe.OutputData[]
+            recipe.outputs = new List<MachineRecipe.OutputData[]>
                 {
-                     new MachineRecipe.OutputData {item = GetFakeItemData(), amount = random.Next(1, 3)}
+                     new MachineRecipe.OutputData[] 
+                     {
+                         new MachineRecipe.OutputData
+                         {
+                             item = GetFakeItemData(), amount = random.Next(1, 3)
+                         }
+                     }
                 };
             recipe.baseTime = random.Next(1, 10);
 
@@ -101,41 +112,16 @@ namespace Tests
             return apmObject;
         }
 
-        private ItemOrCategory GetFakeItemOrCategory()
+        private ItemData GetFakeItem()
         {
             //Randomize whether the ItemOrCategory will be of type ItemData or ItemCategory
-            if (random.Next(1) == 0)
-            {
-                return GetFakeItemData();
-            }
-            else
-            {
-                return GetFakeItemCategory();
-            }
+            return GetFakeItemData();
         }
 
-        private ItemData GetFakeItemData(ItemOrCategory itemOrCategory)
+        private ItemData GetFakeItemData(ItemData item)
         {
-
-            if (itemOrCategory is ItemCategory)
-            {
-                // ItemOrCategory is an ItemCategory, create an ItemData that belongs to it
-                ItemData data = ScriptableObject.CreateInstance<ItemData>();
-                data.name = GetRandomString();
-                data.ItemCategory = itemOrCategory as ItemCategory;
-                data.ID = random.Next(3000);
-                data.isBuyable = random.Next(1) == 0;
-                return data;
-            }
-            else if (itemOrCategory is ItemData)
-            {
-                //ItemOrCategory is an ItemData, just return a copy of it
-                return itemOrCategory as ItemData;
-            }
-
-            // Failsafe for if somehow it returned as a different type, throw an exception
-            throw new InvalidCastException("ItemOrCategory was not of type ItemCategory or ItemData.");
-
+            //ItemOrCategory is an ItemData, just return a copy of it
+            return item;
         }
 
         private ItemData GetFakeItemData()
@@ -145,14 +131,6 @@ namespace Tests
             data.ID = random.Next(3000);
             data.isBuyable = random.Next(1) == 0;
             return data;
-        }
-
-        private ItemCategory GetFakeItemCategory()
-        {
-            ItemCategory category = ScriptableObject.CreateInstance<ItemCategory>();
-            category.name = GetRandomString();
-            category.formattedName = GetRandomString();
-            return category;
         }
 
         private BuildingIO GetFakeBuildingIOOutput()

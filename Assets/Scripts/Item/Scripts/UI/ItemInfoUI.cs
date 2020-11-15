@@ -27,7 +27,6 @@ public class ItemInfoUI : MonoBehaviour
     {
         buyableToggle.isOn = item.isBuyable;
         startingPrice.text = item.StartingPriceInShop.ToString();
-        category.text = item.ItemCategory.formattedName;
         description.text = item.description;
         itemName.text = item.name;
 

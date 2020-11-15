@@ -94,13 +94,16 @@ public class APM : MonoBehaviour
         if (CurrentRecipe)
         {
             int buildingOutputs = mc.BuildingIOManager.outputs.Length;
-            for (int i = 0; i < CurrentRecipe.outputs.Length; i++)
+            foreach (MachineRecipe.OutputData[] data in CurrentRecipe.outputs)
             {
-                int outputIDToApply = i + 1;
-                if (outputIDToApply >= buildingOutputs)
-                    outputIDToApply = buildingOutputs;
+                for (int i = 0; i < data.Length; i++)
+                {
+                    int outputIDToApply = i + 1;
+                    if (outputIDToApply >= buildingOutputs)
+                        outputIDToApply = buildingOutputs;
 
-                outputData.Add(CurrentRecipe.outputs[i], outputIDToApply);
+                    outputData.Add(data[i], outputIDToApply);
+                }
             }
         }
     }
@@ -137,32 +140,29 @@ public class APM : MonoBehaviour
             return false;
         }
 
-        MachineRecipe.InputData recipeData = CurrentRecipe.inputs.FirstOrDefault(data =>
+        MachineRecipe.InputData[] recipeData = CurrentRecipe.inputs.FirstOrDefault(data =>
         {
-            if (data.item is ItemData)
-            {
-                if ((data.item as ItemData).ID == ItemEnterInfo.item.ID) return true;
-            }
-            else
-            {
-                if ((data.item as ItemCategory) == ItemEnterInfo.item.ItemCategory) return true;
-            }
+            foreach (MachineRecipe.InputData inputData in data)
+                if ((inputData.item).ID == ItemEnterInfo.item.ID) return true;
 
             return false;
         });
 
-        if (Equals(recipeData, default))
+        foreach (MachineRecipe.InputData data in recipeData)
         {
-            ItemLog(ItemEnterInfo.item.name, "This item was not expected to enter this building!", this);
-            return false;
-        }
-
-        if (recipeData.inputID != -1)
-        {
-            if (recipeData.inputID != ItemEnterInfo.inputID)
+            if (Equals(recipeData, default))
             {
-                Debug.LogWarning("This item was not expected to enter this input", this);
+                ItemLog(ItemEnterInfo.item.name, "This item was not expected to enter this building!", this);
                 return false;
+            }
+
+            if (data.inputID != -1)
+            {
+                if (data.inputID != ItemEnterInfo.inputID)
+                {
+                    Debug.LogWarning("This item was not expected to enter this input", this);
+                    return false;
+                }
             }
         }
 
@@ -173,16 +173,6 @@ public class APM : MonoBehaviour
             if (ItemEnterInfo.proposedItems[itemToCheck] > recipeData.amount) // check if we're full of that item
             {
                 ItemLog(ItemEnterInfo.item.name, "We're already full of this item!", this);
-                return false;
-            }
-        }
-        else if (recipeData.item is ItemCategory)
-        {
-            ItemCategory cat = recipeData.item as ItemCategory;
-
-            if (ItemEnterInfo.proposedItems.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value > recipeData.amount)
-            {
-                ItemLog(ItemEnterInfo.item.name, "We're already full of this item!", this); // check if we're full of that item
                 return false;
             }
         }*/
@@ -203,11 +193,11 @@ public class APM : MonoBehaviour
             }
         }
 
-        foreach (MachineRecipe.InputData inputData in CurrentRecipe.inputs)
+        foreach (MachineRecipe.InputData[] inputData in CurrentRecipe.inputs)
         {
-            if (inputData.item is ItemData)
+            foreach (MachineRecipe.InputData data in inputData)
             {
-                ItemData itemToCheck = inputData.item as ItemData;
+                ItemData itemToCheck = data.item;
 
                 // check if we have the enough quantity of it available to start crafting
                 if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
@@ -217,22 +207,11 @@ public class APM : MonoBehaviour
                 }
                 else
                 {
-                    if (mc.BuildingIOManager.itemsInside[itemToCheck] < inputData.amount)
+                    if (mc.BuildingIOManager.itemsInside[itemToCheck] < data.amount)
                     {
                         ItemLog(ItemEnterInfo.item.name, "Still, not all items are present inside", this);
                         return false;
                     }
-                }
-            }
-            else if (inputData.item is ItemCategory)
-            {
-                ItemCategory cat = inputData.item as ItemCategory;
-
-                // check if we have the enough quantity of it available to start crafting
-                if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value < inputData.amount)
-                {
-                    ItemLog(ItemEnterInfo.item.name, "Still, not all items are present inside", this);
-                    return false;
                 }
             }
         }

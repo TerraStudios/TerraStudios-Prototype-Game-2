@@ -38,9 +38,6 @@ public class BuildingIO : MonoBehaviour
     [Tooltip("Determines the items allowed to enter the building")]
     public ItemData[] itemsAllowedToEnter;
 
-    [Tooltip("Determines the item categories allowed to enter the building")]
-    public ItemCategory[] itemCategoriesAllowedToEnter;
-
     [Header("Output Configuration")]
     public int outputMaxQueueSize = 5;
 
@@ -210,13 +207,7 @@ public class BuildingIO : MonoBehaviour
                 allowedToEnter = true;
         }
 
-        foreach (ItemCategory data in itemCategoriesAllowedToEnter)
-        {
-            if (item.data.ItemCategory == data)
-                allowedToEnter = true;
-        }
-
-        if (itemsAllowedToEnter.Length == 0 && itemCategoriesAllowedToEnter.Length == 0)
+        if (itemsAllowedToEnter.Length == 0)
             allowedToEnter = true;
 
         if (!allowedToEnter || IOManager.mc.APM.CurrentStatus == APMStatus.Blocked)

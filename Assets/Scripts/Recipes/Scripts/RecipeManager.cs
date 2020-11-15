@@ -5,7 +5,6 @@ using System.Linq;
 public class RecipeManager : MonoBehaviour
 {
     private static List<MachineRecipe> recipes;
-    private static ItemCategory[] categories;
 
     public static RecipeManager instance;
 
@@ -13,7 +12,7 @@ public class RecipeManager : MonoBehaviour
     {
         instance = this;
         LoadResources();
-        Debug.Log("Loaded " + recipes.Count() + " recipes and " + categories.Count() + " categories.");
+        Debug.Log("Loaded " + recipes.Count() + " recipes");
     }
 
     public List<MachineRecipe> RetrieveRecipes()
@@ -21,14 +20,8 @@ public class RecipeManager : MonoBehaviour
         return recipes;
     }
 
-    public ItemCategory[] RetrieveCategories()
-    {
-        return categories;
-    }
-
     public static void LoadResources() 
     {
-        categories = Resources.LoadAll<ItemCategory>("");
         recipes = Resources.LoadAll<MachineRecipe>("").ToList();
     }
 
@@ -43,14 +36,17 @@ public class RecipeManager : MonoBehaviour
             foreach (MachineRecipe recipe in recipes)
             {
                 bool fits = false;
-                foreach (MachineRecipe.InputData data in recipe.inputs)
+                foreach (MachineRecipe.InputData[] data in recipe.inputs)
                 {
-                    if (data.inputID < filter.buildingInputsAmount)
-                        fits = true;
-                    else
+                    foreach (MachineRecipe.InputData inputData in data)
                     {
-                        fits = false;
-                        break;
+                        if (inputData.inputID < filter.buildingInputsAmount)
+                            fits = true;
+                        else
+                        {
+                            fits = false;
+                            break;
+                        }
                     }
                 }
 

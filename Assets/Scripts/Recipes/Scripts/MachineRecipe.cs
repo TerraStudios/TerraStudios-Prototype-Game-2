@@ -12,7 +12,7 @@ public class MachineRecipe : ScriptableObject
     [Serializable]
     public class InputData
     {
-        public ItemOrCategory item;
+        public ItemData item;
         public int amount;
 
         [Tooltip("Specifies the input ID from which the item should be expected to enter. -1 for undefined")]
@@ -33,10 +33,10 @@ public class MachineRecipe : ScriptableObject
     [Header("Items")]
 
     [Tooltip("Specifies the input items and their corresponding amounts for the recipe.")]
-    public InputData[] inputs;
+    public List<InputData[]> inputs;
 
     [Tooltip("Specifies the output items and their corresponding amounts for the recipe.")]
-    public OutputData[] outputs;
+    public List<OutputData[]> outputs;
 
     [Header("Other Info")]
     [Tooltip("The name of the recipe to display.")]

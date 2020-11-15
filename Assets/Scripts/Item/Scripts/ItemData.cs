@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemOrCategory : ScriptableObject { }
-
 [ExecuteInEditMode]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 [CreateAssetMenu(fileName = "New Item Data", menuName = "Item/Item")]
-public class ItemData : ItemOrCategory
+public class ItemData : ScriptableObject
 {
     [Header("Basic Properties")]
     [HideInInspector] public int ID;
     public new string name;
     [TextArea] public string description;
     public ItemBehaviour obj;
-    public ItemCategory ItemCategory;
 
     [Header("Economic Simulation Properties")]
     public float startingPriceInShop;

@@ -43,9 +43,9 @@ namespace Tests
 
                         foreach (MachineRecipe recipe in RecipeManager.GetRecipes(filter).allowed)
                         {
-                            Assert.IsFalse(io.inputs.Length < recipe.inputs.Length,
+                            Assert.IsFalse(io.inputs.Length < recipe.inputs.Count,
                                 "Recipe inputs size is higher than APM inputs size. " +
-                                $"APM '{obj.name}' has '{io.inputs.Length}' inputs while recipe '{recipe.name}' attached from the recipe filter '{filter.name}' requires '{recipe.inputs.Length}' inputs");
+                                $"APM '{obj.name}' has '{io.inputs.Length}' inputs while recipe '{recipe.name}' attached from the recipe filter '{filter.name}' requires '{recipe.inputs.Count}' inputs");
                         }
                     }
                 }

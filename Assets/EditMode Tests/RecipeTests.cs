@@ -21,8 +21,8 @@ namespace Assets.Tests
                 // TODO: UNCOMMENT THIS WHEN ICONS WILL ACTUALLY BE USED
                 //Assert.IsNotNull(recipe.icon, $"The recipe ${recipe.name} was found with no icon.");
                 Assert.AreNotEqual(recipe.baseTime, 0, $"The recipe ${recipe.name} was found with a base time of 0 seconds.");
-                Assert.AreNotEqual(recipe.inputs.Length, 0, $"The recipe {recipe.name} doesn't have any inputs assigned.");
-                Assert.AreNotEqual(recipe.outputs.Length, 0, $"The recipe {recipe.name} doesn't have any outputs assigned.");
+                Assert.AreNotEqual(recipe.inputs.Count, 0, $"The recipe {recipe.name} doesn't have any inputs assigned.");
+                Assert.AreNotEqual(recipe.outputs.Count, 0, $"The recipe {recipe.name} doesn't have any outputs assigned.");
             }
         }
 
