@@ -13,20 +13,24 @@ MonoBehaviour:
   m_Name: SO_Rec_Steel_Melted_Stainless
   m_EditorClassIdentifier: 
   inputs:
-  - item: {fileID: 11400000, guid: f28782f5af5c67e419584925f085f204, type: 2}
-    amount: 5
-    inputID: -1
-  - item: {fileID: 11400000, guid: ef4b8c074a198d54aa5c829d49a35d82, type: 2}
-    amount: 3
-    inputID: 0
-  - item: {fileID: 11400000, guid: 8f5290548cf0b1741986f3d3a6f61701, type: 2}
-    amount: 1
-    inputID: 1
+  - inputs:
+    - item: {fileID: 11400000, guid: f28782f5af5c67e419584925f085f204, type: 2}
+      amount: 5
+      inputID: -1
+    - item: {fileID: 11400000, guid: ef4b8c074a198d54aa5c829d49a35d82, type: 2}
+      amount: 3
+      inputID: 0
+    - item: {fileID: 11400000, guid: 8f5290548cf0b1741986f3d3a6f61701, type: 2}
+      amount: 1
+      inputID: 1
   outputs:
-  - item: {fileID: 11400000, guid: 297ace5d4f74deb41b8bb42271322ed7, type: 2}
-    amount: 9
-  - item: {fileID: 11400000, guid: 6e3221f92e1031342b4a75465753bd51, type: 2}
-    amount: 4
-  name: Melting steel (Stainless)
-  baseTime: 8
+  - outputs:
+    - item: {fileID: 11400000, guid: 25c01436008d4b8479591b454fb5e1d5, type: 2}
+      amount: 9
+      outputID: 0
+    - item: {fileID: 11400000, guid: 6e3221f92e1031342b4a75465753bd51, type: 2}
+      amount: 4
+      outputID: 1
+  name: 
+  baseTime: 0
   icon: {fileID: 0}

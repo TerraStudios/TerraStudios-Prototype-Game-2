@@ -10,35 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36d28cc7cc0e3364bb69a8f54cf609e3, type: 3}
-  m_Name: SO_Rec_Tool_Hammer
+  m_Name: SO_Rec_Steel_Block_3X
   m_EditorClassIdentifier: 
   inputs:
   - inputs:
     - item: {fileID: 11400000, guid: 61c6d588a27f2f44c850fb812149d1b4, type: 2}
       amount: 1
-      inputID: 0
-    - item: {fileID: 11400000, guid: 6e3221f92e1031342b4a75465753bd51, type: 2}
-      amount: 1
-      inputID: 0
+      inputID: -1
   - inputs:
     - item: {fileID: 11400000, guid: 297ace5d4f74deb41b8bb42271322ed7, type: 2}
-      amount: 1
-      inputID: 0
-    - item: {fileID: 11400000, guid: 6e3221f92e1031342b4a75465753bd51, type: 2}
       amount: 1
       inputID: 0
   - inputs:
     - item: {fileID: 11400000, guid: 86d883be72bcca940b3675abe4b20e9a, type: 2}
       amount: 1
-      inputID: 0
-    - item: {fileID: 11400000, guid: 6e3221f92e1031342b4a75465753bd51, type: 2}
-      amount: 1
-      inputID: 0
+      inputID: -1
   outputs:
   - outputs:
-    - item: {fileID: 11400000, guid: d85b2724d87cbab4783393780a0fd1f2, type: 2}
+    - item: {fileID: 11400000, guid: 609e1ea3f7d9d1f46a4ac7e01bdbd40f, type: 2}
       amount: 1
       outputID: 0
-  name: Hammer
+  - outputs:
+    - item: {fileID: 11400000, guid: 25c01436008d4b8479591b454fb5e1d5, type: 2}
+      amount: 1
+      outputID: 0
+  - outputs:
+    - item: {fileID: 11400000, guid: 085a9a61eddda514eab4fad95a67b049, type: 2}
+      amount: 1
+      outputID: 0
+  name: Steel block (Tool's)
   baseTime: 4
   icon: {fileID: 0}
