@@ -12,6 +12,7 @@ public class MachineRecipe : ScriptableObject
     [Serializable]
     public class InputsData
     {
+        public int outputListID;
         public InputData[] inputs;
     }
 
