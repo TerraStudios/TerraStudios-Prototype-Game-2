@@ -94,15 +94,15 @@ public class APM : MonoBehaviour
         if (CurrentRecipe)
         {
             int buildingOutputs = mc.BuildingIOManager.outputs.Length;
-            foreach (MachineRecipe.OutputData[] data in CurrentRecipe.outputs)
+            foreach (MachineRecipe.OutputsData data in CurrentRecipe.outputs)
             {
-                for (int i = 0; i < data.Length; i++)
+                for (int i = 0; i < data.outputs.Length; i++)
                 {
-                    int outputIDToApply = i + 1;
+                    int outputIDToApply = data.outputs[i].outputID + 1;
                     if (outputIDToApply >= buildingOutputs)
                         outputIDToApply = buildingOutputs;
 
-                    outputData.Add(data[i], outputIDToApply);
+                    outputData.Add(data.outputs[i], outputIDToApply);
                 }
             }
         }
@@ -140,15 +140,15 @@ public class APM : MonoBehaviour
             return false;
         }
 
-        MachineRecipe.InputData[] recipeData = CurrentRecipe.inputs.FirstOrDefault(data =>
+        MachineRecipe.InputsData recipeData = CurrentRecipe.inputs.FirstOrDefault(data =>
         {
-            foreach (MachineRecipe.InputData inputData in data)
+            foreach (MachineRecipe.InputData inputData in data.inputs)
                 if ((inputData.item).ID == ItemEnterInfo.item.ID) return true;
 
             return false;
         });
 
-        foreach (MachineRecipe.InputData data in recipeData)
+        foreach (MachineRecipe.InputData data in recipeData.inputs)
         {
             if (Equals(recipeData, default))
             {
@@ -156,26 +156,12 @@ public class APM : MonoBehaviour
                 return false;
             }
 
-            if (data.inputID != -1)
+            if (data.inputID != -1 && data.inputID != ItemEnterInfo.inputID)
             {
-                if (data.inputID != ItemEnterInfo.inputID)
-                {
-                    Debug.LogWarning("This item was not expected to enter this input", this);
-                    return false;
-                }
-            }
-        }
-
-        /*if (recipeData.item is ItemData)
-        {
-            ItemData itemToCheck = recipeData.item as ItemData;
-
-            if (ItemEnterInfo.proposedItems[itemToCheck] > recipeData.amount) // check if we're full of that item
-            {
-                ItemLog(ItemEnterInfo.item.name, "We're already full of this item!", this);
+                Debug.LogWarning("This item was not expected to enter this input", this);
                 return false;
             }
-        }*/
+        }
 
         return true;
     }
@@ -193,9 +179,9 @@ public class APM : MonoBehaviour
             }
         }
 
-        foreach (MachineRecipe.InputData[] inputData in CurrentRecipe.inputs)
+        foreach (MachineRecipe.InputsData inputData in CurrentRecipe.inputs)
         {
-            foreach (MachineRecipe.InputData data in inputData)
+            foreach (MachineRecipe.InputData data in inputData.inputs)
             {
                 ItemData itemToCheck = data.item;
 

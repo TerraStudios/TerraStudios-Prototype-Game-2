@@ -36,9 +36,9 @@ public class RecipeManager : MonoBehaviour
             foreach (MachineRecipe recipe in recipes)
             {
                 bool fits = false;
-                foreach (MachineRecipe.InputData[] data in recipe.inputs)
+                foreach (MachineRecipe.InputsData data in recipe.inputs)
                 {
-                    foreach (MachineRecipe.InputData inputData in data)
+                    foreach (MachineRecipe.InputData inputData in data.inputs)
                     {
                         if (inputData.inputID < filter.buildingInputsAmount)
                             fits = true;

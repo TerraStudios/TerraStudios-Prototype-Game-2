@@ -10,6 +10,12 @@ public class MachineRecipe : ScriptableObject
     /// Represents a serializable dictionary containing the item and its amount 
     /// </summary>
     [Serializable]
+    public class InputsData
+    {
+        public InputData[] inputs;
+    }
+
+    [Serializable]
     public class InputData
     {
         public ItemData item;
@@ -24,19 +30,26 @@ public class MachineRecipe : ScriptableObject
     /// Uses ItemData instead of generic SO because it's not possible to output a category
     /// </summary>
     [Serializable]
+    public class OutputsData
+    {
+        public OutputData[] outputs;
+    }
+
+    [Serializable]
     public class OutputData
     {
         public ItemData item;
         public int amount;
+        public int outputID;
     }
 
     [Header("Items")]
 
     [Tooltip("Specifies the input items and their corresponding amounts for the recipe.")]
-    public List<InputData[]> inputs;
+    public List<InputsData> inputs;
 
     [Tooltip("Specifies the output items and their corresponding amounts for the recipe.")]
-    public List<OutputData[]> outputs;
+    public List<OutputsData> outputs;
 
     [Header("Other Info")]
     [Tooltip("The name of the recipe to display.")]

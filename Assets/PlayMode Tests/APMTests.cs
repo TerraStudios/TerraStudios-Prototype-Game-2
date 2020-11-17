@@ -30,11 +30,11 @@ namespace Tests
             ItemData input1 = GetFakeItem();
 
             // Create fake recipe for testing
-            MachineRecipe recipe = ScriptableObject.CreateInstance<MachineRecipe>();
+            /*MachineRecipe recipe = ScriptableObject.CreateInstance<MachineRecipe>();
 
-            recipe.inputs = new List<MachineRecipe.InputData[]>
+            recipe.inputs = new List<MachineRecipe.InputsData>
                 {
-                    new MachineRecipe.InputData[] 
+                    new MachineRecipe.InputsData
                     {
                         new MachineRecipe.InputData
                         {
@@ -42,20 +42,20 @@ namespace Tests
                         }
                     }
                 };
-            recipe.outputs = new List<MachineRecipe.OutputData[]>
+            recipe.outputs = new List<MachineRecipe.OutputsData>
                 {
-                     new MachineRecipe.OutputData[] 
+                     new MachineRecipe.OutputsData
                      {
                          new MachineRecipe.OutputData
                          {
                              item = GetFakeItemData(), amount = random.Next(1, 3)
                          }
                      }
-                };
-            recipe.baseTime = random.Next(1, 10);
+                };*/
+            //recipe.baseTime = random.Next(1, 10);
 
             //Set current recipe for apm
-            apm.CurrentRecipe = recipe;
+            //apm.CurrentRecipe = recipe;
 
             //Initialize APM, which listens in to the OnItemEnterEvent
             apm.Init();
