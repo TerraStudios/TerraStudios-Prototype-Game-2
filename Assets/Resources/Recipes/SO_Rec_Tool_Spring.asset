@@ -13,15 +13,18 @@ MonoBehaviour:
   m_Name: SO_Rec_Tool_Spring
   m_EditorClassIdentifier: 
   inputs:
-  - inputs:
+  - outputListID: 0
+    inputs:
     - item: {fileID: 11400000, guid: 61c6d588a27f2f44c850fb812149d1b4, type: 2}
       amount: 1
       inputID: -1
-  - inputs:
+  - outputListID: 0
+    inputs:
     - item: {fileID: 11400000, guid: 297ace5d4f74deb41b8bb42271322ed7, type: 2}
       amount: 1
       inputID: -1
-  - inputs:
+  - outputListID: 0
+    inputs:
     - item: {fileID: 11400000, guid: 86d883be72bcca940b3675abe4b20e9a, type: 2}
       amount: 1
       inputID: -1
@@ -29,7 +32,7 @@ MonoBehaviour:
   - outputs:
     - item: {fileID: 11400000, guid: 86a8a73f8ff530440a42da3e09ef48eb, type: 2}
       amount: 1
-      outputID: -1
+      outputID: 0
   name: Spring
   baseTime: 2
   icon: {fileID: 0}
