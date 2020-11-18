@@ -8,8 +8,21 @@ public enum APMStatus { Idle, Blocked, Crafting }
 public class CraftingData
 {
     public MachineRecipe CurrentRecipe;
-    private Dictionary<MachineRecipe.OutputData, int> outputData;
 
+    private Dictionary<MachineRecipe.InputData, int> inputData;
+    public Dictionary<MachineRecipe.InputData, int> InputData
+    {
+        get
+        {
+            return inputData;
+        }
+        set
+        {
+            inputData = new Dictionary<MachineRecipe.InputData, int>(value);
+        }
+    }
+
+    private Dictionary<MachineRecipe.OutputData, int> outputData;
     public Dictionary<MachineRecipe.OutputData, int> OutputData
     {
         get
@@ -33,6 +46,11 @@ public class APM : MonoBehaviour
     private APMStatus currentStatus;
 
     // Key is the needed recipe item
+    // Value is inputID
+    [HideInInspector]
+    public Dictionary<MachineRecipe.InputData, int> inputData = new Dictionary<MachineRecipe.InputData, int>();
+
+    // Key is the needed recipe item
     // Value is outputID
     [HideInInspector]
     public Dictionary<MachineRecipe.OutputData, int> outputData = new Dictionary<MachineRecipe.OutputData, int>();
@@ -49,7 +67,7 @@ public class APM : MonoBehaviour
                 return;
 
             currentRecipe = value;
-            InitOutputData();
+            InitIOData();
 
             Debug.Log("Set recipe: " + value?.name, this);
 
@@ -80,19 +98,40 @@ public class APM : MonoBehaviour
         mc.BuildingIOManager.OnItemEnterInput.AddListener(OnItemEnterInput);
 
         if (CurrentRecipe)
-            InitOutputData();
+            InitIOData();
         else
             CurrentStatus = APMStatus.Blocked;
 
         allowedRecipes = RecipeManager.GetRecipes(recipeFilter).allowed;
     }
 
-    private void InitOutputData()
+    private void InitIOData()
     {
+        inputData.Clear();
         outputData.Clear();
 
         if (CurrentRecipe)
         {
+            int buildingInputs = mc.BuildingIOManager.inputs.Length;
+            foreach (MachineRecipe.InputsData data in CurrentRecipe.inputs)
+            {
+                for (int i = 0; i < data.inputs.Length; i++)
+                {
+                    int inputIDToApply = data.inputs[i].inputID + 1;
+                    if (data.inputs[i].inputID == -1)
+                    {
+                        inputIDToApply = -1;
+                    }
+                    else
+                    {
+                        if (inputIDToApply >= buildingInputs)
+                            inputIDToApply = buildingInputs;
+                    }
+
+                    inputData.Add(data.inputs[i], inputIDToApply);
+                }
+            }
+
             int buildingOutputs = mc.BuildingIOManager.outputs.Length;
             foreach (MachineRecipe.OutputsData data in CurrentRecipe.outputs)
             {
@@ -106,6 +145,23 @@ public class APM : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void OnInputButtonPressed(InputSelector caller)
+    {
+        int newInputID = caller.InputID + 1;
+
+        if (caller.InputID == -1)
+            return;
+        else if (newInputID <= mc.BuildingIOManager.inputs.Length)
+            inputData[caller.value] = newInputID;
+        else
+        {
+            newInputID = 1;
+            inputData[caller.value] = newInputID;
+        }
+
+        caller.InputID = newInputID;
     }
 
     public void OnOutputButtonPressed(OutputSelector caller)
