@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SO_Rec_Steel_Melted_Carbon
   m_EditorClassIdentifier: 
   inputs:
-  - inputs:
+  - outputListID: 0
+    inputs:
     - item: {fileID: 11400000, guid: f28782f5af5c67e419584925f085f204, type: 2}
       amount: 2
       inputID: -1
@@ -25,6 +26,6 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 6e3221f92e1031342b4a75465753bd51, type: 2}
       amount: 2
       outputID: 0
-  name: 
+  name: Melting Steel (Carbon)
   baseTime: 0
   icon: {fileID: 0}
