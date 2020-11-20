@@ -39,7 +39,7 @@ public class BuildingIO : MonoBehaviour
     public ItemData[] itemsAllowedToEnter;
 
     [Header("Output Configuration")]
-    public int outputMaxQueueSize = 5;
+    [HideInInspector] public int outputMaxQueueSize;
 
     [Header("Dynamic variables")]
     public BuildingIO attachedIO;

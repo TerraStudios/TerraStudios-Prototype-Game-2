@@ -43,6 +43,9 @@ public class APM : MonoBehaviour
     public List<MachineRecipe> allowedRecipes = new List<MachineRecipe>();
     private MachineRecipe currentRecipe;
     public float baseTimeMultiplier = 1;
+    public int inputSpace;
+    public int outputSpace;
+
     private APMStatus currentStatus;
 
     // Key is the needed recipe item
@@ -56,7 +59,6 @@ public class APM : MonoBehaviour
     public Dictionary<MachineRecipe.OutputData, int> outputData = new Dictionary<MachineRecipe.OutputData, int>();
 
     public Queue<CraftingData> CurrentlyCrafting = new Queue<CraftingData>();
-
 
     public MachineRecipe CurrentRecipe
     {
@@ -78,7 +80,7 @@ public class APM : MonoBehaviour
         }
     }
 
-    public APMStatus CurrentStatus 
+    public APMStatus CurrentStatus
     {
         get => currentStatus;
         set
@@ -103,6 +105,11 @@ public class APM : MonoBehaviour
             CurrentStatus = APMStatus.Blocked;
 
         allowedRecipes = RecipeManager.GetRecipes(recipeFilter).allowed;
+
+        foreach (BuildingIO io in mc.BuildingIOManager.outputs)
+        {
+            io.outputMaxQueueSize = outputSpace;
+        }
     }
 
     private void InitIOData()
@@ -196,10 +203,10 @@ public class APM : MonoBehaviour
             return false;
         }
 
-        MachineRecipe.InputsData recipeData = CurrentRecipe.inputs.FirstOrDefault(data =>
+        MachineRecipe.InputsData recipeData = CurrentRecipe.inputs.Find(data =>
         {
             foreach (MachineRecipe.InputData inputData in data.inputs)
-                if ((inputData.item).ID == ItemEnterInfo.item.ID) return true;
+                if (inputData.item.ID == ItemEnterInfo.item.ID) return true;
 
             return false;
         });
@@ -217,6 +224,12 @@ public class APM : MonoBehaviour
                 Debug.LogWarning("This item was not expected to enter this input", this);
                 return false;
             }
+        }
+
+        if (mc.BuildingIOManager.itemsInside.Keys.ToList().FindAll(itemInside => itemInside == ItemEnterInfo.item).Count == inputSpace)
+        {
+            ItemLog(ItemEnterInfo.item.name, "There's not enough space for this item!", this);
+            return false;
         }
 
         return true;

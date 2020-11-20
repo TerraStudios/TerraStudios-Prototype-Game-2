@@ -24,6 +24,8 @@ public class BuildingIOManager : MonoBehaviour
     [Tooltip("The ModuleConnector attached to the Building")]
     public ModuleConnector mc;
 
+    // Key is item
+    // Value is quantity
     [Tooltip("A list of all the items inside of the building")]
     public Dictionary<ItemData, int> itemsInside = new Dictionary<ItemData, int>();
 
