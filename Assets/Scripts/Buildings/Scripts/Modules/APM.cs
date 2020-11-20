@@ -44,7 +44,9 @@ public class APM : MonoBehaviour
     private MachineRecipe currentRecipe;
     public float baseTimeMultiplier = 1;
     public int inputSpace;
+    private bool isInputFull;
     public int outputSpace;
+    private bool isOutputFull;
 
     private APMStatus currentStatus;
 
@@ -92,6 +94,27 @@ public class APM : MonoBehaviour
                 mc.BuildingIOManager.SetConveyorGroupState(WorkStateEnum.On);
 
             currentStatus = value;
+        }
+    }
+
+    public bool IsInputFull
+    {
+        get => isInputFull;
+        set
+        {
+            isInputFull = value;
+            if (!value && !IsOutputFull)
+                mc.Building.RemoveIndicator();
+        }
+    }
+    public bool IsOutputFull
+    {
+        get => isOutputFull;
+        set
+        {
+            isOutputFull = value;
+            if (!value && !IsInputFull)
+                mc.Building.RemoveIndicator();
         }
     }
 
@@ -193,6 +216,17 @@ public class APM : MonoBehaviour
 
         if (IsAllowedToStartCrafting(ItemEnterInfo))
             StartCrafting();
+        else
+        {
+            if (mc.BuildingIOManager.itemsInside.Count(kvp => kvp.Key == ItemEnterInfo.item) == inputSpace)
+            {
+                // Building is full of this item type, show an error.
+                IsInputFull = true;
+                mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
+            }
+            else
+                IsInputFull = false;
+        }
     }
 
     public bool IsAllowedToEnter(OnItemEnterEvent ItemEnterInfo)
@@ -226,7 +260,7 @@ public class APM : MonoBehaviour
             }
         }
 
-        if (mc.BuildingIOManager.itemsInside.Keys.ToList().FindAll(itemInside => itemInside == ItemEnterInfo.item).Count == inputSpace)
+        if (mc.BuildingIOManager.itemsInside.Count(kvp => kvp.Key == ItemEnterInfo.item) == inputSpace)
         {
             ItemLog(ItemEnterInfo.item.name, "There's not enough space for this item!", this);
             return false;
@@ -243,9 +277,13 @@ public class APM : MonoBehaviour
             BuildingIO io = mc.BuildingIOManager.outputs[kvp.Value - 1];
             if (io.itemsToSpawn.Count + kvp.Key.amount > io.outputMaxQueueSize)
             {
+                IsOutputFull = true;
                 ItemLog(ItemEnterInfo.item.name, "Not enough space to one or more of the output/s", this);
+                mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
                 return false;
             }
+            else
+                IsOutputFull = false;
         }
 
         foreach (MachineRecipe.InputsData inputData in CurrentRecipe.inputs)
