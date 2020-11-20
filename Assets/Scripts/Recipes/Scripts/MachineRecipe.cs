@@ -62,4 +62,6 @@ public class MachineRecipe : ScriptableObject
     [Tooltip("The icon for this recipe.")]
     public Texture2D icon;
 
+    public bool allowPlayerInputsConfiguration = true;
+    public bool allowPlayerOutputsConfiguration = true;
 }

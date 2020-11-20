@@ -216,6 +216,9 @@ public class BuildingManager : BuildingSystem
             os.InputID = entry.Value;
             os.itemNameText.text = entry.Key.item.name;
             inputSelectorFields.Add(fieldToAdd);
+
+            if (!FocusedBuilding.mc.APM.CurrentRecipe.allowPlayerInputsConfiguration)
+                os.button.interactable = false;
         }
 
         // visualize the outputsData from APM in the UI
@@ -237,6 +240,9 @@ public class BuildingManager : BuildingSystem
             os.OutputID = entry.Value;
             os.itemNameText.text = entry.Key.item.name;
             outputSelectorFields.Add(fieldToAdd);
+
+            if (!FocusedBuilding.mc.APM.CurrentRecipe.allowPlayerOutputsConfiguration)
+                os.button.interactable = false;
         }
     }
     #endregion
