@@ -36,3 +36,5 @@ MonoBehaviour:
   name: Gear
   baseTime: 1
   icon: {fileID: 0}
+  allowPlayerInputsConfiguration: 1
+  allowPlayerOutputsConfiguration: 1

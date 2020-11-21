@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,6 +9,8 @@ public enum APMStatus { Idle, Blocked, Crafting }
 public class CraftingData
 {
     public MachineRecipe CurrentRecipe;
+    public int inputID;
+    public int outputID;
 
     private Dictionary<MachineRecipe.InputData, int> inputData;
     public Dictionary<MachineRecipe.InputData, int> InputData
@@ -214,8 +217,10 @@ public class APM : MonoBehaviour
         if (IsAllowedToEnter(ItemEnterInfo))
             AcceptItemInside(ItemEnterInfo);
 
-        if (IsAllowedToStartCrafting(ItemEnterInfo))
-            StartCrafting();
+        (bool, int, int) recipeInputInfo = IsAllowedToStartCrafting(ItemEnterInfo);
+
+        if (recipeInputInfo.Item1)
+            StartCrafting(recipeInputInfo.Item2, recipeInputInfo.Item3);
         else
         {
             if (mc.BuildingIOManager.itemsInside.Count(kvp => kvp.Key == ItemEnterInfo.item) == inputSpace)
@@ -260,7 +265,7 @@ public class APM : MonoBehaviour
             }
         }
 
-        if (mc.BuildingIOManager.itemsInside.Count(kvp => kvp.Key == ItemEnterInfo.item) == inputSpace)
+        if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key == ItemEnterInfo.item).Value == inputSpace)
         {
             ItemLog(ItemEnterInfo.item.name, "There's not enough space for this item!", this);
             return false;
@@ -269,8 +274,13 @@ public class APM : MonoBehaviour
         return true;
     }
 
-    private bool IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
+    private (bool, int, int) IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
     {
+        bool result = false;
+        int inputID = 0;
+        int outputID = 0;
+
+
         // check if the outputs' queues have enough space to fit the output items
         foreach (KeyValuePair<MachineRecipe.OutputData, int> kvp in outputData)
         {
@@ -280,57 +290,75 @@ public class APM : MonoBehaviour
                 IsOutputFull = true;
                 ItemLog(ItemEnterInfo.item.name, "Not enough space to one or more of the output/s", this);
                 mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
-                return false;
+                return (false, inputID, outputID);
             }
             else
                 IsOutputFull = false;
         }
 
-        foreach (MachineRecipe.InputsData inputData in CurrentRecipe.inputs)
+        foreach (MachineRecipe.InputsData inputsData in CurrentRecipe.inputs)
         {
-            foreach (MachineRecipe.InputData data in inputData.inputs)
+            foreach (MachineRecipe.InputData data in inputsData.inputs)
             {
                 ItemData itemToCheck = data.item;
 
                 // check if we have the enough quantity of it available to start crafting
                 if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
                 {
-                    ItemLog(ItemEnterInfo.item.name, "A required item type is missing from itemsInside!", this);
-                    return false;
+                    //A required item type is missing from itemsInside!
+                    break; // stop and go to the new InputsData
                 }
                 else
                 {
+                    Debug.Log("found one similar item");
                     if (mc.BuildingIOManager.itemsInside[itemToCheck] < data.amount)
                     {
-                        ItemLog(ItemEnterInfo.item.name, "Still, not all items are present inside", this);
-                        return false;
+                        //Still, not all items are present inside
+                        break; // stop and go to the new InputsData
                     }
+                    Debug.Log("found enough quantity!");
                 }
+
+                // ok this one is ready
+
+                result = true;
+                inputID = CurrentRecipe.inputs.FindIndex(inputData => inputData == inputsData);
+                outputID = inputsData.outputListID;
+                break;
             }
         }
 
-        return true;
+        return (result, inputID, outputID);
     }
 
     #region Crafting procedure
 
-    private void StartCrafting()
+    private void StartCrafting(int inputID, int outputID)
     {
         Debug.Log("Start crafting!", this);
         CurrentStatus = APMStatus.Crafting;
 
         CraftingData data = new CraftingData()
         {
+            inputID = inputID,
+            outputID = outputID,
+            InputData = inputData,
             OutputData = outputData,
             CurrentRecipe = currentRecipe
         };
+
+        // look which InputsData is filled
+        // get and save corresponding OutputData
 
         if (CurrentlyCrafting.Count != 0)
             CurrentlyCrafting.Dequeue();
 
         CurrentlyCrafting.Enqueue(data);
 
-        mc.BuildingIOManager.itemsInside.Clear(); // remove all items inside
+        foreach (MachineRecipe.InputData toRemove in data.CurrentRecipe.inputs[inputID].inputs)
+        {
+            mc.BuildingIOManager.itemsInside.Remove(toRemove.item);
+        }
 
         StartCoroutine(RunCraftingTimer());
     }
@@ -344,7 +372,7 @@ public class APM : MonoBehaviour
     private void ExecuteCrafting()
     {
         CraftingData currentlyCrafting = CurrentlyCrafting.Peek();
-        for (int i = 0; i < currentlyCrafting.OutputData.Count; i++)
+        for (int i = 0; i < currentlyCrafting.CurrentRecipe.outputs[currentlyCrafting.outputID].outputs.Length; i++)
         {
             KeyValuePair<MachineRecipe.OutputData, int> entry = currentlyCrafting.OutputData.ElementAt(i);
 
@@ -368,7 +396,7 @@ public class APM : MonoBehaviour
 
     #endregion
 
-    private void ItemLog(string itemName, string message, Object highlight = null)
+    private void ItemLog(string itemName, string message, UnityEngine.Object highlight = null)
     {
         Debug.Log($"[Recipe: {CurrentRecipe.name}] [Item: {itemName}] {message}", highlight);
     }
