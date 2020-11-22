@@ -90,11 +90,11 @@ public class APM : MonoBehaviour
         get => currentStatus;
         set
         {
-            if (value == APMStatus.Crafting)
+            /*if (value == APMStatus.Crafting)
                 mc.BuildingIOManager.SetConveyorGroupState(WorkStateEnum.Off);
                 
             else
-                mc.BuildingIOManager.SetConveyorGroupState(WorkStateEnum.On);
+                mc.BuildingIOManager.SetConveyorGroupState(WorkStateEnum.On);*/
 
             currentStatus = value;
         }
@@ -216,6 +216,8 @@ public class APM : MonoBehaviour
     {
         if (IsAllowedToEnter(ItemEnterInfo))
             AcceptItemInside(ItemEnterInfo);
+        else
+            return;
 
         (bool, int, int) recipeInputInfo = IsAllowedToStartCrafting(ItemEnterInfo);
 
@@ -250,24 +252,43 @@ public class APM : MonoBehaviour
             return false;
         });
 
+        if (recipeData == null)
+        {
+            mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
+            return false;
+        }
+
+        bool allow = false;
         foreach (MachineRecipe.InputData data in recipeData.inputs)
         {
-            if (Equals(recipeData, default))
+            // this if is probably not needed
+            if (Equals(recipeData, default)) // the item that attempts to enter is not expected to enter
             {
-                ItemLog(ItemEnterInfo.item.name, "This item was not expected to enter this building!", this);
-                return false;
+                //ItemLog(ItemEnterInfo.item.name, "This item was not expected to enter this building!", this);
+                continue;
             }
 
+            // check if the input where the item attempts to enter is the correct one
             if (data.inputID != -1 && data.inputID != ItemEnterInfo.inputID)
             {
-                Debug.LogWarning("This item was not expected to enter this input", this);
-                return false;
+                //Debug.LogWarning("This item was not expected to enter this input", this);
+                continue;
             }
+
+            allow = true;
+            break;
+        }
+
+        if (!allow)
+        {
+            mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
+            return false;
         }
 
         if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key == ItemEnterInfo.item).Value == inputSpace)
         {
             ItemLog(ItemEnterInfo.item.name, "There's not enough space for this item!", this);
+            mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
             return false;
         }
 
@@ -296,6 +317,8 @@ public class APM : MonoBehaviour
                 IsOutputFull = false;
         }
 
+        mc.Building.RemoveIndicator();
+
         foreach (MachineRecipe.InputsData inputsData in CurrentRecipe.inputs)
         {
             foreach (MachineRecipe.InputData data in inputsData.inputs)
@@ -306,7 +329,7 @@ public class APM : MonoBehaviour
                 if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
                 {
                     //A required item type is missing from itemsInside!
-                    break; // stop and go to the new InputsData
+                    continue; // stop and go to the new InputsData
                 }
                 else
                 {
@@ -314,7 +337,7 @@ public class APM : MonoBehaviour
                     if (mc.BuildingIOManager.itemsInside[itemToCheck] < data.amount)
                     {
                         //Still, not all items are present inside
-                        break; // stop and go to the new InputsData
+                        continue; // stop and go to the new InputsData
                     }
                     Debug.Log("found enough quantity!");
                 }
