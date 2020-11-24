@@ -170,8 +170,8 @@ MonoBehaviour:
   recipeFilter: {fileID: 11400000, guid: 6816d047c197a2a46ad55940b7c863c9, type: 2}
   allowedRecipes: []
   baseTimeMultiplier: 1
-  inputSpace: 5
-  outputSpace: 5
+  inputSpace: 15
+  outputSpace: 15
 --- !u!1001 &5471727612052988279
 PrefabInstance:
   m_ObjectHideFlags: 0

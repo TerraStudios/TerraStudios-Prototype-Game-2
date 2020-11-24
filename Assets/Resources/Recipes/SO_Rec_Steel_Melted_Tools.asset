@@ -30,5 +30,7 @@ MonoBehaviour:
       amount: 2
       outputID: 1
   name: Melting Steel (Tools)
-  baseTime: 0
+  baseTime: 4
   icon: {fileID: 0}
+  allowPlayerInputsConfiguration: 1
+  allowPlayerOutputsConfiguration: 1

@@ -100,27 +100,6 @@ public class APM : MonoBehaviour
         }
     }
 
-    public bool IsInputFull
-    {
-        get => isInputFull;
-        set
-        {
-            isInputFull = value;
-            if (!value && !IsOutputFull)
-                mc.Building.RemoveIndicator();
-        }
-    }
-    public bool IsOutputFull
-    {
-        get => isOutputFull;
-        set
-        {
-            isOutputFull = value;
-            if (!value && !IsInputFull)
-                mc.Building.RemoveIndicator();
-        }
-    }
-
     public void Init()
     {
         mc.BuildingIOManager.OnItemEnterInput.AddListener(OnItemEnterInput);
@@ -228,11 +207,8 @@ public class APM : MonoBehaviour
             if (mc.BuildingIOManager.itemsInside.Count(kvp => kvp.Key == ItemEnterInfo.item) == inputSpace)
             {
                 // Building is full of this item type, show an error.
-                IsInputFull = true;
                 mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
             }
-            else
-                IsInputFull = false;
         }
     }
 
@@ -297,7 +273,7 @@ public class APM : MonoBehaviour
 
     private (bool, int, int) IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
     {
-        bool result = false;
+        bool failed = false;
         int inputID = 0;
         int outputID = 0;
 
@@ -308,13 +284,10 @@ public class APM : MonoBehaviour
             BuildingIO io = mc.BuildingIOManager.outputs[kvp.Value - 1];
             if (io.itemsToSpawn.Count + kvp.Key.amount > io.outputMaxQueueSize)
             {
-                IsOutputFull = true;
                 ItemLog(ItemEnterInfo.item.name, "Not enough space to one or more of the output/s", this);
                 mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
                 return (false, inputID, outputID);
             }
-            else
-                IsOutputFull = false;
         }
 
         mc.Building.RemoveIndicator();
@@ -329,29 +302,35 @@ public class APM : MonoBehaviour
                 if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
                 {
                     //A required item type is missing from itemsInside!
-                    continue; // stop and go to the new InputsData
+                    failed = true;
+                    break; // stop and go to the new InputsData
                 }
-                else
+
+                Debug.Log("found one similar item");
+                if (mc.BuildingIOManager.itemsInside[itemToCheck] < data.amount)
                 {
-                    Debug.Log("found one similar item");
-                    if (mc.BuildingIOManager.itemsInside[itemToCheck] < data.amount)
-                    {
-                        //Still, not all items are present inside
-                        continue; // stop and go to the new InputsData
-                    }
-                    Debug.Log("found enough quantity!");
+                    //Still, not all items are present inside
+                    failed = true;
+                    break; // stop and go to the new InputsData
                 }
+                Debug.Log("found enough quantity!");
 
-                // ok this one is ready
+                // ok we have all needed items present
 
-                result = true;
+                // locate the inputID and the outputID of that recipe
                 inputID = CurrentRecipe.inputs.FindIndex(inputData => inputData == inputsData);
                 outputID = inputsData.outputListID;
+            }
+
+            if (failed)
+            {
+                Debug.Log("A condition failed so the APM can't start crafting...");
                 break;
             }
+                
         }
 
-        return (result, inputID, outputID);
+        return (!failed, inputID, outputID);
     }
 
     #region Crafting procedure
@@ -383,12 +362,6 @@ public class APM : MonoBehaviour
             mc.BuildingIOManager.itemsInside.Remove(toRemove.item);
         }
 
-        StartCoroutine(RunCraftingTimer());
-    }
-
-    IEnumerator RunCraftingTimer()
-    {
-        yield return new WaitForSeconds(CurrentlyCrafting.Peek().CurrentRecipe.baseTime * baseTimeMultiplier);
         ExecuteCrafting();
     }
 
@@ -401,9 +374,10 @@ public class APM : MonoBehaviour
 
             for (int t = 0; t < entry.Key.amount; t++)
             {
-                mc.BuildingIOManager.outputs[entry.Value - 1].AddToSpawnQueue(entry.Key.item);
+                mc.BuildingIOManager.outputs[entry.Value - 1].AddToSpawnQueue(entry.Key.item, currentlyCrafting.CurrentRecipe.baseTime * baseTimeMultiplier);
             }
 
+            mc.Building.RemoveIndicator();
             CurrentStatus = APMStatus.Idle;
         }
     }

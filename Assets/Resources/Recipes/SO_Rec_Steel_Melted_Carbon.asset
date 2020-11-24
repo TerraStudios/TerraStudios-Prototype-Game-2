@@ -27,5 +27,7 @@ MonoBehaviour:
       amount: 2
       outputID: 0
   name: Melting Steel (Carbon)
-  baseTime: 0
+  baseTime: 4
   icon: {fileID: 0}
+  allowPlayerInputsConfiguration: 1
+  allowPlayerOutputsConfiguration: 1

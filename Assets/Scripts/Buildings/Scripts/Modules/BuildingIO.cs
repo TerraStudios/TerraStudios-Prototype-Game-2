@@ -10,7 +10,7 @@ public enum IOAttachmentStatus
 
 public struct ItemSpawnData
 {
-    public int timeToSpawn;
+    public float timeToSpawn;
     public ItemData itemToSpawn;
 }
 
@@ -229,7 +229,7 @@ public class BuildingIO : MonoBehaviour
     /// Spawns an <see cref="ItemData"/> at one of the exit IOs
     /// </summary>
     /// <param name="itemToSpawn"></param>
-    public void AddToSpawnQueue(ItemData itemToSpawn, int timeToSpawn = 1)
+    public void AddToSpawnQueue(ItemData itemToSpawn, float timeToSpawn = 1)
     {
         ItemSpawnData spawnData = new ItemSpawnData()
         {
@@ -243,12 +243,12 @@ public class BuildingIO : MonoBehaviour
             ExecuteSpawn(itemToSpawn, timeToSpawn);
     }
 
-    private void ExecuteSpawn(ItemData itemToSpawn, int timeToSpawn = 1)
+    private void ExecuteSpawn(ItemData itemToSpawn, float timeToSpawn = 1)
     {
         StartCoroutine(ProcessSpawn(itemToSpawn, timeToSpawn));
     }
 
-    private IEnumerator ProcessSpawn(ItemData itemToSpawn, int timeToSpawn = 1)
+    private IEnumerator ProcessSpawn(ItemData itemToSpawn, float timeToSpawn = 1)
     {
         yield return new WaitUntil(() => !itemInside);
         yield return new WaitForSeconds(timeToSpawn);
