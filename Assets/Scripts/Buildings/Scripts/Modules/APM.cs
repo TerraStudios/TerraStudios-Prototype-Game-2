@@ -202,14 +202,6 @@ public class APM : MonoBehaviour
 
         if (recipeInputInfo.Item1)
             StartCrafting(recipeInputInfo.Item2, recipeInputInfo.Item3);
-        else
-        {
-            if (mc.BuildingIOManager.itemsInside.Count(kvp => kvp.Key == ItemEnterInfo.item) == inputSpace)
-            {
-                // Building is full of this item type, show an error.
-                mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
-            }
-        }
     }
 
     public bool IsAllowedToEnter(OnItemEnterEvent ItemEnterInfo)
@@ -261,12 +253,10 @@ public class APM : MonoBehaviour
             return false;
         }
 
-        if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key == ItemEnterInfo.item).Value == inputSpace)
-        {
-            ItemLog(ItemEnterInfo.item.name, "There's not enough space for this item!", this);
-            mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
+
+        // storage check here
+        if (!IsStorageSufficient(ItemEnterInfo))
             return false;
-        }
 
         return true;
     }
@@ -333,6 +323,20 @@ public class APM : MonoBehaviour
         return (!failed, inputID, outputID);
     }
 
+    private bool IsStorageSufficient(OnItemEnterEvent ItemEnterInfo)
+    {
+        // If the items that attempts to enter has a quantity larger that the allowed
+        if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key == ItemEnterInfo.item).Value == inputSpace)
+        {
+            ItemLog(ItemEnterInfo.item.name, "There's not enough space for this item!", this);
+            mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
+            return false;
+        }
+
+        mc.Building.RemoveIndicator();
+        return true;
+    }
+
     #region Crafting procedure
 
     private void StartCrafting(int inputID, int outputID)
@@ -362,6 +366,12 @@ public class APM : MonoBehaviour
             mc.BuildingIOManager.itemsInside.Remove(toRemove.item);
         }
 
+        StartCoroutine(RunCraftingTimer());
+    }
+
+    IEnumerator RunCraftingTimer()
+    {
+        yield return new WaitForSeconds(CurrentlyCrafting.Peek().CurrentRecipe.baseTime * baseTimeMultiplier);
         ExecuteCrafting();
     }
 
@@ -374,7 +384,7 @@ public class APM : MonoBehaviour
 
             for (int t = 0; t < entry.Key.amount; t++)
             {
-                mc.BuildingIOManager.outputs[entry.Value - 1].AddToSpawnQueue(entry.Key.item, currentlyCrafting.CurrentRecipe.baseTime * baseTimeMultiplier);
+                mc.BuildingIOManager.outputs[entry.Value - 1].AddToSpawnQueue(entry.Key.item);
             }
 
             mc.Building.RemoveIndicator();
