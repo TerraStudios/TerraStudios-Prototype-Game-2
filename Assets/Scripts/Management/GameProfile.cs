@@ -29,6 +29,9 @@ public class GameProfile : ScriptableObject
     public float wattsPerHourIdleMultiplier = 1;
     public float wattsPerHourWorkMultiplier = 1;
 
+    [Header("APM Settings")]
+    public float globalBaseTimeMultiplier = 1;
+
     [Header("Remove System Multipliers")]
     public float removePenaltyMultiplier = 0.4f;
     public float garbageRemoveMultiplier = 2;

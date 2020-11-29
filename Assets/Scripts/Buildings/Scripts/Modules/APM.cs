@@ -47,9 +47,7 @@ public class APM : MonoBehaviour
     private MachineRecipe currentRecipe;
     public float baseTimeMultiplier = 1;
     public int inputSpace;
-    private bool isInputFull;
     public int outputSpace;
-    private bool isOutputFull;
 
     private APMStatus currentStatus;
 
@@ -125,7 +123,7 @@ public class APM : MonoBehaviour
         if (CurrentRecipe)
         {
             int buildingInputs = mc.BuildingIOManager.inputs.Length;
-            foreach (MachineRecipe.InputsData data in CurrentRecipe.inputs)
+            foreach (MachineRecipe.InputBatch data in CurrentRecipe.inputs)
             {
                 for (int i = 0; i < data.inputs.Length; i++)
                 {
@@ -145,7 +143,7 @@ public class APM : MonoBehaviour
             }
 
             int buildingOutputs = mc.BuildingIOManager.outputs.Length;
-            foreach (MachineRecipe.OutputsData data in CurrentRecipe.outputs)
+            foreach (MachineRecipe.OutputBatch data in CurrentRecipe.outputs)
             {
                 for (int i = 0; i < data.outputs.Length; i++)
                 {
@@ -212,61 +210,51 @@ public class APM : MonoBehaviour
             return false;
         }
 
-        MachineRecipe.InputsData recipeData = CurrentRecipe.inputs.Find(data =>
+        // Get the InputsData that expect this item to come in
+        List<MachineRecipe.InputBatch> recipeData = CurrentRecipe.inputs.FindAll(data =>
         {
             foreach (MachineRecipe.InputData inputData in data.inputs)
-                if (inputData.item.ID == ItemEnterInfo.item.ID) return true;
+            {
+                if (inputData.item.ID == ItemEnterInfo.item.ID)
+                {
+                    if (inputData.inputID != -1)
+                    {
+                        if (inputData.inputID != ItemEnterInfo.inputID)
+                            return false;
+                        else
+                            return true;
+                    }
+                    else if (inputData.inputID == -1)
+                    {
+                        return true;
+                    }
+                }
+            }
 
             return false;
         });
 
-        if (recipeData == null)
+        // Check if there's any allowed InputsData, if none, the item shouldn't be allowed to enter
+        if (recipeData.Count == 0)
         {
-            mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
+            Debug.LogWarning("Didn't find any item that fits the InputData of this recipe!");
             return false;
         }
-
-        bool allow = false;
-        foreach (MachineRecipe.InputData data in recipeData.inputs)
-        {
-            // this if is probably not needed
-            if (Equals(recipeData, default)) // the item that attempts to enter is not expected to enter
-            {
-                //ItemLog(ItemEnterInfo.item.name, "This item was not expected to enter this building!", this);
-                continue;
-            }
-
-            // check if the input where the item attempts to enter is the correct one
-            if (data.inputID != -1 && data.inputID != ItemEnterInfo.inputID)
-            {
-                //Debug.LogWarning("This item was not expected to enter this input", this);
-                continue;
-            }
-
-            allow = true;
-            break;
-        }
-
-        if (!allow)
-        {
-            mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
-            return false;
-        }
-
 
         // storage check here
-        if (!IsStorageSufficient(ItemEnterInfo))
+        if (!IsInputStorageSufficient(ItemEnterInfo))
+        {
+            Debug.LogWarning("Input storage insufficient!");
             return false;
+        }
 
         return true;
     }
 
     private (bool, int, int) IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
     {
-        bool failed = false;
         int inputID = 0;
         int outputID = 0;
-
 
         // check if the outputs' queues have enough space to fit the output items
         foreach (KeyValuePair<MachineRecipe.OutputData, int> kvp in outputData)
@@ -282,53 +270,50 @@ public class APM : MonoBehaviour
 
         mc.Building.RemoveIndicator();
 
-        foreach (MachineRecipe.InputsData inputsData in CurrentRecipe.inputs)
+        List<MachineRecipe.InputBatch> recipeData = CurrentRecipe.inputs.FindAll(data =>
         {
-            foreach (MachineRecipe.InputData data in inputsData.inputs)
+            foreach (MachineRecipe.InputData inputData in data.inputs)
             {
-                ItemData itemToCheck = data.item;
+                ItemData recipeItem = inputData.item;
 
-                // check if we have the enough quantity of it available to start crafting
-                if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
+                // check if itemsInside contains the item needed from the recipe
+                if (!mc.BuildingIOManager.itemsInside.ContainsKey(recipeItem))
                 {
                     //A required item type is missing from itemsInside!
-                    failed = true;
-                    break; // stop and go to the new InputsData
+                    return false;
                 }
 
-                Debug.Log("found one similar item");
-                if (mc.BuildingIOManager.itemsInside[itemToCheck] < data.amount)
+                // check if we have the enough quantity of it available to start crafting
+                if (mc.BuildingIOManager.itemsInside[recipeItem] < inputData.amount)
                 {
                     //Still, not all items are present inside
-                    failed = true;
-                    break; // stop and go to the new InputsData
+                    return false;
                 }
-                Debug.Log("found enough quantity!");
 
-                // ok we have all needed items present
-
-                // locate the inputID and the outputID of that recipe
-                inputID = CurrentRecipe.inputs.FindIndex(inputData => inputData == inputsData);
-                outputID = inputsData.outputListID;
+                inputID = CurrentRecipe.inputs.FindIndex(id => id == data);
+                outputID = data.outputListID;
             }
 
-            if (failed)
-            {
-                Debug.Log("A condition failed so the APM can't start crafting...");
-                break;
-            }
-                
+            return true;
+        });
+
+        if (recipeData.Count == 1)
+        {
+            Debug.Log("Starting crafting with inputID: " + inputID + " outputID: " + outputID);
+            return (true, inputID, outputID);
         }
-
-        return (!failed, inputID, outputID);
+        else
+        {
+            return (false, inputID, outputID);
+        }
     }
 
-    private bool IsStorageSufficient(OnItemEnterEvent ItemEnterInfo)
+    private bool IsInputStorageSufficient(OnItemEnterEvent ItemEnterInfo)
     {
         // If the items that attempts to enter has a quantity larger that the allowed
-        if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key == ItemEnterInfo.item).Value == inputSpace)
+        if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key == ItemEnterInfo.item).Value == inputSpace && APMStatus.Idle == currentStatus)
         {
-            ItemLog(ItemEnterInfo.item.name, "There's not enough space for this item!", this);
+            ItemLog(ItemEnterInfo.item.name, "There's not enough input space for this item!", this);
             mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
             return false;
         }
@@ -337,12 +322,22 @@ public class APM : MonoBehaviour
         return true;
     }
 
+    private bool IsOutputStorageSufficient()
+    {
+        foreach (BuildingIO output in mc.BuildingIOManager.outputs)
+        {
+            if (output.itemsToSpawn.Count >= outputSpace)
+                return false;
+        }
+
+        return true;
+    }
+
     #region Crafting procedure
 
     private void StartCrafting(int inputID, int outputID)
     {
         Debug.Log("Start crafting!", this);
-        CurrentStatus = APMStatus.Crafting;
 
         CraftingData data = new CraftingData()
         {
@@ -353,15 +348,25 @@ public class APM : MonoBehaviour
             CurrentRecipe = currentRecipe
         };
 
-        // look which InputsData is filled
-        // get and save corresponding OutputData
-
-        if (CurrentlyCrafting.Count != 0)
-            CurrentlyCrafting.Dequeue();
-
         CurrentlyCrafting.Enqueue(data);
 
-        foreach (MachineRecipe.InputData toRemove in data.CurrentRecipe.inputs[inputID].inputs)
+        Debug.Log("Enqueued new crafting.");
+
+        if (CurrentlyCrafting.Count > 1)
+        {
+            Debug.Log("Looks like APM is currently crafting something... Will wait my turn.");
+            return;
+        }
+
+        Debug.Log("APM is ready to craft this item! Proceeding...");
+        CurrentStatus = APMStatus.Crafting;
+        ProcessToCraft();
+    }
+
+    private void ProcessToCraft()
+    {
+        CraftingData data = CurrentlyCrafting.Peek();
+        foreach (MachineRecipe.InputData toRemove in data.CurrentRecipe.inputs[data.inputID].inputs)
         {
             mc.BuildingIOManager.itemsInside.Remove(toRemove.item);
         }
@@ -371,24 +376,35 @@ public class APM : MonoBehaviour
 
     IEnumerator RunCraftingTimer()
     {
-        yield return new WaitForSeconds(CurrentlyCrafting.Peek().CurrentRecipe.baseTime * baseTimeMultiplier);
+        yield return new WaitForSeconds(CurrentlyCrafting.Peek().CurrentRecipe.baseTime * baseTimeMultiplier * GameManager.instance.Profile.globalBaseTimeMultiplier);
+        while(!IsOutputStorageSufficient());
         ExecuteCrafting();
     }
 
     private void ExecuteCrafting()
     {
         CraftingData currentlyCrafting = CurrentlyCrafting.Peek();
-        for (int i = 0; i < currentlyCrafting.CurrentRecipe.outputs[currentlyCrafting.outputID].outputs.Length; i++)
+
+        foreach (MachineRecipe.OutputData data in currentlyCrafting.CurrentRecipe.outputs[currentlyCrafting.outputID].outputs) // get items needed to be ejected
         {
-            KeyValuePair<MachineRecipe.OutputData, int> entry = currentlyCrafting.OutputData.ElementAt(i);
+            // find their corresponding outputID
+            KeyValuePair<MachineRecipe.OutputData, int> kvp = new KeyValuePair<MachineRecipe.OutputData, int>(data, currentlyCrafting.OutputData[data]);
 
-            for (int t = 0; t < entry.Key.amount; t++)
+            for (int t = 0; t < kvp.Key.amount; t++)
             {
-                mc.BuildingIOManager.outputs[entry.Value - 1].AddToSpawnQueue(entry.Key.item);
+                mc.BuildingIOManager.outputs[kvp.Value - 1].AddToSpawnQueue(kvp.Key.item);
             }
+        }
 
-            mc.Building.RemoveIndicator();
-            CurrentStatus = APMStatus.Idle;
+        mc.Building.RemoveIndicator();
+        CurrentStatus = APMStatus.Idle;
+
+        CurrentlyCrafting.Dequeue();
+
+        if (CurrentlyCrafting.Count > 0)
+        {
+            Debug.Log("Finished crafting! Processing the next crafting data in the queue...");
+            ProcessToCraft();
         }
     }
 
