@@ -15,7 +15,7 @@ namespace Assets.Tests
         [Test]
         public void CheckForInvalidRecipes()
         {
-            foreach (var recipe in Resources.LoadAll<MachineRecipe>(""))
+            foreach (MachineRecipe recipe in Resources.LoadAll<MachineRecipe>(""))
             {
                 Assert.IsNotEmpty(recipe.name, $"A recipe was found with no name.");
                 // TODO: UNCOMMENT THIS WHEN ICONS WILL ACTUALLY BE USED
@@ -26,5 +26,28 @@ namespace Assets.Tests
             }
         }
 
+        [Test]
+        public void CheckValidOutputID()
+        {
+            foreach (MachineRecipe recipe in Resources.LoadAll<MachineRecipe>(""))
+            {
+                foreach (MachineRecipe.OutputBatch batch in recipe.outputs)
+                {
+                    foreach (MachineRecipe.OutputData data in batch.outputs)
+                    {
+                        Assert.IsFalse(data.outputID == -1);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public void CheckCorrectBaseTimeValue()
+        {
+            foreach (MachineRecipe recipe in Resources.LoadAll<MachineRecipe>(""))
+            {
+                Assert.IsFalse(recipe.baseTime == 0);
+            }
+        }
     }
 }

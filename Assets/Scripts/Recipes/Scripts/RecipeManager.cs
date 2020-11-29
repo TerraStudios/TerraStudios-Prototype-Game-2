@@ -33,24 +33,58 @@ public class RecipeManager : MonoBehaviour
         // Get recipes from the automatic fields
         if (filter.enableAutomaticList)
         {
+            // Check the inputs
             foreach (MachineRecipe recipe in recipes)
             {
-                bool fits = false;
+                bool inputsFit = false;
                 foreach (MachineRecipe.InputBatch data in recipe.inputs)
                 {
                     foreach (MachineRecipe.InputData inputData in data.inputs)
                     {
                         if (inputData.inputID < filter.buildingInputsAmount)
-                            fits = true;
+                            inputsFit = true;
                         else
                         {
-                            fits = false;
+                            inputsFit = false;
                             break;
                         }
                     }
                 }
 
-                if (fits)
+                if (inputsFit)
+                {
+                    if (filter.type == RecipeType.Allowed)
+                    {
+                        allowedRecipes.Add(recipe);
+                    }
+                    else if (filter.type == RecipeType.Blocked)
+                    {
+                        blockedRecipes.Add(recipe);
+                    }
+                }
+                else
+                    continue;
+            }
+
+            // Check the outputs
+            foreach (MachineRecipe recipe in recipes)
+            {
+                bool outputsFit = false;
+                foreach (MachineRecipe.OutputBatch data in recipe.outputs)
+                {
+                    foreach (MachineRecipe.OutputData inputData in data.outputs)
+                    {
+                        if (inputData.outputID < filter.buildingInputsAmount)
+                            outputsFit = true;
+                        else
+                        {
+                            outputsFit = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (outputsFit)
                 {
                     if (filter.type == RecipeType.Allowed)
                     {

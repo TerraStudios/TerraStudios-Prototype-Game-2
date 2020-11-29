@@ -132,8 +132,18 @@ namespace Assets.Tests
 
         }
 
-        
+        [Test]
+        public void CheckValidAPMSpace()
+        {
+            foreach (GameObject go in Resources.LoadAll<GameObject>("Buildings"))
+            {
+                APM apm = go.GetComponent<APM>();
+                if (!apm)
+                    return;
 
-
+                Assert.IsFalse(apm.inputSpace <= 0);
+                Assert.IsFalse(apm.outputSpace <= 0);
+            }
+        }
     }
 }

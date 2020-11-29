@@ -17,6 +17,7 @@ public class RecipeFilter : ScriptableObject
     [Header("Automatic List")]
     public bool enableAutomaticList;
     public int buildingInputsAmount;
+    public int buildingOutputsAmount;
     public RecipeType type;
 
     [Header("Manual List")]
