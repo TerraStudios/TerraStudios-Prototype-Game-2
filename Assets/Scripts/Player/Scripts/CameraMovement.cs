@@ -27,6 +27,10 @@ public class CameraMovement : MonoBehaviour
     public float maxZ;
     public float minZ;
 
+    // Saved camera rotation when switching to the secondary camera (with Z)
+    // Used to restore rotation after switching back
+    private Quaternion cameraRotation;
+
     private void Start()
     {
         zoomLevel = CinemachineFollowZoom.m_MaxFOV;
@@ -65,26 +69,34 @@ public class CameraMovement : MonoBehaviour
             transform.position = GetMovement(transform.position + (-transform.right * movementSpeed * Time.unscaledDeltaTime));
         }
 
-        // Q and E 90 degrees rotation
-        if (Input.GetKey(KeyCode.Q))
+        // Only allow the normal camera to rotate
+        if (CameraGO1.gameObject.activeInHierarchy)
         {
-            transform.rotation *= Quaternion.Euler(0, rotationSpeed / 200f, 0);
-        }
 
-        if (Input.GetKey(KeyCode.E))
-        {
-            transform.rotation *= Quaternion.Euler(0, -rotationSpeed / 200f, 0);
+            // Q and E 90 degrees rotation
+            if (Input.GetKey(KeyCode.Q))
+            {
+                transform.rotation *= Quaternion.Euler(0, rotationSpeed / 200f, 0);
+            }
+
+            if (Input.GetKey(KeyCode.E))
+            {
+                transform.rotation *= Quaternion.Euler(0, -rotationSpeed / 200f, 0);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
             if (CameraGO1.gameObject.activeInHierarchy)
             {
+                cameraRotation = CameraGO1.rotation;
                 CameraGO1.gameObject.SetActive(false);
                 CameraGO2.gameObject.SetActive(true);
+                CameraGO2.rotation = Quaternion.Euler(90, 0, 0);
             } else
             {
                 CameraGO1.gameObject.SetActive(true);
+                CameraGO1.rotation = cameraRotation;
                 CameraGO2.gameObject.SetActive(false);
             }
         }
