@@ -13,17 +13,24 @@ MonoBehaviour:
   m_Name: SO_Rec_Steel_Melted_Tools
   m_EditorClassIdentifier: 
   inputs:
-  - item: {fileID: 11400000, guid: f28782f5af5c67e419584925f085f204, type: 2}
-    amount: 4
-    inputID: 0
-  - item: {fileID: 11400000, guid: 7a35929a91f83294ab332b96c6d71d6a, type: 2}
-    amount: 1
-    inputID: 1
+  - outputListID: 0
+    inputs:
+    - item: {fileID: 11400000, guid: f28782f5af5c67e419584925f085f204, type: 2}
+      amount: 4
+      inputID: 0
+    - item: {fileID: 11400000, guid: 7a35929a91f83294ab332b96c6d71d6a, type: 2}
+      amount: 1
+      inputID: 1
   outputs:
-  - item: {fileID: 11400000, guid: 86d883be72bcca940b3675abe4b20e9a, type: 2}
-    amount: 5
-  - item: {fileID: 11400000, guid: 6e3221f92e1031342b4a75465753bd51, type: 2}
-    amount: 2
-  name: Melting steel (Tool's)
-  baseTime: 5
+  - outputs:
+    - item: {fileID: 11400000, guid: 86d883be72bcca940b3675abe4b20e9a, type: 2}
+      amount: 5
+      outputID: 0
+    - item: {fileID: 11400000, guid: 6e3221f92e1031342b4a75465753bd51, type: 2}
+      amount: 2
+      outputID: 1
+  name: Melting Steel (Tools)
+  baseTime: 4
   icon: {fileID: 0}
+  allowPlayerInputsConfiguration: 1
+  allowPlayerOutputsConfiguration: 1

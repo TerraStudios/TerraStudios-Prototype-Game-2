@@ -22,7 +22,6 @@ namespace Assets.Tests
                 Assert.IsNotNull(item.obj, $"The item {item.name} had a null obj attached.");
                 Assert.IsNotEmpty(item.description, $"The item ${item.name} was found with no description.");
                 Assert.IsNotNull(item.obj.data, $"The prefab {item.obj.name} had a null ItemData attached.");
-                Assert.IsNotNull(item.ItemCategory, $"An ItemCategory for ${item.name} has not been specified");
                 Assert.Greater(item.startingPriceInShop, 0, $"The price for {item.name} has been found <= 0.");
             }
         }

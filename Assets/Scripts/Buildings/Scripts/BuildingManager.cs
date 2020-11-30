@@ -16,8 +16,11 @@ public class BuildingManager : BuildingSystem
     [Header("IO and Recipe Setup UI Components")]
     public TMP_Dropdown recipeSelection;
     public GameObject IOSelectionPanel;
+    public Transform InputsParent;
+    public Transform InputsSelector;
     public Transform OutputsParent;
     public Transform OutputsSelector;
+    private List<Transform> inputSelectorFields = new List<Transform>();
     private List<Transform> outputSelectorFields = new List<Transform>();
 
     [Header("Building Indicators")]
@@ -64,7 +67,7 @@ public class BuildingManager : BuildingSystem
         BuildingInfo.SetActive(true);
 
         RefreshRecipeList();
-        RefreshOutputsUI();
+        RefreshIOUI();
 
         if (b.mc.BuildingIOManager.isConveyor && enableDebugSpawn)
             b.mc.BuildingIOManager.outputs[0].AddToSpawnQueue(testItemToSpawn, 0);
@@ -156,7 +159,7 @@ public class BuildingManager : BuildingSystem
             recipeSelection.value = 0;
         }
         
-        for (int i = 0; i < FocusedBuilding.mc.APM.allowedRecipes.Count(); i++)
+        for (int i = 0; i < FocusedBuilding.mc.APM.allowedRecipes.Count; i++)
         {
             MachineRecipe recipe = FocusedBuilding.mc.APM.allowedRecipes[i];
             recipeSelection.options.Add(new TMP_Dropdown.OptionData() { text = recipe.name });
@@ -176,23 +179,47 @@ public class BuildingManager : BuildingSystem
         else
             FocusedBuilding.mc.APM.CurrentRecipe = FocusedBuilding.mc.APM.allowedRecipes[changed.value - 1];
 
-        RefreshOutputsUI();
+        RefreshIOUI();
     }
 
-    public void ShowIOSelectionUI() => RefreshOutputsUI(true);
+    public void ShowIOSelectionUI() => RefreshIOUI(true);
 
     public void HideIOSelectionUI()
     {
         IOSelectionPanel.SetActive(false);
     }
 
-    private void RefreshOutputsUI(bool showPanel = false)
+    private void RefreshIOUI(bool showPanel = false)
     {
         if (!IsOutputSetupSupported())
             return;
 
         if (showPanel)
             IOSelectionPanel.SetActive(true);
+
+        // visualize the inputData from APM to the UI
+
+        foreach (Transform field in inputSelectorFields)
+        {
+            Destroy(field.gameObject);
+        }
+
+        inputSelectorFields.Clear();
+
+        for (int i = 0; i < FocusedBuilding.mc.APM.inputData.Count; i++)
+        {
+            KeyValuePair<MachineRecipe.InputData, int> entry = FocusedBuilding.mc.APM.inputData.ElementAt(i);
+
+            Transform fieldToAdd = Instantiate(InputsSelector, InputsParent);
+            InputSelector os = fieldToAdd.GetComponent<InputSelector>();
+            os.value = entry.Key;
+            os.InputID = entry.Value;
+            os.itemNameText.text = entry.Key.item.name;
+            inputSelectorFields.Add(fieldToAdd);
+
+            if (!FocusedBuilding.mc.APM.CurrentRecipe.allowPlayerInputsConfiguration)
+                os.button.interactable = false;
+        }
 
         // visualize the outputsData from APM in the UI
 
@@ -213,6 +240,9 @@ public class BuildingManager : BuildingSystem
             os.OutputID = entry.Value;
             os.itemNameText.text = entry.Key.item.name;
             outputSelectorFields.Add(fieldToAdd);
+
+            if (!FocusedBuilding.mc.APM.CurrentRecipe.allowPlayerOutputsConfiguration)
+                os.button.interactable = false;
         }
     }
     #endregion

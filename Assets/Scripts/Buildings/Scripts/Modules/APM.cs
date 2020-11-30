@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,8 +9,23 @@ public enum APMStatus { Idle, Blocked, Crafting }
 public class CraftingData
 {
     public MachineRecipe CurrentRecipe;
-    private Dictionary<MachineRecipe.OutputData, int> outputData;
+    public int inputID;
+    public int outputID;
 
+    private Dictionary<MachineRecipe.InputData, int> inputData;
+    public Dictionary<MachineRecipe.InputData, int> InputData
+    {
+        get
+        {
+            return inputData;
+        }
+        set
+        {
+            inputData = new Dictionary<MachineRecipe.InputData, int>(value);
+        }
+    }
+
+    private Dictionary<MachineRecipe.OutputData, int> outputData;
     public Dictionary<MachineRecipe.OutputData, int> OutputData
     {
         get
@@ -30,7 +46,15 @@ public class APM : MonoBehaviour
     public List<MachineRecipe> allowedRecipes = new List<MachineRecipe>();
     private MachineRecipe currentRecipe;
     public float baseTimeMultiplier = 1;
+    public int inputSpace;
+    public int outputSpace;
+
     private APMStatus currentStatus;
+
+    // Key is the needed recipe item
+    // Value is inputID
+    [HideInInspector]
+    public Dictionary<MachineRecipe.InputData, int> inputData = new Dictionary<MachineRecipe.InputData, int>();
 
     // Key is the needed recipe item
     // Value is outputID
@@ -38,7 +62,6 @@ public class APM : MonoBehaviour
     public Dictionary<MachineRecipe.OutputData, int> outputData = new Dictionary<MachineRecipe.OutputData, int>();
 
     public Queue<CraftingData> CurrentlyCrafting = new Queue<CraftingData>();
-
 
     public MachineRecipe CurrentRecipe
     {
@@ -49,7 +72,7 @@ public class APM : MonoBehaviour
                 return;
 
             currentRecipe = value;
-            InitOutputData();
+            InitIOData();
 
             Debug.Log("Set recipe: " + value?.name, this);
 
@@ -60,16 +83,16 @@ public class APM : MonoBehaviour
         }
     }
 
-    public APMStatus CurrentStatus 
+    public APMStatus CurrentStatus
     {
         get => currentStatus;
         set
         {
-            if (value == APMStatus.Crafting)
+            /*if (value == APMStatus.Crafting)
                 mc.BuildingIOManager.SetConveyorGroupState(WorkStateEnum.Off);
                 
             else
-                mc.BuildingIOManager.SetConveyorGroupState(WorkStateEnum.On);
+                mc.BuildingIOManager.SetConveyorGroupState(WorkStateEnum.On);*/
 
             currentStatus = value;
         }
@@ -80,29 +103,75 @@ public class APM : MonoBehaviour
         mc.BuildingIOManager.OnItemEnterInput.AddListener(OnItemEnterInput);
 
         if (CurrentRecipe)
-            InitOutputData();
+            InitIOData();
         else
             CurrentStatus = APMStatus.Blocked;
 
         allowedRecipes = RecipeManager.GetRecipes(recipeFilter).allowed;
+
+        foreach (BuildingIO io in mc.BuildingIOManager.outputs)
+        {
+            io.outputMaxQueueSize = outputSpace;
+        }
     }
 
-    private void InitOutputData()
+    private void InitIOData()
     {
+        inputData.Clear();
         outputData.Clear();
 
         if (CurrentRecipe)
         {
-            int buildingOutputs = mc.BuildingIOManager.outputs.Length;
-            for (int i = 0; i < CurrentRecipe.outputs.Length; i++)
+            int buildingInputs = mc.BuildingIOManager.inputs.Length;
+            foreach (MachineRecipe.InputBatch data in CurrentRecipe.inputs)
             {
-                int outputIDToApply = i + 1;
-                if (outputIDToApply >= buildingOutputs)
-                    outputIDToApply = buildingOutputs;
+                for (int i = 0; i < data.inputs.Length; i++)
+                {
+                    int inputIDToApply = data.inputs[i].inputID + 1;
+                    if (data.inputs[i].inputID == -1)
+                    {
+                        inputIDToApply = -1;
+                    }
+                    else
+                    {
+                        if (inputIDToApply >= buildingInputs)
+                            inputIDToApply = buildingInputs;
+                    }
 
-                outputData.Add(CurrentRecipe.outputs[i], outputIDToApply);
+                    inputData.Add(data.inputs[i], inputIDToApply);
+                }
+            }
+
+            int buildingOutputs = mc.BuildingIOManager.outputs.Length;
+            foreach (MachineRecipe.OutputBatch data in CurrentRecipe.outputs)
+            {
+                for (int i = 0; i < data.outputs.Length; i++)
+                {
+                    int outputIDToApply = data.outputs[i].outputID + 1;
+                    if (outputIDToApply >= buildingOutputs)
+                        outputIDToApply = buildingOutputs;
+
+                    outputData.Add(data.outputs[i], outputIDToApply);
+                }
             }
         }
+    }
+
+    public void OnInputButtonPressed(InputSelector caller)
+    {
+        int newInputID = caller.InputID + 1;
+
+        if (caller.InputID == -1)
+            return;
+        else if (newInputID <= mc.BuildingIOManager.inputs.Length)
+            inputData[caller.value] = newInputID;
+        else
+        {
+            newInputID = 1;
+            inputData[caller.value] = newInputID;
+        }
+
+        caller.InputID = newInputID;
     }
 
     public void OnOutputButtonPressed(OutputSelector caller)
@@ -124,9 +193,13 @@ public class APM : MonoBehaviour
     {
         if (IsAllowedToEnter(ItemEnterInfo))
             AcceptItemInside(ItemEnterInfo);
+        else
+            return;
 
-        if (IsAllowedToStartCrafting(ItemEnterInfo))
-            StartCrafting();
+        (bool, int, int) recipeInputInfo = IsAllowedToStartCrafting(ItemEnterInfo);
+
+        if (recipeInputInfo.Item1)
+            StartCrafting(recipeInputInfo.Item2, recipeInputInfo.Item3);
     }
 
     public bool IsAllowedToEnter(OnItemEnterEvent ItemEnterInfo)
@@ -137,61 +210,52 @@ public class APM : MonoBehaviour
             return false;
         }
 
-        MachineRecipe.InputData recipeData = CurrentRecipe.inputs.FirstOrDefault(data =>
+        // Get the InputsData that expect this item to come in
+        List<MachineRecipe.InputBatch> recipeData = CurrentRecipe.inputs.FindAll(data =>
         {
-            if (data.item is ItemData)
+            foreach (MachineRecipe.InputData inputData in data.inputs)
             {
-                if ((data.item as ItemData).ID == ItemEnterInfo.item.ID) return true;
-            }
-            else
-            {
-                if ((data.item as ItemCategory) == ItemEnterInfo.item.ItemCategory) return true;
+                if (inputData.item.ID == ItemEnterInfo.item.ID)
+                {
+                    if (inputData.inputID != -1)
+                    {
+                        if (inputData.inputID != ItemEnterInfo.inputID)
+                            return false;
+                        else
+                            return true;
+                    }
+                    else if (inputData.inputID == -1)
+                    {
+                        return true;
+                    }
+                }
             }
 
             return false;
         });
 
-        if (Equals(recipeData, default))
+        // Check if there's any allowed InputsData, if none, the item shouldn't be allowed to enter
+        if (recipeData.Count == 0)
         {
-            ItemLog(ItemEnterInfo.item.name, "This item was not expected to enter this building!", this);
+            Debug.LogWarning("Didn't find any item that fits the InputData of this recipe!");
             return false;
         }
 
-        if (recipeData.inputID != -1)
+        // storage check here
+        if (!IsInputStorageSufficient(ItemEnterInfo))
         {
-            if (recipeData.inputID != ItemEnterInfo.inputID)
-            {
-                Debug.LogWarning("This item was not expected to enter this input", this);
-                return false;
-            }
+            Debug.LogWarning("Input storage insufficient!");
+            return false;
         }
-
-        /*if (recipeData.item is ItemData)
-        {
-            ItemData itemToCheck = recipeData.item as ItemData;
-
-            if (ItemEnterInfo.proposedItems[itemToCheck] > recipeData.amount) // check if we're full of that item
-            {
-                ItemLog(ItemEnterInfo.item.name, "We're already full of this item!", this);
-                return false;
-            }
-        }
-        else if (recipeData.item is ItemCategory)
-        {
-            ItemCategory cat = recipeData.item as ItemCategory;
-
-            if (ItemEnterInfo.proposedItems.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value > recipeData.amount)
-            {
-                ItemLog(ItemEnterInfo.item.name, "We're already full of this item!", this); // check if we're full of that item
-                return false;
-            }
-        }*/
 
         return true;
     }
 
-    private bool IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
+    private (bool, int, int) IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
     {
+        int inputID = 0;
+        int outputID = 0;
+
         // check if the outputs' queues have enough space to fit the output items
         foreach (KeyValuePair<MachineRecipe.OutputData, int> kvp in outputData)
         {
@@ -199,42 +263,71 @@ public class APM : MonoBehaviour
             if (io.itemsToSpawn.Count + kvp.Key.amount > io.outputMaxQueueSize)
             {
                 ItemLog(ItemEnterInfo.item.name, "Not enough space to one or more of the output/s", this);
-                return false;
+                mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
+                return (false, inputID, outputID);
             }
         }
 
-        foreach (MachineRecipe.InputData inputData in CurrentRecipe.inputs)
+        mc.Building.RemoveIndicator();
+
+        List<MachineRecipe.InputBatch> recipeData = CurrentRecipe.inputs.FindAll(data =>
         {
-            if (inputData.item is ItemData)
+            foreach (MachineRecipe.InputData inputData in data.inputs)
             {
-                ItemData itemToCheck = inputData.item as ItemData;
+                ItemData recipeItem = inputData.item;
 
-                // check if we have the enough quantity of it available to start crafting
-                if (!mc.BuildingIOManager.itemsInside.ContainsKey(itemToCheck))
+                // check if itemsInside contains the item needed from the recipe
+                if (!mc.BuildingIOManager.itemsInside.ContainsKey(recipeItem))
                 {
-                    ItemLog(ItemEnterInfo.item.name, "A required item type is missing from itemsInside!", this);
+                    //A required item type is missing from itemsInside!
                     return false;
                 }
-                else
-                {
-                    if (mc.BuildingIOManager.itemsInside[itemToCheck] < inputData.amount)
-                    {
-                        ItemLog(ItemEnterInfo.item.name, "Still, not all items are present inside", this);
-                        return false;
-                    }
-                }
-            }
-            else if (inputData.item is ItemCategory)
-            {
-                ItemCategory cat = inputData.item as ItemCategory;
 
                 // check if we have the enough quantity of it available to start crafting
-                if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key.ItemCategory == cat).Value < inputData.amount)
+                if (mc.BuildingIOManager.itemsInside[recipeItem] < inputData.amount)
                 {
-                    ItemLog(ItemEnterInfo.item.name, "Still, not all items are present inside", this);
+                    //Still, not all items are present inside
                     return false;
                 }
+
+                inputID = CurrentRecipe.inputs.FindIndex(id => id == data);
+                outputID = data.outputListID;
             }
+
+            return true;
+        });
+
+        if (recipeData.Count == 1)
+        {
+            Debug.Log("Starting crafting with inputID: " + inputID + " outputID: " + outputID);
+            return (true, inputID, outputID);
+        }
+        else
+        {
+            return (false, inputID, outputID);
+        }
+    }
+
+    private bool IsInputStorageSufficient(OnItemEnterEvent ItemEnterInfo)
+    {
+        // If the items that attempts to enter has a quantity larger that the allowed
+        if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key == ItemEnterInfo.item).Value == inputSpace && APMStatus.Idle == currentStatus)
+        {
+            ItemLog(ItemEnterInfo.item.name, "There's not enough input space for this item!", this);
+            //mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
+            return false;
+        }
+
+        mc.Building.RemoveIndicator();
+        return true;
+    }
+
+    private bool IsOutputStorageSufficient()
+    {
+        foreach (BuildingIO output in mc.BuildingIOManager.outputs)
+        {
+            if (output.itemsToSpawn.Count >= outputSpace)
+                return false;
         }
 
         return true;
@@ -242,46 +335,76 @@ public class APM : MonoBehaviour
 
     #region Crafting procedure
 
-    private void StartCrafting()
+    private void StartCrafting(int inputID, int outputID)
     {
         Debug.Log("Start crafting!", this);
-        CurrentStatus = APMStatus.Crafting;
 
         CraftingData data = new CraftingData()
         {
+            inputID = inputID,
+            outputID = outputID,
+            InputData = inputData,
             OutputData = outputData,
             CurrentRecipe = currentRecipe
         };
 
-        if (CurrentlyCrafting.Count != 0)
-            CurrentlyCrafting.Dequeue();
-
         CurrentlyCrafting.Enqueue(data);
 
-        mc.BuildingIOManager.itemsInside.Clear(); // remove all items inside
+        Debug.Log("Enqueued new crafting.");
+
+        if (CurrentlyCrafting.Count > 1)
+        {
+            Debug.Log("Looks like APM is currently crafting something... Will wait my turn.");
+            return;
+        }
+
+        Debug.Log("APM is ready to craft this item! Proceeding...");
+        CurrentStatus = APMStatus.Crafting;
+        ProcessToCraft();
+    }
+
+    private void ProcessToCraft()
+    {
+        CraftingData data = CurrentlyCrafting.Peek();
+        foreach (MachineRecipe.InputData toRemove in data.CurrentRecipe.inputs[data.inputID].inputs)
+        {
+            mc.BuildingIOManager.itemsInside.Remove(toRemove.item);
+        }
 
         StartCoroutine(RunCraftingTimer());
     }
 
     IEnumerator RunCraftingTimer()
     {
-        yield return new WaitForSeconds(CurrentlyCrafting.Peek().CurrentRecipe.baseTime * baseTimeMultiplier);
+        yield return new WaitForSeconds(CurrentlyCrafting.Peek().CurrentRecipe.baseTime * baseTimeMultiplier * GameManager.instance.Profile.globalBaseTimeMultiplier);
+        while(!IsOutputStorageSufficient());
         ExecuteCrafting();
     }
 
     private void ExecuteCrafting()
     {
         CraftingData currentlyCrafting = CurrentlyCrafting.Peek();
-        for (int i = 0; i < currentlyCrafting.OutputData.Count; i++)
+
+        foreach (MachineRecipe.OutputData data in currentlyCrafting.CurrentRecipe.outputs[currentlyCrafting.outputID].outputs) // get items needed to be ejected
         {
-            KeyValuePair<MachineRecipe.OutputData, int> entry = currentlyCrafting.OutputData.ElementAt(i);
+            // find their corresponding outputID
+            KeyValuePair<MachineRecipe.OutputData, int> kvp = new KeyValuePair<MachineRecipe.OutputData, int>(data, currentlyCrafting.OutputData[data]);
 
-            for (int t = 0; t < entry.Key.amount; t++)
+            for (int t = 0; t < kvp.Key.amount; t++)
             {
-                mc.BuildingIOManager.outputs[entry.Value - 1].AddToSpawnQueue(entry.Key.item);
+                mc.BuildingIOManager.outputs[kvp.Value - 1].AddToSpawnQueue(kvp.Key.item);
             }
+        }
 
-            CurrentStatus = APMStatus.Idle;
+        mc.Building.RemoveIndicator();
+        CurrentStatus = APMStatus.Idle;
+
+        CurrentlyCrafting.Dequeue();
+
+        if (CurrentlyCrafting.Count > 0)
+        {
+            Debug.Log("Finished crafting! Processing the next crafting data in the queue...");
+            ProcessToCraft();
         }
     }
 
@@ -296,7 +419,7 @@ public class APM : MonoBehaviour
 
     #endregion
 
-    private void ItemLog(string itemName, string message, Object highlight = null)
+    private void ItemLog(string itemName, string message, UnityEngine.Object highlight = null)
     {
         Debug.Log($"[Recipe: {CurrentRecipe.name}] [Item: {itemName}] {message}", highlight);
     }

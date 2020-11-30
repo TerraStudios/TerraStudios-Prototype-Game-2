@@ -5,7 +5,6 @@ using System.Linq;
 public class RecipeManager : MonoBehaviour
 {
     private static List<MachineRecipe> recipes;
-    private static ItemCategory[] categories;
 
     public static RecipeManager instance;
 
@@ -13,7 +12,7 @@ public class RecipeManager : MonoBehaviour
     {
         instance = this;
         LoadResources();
-        Debug.Log("Loaded " + recipes.Count() + " recipes and " + categories.Count() + " categories.");
+        Debug.Log("Loaded " + recipes.Count() + " recipes");
     }
 
     public List<MachineRecipe> RetrieveRecipes()
@@ -21,14 +20,8 @@ public class RecipeManager : MonoBehaviour
         return recipes;
     }
 
-    public ItemCategory[] RetrieveCategories()
-    {
-        return categories;
-    }
-
     public static void LoadResources() 
     {
-        categories = Resources.LoadAll<ItemCategory>("");
         recipes = Resources.LoadAll<MachineRecipe>("").ToList();
     }
 
@@ -37,24 +30,29 @@ public class RecipeManager : MonoBehaviour
         List<MachineRecipe> allowedRecipes = new List<MachineRecipe>();
         List<MachineRecipe> blockedRecipes = new List<MachineRecipe>();
 
+        List<MachineRecipe> inputAllowedRecipes;
         // Get recipes from the automatic fields
         if (filter.enableAutomaticList)
         {
+            // Check the inputs
             foreach (MachineRecipe recipe in recipes)
             {
-                bool fits = false;
-                foreach (MachineRecipe.InputData data in recipe.inputs)
+                bool inputsFit = false;
+                foreach (MachineRecipe.InputBatch data in recipe.inputs)
                 {
-                    if (data.inputID < filter.buildingInputsAmount)
-                        fits = true;
-                    else
+                    foreach (MachineRecipe.InputData inputData in data.inputs)
                     {
-                        fits = false;
-                        break;
+                        if (inputData.inputID < filter.buildingInputsAmount)
+                            inputsFit = true;
+                        else
+                        {
+                            inputsFit = false;
+                            break;
+                        }
                     }
                 }
 
-                if (fits)
+                if (inputsFit)
                 {
                     if (filter.type == RecipeType.Allowed)
                     {
@@ -68,7 +66,36 @@ public class RecipeManager : MonoBehaviour
                 else
                     continue;
             }
+
+            inputAllowedRecipes = new List<MachineRecipe>(allowedRecipes);
+            // Check the outputs for the allowed inputs
+            foreach (MachineRecipe recipe in inputAllowedRecipes)
+            {
+                bool outputsFit = false;
+                foreach (MachineRecipe.OutputBatch data in recipe.outputs)
+                {
+                    foreach (MachineRecipe.OutputData inputData in data.outputs)
+                    {
+                        if (inputData.outputID < filter.buildingOutputsAmount)
+                            outputsFit = true;
+                        else
+                        {
+                            outputsFit = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (!outputsFit)
+                {
+                    allowedRecipes.Remove(recipe);
+                }
+            }
         }
+
+        // Remove duplicates
+        allowedRecipes = allowedRecipes.Distinct().ToList();
+        blockedRecipes = blockedRecipes.Distinct().ToList();
 
         // Get recipes from the manual fields
         foreach (ManualRecipeList mrl in filter.manualList)
