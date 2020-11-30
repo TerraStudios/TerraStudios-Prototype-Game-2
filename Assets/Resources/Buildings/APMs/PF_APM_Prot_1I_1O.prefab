@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mc: {fileID: 6548164221349463959}
-  recipeFilter: {fileID: 11400000, guid: 6ef27477844a8da4aa2a5adc9f164595, type: 2}
+  recipeFilter: {fileID: 11400000, guid: 6816d047c197a2a46ad55940b7c863c9, type: 2}
   allowedRecipes: []
   baseTimeMultiplier: 1
   inputSpace: 3
