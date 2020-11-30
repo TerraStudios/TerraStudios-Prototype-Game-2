@@ -30,6 +30,7 @@ public class RecipeManager : MonoBehaviour
         List<MachineRecipe> allowedRecipes = new List<MachineRecipe>();
         List<MachineRecipe> blockedRecipes = new List<MachineRecipe>();
 
+        List<MachineRecipe> inputAllowedRecipes;
         // Get recipes from the automatic fields
         if (filter.enableAutomaticList)
         {
@@ -66,8 +67,9 @@ public class RecipeManager : MonoBehaviour
                     continue;
             }
 
-            // Check the outputs
-            foreach (MachineRecipe recipe in recipes)
+            inputAllowedRecipes = new List<MachineRecipe>(allowedRecipes);
+            // Check the outputs for the allowed inputs
+            foreach (MachineRecipe recipe in inputAllowedRecipes)
             {
                 bool outputsFit = false;
                 foreach (MachineRecipe.OutputBatch data in recipe.outputs)
@@ -84,21 +86,16 @@ public class RecipeManager : MonoBehaviour
                     }
                 }
 
-                if (outputsFit)
+                if (!outputsFit)
                 {
-                    if (filter.type == RecipeType.Allowed)
-                    {
-                        allowedRecipes.Add(recipe);
-                    }
-                    else if (filter.type == RecipeType.Blocked)
-                    {
-                        blockedRecipes.Add(recipe);
-                    }
+                    allowedRecipes.Remove(recipe);
                 }
-                else
-                    continue;
             }
         }
+
+        // Remove duplicates
+        allowedRecipes = allowedRecipes.Distinct().ToList();
+        blockedRecipes = blockedRecipes.Distinct().ToList();
 
         // Get recipes from the manual fields
         foreach (ManualRecipeList mrl in filter.manualList)
@@ -132,10 +129,6 @@ public class RecipeManager : MonoBehaviour
                 }
             }
         }
-
-        // Remove duplicates
-        allowedRecipes = allowedRecipes.Distinct().ToList();
-        blockedRecipes = blockedRecipes.Distinct().ToList();
 
         return (allowedRecipes, blockedRecipes);
     }
