@@ -35,7 +35,7 @@ namespace Assets.Tests
                 {
                     foreach (MachineRecipe.OutputData data in batch.outputs)
                     {
-                        Assert.IsFalse(data.outputID == -1);
+                        Assert.IsFalse(data.outputID == -1, $"Recipe {recipe.name} has an OutputData with outputID = -1!");
                     }
                 }
             }
@@ -46,7 +46,7 @@ namespace Assets.Tests
         {
             foreach (MachineRecipe recipe in Resources.LoadAll<MachineRecipe>(""))
             {
-                Assert.IsFalse(recipe.baseTime == 0);
+                Assert.IsFalse(recipe.baseTime == 0, $"Recipe {recipe.name} has incorrect recipe time of 0!");
             }
         }
     }
