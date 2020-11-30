@@ -213,7 +213,7 @@ PrefabInstance:
         type: 3}
       propertyPath: recipeFilter
       value: 
-      objectReference: {fileID: 11400000, guid: 7ef140c0a38442a43a7ff8ff620d18b6,
+      objectReference: {fileID: 11400000, guid: 2f48661854ed1b34cbb2634c7f583cac,
         type: 2}
     - target: {fileID: 1574133448485325738, guid: c1fe1648509854e46be06abb82c9a485,
         type: 3}
@@ -301,6 +301,11 @@ PrefabInstance:
       propertyPath: outputs.Array.data[1]
       value: 
       objectReference: {fileID: 869737354358061362}
+    - target: {fileID: 7947313054608314309, guid: c1fe1648509854e46be06abb82c9a485,
+        type: 3}
+      propertyPath: prefabLocation
+      value: Buildings/APMs/PF_APM_Prot_2I_2O
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1fe1648509854e46be06abb82c9a485, type: 3}
 --- !u!4 &5719123923885634798 stripped
