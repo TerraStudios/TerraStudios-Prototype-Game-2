@@ -133,6 +133,10 @@ public class RecipeManager : MonoBehaviour
             }
         }
 
+        // Remove duplicates
+        allowedRecipes = allowedRecipes.Distinct().ToList();
+        blockedRecipes = blockedRecipes.Distinct().ToList();
+
         return (allowedRecipes, blockedRecipes);
     }
 }
