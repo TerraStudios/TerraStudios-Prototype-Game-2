@@ -159,7 +159,7 @@ public class BuildingManager : BuildingSystem
             recipeSelection.value = 0;
         }
         
-        for (int i = 0; i < FocusedBuilding.mc.APM.allowedRecipes.Count(); i++)
+        for (int i = 0; i < FocusedBuilding.mc.APM.allowedRecipes.Count; i++)
         {
             MachineRecipe recipe = FocusedBuilding.mc.APM.allowedRecipes[i];
             recipeSelection.options.Add(new TMP_Dropdown.OptionData() { text = recipe.name });
