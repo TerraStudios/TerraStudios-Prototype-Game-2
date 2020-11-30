@@ -27,7 +27,7 @@ namespace Tests
         }
 
         [Test]
-        public void CheckRecipeInputFit()
+        public void CheckRecipeIOFit()
         {
             foreach (GameObject obj in Resources.LoadAll<GameObject>("Buildings"))
             {
@@ -46,6 +46,11 @@ namespace Tests
                             Assert.IsFalse(io.inputs.Length < recipe.inputs.Count,
                                 "Recipe inputs size is higher than APM inputs size. " +
                                 $"APM '{obj.name}' has '{io.inputs.Length}' inputs while recipe '{recipe.name}' attached from the recipe filter '{filter.name}' requires '{recipe.inputs.Count}' inputs");
+
+                            Assert.IsFalse(io.outputs.Length < recipe.outputs.Count,
+                                "Recipe inputs size is higher than APM inputs size. " +
+                                $"APM '{obj.name}' has '{io.outputs.Length}' inputs while recipe '{recipe.name}' attached from the recipe filter '{filter.name}' requires '{recipe.outputs.Count}' outputs");
+
                         }
                     }
                 }

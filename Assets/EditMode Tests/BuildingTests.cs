@@ -15,9 +15,7 @@ namespace Assets.Tests
         [Test]
         public void CheckRenderingData()
         {
-            GameObject[] objs = Resources.LoadAll<GameObject>("Buildings");
-
-            foreach (var go in objs)
+            foreach (GameObject go in Resources.LoadAll<GameObject>("Buildings"))
             {
                 Building building = go.GetComponent<Building>();
 
@@ -34,9 +32,7 @@ namespace Assets.Tests
         [Test]
         public void CheckBuildingData()
         {
-            GameObject[] objs = Resources.LoadAll<GameObject>("Buildings");
-
-            foreach (var go in objs)
+            foreach (GameObject go in Resources.LoadAll<GameObject>("Buildings"))
             {
                 Building building = go.GetComponent<Building>();
 
@@ -64,9 +60,7 @@ namespace Assets.Tests
         [Test]
         public void CheckConveyorData()
         {
-            GameObject[] objs = Resources.LoadAll<GameObject>("Buildings");
-
-            foreach (var go in objs)
+            foreach (GameObject go in Resources.LoadAll<GameObject>("Buildings"))
             {
                 Conveyor conveyor = go.GetComponent<Conveyor>();
 
@@ -82,9 +76,7 @@ namespace Assets.Tests
         [Test]
         public void CheckModuleConnectorData()
         {
-            GameObject[] objs = Resources.LoadAll<GameObject>("Buildings");
-
-            foreach (var go in objs)
+            foreach (GameObject go in Resources.LoadAll<GameObject>("Buildings"))
             {
                 Building building = go.GetComponent<Building>();
 
@@ -104,9 +96,7 @@ namespace Assets.Tests
         [Test]
         public void TestBuildingIOData()
         {
-            GameObject[] objs = Resources.LoadAll<GameObject>("Buildings");
-
-            foreach (var go in objs)
+            foreach (GameObject go in Resources.LoadAll<GameObject>("Buildings"))
             {
                 Building building = go.GetComponent<Building>();
 

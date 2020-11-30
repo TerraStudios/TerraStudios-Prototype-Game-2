@@ -314,7 +314,7 @@ public class APM : MonoBehaviour
         if (mc.BuildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key == ItemEnterInfo.item).Value == inputSpace && APMStatus.Idle == currentStatus)
         {
             ItemLog(ItemEnterInfo.item.name, "There's not enough input space for this item!", this);
-            mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
+            //mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
             return false;
         }
 
