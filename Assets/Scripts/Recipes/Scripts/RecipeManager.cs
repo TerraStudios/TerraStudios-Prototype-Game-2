@@ -76,7 +76,7 @@ public class RecipeManager : MonoBehaviour
                 {
                     foreach (MachineRecipe.OutputData inputData in data.outputs)
                     {
-                        if (inputData.outputID < filter.buildingInputsAmount)
+                        if (inputData.outputID < filter.buildingOutputsAmount)
                             outputsFit = true;
                         else
                         {
