@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public class TestDespawner : MonoBehaviour
@@ -9,6 +7,6 @@ public class TestDespawner : MonoBehaviour
     {
         if (other.gameObject.layer.Equals(11))
             ObjectPoolManager.instance.DestroyObject(other.gameObject);
-            //Destroy(other.gameObject);
+        //Destroy(other.gameObject);
     }
 }

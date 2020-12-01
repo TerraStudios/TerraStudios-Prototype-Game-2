@@ -1,6 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class RecipeManager : MonoBehaviour
 {
@@ -20,7 +20,7 @@ public class RecipeManager : MonoBehaviour
         return recipes;
     }
 
-    public static void LoadResources() 
+    public static void LoadResources()
     {
         recipes = Resources.LoadAll<MachineRecipe>("").ToList();
     }

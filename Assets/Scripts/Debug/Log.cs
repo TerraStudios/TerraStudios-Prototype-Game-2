@@ -12,7 +12,7 @@ public enum LogLevel
 /// <summary>
 /// Class used for various debugging methods
 /// </summary>
-static class Log
+internal static class Log
 {
     /// <summary>
     /// Determines whether any calls to <see cref="ConsoleLog(LogLevel, string)"/> should actually print to the console. 

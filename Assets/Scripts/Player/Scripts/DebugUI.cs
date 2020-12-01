@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using TMPro;
+﻿using TMPro;
+using UnityEngine;
 
 public class DebugUI : MonoBehaviour
 {
@@ -25,11 +25,11 @@ public class DebugUI : MonoBehaviour
                     LoadItemsDropdown();
                 SuperSecretPanel.SetActive(true);
             }
-                
+
         }
     }
 
-    private void LoadItemsDropdown() 
+    private void LoadItemsDropdown()
     {
         isItemsDropdownLoaded = true;
 
@@ -46,7 +46,7 @@ public class DebugUI : MonoBehaviour
         BuildingManager.testItemToSpawn = ItemManagement.db[0];
     }
 
-    public void OnItemSelected(TMP_Dropdown changed) 
+    public void OnItemSelected(TMP_Dropdown changed)
     {
         BuildingManager.testItemToSpawn = ItemManagement.db[changed.value];
     }

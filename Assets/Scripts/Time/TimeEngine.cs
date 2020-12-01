@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 using System.Threading;
-using System;
+using UnityEngine;
 
 public class TimeEngine : MonoBehaviour
 {
@@ -64,13 +62,13 @@ public class TimeEngine : MonoBehaviour
         }
     }
 
-    public DateTime CurrentTime 
+    public DateTime CurrentTime
     {
         get => GameSave.current.TimeSaveData.currentTime;
         set => GameSave.current.TimeSaveData.currentTime = value;
     }
 
-    public void StartClock() 
+    public void StartClock()
     {
         thread = new Thread(new ThreadStart(CounterWork));
         thread.Start();
@@ -85,7 +83,7 @@ public class TimeEngine : MonoBehaviour
                 while (!IsPaused)
                 {
                     CurrentTime = CurrentTime.AddMinutes(1);
-                    int msToWait = Mathf.FloorToInt((float) 100 / (defaultTimeMultiplier * TimeMultiplier));
+                    int msToWait = Mathf.FloorToInt((float)100 / (defaultTimeMultiplier * TimeMultiplier));
                     Thread.Sleep(msToWait);
                     UMTD.Enqueue(() => OnCounterTick());
                 }

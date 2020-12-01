@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 
 public enum WorkStateEnum { On, Idle, Off }
 
@@ -15,7 +14,7 @@ public class BuildingBase
     [Header("Economics")]
     public float price;
     public float Price { get => price * GameManager.instance.Profile.globalPriceMultiplierBuildings; set => price = value; }
- 
+
     [Header("Work States")]
     public WorkStateEnum workState;
 
@@ -51,7 +50,7 @@ public class Building : MonoBehaviour
     public BuildingBase Base;
     public ModuleConnector mc;
     [HideInInspector] public bool isSetUp;
-    
+
     [Header("Grid Building Properties")]
     public Transform prefab;
 
@@ -70,7 +69,7 @@ public class Building : MonoBehaviour
         }
     }
 
-    
+
     // Required Components (Systems)
     [HideInInspector] public TimeManager TimeManager;
     [HideInInspector] public EconomyManager EconomyManager;

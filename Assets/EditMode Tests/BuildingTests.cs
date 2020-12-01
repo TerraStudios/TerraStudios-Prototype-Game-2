@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Assets.Tests
 {
-    class BuildingTests
+    internal class BuildingTests
     {
 
         [Test]
@@ -49,7 +46,7 @@ namespace Assets.Tests
                     Assert.AreNotEqual(building.Base.wattsPerHourIdle, 0, $"{building.name} found with a watts per hour idle of 0");
                     Assert.AreNotEqual(building.Base.wattsPerHourWork, 0, $"{building.name} found with a watts per hour work of 0");
 
-                    
+
 
                 }
 
@@ -108,7 +105,7 @@ namespace Assets.Tests
 
                         HashSet<BuildingIO> set = new HashSet<BuildingIO>();
 
-                        foreach (var io in allIOs)
+                        foreach (BuildingIO io in allIOs)
                         {
                             if (!set.Add(io))
                             {

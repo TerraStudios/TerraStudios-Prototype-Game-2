@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 public class ItemManagement : MonoBehaviour
@@ -36,10 +35,10 @@ public class ItemManagement : MonoBehaviour
             data.ID = i;
             db.Insert(i, data);
         }
-        
+
         Debug.Log("[Item Management] Loaded " + db.Count + " items");
 
-        foreach (ItemData data in db) 
+        foreach (ItemData data in db)
         {
             ObjectPoolManager.instance.CreatePool(data.obj.gameObject, initialPoolSize);
         }

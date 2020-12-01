@@ -6,7 +6,7 @@ namespace Assets.Tests
     public class RecipeFilterTests
     {
         [Test]
-        public void CheckCorrectRecipeFilterAttachedToAPM() 
+        public void CheckCorrectRecipeFilterAttachedToAPM()
         {
             foreach (RecipeFilter r in Resources.LoadAll<RecipeFilter>(""))
             {

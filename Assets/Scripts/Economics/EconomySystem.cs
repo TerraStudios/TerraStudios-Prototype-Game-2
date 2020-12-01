@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class EconomySystem : MonoBehaviour
 {
@@ -19,7 +16,7 @@ public class EconomySystem : MonoBehaviour
     public decimal Balance
     {
         get { return GameSave.current.EconomySaveData.balanace; }
-        set 
+        set
         {
             if (!GameManager.profile.enableGodMode)
             {

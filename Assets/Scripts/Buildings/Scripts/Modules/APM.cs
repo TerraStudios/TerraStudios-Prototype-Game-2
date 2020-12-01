@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -374,10 +373,10 @@ public class APM : MonoBehaviour
         StartCoroutine(RunCraftingTimer());
     }
 
-    IEnumerator RunCraftingTimer()
+    private IEnumerator RunCraftingTimer()
     {
         yield return new WaitForSeconds(CurrentlyCrafting.Peek().CurrentRecipe.baseTime * baseTimeMultiplier * GameManager.instance.Profile.globalBaseTimeMultiplier);
-        while(!IsOutputStorageSufficient());
+        while (!IsOutputStorageSufficient()) ;
         ExecuteCrafting();
     }
 

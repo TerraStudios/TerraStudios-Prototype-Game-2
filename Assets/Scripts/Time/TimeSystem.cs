@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 
 [Serializable]
-public struct TimeWaitEvent 
+public struct TimeWaitEvent
 {
     public DateTime currentTime;
     public TimeSpan waitTime;
@@ -52,10 +49,10 @@ public class TimeSystem : TimeEngine
         for (int i = 0; i < TimeCounters.Count; i++)
         {
             TimeCountEvent ev = TimeCounters[i];
-            if (!ev.isPaused) 
+            if (!ev.isPaused)
             {
                 ev.timePassed += TimeSpan.FromMinutes(1);
-            }    
+            }
         }
     }
 
@@ -112,7 +109,7 @@ public class TimeSystem : TimeEngine
         return ev.timePassed;
     }
 
-    private TimeCountEvent GetTCEFromGUID(Guid hash) 
+    private TimeCountEvent GetTCEFromGUID(Guid hash)
     {
         foreach (TimeCountEvent ev in TimeCounters)
         {

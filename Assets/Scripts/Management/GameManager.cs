@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
 using System.Globalization;
-using System.Collections;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
         Log.DEBUG_MODE = DebugMode; //Set the debug mode for logging
     }
 
-    public void ResetGame() 
+    public void ResetGame()
     {
         StartCoroutine(ResetGameAction());
     }
@@ -66,12 +66,12 @@ public class GameManager : MonoBehaviour
         InitGame();
     }
 
-    public void InitGame() 
+    public void InitGame()
     {
         Time.timeScale = GameSave.current.TimeSaveData.timeMultiplier;
     }
 
-    public void GameOver() 
+    public void GameOver()
     {
         Debug.Log("Game Over!");
     }

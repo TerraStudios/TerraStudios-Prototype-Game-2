@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 public class FindMissingScriptsRecursively : EditorWindow
 {
-    static int go_count = 0, components_count = 0, missing_count = 0;
+    private static int go_count = 0, components_count = 0, missing_count = 0;
 
     [MenuItem("Window/FindMissingScriptsRecursively")]
     public static void ShowWindow()

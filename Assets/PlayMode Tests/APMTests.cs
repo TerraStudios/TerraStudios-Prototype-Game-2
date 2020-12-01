@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEngine;
+﻿using NUnit.Framework;
 using System;
-using UnityEngine.TestTools;
-using System.IO;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Tests
 {
@@ -97,7 +94,7 @@ namespace Tests
             APM apm = apmObject.AddComponent<APM>();
 
             ModuleConnector mc = apmObject.AddComponent<ModuleConnector>();
-            
+
             // Attach modules
             mc.APM = apm;
             mc.BuildingIOManager = manager;
@@ -141,10 +138,11 @@ namespace Tests
             {
                 BuildingIO io = obj.AddComponent<BuildingIO>();
                 io.arrow = new GameObject("BuildingIO Output Arrow").transform;
-                
+
 
                 return io;
-            } catch (NullReferenceException)
+            }
+            catch (NullReferenceException)
             { }
 
             throw new Exception("Couldn't add BuildingIO component");

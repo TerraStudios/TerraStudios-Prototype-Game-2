@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEditor.VersionControl;
+﻿using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Assets.Tests
 {
@@ -16,7 +12,7 @@ namespace Assets.Tests
         public void CheckIfItemDataIsCorrect()
         {
             ItemData[] itemDB = Resources.LoadAll<ItemData>("");
-            foreach (var item in itemDB)
+            foreach (ItemData item in itemDB)
             {
                 Assert.IsNotEmpty(item.name, "An item was found with no name.");
                 Assert.IsNotNull(item.obj, $"The item {item.name} had a null obj attached.");

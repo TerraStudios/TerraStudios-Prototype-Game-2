@@ -21,7 +21,7 @@ public class ItemSelector : MonoBehaviour
         }
     }
 
-    private Transform GetItemHit(Vector3 mousePos) 
+    private Transform GetItemHit(Vector3 mousePos)
     {
         if (EventSystem.current.IsPointerOverGameObject())
             return SelectedItem;
@@ -34,7 +34,7 @@ public class ItemSelector : MonoBehaviour
             return null;
     }
 
-    public void SelectItem(Transform hit) 
+    public void SelectItem(Transform hit)
     {
         SelectedItem = hit;
         if (hit)

@@ -1,5 +1,4 @@
 ﻿using Cinemachine;
-using System;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -93,14 +92,15 @@ public class CameraMovement : MonoBehaviour
                 CameraGO1.gameObject.SetActive(false);
                 CameraGO2.gameObject.SetActive(true);
                 CameraGO2.rotation = Quaternion.Euler(90, 0, 0);
-            } else
+            }
+            else
             {
                 CameraGO1.gameObject.SetActive(true);
                 CameraGO1.rotation = cameraRotation;
                 CameraGO2.gameObject.SetActive(false);
             }
         }
-        
+
     }
 
     private void HandleMouseMovement()

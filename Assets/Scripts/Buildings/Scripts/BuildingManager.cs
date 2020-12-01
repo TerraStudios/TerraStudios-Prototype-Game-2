@@ -141,7 +141,7 @@ public class BuildingManager : BuildingSystem
 
     #region IO Management
 
-    private void RefreshRecipeList() 
+    private void RefreshRecipeList()
     {
         recipeSelection.ClearOptions();
 
@@ -158,7 +158,7 @@ public class BuildingManager : BuildingSystem
         {
             recipeSelection.value = 0;
         }
-        
+
         for (int i = 0; i < FocusedBuilding.mc.APM.allowedRecipes.Count; i++)
         {
             MachineRecipe recipe = FocusedBuilding.mc.APM.allowedRecipes[i];
@@ -172,7 +172,7 @@ public class BuildingManager : BuildingSystem
         recipeSelection.onValueChanged.AddListener(delegate { OnRecipeSelected(recipeSelection); });
     }
 
-    private void OnRecipeSelected(TMP_Dropdown changed) 
+    private void OnRecipeSelected(TMP_Dropdown changed)
     {
         if (changed.value == 0)
             FocusedBuilding.mc.APM.CurrentRecipe = null;
@@ -247,7 +247,7 @@ public class BuildingManager : BuildingSystem
     }
     #endregion
 
-    private bool IsOutputSetupSupported() 
+    private bool IsOutputSetupSupported()
     {
         if (FocusedBuilding && FocusedBuilding.mc.APM && !FocusedBuilding.mc.Conveyor)
             return true;

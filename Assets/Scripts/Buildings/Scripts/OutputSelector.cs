@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
-using System.Linq;
 
 public class OutputSelector : MonoBehaviour
 {
@@ -16,7 +13,7 @@ public class OutputSelector : MonoBehaviour
     public Button button;
     public TMP_Text buttonText;
 
-    public int OutputID 
+    public int OutputID
     {
         get => outputID;
         set
@@ -31,7 +28,7 @@ public class OutputSelector : MonoBehaviour
         button.onClick.AddListener(OnChangeOutputIDButtonClicked);
     }
 
-    private void OnChangeOutputIDButtonClicked() 
+    private void OnChangeOutputIDButtonClicked()
     {
         BuildingManager.instance.FocusedBuilding.mc.APM.OnOutputButtonPressed(this);
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -121,9 +120,9 @@ public class BuildingIOManager : MonoBehaviour
         Debug.Log("Item fully in me! Item is " + item.name);
     }
 
-    public void AcceptItemEnter(OnItemEnterEvent args) 
+    public void AcceptItemEnter(OnItemEnterEvent args)
     {
-        
+
     }
 
     public void TrashItem(GameObject sceneInstance, ItemData item)

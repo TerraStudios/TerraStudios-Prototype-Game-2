@@ -23,7 +23,7 @@ public class EconomyManager : EconomySystem
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B)) 
+        if (Input.GetKeyDown(KeyCode.B))
         {
             Balance += balanceChangeTest;
         }

@@ -1,8 +1,5 @@
 #if UNITY_EDITOR
-using UnityEngine;
 using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
 
 //Currently not used, not deleting until we know for sure what we want
 public class InventoryItemEditor : EditorWindow

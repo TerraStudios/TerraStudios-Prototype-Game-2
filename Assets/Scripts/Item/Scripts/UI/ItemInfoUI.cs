@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +10,7 @@ public class ItemInfoUI : MonoBehaviour
     public TMP_Text category;
     public TMP_Text startingPrice;
     public TMP_Text description;
-   
+
     public TMP_Text itemName;
     public ItemSelector selector;
 
@@ -49,7 +44,7 @@ public class ItemInfoUI : MonoBehaviour
     {
         itemInfoUI.SetActive(true);
     }
-    
+
     public void OnUIExit()
     {
         itemInfoUI.SetActive(false);

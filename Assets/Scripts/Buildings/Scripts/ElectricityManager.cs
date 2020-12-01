@@ -7,7 +7,7 @@ public class ElectricityManager : ElectricitySystem
     public TMP_Text TotalWattsForWork;
     public TMP_Text TotalWattsForIdle;
 
-    public void UpdateWatts() 
+    public void UpdateWatts()
     {
         TotalWattsForWork.text = GetTotalElectricityUsed(WorkStateEnum.On).ToString() + " w";
         TotalWattsForIdle.text = GetTotalElectricityUsed(WorkStateEnum.Idle).ToString() + " w";

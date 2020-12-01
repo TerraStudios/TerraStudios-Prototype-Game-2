@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -20,14 +18,14 @@ public class PauseMenu : MonoBehaviour
                 TimeEngine.IsPaused = false;
                 PauseMenuPanel.SetActive(false);
             }
-                
+
             else
             {
                 isOpen = true;
                 wasPaused = TimeEngine.IsPaused;
                 TimeEngine.IsPaused = true;
                 PauseMenuPanel.SetActive(true);
-            } 
+            }
         }
     }
 }
