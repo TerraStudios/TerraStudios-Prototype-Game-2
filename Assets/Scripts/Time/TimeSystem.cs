@@ -24,7 +24,7 @@ public class TimeCountEvent
 
 public class TimeSystem : TimeEngine
 {
-    [HideInInspector] public CultureInfo CurrentCulture { get { return GameManager.currentCultureTimeDate; } }
+    [HideInInspector] public CultureInfo CurrentCulture { get { return GameManager.instance.currentCultureTimeDate; } }
 
     public List<TimeWaitEvent> TimeWaiters { get => GameSave.current.TimeSaveData.timeWaiters; set => GameSave.current.TimeSaveData.timeWaiters = value; }
     public List<TimeCountEvent> TimeCounters { get => GameSave.current.TimeSaveData.timeCounters; set => GameSave.current.TimeSaveData.timeCounters = value; }

@@ -9,7 +9,6 @@ public class EconomySystem : MonoBehaviour
 {
     [Header("Components")]
     public TimeManager TimeManager;
-    public GameManager GameManager;
 
     [Header("Constant variables")]
     public int startBalance = 1456536;
@@ -88,7 +87,6 @@ public class EconomySystem : MonoBehaviour
 
     public string GetReadableBalance()
     {
-        string after = "Balance: " + Balance.ToString("C", GameManager.currentCultureCurrency);
-        return after;
+        return "Balance: " + Balance.ToString("C", GameManager.instance.currentCultureCurrency);
     }
 }

@@ -10,18 +10,14 @@ public class RemoveSystem : MonoBehaviour
 {
     [Header("UI Components")]
     public GameObject RemovePanel;
-
     public Slider brushSize;
     public TMP_Text brushText;
 
     [Header("Components")]
-    public GameManager GameManager;
-
     public GridManager GridManager;
 
     [Header("Variables")]
     public LayerMask buildingLayer;
-
     public LayerMask itemsLayer;
 
     [Header("Dynamic variables")]

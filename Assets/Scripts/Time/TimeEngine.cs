@@ -9,8 +9,6 @@ public class TimeEngine : MonoBehaviour
     private Thread thread = null;
 
     [Header("Components")]
-    [Tooltip("A reference to the GameManager")]
-    public GameManager GameManager;
     [Tooltip("A reference to the UMTD")]
     public UMTD UMTD;
 
