@@ -3,6 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Highest-level time management script used for connecting the whole system with the UI.
+/// </summary>
 public class TimeManager : TimeSystem
 {
     [Header("UI Components")]

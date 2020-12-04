@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
+/// <summary>
+/// Used for calling code on the main thread from other threads.
+/// Third-party script.
+/// </summary>
 public class UMTD : MonoBehaviour
 {
-
     private readonly Queue<Action> _executionQueue = new Queue<Action>();
 
     public void Update()

@@ -19,6 +19,10 @@ public class TimeCountEvent
     public TimeSpan timePassed;
 }
 
+/// <summary>
+/// Mid-level time management script for handling the TimeEngine thread.
+/// Also used for handling Time Waiters and Time Counters.
+/// </summary>
 public class TimeSystem : TimeEngine
 {
     [HideInInspector] public CultureInfo CurrentCulture { get { return GameManager.instance.currentCultureTimeDate; } }

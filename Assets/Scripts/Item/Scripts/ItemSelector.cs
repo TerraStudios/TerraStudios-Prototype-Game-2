@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// This class handles Item selection.
+/// It is used when the player clicks on an item.
+/// </summary>
 public class ItemSelector : MonoBehaviour
 {
     [HideInInspector] public Transform SelectedItem;

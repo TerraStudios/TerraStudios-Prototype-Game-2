@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Handles communications between the UI and the SerializationManager for loading, saving, deleting and overwritting game saves
+/// Handles communications between the UI and the SerializationManager for loading, saving, deleting and overwritting game saves.
 /// </summary>
 public class SaveManager : MonoBehaviour
 {
@@ -165,10 +165,6 @@ public class SaveManager : MonoBehaviour
         SerializationManager.Save(GameSaveName.text, GameSave.current);
         ReloadSavesList();
         GameSaveName.text = "";
-    }
-
-    public void SaveAlreadyExistsDialog()
-    {
     }
 
     /// <summary>

@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Loads, Unloads the game scenes
+/// Loads and unloads the game scenes.
+/// Used for loading/unloading game saves.
 /// </summary>
 public class SceneHandler : MonoBehaviour
 {

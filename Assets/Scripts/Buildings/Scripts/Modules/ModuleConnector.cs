@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This class acts like a "hub" for all scripts in the Building GameObject.
+/// It is useful to reference this module and access every script available for this Building from here.
+/// </summary>
 public class ModuleConnector : MonoBehaviour
 {
     [Header("Required")]

@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 /// <summary>
-/// Saves and loads game saves
+/// Saves and loads game saves.
 /// </summary>
 public static class SerializationManager
 {

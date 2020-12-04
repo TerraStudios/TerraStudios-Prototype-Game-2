@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Draws casts for debugging purposes.
+/// Modified third-party script.
+/// </summary>
 public static class ExtDebug
 {
     //Draws just the box at where it is currently hitting.

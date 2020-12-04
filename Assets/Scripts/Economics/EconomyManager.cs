@@ -2,6 +2,9 @@
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Highest level class that handles economy simulations.
+/// </summary>
 public class EconomyManager : EconomySystem
 {
     [Header("UI Components")]

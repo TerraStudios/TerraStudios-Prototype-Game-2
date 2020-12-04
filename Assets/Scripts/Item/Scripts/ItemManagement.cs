@@ -2,6 +2,10 @@
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Manages all items in the game. 
+/// Loads and retrives items from the items list.
+/// </summary>
 public class ItemManagement : MonoBehaviour
 {
     [Tooltip("Determines the initial pool size for each item")]

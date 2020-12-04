@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Generated ID for methods. Useful when needing to call a function after scene reload
+/// Generated ID for methods. Useful when needing to call a function after scene reload.
 /// </summary>
 public class CallbackHandler : MonoBehaviour
 {

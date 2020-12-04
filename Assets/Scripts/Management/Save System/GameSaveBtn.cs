@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Stores components for the game save button
+/// Stores components for the game save button.
 /// </summary>
 public class GameSaveBtn : MonoBehaviour
 {

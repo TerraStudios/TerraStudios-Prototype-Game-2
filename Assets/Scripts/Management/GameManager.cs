@@ -2,6 +2,10 @@
 using System.Globalization;
 using UnityEngine;
 
+/// <summary>
+/// Top-level script of the game.
+/// Hold properties like CultureInfo, GameProfile and UserProfile.
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     public bool DebugMode = false; //May be moved to Super Secret Settings later on

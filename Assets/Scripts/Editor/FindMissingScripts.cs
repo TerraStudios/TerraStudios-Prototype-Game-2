@@ -1,5 +1,10 @@
 ﻿using UnityEditor;
 using UnityEngine;
+
+/// <summary>
+/// This editor script is used for finding missing scripts in the hierarchy.
+/// Third-party script.
+/// </summary>
 public class FindMissingScripts : EditorWindow
 {
     [MenuItem("Window/FindMissingScripts")]

@@ -5,6 +5,9 @@ using UnityEngine;
 
 public enum APMStatus { Idle, Blocked, Crafting }
 
+/// <summary>
+/// This class contains data about the current crafting process.
+/// </summary>
 public class CraftingData
 {
     public MachineRecipe CurrentRecipe;
@@ -38,6 +41,9 @@ public class CraftingData
     }
 }
 
+/// <summary>
+/// APM (Advanced Processing Machine) handles a complex of tasks mostly related to crafting.
+/// </summary>
 public class APM : MonoBehaviour
 {
     public ModuleConnector mc;

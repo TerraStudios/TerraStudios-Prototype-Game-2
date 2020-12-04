@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This script is placed on each Item GameObjects.
+/// Its purpose is to hold properties of Items as well as handling physics events.
+/// </summary>
 [ExecuteInEditMode]
 public class ItemBehaviour : MonoBehaviour
 {

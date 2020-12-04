@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-// Event args
+/// <summary>
+/// Properties for the event when an item attempts to 'enter' a Building.
+/// </summary>
 public class OnItemEnterEvent : UnityEvent<OnItemEnterEvent>
 {
     public int inputID;
@@ -12,12 +14,18 @@ public class OnItemEnterEvent : UnityEvent<OnItemEnterEvent>
     public Dictionary<ItemData, int> proposedItems;
 }
 
+/// <summary>
+/// Properties of an item that is present 'inside' the Building.
+/// </summary>
 public class ItemInsideData
 {
     public int quantity;
     public ItemData item;
 }
 
+/// <summary>
+/// Manages the Building IO system.
+/// </summary>
 public class BuildingIOManager : MonoBehaviour
 {
     [Tooltip("The ModuleConnector attached to the Building")]
@@ -59,7 +67,6 @@ public class BuildingIOManager : MonoBehaviour
 
     /// <summary>
     /// Updates the position of the arrow <see cref="GameObject"/> to the current IO's position. 
-    /// 
     /// Currently used for updating the position of any arrows on the visualization (which can be moved).
     /// </summary>
     public void UpdateArrows()
@@ -190,7 +197,6 @@ public class BuildingIOManager : MonoBehaviour
     /// <returns>A <see cref="List{T}"/> of <see cref="BuildingIOManager"/>s</returns>
     private List<BuildingIOManager> GetConveyorGroup()
     {
-
         List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
         RecursiveGetConveyorGroup(toReturn, true);
         //Debug.Log(isConveyor);
@@ -210,9 +216,7 @@ public class BuildingIOManager : MonoBehaviour
     /// <returns>A <see cref="List{T}"/> of <see cref="BuildingIOManager"></see> in the <paramref name="getInputs"/> parameter</returns>
     private void RecursiveGetConveyorGroup(List<BuildingIOManager> currentList, bool getInputs = true)
     {
-        BuildingIO[] iosToLoop = getInputs ? inputs : outputs;
-
-        foreach (BuildingIO io in iosToLoop)
+        foreach (BuildingIO io in getInputs ? inputs : outputs)
         {
             if (io.attachedIO && io.attachedIO.IOManager.isConveyor && !currentList.Contains(io.attachedIO.IOManager))
             {
@@ -257,7 +261,6 @@ public class BuildingIOManager : MonoBehaviour
             action(io);
         }
     }
-
 
     #region Misc
 

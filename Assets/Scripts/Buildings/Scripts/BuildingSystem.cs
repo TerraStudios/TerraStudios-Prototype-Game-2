@@ -3,6 +3,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// This class acts like a layer between the <c>GridManager</c> and the <c>BuildingSystem</c>.
+/// Handles registering buildings as well as loading and setting them up.
+/// </summary>
 public class BuildingSystem : MonoBehaviour
 {
     [HideInInspector] public Building FocusedBuilding;
@@ -23,12 +27,7 @@ public class BuildingSystem : MonoBehaviour
     {
         get
         {
-            if (_buildingHolder == null)
-            {
-                _buildingHolder = new GameObject("Buildings");
-            }
-
-            return _buildingHolder;
+            return _buildingHolder ?? (_buildingHolder = new GameObject("Buildings"));
         }
     }
 
@@ -101,9 +100,6 @@ public class BuildingSystem : MonoBehaviour
             return;
 
         Ray ray = MainCamera.ScreenPointToRay(mousePos);
-
-        RaycastHit[] hits;
-        hits = Physics.RaycastAll(transform.position, transform.forward, 100.0F);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ~ignoreFocusLayers))
         {

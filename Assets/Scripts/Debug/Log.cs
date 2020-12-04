@@ -82,7 +82,5 @@ internal static class Log
         string textToAppend = message + Environment.NewLine;
         File.AppendAllText(filePath, textToAppend);
     }
-
-
 }
 

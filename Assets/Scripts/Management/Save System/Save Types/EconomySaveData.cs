@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// Contains data from the economy systems
+/// Contains data from the economy systems.
 /// </summary>
 [Serializable]
 public class EconomySaveData

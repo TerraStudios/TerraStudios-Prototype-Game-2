@@ -15,7 +15,7 @@ public struct ItemSpawnData
 }
 
 /// <summary>
-/// MonoBehaviour used for each IO of a building. Controlled by BuildingIOManager
+/// MonoBehaviour used for each IO of a building. Controlled by BuildingIOManager.
 /// </summary>
 public class BuildingIO : MonoBehaviour
 {
@@ -85,7 +85,6 @@ public class BuildingIO : MonoBehaviour
     /// - Call <see cref="Physics.OverlapBox(Vector3, Vector3, Quaternion, int)"/> with a layer mask limiting to only <see cref="BuildingIO"/>s
     /// - Loop through all of the resulting colliders and check whether they're inside or outside the <see cref="iosInside"/> list
     /// Depending on the result of the previous bullet point the method may call either <see cref="OnIOEnter(Collider)"/> or <see cref="OnIOExit(Collider)"/>.
-    ///
     /// </summary>
     public void OnVisualizationMoved()
     {
@@ -192,9 +191,7 @@ public class BuildingIO : MonoBehaviour
 
     /// <summary>
     /// Event for when items enter a building.
-    ///
     /// - If an object is allowed to enter, the method <code>ProceedItemEnter(GameObject, ItemData)</code> in <see cref="BuildingIOManager"/> is called.
-    ///
     /// </summary>
     /// <param name="item">The item data of the game object that entered the building</param>
     public void OnItemEnter(ItemBehaviour item)
@@ -293,7 +290,6 @@ public class BuildingIO : MonoBehaviour
 
     /// <summary>
     /// Attempts to visualize an arrow, using the current <see cref="IOAttachmentStatus"/>
-    ///
     /// - If the arrow is already visible, only the material will be updated
     /// - If the arrow is <b>not</b> visible, an arrow will be instantiated using the <see cref="ObjectPoolManager"/>.
     /// </summary>
@@ -317,7 +313,6 @@ public class BuildingIO : MonoBehaviour
 
     /// <summary>
     /// Attempts to visualize an arrow with a specific material
-    ///
     /// - If the arrow is already visible, only the material will be updated
     /// - If the arrow is <b>not</b> visible, an arrow will be instantiated using the <see cref="ObjectPoolManager"/>.
     /// </summary>
@@ -357,7 +352,6 @@ public class BuildingIO : MonoBehaviour
 
     /// <summary>
     /// Attempts to make a link if the <see cref="onPort"/> variable isn't null
-    ///
     /// - If the IO was attached successfully, the IO will call <see cref="Devisualize()"/> and set the attachedIO for the other IO
     /// </summary>
     public void MakeLink()
@@ -386,7 +380,6 @@ public class BuildingIO : MonoBehaviour
 
     /// <summary>
     /// Returns whether an input should be attached or not
-    ///
     /// - If two inputs are trying to connect it should return false, as they shouldn't be linked or else no items would flow between the two
     /// - Likewise, if two outputs are trying to connect it should also return false.
     /// - If there are two opposite types of BuildingIOs (e.g. male to female connection or female to male connection) are checked the method will return true, as they will connect properly.

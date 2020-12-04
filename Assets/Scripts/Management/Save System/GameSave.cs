@@ -1,5 +1,5 @@
 ﻿/// <summary>
-/// Contains all variables that are stored inside a game save
+/// Contains all variables that are stored inside a game save.
 /// </summary>
 [System.Serializable]
 public class GameSave

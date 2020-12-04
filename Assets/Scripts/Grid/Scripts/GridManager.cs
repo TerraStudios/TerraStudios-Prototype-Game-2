@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Manages the processes of building and visualizing buildings.
+/// </summary>
 public class GridManager : MonoBehaviour
 {
     public static GridManager instance;
@@ -19,7 +22,7 @@ public class GridManager : MonoBehaviour
     [Header("Dynamic variables")]
     private bool isInBuildMode;
 
-    [HideInInspector] public bool isInDeleteMode = false;
+    [HideInInspector] public bool isInDeleteMode;
     [HideInInspector] public bool forceVisualizeAll;
 
     /// <summary>
@@ -69,15 +72,13 @@ public class GridManager : MonoBehaviour
     }
 
     private bool isFlipped;
-    private bool click = false;
+    private bool click;
 
-    private float lastClick = -1; //initialize as -1 to confirm first click
-
-    public bool canPlace = false;
+    public bool canPlace;
 
     //This variable needs to be moved to a proper debugging system, only used temporarily here
     [Tooltip("Used for drawing IO collision checks in the Scene view")]
-    public bool debugMode = false;
+    public bool debugMode;
 
     #region Unity Events
 
@@ -111,7 +112,6 @@ public class GridManager : MonoBehaviour
                 }
 
                 click = true;
-                lastClick = Time.unscaledTime;
             }
         }
         else if (Input.GetMouseButtonUp(0))
@@ -158,7 +158,7 @@ public class GridManager : MonoBehaviour
         //If debug mode is enabled, this will loop through every registered building as well as the visualization and call the VisualizeColliders() method
         if (debugMode && visualization)
         {
-            foreach (Building building in BuildingManager.RegisteredBuildings) building.mc.BuildingIOManager.VisualizeColliders();
+            foreach (Building building in BuildingSystem.RegisteredBuildings) building.mc.BuildingIOManager.VisualizeColliders();
             visualization.GetComponent<Building>().mc.BuildingIOManager.VisualizeColliders();
         }
 
@@ -215,7 +215,6 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Destroys the visualization and removes all indicators
     /// </summary>
-    /// <param name="center">Grid position for the visualization to be instantiated on</param>
     private void DeconstructVisualization()
     {
         if (!visualization)
@@ -348,6 +347,7 @@ public class GridManager : MonoBehaviour
             //TimeEngine.IsPaused = false;
             visualization = null;
             if (!forceVisualizeAll)
+            {
                 foreach (Building b in BuildingSystem.RegisteredBuildings)
                 {
                     if (b.mc.BuildingIOManager)
@@ -355,6 +355,7 @@ public class GridManager : MonoBehaviour
                         b.mc.BuildingIOManager.DevisualizeAll();
                     }
                 }
+            }
         }
     }
 

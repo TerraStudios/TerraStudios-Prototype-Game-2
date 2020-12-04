@@ -2,6 +2,9 @@
 
 public enum IncomeTaxType { Progressive, Flat }
 
+/// <summary>
+/// This class contains properties that we use to enforce different game experiences by changing values of various systems.
+/// </summary>
 [CreateAssetMenu(fileName = "New Game Profile", menuName = "Settings/New Game Profile")]
 public class GameProfile : ScriptableObject
 {
@@ -45,9 +48,6 @@ public class GameProfile : ScriptableObject
     public string currencyCC;
     [Tooltip("Freezes the balance to the start balance")]
     public bool enableGodMode;
-
-    //[Tooltip("If disabled, the player can't go bellow 0 balance")]
-    //public bool enableBankruptcySystem = true;
 
     [Header("Bankruptcy System")]
 

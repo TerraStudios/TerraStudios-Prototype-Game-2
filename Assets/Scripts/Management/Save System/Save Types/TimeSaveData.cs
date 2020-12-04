@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// Contains data about the time simulation
+/// Contains data about the time simulation.
 /// </summary>
 [Serializable]
 public class TimeSaveData

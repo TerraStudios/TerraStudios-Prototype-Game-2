@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles the calculations for the economy calculations.
+/// </summary>
 public class EconomySystem : MonoBehaviour
 {
     [Header("Components")]
@@ -23,7 +26,6 @@ public class EconomySystem : MonoBehaviour
                 GameSave.current.EconomySaveData.balanace = value;
                 OnBalanceUpdate();
             }
-            value = startBalance;
         }
     }
     public DateTime LastBankruptcyStart { get => GameSave.current.EconomySaveData.LastBankruptcyStart; set => GameSave.current.EconomySaveData.LastBankruptcyStart = value; }

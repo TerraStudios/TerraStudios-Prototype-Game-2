@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// The RemoveSystem removes items and buildings placed in the world.
+/// </summary>
 public class RemoveSystem : MonoBehaviour
 {
     [Header("UI Components")]

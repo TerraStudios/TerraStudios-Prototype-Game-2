@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// These properties are used so the player can customize his playing experience.
+/// </summary>
 [CreateAssetMenu(fileName = "New User Profile", menuName = "Settings/New User Profile")]
 public class UserProfile : ScriptableObject
 {

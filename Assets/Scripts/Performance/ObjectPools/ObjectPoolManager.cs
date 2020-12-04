@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Used for instantiating and destroying GameObjects efficiently by reusing them.
+/// </summary>
 //TODO: maybe find a more elegant queue system than using a list and looping
 public class ObjectPoolManager : MonoBehaviour
 {
@@ -23,7 +26,6 @@ public class ObjectPoolManager : MonoBehaviour
     /// <code>
     /// ObjectPoolManager.instance.CreatePool(prefab, 100); //Creates an initial size of 100
     /// </code>
-    /// 
     /// </example>
     /// <param name="prefab">The <see cref="GameObject"/> the pool will contain</param>
     /// <param name="poolSize">The initial size for the pool</param>
@@ -84,7 +86,6 @@ public class ObjectPoolManager : MonoBehaviour
         t.position = position;
         t.rotation = rotation;
         return pooledObject.gameObject;
-
     }
 
     /// <summary>
@@ -123,13 +124,12 @@ public class ObjectPoolManager : MonoBehaviour
 
         public void Disable()
         {
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
 
             if (parent != null)
             {
-                this.gameObject.transform.SetParent(parent);
+                gameObject.transform.SetParent(parent);
             }
         }
-
     }
 }

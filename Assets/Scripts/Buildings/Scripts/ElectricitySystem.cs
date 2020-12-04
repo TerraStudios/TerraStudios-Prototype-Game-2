@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Used to gather and generate electricity data for the Building.
+/// </summary>
 public class ElectricitySystem : MonoBehaviour
 {
     [Header("Components")]

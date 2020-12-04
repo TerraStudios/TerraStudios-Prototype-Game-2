@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// This script handles input selection for Buildings through the UI.
+/// </summary>
 public class InputSelector : MonoBehaviour
 {
     // Dictionary values

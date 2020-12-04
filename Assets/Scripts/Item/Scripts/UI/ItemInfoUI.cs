@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Used to manage the UI of the Item Selection panel.
+/// </summary>
 public class ItemInfoUI : MonoBehaviour
 {
     [Header("Components")]
@@ -25,8 +28,8 @@ public class ItemInfoUI : MonoBehaviour
         description.text = item.description;
         itemName.text = item.name;
 
-        this.currentItem = gameObj;
-        this.currentData = item;
+        currentItem = gameObj;
+        currentData = item;
     }
 
     public void OnSellItem()

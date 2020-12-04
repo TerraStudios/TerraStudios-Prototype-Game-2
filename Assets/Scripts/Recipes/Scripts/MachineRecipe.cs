@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Holds properties for APM Recipes.
+/// </summary>
 [CreateAssetMenu(fileName = "New Machine Recipe", menuName = "Recipe/Machine Recipe")]
 public class MachineRecipe : ScriptableObject
 {

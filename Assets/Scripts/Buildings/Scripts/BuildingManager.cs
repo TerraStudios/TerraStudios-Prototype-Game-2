@@ -3,6 +3,10 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// This class is the highest level of the <c>BuildingSystem</c>.
+/// It handles connections with the UI along with references to GameObjects.
+/// </summary>
 public class BuildingManager : BuildingSystem
 {
     public static ItemData testItemToSpawn;
@@ -249,9 +253,6 @@ public class BuildingManager : BuildingSystem
 
     private bool IsOutputSetupSupported()
     {
-        if (FocusedBuilding && FocusedBuilding.mc.APM && !FocusedBuilding.mc.Conveyor)
-            return true;
-        else
-            return false;
+        return FocusedBuilding && FocusedBuilding.mc.APM && !FocusedBuilding.mc.Conveyor;
     }
 }

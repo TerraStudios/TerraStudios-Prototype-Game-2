@@ -1,6 +1,9 @@
 ﻿using Cinemachine;
 using UnityEngine;
 
+/// <summary>
+/// Handles the camera movement in-game.
+/// </summary>
 public class CameraMovement : MonoBehaviour
 {
     public Transform CameraGO1;
@@ -100,7 +103,6 @@ public class CameraMovement : MonoBehaviour
                 CameraGO2.gameObject.SetActive(false);
             }
         }
-
     }
 
     private void HandleMouseMovement()

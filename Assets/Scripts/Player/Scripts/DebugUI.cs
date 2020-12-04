@@ -1,6 +1,10 @@
 ﻿using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// This system is used for modifying various game properties in runtime.
+/// It can also be used for triggering in-game events.
+/// </summary>
 public class DebugUI : MonoBehaviour
 {
     [Header("Components")]

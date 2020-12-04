@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// Properties for Item ScriptableObject.
+/// </summary>
 [Serializable]
 [ExecuteInEditMode]
 [RequireComponent(typeof(Rigidbody))]

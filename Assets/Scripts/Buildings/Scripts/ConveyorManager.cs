@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages all placed conveyors.
+/// </summary>
 public class ConveyorManager : MonoBehaviour
 {
     public static ConveyorManager instance;
@@ -16,6 +19,4 @@ public class ConveyorManager : MonoBehaviour
     {
         conveyors.ForEach(conveyor => conveyor.UpdateConveyor());
     }
-
-
 }

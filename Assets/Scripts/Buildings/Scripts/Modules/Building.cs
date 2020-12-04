@@ -6,6 +6,10 @@ using UnityEngine;
 
 public enum WorkStateEnum { On, Idle, Off }
 
+/// <summary>
+/// This class contains properties for class <c>Building</c> that can be changed
+/// in runtime by the Save and Load System.
+/// </summary>
 [Serializable]
 public class BuildingBase
 {
@@ -44,6 +48,10 @@ public class BuildingBase
     public double wattsPerHourWork;
 }
 
+/// <summary>
+/// General Building class, contained on all GameObjects that function as a Building.
+/// Handles Building Initialization, work states, building health, electricity and visualizations.
+/// </summary>
 [RequireComponent(typeof(ModuleConnector))]
 public class Building : MonoBehaviour
 {
@@ -205,7 +213,6 @@ public class Building : MonoBehaviour
 
     /// <summary>
     /// Event for when the work state is changed in the machine.
-    /// 
     /// The method currently pauses the time via <see cref="TimeManager.PauseTimeCounter(Guid)"/>
     /// </summary>
     /// <param name="newValue">The new value the building was set to</param>
@@ -227,7 +234,7 @@ public class Building : MonoBehaviour
             }
         }
 
-        if (mc.BuildingIOManager != null && mc.BuildingIOManager.isConveyor)
+        if (mc.BuildingIOManager?.isConveyor == true)
         {
             if (newValue == WorkStateEnum.On)
                 mc.BuildingIOManager.ChangeConveyorState(true);
@@ -274,7 +281,7 @@ public class Building : MonoBehaviour
 
         RemoveIndicator();
         currentIndicator = ObjectPoolManager.instance.ReuseObject(indicator.gameObject, transform.position + new Vector3(0, GetComponent<MeshRenderer>().bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
-        currentIndicator.transform.parent = this.transform;
+        currentIndicator.transform.parent = transform;
 
     }
 

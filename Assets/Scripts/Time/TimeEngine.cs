@@ -2,6 +2,9 @@
 using System.Threading;
 using UnityEngine;
 
+/// <summary>
+/// Lowest level time management script for handling time counting on a different thread.
+/// </summary>
 public class TimeEngine : MonoBehaviour
 {
     private Thread thread = null;

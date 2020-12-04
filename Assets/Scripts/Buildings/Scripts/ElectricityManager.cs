@@ -1,6 +1,10 @@
 ﻿using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Highest level class for the Electricity System.
+/// Handles UI connections with the code.
+/// </summary>
 public class ElectricityManager : ElectricitySystem
 {
     [Header("UI Components")]

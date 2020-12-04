@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Handles the Pause Menu UI.
+/// </summary>
 public class PauseMenu : MonoBehaviour
 {
     public GameObject PauseMenuPanel;
@@ -18,7 +21,6 @@ public class PauseMenu : MonoBehaviour
                 TimeEngine.IsPaused = false;
                 PauseMenuPanel.SetActive(false);
             }
-
             else
             {
                 isOpen = true;

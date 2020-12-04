@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Contains data to save for each building
+/// Contains data to save for each building.
 /// </summary>
 [Serializable]
 public class BuildingSave

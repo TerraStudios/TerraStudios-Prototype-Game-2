@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// This script handles output selection for Buildings through the UI.
+/// </summary>
 public class OutputSelector : MonoBehaviour
 {
     // Dictionary values

@@ -2,6 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Manages all recipe related properties.
+/// Loads and unloads Recipes and RecipeFilters
+/// Generates a list of blocked and allowed recipes based on RecipeFilter's properties.
+/// </summary>
 public class RecipeManager : MonoBehaviour
 {
     private static List<MachineRecipe> recipes;

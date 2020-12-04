@@ -1,5 +1,10 @@
 ﻿using UnityEditor;
 using UnityEngine;
+
+/// <summary>
+/// This editor script is used for finding missing scripts in the hierarchy.
+/// Third-party script.
+/// </summary>
 public class FindMissingScriptsRecursively : EditorWindow
 {
     private static int go_count = 0, components_count = 0, missing_count = 0;
