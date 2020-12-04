@@ -1,6 +1,7 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -9,10 +10,10 @@ using UnityEngine.UI;
 public class TimeManager : TimeSystem
 {
     [Header("UI Components")]
-    public TMP_Text CurrentDateText;
-    public TMP_Text CurrentTimeText;
+    public TMP_Text currentDateText;
+    public TMP_Text currentTimeText;
 
-    public Button PauseButton;
+    public Button pauseButton;
     public Button x1Button;
     public Button x4Button;
     public Button x8Button;
@@ -24,14 +25,14 @@ public class TimeManager : TimeSystem
 
     public void Init()
     {
-        if (GameSave.current.TimeSaveData.currentTime == default)
+        if (GameSave.current.timeSaveData.currentTime == default)
             StartCounting(DateTime.Now);
         else
-            StartCounting(GameSave.current.TimeSaveData.currentTime);
+            StartCounting(GameSave.current.timeSaveData.currentTime);
 
         OnCounterTick();
 
-        PauseButton.onClick.AddListener(() => OnSpeedButtonClicked(PauseButton));
+        pauseButton.onClick.AddListener(() => OnSpeedButtonClicked(pauseButton));
         x1Button.onClick.AddListener(() => OnSpeedButtonClicked(x1Button));
         x4Button.onClick.AddListener(() => OnSpeedButtonClicked(x4Button));
         x8Button.onClick.AddListener(() => OnSpeedButtonClicked(x8Button));
@@ -41,7 +42,7 @@ public class TimeManager : TimeSystem
     {
         clicked.interactable = false;
 
-        if (clicked == PauseButton)
+        if (clicked == pauseButton)
         {
             x1Button.interactable = true;
             x4Button.interactable = true;
@@ -52,7 +53,7 @@ public class TimeManager : TimeSystem
 
         else if (clicked == x1Button)
         {
-            PauseButton.interactable = true;
+            pauseButton.interactable = true;
             x4Button.interactable = true;
             x8Button.interactable = true;
 
@@ -63,7 +64,7 @@ public class TimeManager : TimeSystem
         else if (clicked == x4Button)
         {
             x1Button.interactable = true;
-            PauseButton.interactable = true;
+            pauseButton.interactable = true;
             x8Button.interactable = true;
 
             IsPaused = false;
@@ -73,7 +74,7 @@ public class TimeManager : TimeSystem
         else if (clicked == x8Button)
         {
             x1Button.interactable = true;
-            PauseButton.interactable = true;
+            pauseButton.interactable = true;
             x4Button.interactable = true;
 
             IsPaused = false;
@@ -84,7 +85,7 @@ public class TimeManager : TimeSystem
     public override void OnCounterTick()
     {
         base.OnCounterTick();
-        CurrentTimeText.text = GetReadableHourTime();
-        CurrentDateText.text = GetReadableDateTime();
+        currentTimeText.text = GetReadableHourTime();
+        currentDateText.text = GetReadableDateTime();
     }
 }

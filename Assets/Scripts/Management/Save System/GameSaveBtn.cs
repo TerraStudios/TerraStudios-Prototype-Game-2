@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public class GameSaveBtn : MonoBehaviour
 {
-    public TMP_Text SaveName;
-    public Button SaveSelectedBtn;
-    public Button TrashBtn;
+    public TMP_Text saveName;
+    public Button saveSelectedBtn;
+    public Button trashBtn;
 }

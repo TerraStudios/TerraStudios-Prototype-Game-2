@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// This class acts like a layer between the <c>GridManager</c> and the <c>BuildingSystem</c>.
@@ -9,15 +10,15 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class BuildingSystem : MonoBehaviour
 {
-    [HideInInspector] public Building FocusedBuilding;
+    [HideInInspector] public Building focusedBuilding;
     public LayerMask ignoreFocusLayers;
 
     [Header("Components")]
-    public TimeManager TimeManager;
+    public TimeManager timeManager;
 
-    public Camera MainCamera;
-    public GridManager GridManager;
-    public EconomyManager EconomyManager;
+    public Camera mainCamera;
+    public GridManager gridManager;
+    public EconomyManager economyManager;
 
     public static readonly List<Building> RegisteredBuildings = new List<Building>();
 
@@ -27,7 +28,7 @@ public class BuildingSystem : MonoBehaviour
     {
         get
         {
-            return _buildingHolder ?? (_buildingHolder = new GameObject("Buildings"));
+            return _buildingHolder ? _buildingHolder : (_buildingHolder = new GameObject("Buildings"));
         }
     }
 
@@ -38,17 +39,17 @@ public class BuildingSystem : MonoBehaviour
         {
             location = b.transform.position,
             rotation = b.transform.rotation,
-            building = b.Base,
+            building = b.bBase,
             prefabLocation = b.prefabLocation
         };
         if (save)
-            GameSave.current.WorldSaveData.PlacedBuildings.Add(toSave);
+            GameSave.current.worldSaveData.placedBuildings.Add(toSave);
     }
 
     public static void UnRegisterBuilding(Building b)
     {
         RegisteredBuildings.Remove(b);
-        GameSave.current.WorldSaveData.PlacedBuildings.Where(bSave => bSave.building == b.Base);
+        GameSave.current.worldSaveData.placedBuildings.Where(bSave => bSave.building == b.bBase);
     }
 
     public void ClearRegisteredBuildings() { RegisteredBuildings.Clear(); }
@@ -63,11 +64,11 @@ public class BuildingSystem : MonoBehaviour
 
     public void LoadAllBuildingsFromSave()
     {
-        foreach (BuildingSave b in GameSave.current.WorldSaveData.PlacedBuildings)
+        foreach (BuildingSave b in GameSave.current.worldSaveData.placedBuildings)
         {
             Transform t = Instantiate(b.GetObj().gameObject, b.location, b.rotation).transform;
             Building building = t.GetComponent<Building>();
-            building.Base = b.building;
+            building.bBase = b.building;
             SetUpBuilding(building, false);
         }
     }
@@ -79,14 +80,14 @@ public class BuildingSystem : MonoBehaviour
     public void SetUpBuilding(Building b, bool register = true)
     {
         b.transform.parent = buildingHolder.transform;
-        b.TimeManager = TimeManager;
-        b.EconomyManager = EconomyManager;
+        b.timeManager = timeManager;
+        b.economyManager = economyManager;
         RegisterBuilding(b, register);
         b.Init(!register);
 
-        if (b.mc.BuildingIOManager.isConveyor)
+        if (b.mc.buildingIOManager.isConveyor)
         {
-            ConveyorManager.instance.conveyors.Add(b.GetComponent<Conveyor>());
+            ConveyorManager.Instance.conveyors.Add(b.GetComponent<Conveyor>());
         }
     }
 
@@ -99,7 +100,7 @@ public class BuildingSystem : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject() || RemoveSystem.instance.removeModeEnabled)
             return;
 
-        Ray ray = MainCamera.ScreenPointToRay(mousePos);
+        Ray ray = mainCamera.ScreenPointToRay(mousePos);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ~ignoreFocusLayers))
         {
@@ -108,7 +109,7 @@ public class BuildingSystem : MonoBehaviour
             {
                 if (b.isSetUp)
                 {
-                    if (FocusedBuilding && !(b.Equals(FocusedBuilding)))
+                    if (focusedBuilding && !(b.Equals(focusedBuilding)))
                     {
                         OnBuildingDeselected();
                     }
@@ -117,7 +118,7 @@ public class BuildingSystem : MonoBehaviour
             }
             else
             {
-                if (FocusedBuilding)
+                if (focusedBuilding)
                 {
                     OnBuildingDeselected();
                 }
@@ -125,16 +126,16 @@ public class BuildingSystem : MonoBehaviour
         }
         else
         {
-            if (FocusedBuilding)
+            if (focusedBuilding)
             {
                 OnBuildingDeselected();
             }
         }
     }
 
-    public virtual void OnBuildingSelected(Building b) => FocusedBuilding = b;
+    public virtual void OnBuildingSelected(Building b) => focusedBuilding = b;
 
-    public virtual void OnBuildingDeselected() => FocusedBuilding = null;
+    public virtual void OnBuildingDeselected() => focusedBuilding = null;
 
     public virtual void OnBuildingUpdateUI() { }
 }

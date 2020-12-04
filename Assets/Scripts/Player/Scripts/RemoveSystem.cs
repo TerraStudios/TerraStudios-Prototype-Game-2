@@ -4,6 +4,7 @@ using Tayx.Graphy.Utils.NumString;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -12,12 +13,12 @@ using UnityEngine.UI;
 public class RemoveSystem : MonoBehaviour
 {
     [Header("UI Components")]
-    public GameObject RemovePanel;
+    public GameObject removePanel;
     public Slider brushSize;
     public TMP_Text brushText;
 
     [Header("Components")]
-    public GridManager GridManager;
+    public GridManager gridManager;
 
     [Header("Variables")]
     public LayerMask buildingLayer;
@@ -86,15 +87,15 @@ public class RemoveSystem : MonoBehaviour
 
     public void OnRemoveButtonPressed()
     {
-        RemovePanel.SetActive(true);
+        removePanel.SetActive(true);
         removeModeEnabled = true;
-        BuildingManager.instance.OnBuildingDeselected();
+        BuildingManager.Instance.OnBuildingDeselected();
         TimeEngine.IsPaused = true;
     }
 
     public void OnDisableRemoveButtonPressed()
     {
-        RemovePanel.SetActive(false);
+        removePanel.SetActive(false);
         removeModeEnabled = false;
 
         foreach (ItemBehaviour t in inRange.Item1)
@@ -133,27 +134,27 @@ public class RemoveSystem : MonoBehaviour
 
     private Vector3 GetSnappedPos()
     {
-        RaycastHit? gridHit = GridManager.instance.FindGridHit();
+        RaycastHit? gridHit = GridManager.Instance.FindGridHit();
         if (gridHit == null) return default;
-        Vector3 snappedPos = GridManager.instance.GetGridPosition(gridHit.Value.point, new Vector2Int() { x = brushSize.value.ToInt() + 1, y = brushSize.value.ToInt() + 1 });
+        Vector3 snappedPos = GridManager.Instance.GetGridPosition(gridHit.Value.point, new Vector2Int() { x = brushSize.value.ToInt() + 1, y = brushSize.value.ToInt() + 1 });
         if (snappedPos == lastSnappedPos) return default;
         return snappedPos;
     }
 
     public bool DeleteBuilding(Building b)
     {
-        decimal change = (decimal)((float)b.Base.healthPercent / 100 * b.Base.Price - (b.Base.Price * GameManager.profile.removePenaltyMultiplier));
-        EconomyManager.instance.Balance += change;
+        decimal change = (decimal)((float)b.bBase.healthPercent / 100 * b.bBase.Price - (b.bBase.Price * GameManager.Profile.removePenaltyMultiplier));
+        EconomyManager.Instance.Balance += change;
 
-        b.mc.BuildingIOManager.DevisualizeAll();
-        b.mc.BuildingIOManager.UnlinkAll();
+        b.mc.buildingIOManager.DevisualizeAll();
+        b.mc.buildingIOManager.UnlinkAll();
 
-        if (b.mc.BuildingIOManager.isConveyor)
+        if (b.mc.buildingIOManager.isConveyor)
         {
-            ConveyorManager.instance.conveyors.Remove(b.mc.Conveyor);
+            ConveyorManager.Instance.conveyors.Remove(b.mc.conveyor);
         }
 
-        foreach (KeyValuePair<ItemData, int> item in b.mc.BuildingIOManager.itemsInside)
+        foreach (KeyValuePair<ItemData, int> item in b.mc.buildingIOManager.itemsInside)
         {
             for (int i = 0; i < item.Value; i++)
             {
@@ -161,7 +162,7 @@ public class RemoveSystem : MonoBehaviour
             }
         }
 
-        foreach (BuildingIO io in b.mc.BuildingIOManager.outputs)
+        foreach (BuildingIO io in b.mc.buildingIOManager.outputs)
         {
             foreach (ItemSpawnData item in io.itemsToSpawn)
             {
@@ -179,17 +180,17 @@ public class RemoveSystem : MonoBehaviour
         //Debug.Log($"Adding {data.startingPriceInShop * GameManager.removePenaltyMultiplier} to the balance.");
         if (data.isGarbage)
         {
-            decimal change = (decimal)(data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.profile.garbageRemoveMultiplier));
-            EconomyManager.instance.Balance += change;
+            decimal change = (decimal)(data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.Profile.garbageRemoveMultiplier));
+            EconomyManager.Instance.Balance += change;
         }
         else
         {
-            decimal change = (decimal)(data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.profile.removePenaltyMultiplier));
-            EconomyManager.instance.Balance += change;
+            decimal change = (decimal)(data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.Profile.removePenaltyMultiplier));
+            EconomyManager.Instance.Balance += change;
         }
 
         if (obj)
-            ObjectPoolManager.instance.DestroyObject(obj); //destroy object
+            ObjectPoolManager.Instance.DestroyObject(obj); //destroy object
         return true;
     }
 

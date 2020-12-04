@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Contains data from the economy systems.
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 public class EconomySaveData
 {
     public decimal balanace;
-    public DateTime LastBankruptcyStart;
-    public DateTime LastBankruptcyEnd;
+    public DateTime lastBankruptcyStart;
+    public DateTime lastBankruptcyEnd;
     public List<TimeWaitEvent> bankruptcyTimers = new List<TimeWaitEvent>();
 }

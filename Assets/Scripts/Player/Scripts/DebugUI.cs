@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// This system is used for modifying various game properties in runtime.
@@ -8,12 +9,12 @@ using UnityEngine;
 public class DebugUI : MonoBehaviour
 {
     [Header("Components")]
-    public EconomyManager EconomyManager;
+    public EconomyManager economyManager;
 
     [Header("UI Components")]
-    public GameObject SuperSecretPanel;
-    public GameObject GraphyGO;
-    public GameObject ElectricityStatsPanel;
+    public GameObject superSecretPanel;
+    public GameObject graphyGO;
+    public GameObject electricityStatsPanel;
     private bool isItemsDropdownLoaded;
     public TMP_Dropdown testItemDropdown;
 
@@ -21,13 +22,13 @@ public class DebugUI : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.RightControl))
         {
-            if (SuperSecretPanel.activeSelf)
-                SuperSecretPanel.SetActive(false);
+            if (superSecretPanel.activeSelf)
+                superSecretPanel.SetActive(false);
             else
             {
                 if (!isItemsDropdownLoaded)
                     LoadItemsDropdown();
-                SuperSecretPanel.SetActive(true);
+                superSecretPanel.SetActive(true);
             }
 
         }
@@ -60,7 +61,7 @@ public class DebugUI : MonoBehaviour
         bool isParsable = decimal.TryParse(newValue, out decimal newBalance);
 
         if (isParsable)
-            EconomyManager.Balance = newBalance;
+            economyManager.Balance = newBalance;
         else
             Debug.LogError("This field only accepts ints!");
     }
@@ -70,35 +71,35 @@ public class DebugUI : MonoBehaviour
         if (state)
         {
             // show all
-            GridManager.instance.forceVisualizeAll = true;
+            GridManager.Instance.forceVisualizeAll = true;
             foreach (Building registered in BuildingSystem.RegisteredBuildings)
             {
-                registered.mc.BuildingIOManager.VisualizeAll();
+                registered.mc.buildingIOManager.VisualizeAll();
             }
         }
         else
         {
             // hide all
-            GridManager.instance.forceVisualizeAll = false;
+            GridManager.Instance.forceVisualizeAll = false;
             foreach (Building registered in BuildingSystem.RegisteredBuildings)
             {
-                registered.mc.BuildingIOManager.DevisualizeAll();
+                registered.mc.buildingIOManager.DevisualizeAll();
             }
         }
     }
 
     public void OnUIEnableGraphy(bool state)
     {
-        GraphyGO.SetActive(state);
+        graphyGO.SetActive(state);
     }
 
     public void OnEnableElectricityStats(bool state)
     {
-        ElectricityStatsPanel.SetActive(state);
+        electricityStatsPanel.SetActive(state);
     }
 
     public void OnShowIOAttachCollisions(bool state)
     {
-        GridManager.instance.debugMode = state;
+        GridManager.Instance.debugMode = state;
     }
 }

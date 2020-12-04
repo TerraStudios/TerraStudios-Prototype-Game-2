@@ -44,7 +44,7 @@ public class ItemManagement : MonoBehaviour
 
         foreach (ItemData data in db)
         {
-            ObjectPoolManager.instance.CreatePool(data.obj.gameObject, initialPoolSize);
+            ObjectPoolManager.Instance.CreatePool(data.obj.gameObject, initialPoolSize);
         }
     }
 }

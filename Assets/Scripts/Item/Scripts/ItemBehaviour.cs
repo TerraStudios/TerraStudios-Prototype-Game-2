@@ -23,7 +23,7 @@ public class ItemBehaviour : MonoBehaviour
         if (markedForDelete)
             return;
         markedForDelete = true;
-        GetComponent<MeshRenderer>().material = BuildingManager.instance.redArrow;
+        GetComponent<MeshRenderer>().material = BuildingManager.Instance.redArrow;
     }
 
     public void UnmarkForDelete()
@@ -40,7 +40,7 @@ public class ItemBehaviour : MonoBehaviour
         {
             insideIO = other.transform.parent.GetComponent<BuildingIO>();
             insideIO.itemInside = this;
-            if (insideIO.isInput && !insideIO.IOManager.isConveyor)
+            if (insideIO.isInput && !insideIO.ioManager.isConveyor)
                 insideIO.OnItemEnter(this);
         }
     }
@@ -51,7 +51,7 @@ public class ItemBehaviour : MonoBehaviour
         {
             BuildingIO bIO = other.transform.parent.GetComponent<BuildingIO>();
             bIO.itemInside = null;
-            if (bIO.isInput && !bIO.IOManager.isConveyor)
+            if (bIO.isInput && !bIO.ioManager.isConveyor)
                 bIO.OnItemExit(this);
             insideIO = null;
         }

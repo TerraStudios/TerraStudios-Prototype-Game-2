@@ -1,15 +1,16 @@
 ﻿using Cinemachine;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Handles the camera movement in-game.
 /// </summary>
 public class CameraMovement : MonoBehaviour
 {
-    public Transform CameraGO1;
-    public Transform CameraGO2;
+    public Transform cameraGO1;
+    public Transform cameraGO2;
 
-    public CinemachineFollowZoom CinemachineFollowZoom;
+    public CinemachineFollowZoom cinemachineFollowZoom;
 
     public float movementSpeed;
     public float movementTime;
@@ -35,9 +36,9 @@ public class CameraMovement : MonoBehaviour
 
     private void Start()
     {
-        zoomLevel = CinemachineFollowZoom.m_MaxFOV;
-        maxFOV = CinemachineFollowZoom.m_MaxFOV;
-        minFOV = CinemachineFollowZoom.m_MinFOV;
+        zoomLevel = cinemachineFollowZoom.m_MaxFOV;
+        maxFOV = cinemachineFollowZoom.m_MaxFOV;
+        minFOV = cinemachineFollowZoom.m_MinFOV;
     }
 
     private void Update()
@@ -72,7 +73,7 @@ public class CameraMovement : MonoBehaviour
         }
 
         // Only allow the normal camera to rotate
-        if (CameraGO1.gameObject.activeInHierarchy)
+        if (cameraGO1.gameObject.activeInHierarchy)
         {
 
             // Q and E 90 degrees rotation
@@ -89,18 +90,18 @@ public class CameraMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            if (CameraGO1.gameObject.activeInHierarchy)
+            if (cameraGO1.gameObject.activeInHierarchy)
             {
-                cameraRotation = CameraGO1.rotation;
-                CameraGO1.gameObject.SetActive(false);
-                CameraGO2.gameObject.SetActive(true);
-                CameraGO2.rotation = Quaternion.Euler(90, 0, 0);
+                cameraRotation = cameraGO1.rotation;
+                cameraGO1.gameObject.SetActive(false);
+                cameraGO2.gameObject.SetActive(true);
+                cameraGO2.rotation = Quaternion.Euler(90, 0, 0);
             }
             else
             {
-                CameraGO1.gameObject.SetActive(true);
-                CameraGO1.rotation = cameraRotation;
-                CameraGO2.gameObject.SetActive(false);
+                cameraGO1.gameObject.SetActive(true);
+                cameraGO1.rotation = cameraRotation;
+                cameraGO2.gameObject.SetActive(false);
             }
         }
     }
@@ -145,7 +146,7 @@ public class CameraMovement : MonoBehaviour
 
     private void ApplyCameraFOV()
     {
-        CinemachineFollowZoom.m_MaxFOV = Mathf.Lerp(CinemachineFollowZoom.m_MaxFOV, zoomLevel, Time.unscaledDeltaTime * zoomSpeed);
+        cinemachineFollowZoom.m_MaxFOV = Mathf.Lerp(cinemachineFollowZoom.m_MaxFOV, zoomLevel, Time.unscaledDeltaTime * zoomSpeed);
     }
 
     private void OnDrawGizmos()

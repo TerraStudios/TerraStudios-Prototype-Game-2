@@ -187,7 +187,7 @@ public class BuildingIOManager : MonoBehaviour
 
         foreach (BuildingIOManager bIO in GetConveyorGroup())
         {
-            bIO.mc.Building.SetWorkstateSilent(state); //set it silently to not trigger on workstate changed (recursion)
+            bIO.mc.building.SetWorkstateSilent(state); //set it silently to not trigger on workstate changed (recursion)
         }
     }
 
@@ -218,10 +218,10 @@ public class BuildingIOManager : MonoBehaviour
     {
         foreach (BuildingIO io in getInputs ? inputs : outputs)
         {
-            if (io.attachedIO && io.attachedIO.IOManager.isConveyor && !currentList.Contains(io.attachedIO.IOManager))
+            if (io.attachedIO && io.attachedIO.ioManager.isConveyor && !currentList.Contains(io.attachedIO.ioManager))
             {
-                currentList.Add(io.attachedIO.IOManager);
-                io.attachedIO.IOManager.RecursiveGetConveyorGroup(currentList, getInputs);
+                currentList.Add(io.attachedIO.ioManager);
+                io.attachedIO.ioManager.RecursiveGetConveyorGroup(currentList, getInputs);
             }
         }
     }
@@ -242,7 +242,7 @@ public class BuildingIOManager : MonoBehaviour
         else
             newSpeed = 0;
 
-        mc.Conveyor.speed = newSpeed;
+        mc.conveyor.speed = newSpeed;
     }
 
     /// <summary>

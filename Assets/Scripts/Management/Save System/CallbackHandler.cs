@@ -7,11 +7,11 @@ using UnityEngine;
 /// </summary>
 public class CallbackHandler : MonoBehaviour
 {
-    public static CallbackHandler instance;
+    public static CallbackHandler Instance;
 
     public List<Action> callbacks = new List<Action>();
 
-    private void Awake() => instance = this;
+    private void Awake() => Instance = this;
 
     /// <summary>
     /// Generates a unique ID to the method

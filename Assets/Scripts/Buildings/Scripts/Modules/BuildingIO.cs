@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum IOAttachmentStatus
 {
@@ -26,10 +27,10 @@ public class BuildingIO : MonoBehaviour
     public bool isOutput;
 
     [HideInInspector] public int ID;
-    public MeshRenderer MeshRenderer;
+    public MeshRenderer meshRenderer;
     public Collider coll;
     public BoxCollider itemIO;
-    public BuildingIOManager IOManager;
+    public BuildingIOManager ioManager;
 
     [Header("Input Configuration")]
     [Tooltip("Determines whether an IO is a trashcan output")]
@@ -49,7 +50,7 @@ public class BuildingIO : MonoBehaviour
 
     [HideInInspector] public bool visualizeIO = true;
     [HideInInspector] public Transform arrow;
-    private LayerMask IOMask;
+    private LayerMask ioMask;
     private List<Collider> iosInside = new List<Collider>();
     public Queue<ItemSpawnData> itemsToSpawn = new Queue<ItemSpawnData>(); // make with delay and enqueue, dequeue and spawn
     public ItemBehaviour itemInside;
@@ -70,10 +71,10 @@ public class BuildingIO : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        IOMask = LayerMask.GetMask("IOPort");
+        ioMask = LayerMask.GetMask("IOPort");
 
-        if (BuildingManager.instance != null)
-            VisualizeArrow(BuildingManager.instance.blueArrow);
+        if (BuildingManager.Instance != null)
+            VisualizeArrow(BuildingManager.Instance.blueArrow);
     }
 
     #endregion Initialization
@@ -89,12 +90,12 @@ public class BuildingIO : MonoBehaviour
     public void OnVisualizationMoved()
     {
         //check for any collisions inside of box
-        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale * .5f, Quaternion.identity, IOMask);
+        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale * .5f, Quaternion.identity, ioMask);
 
         foreach (Collider inside in iosInside.ToList())
         {
             BuildingIO hitIO = inside.GetComponent<BuildingIO>();
-            if (!IOManager.Equals(hitIO.IOManager) && !hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
+            if (!ioManager.Equals(hitIO.ioManager) && !hitColliders.Contains(inside) && !inside.Equals(coll)) // inside the list, but not inside
             {
                 iosInside.Remove(inside);
                 OnIOExit(hitIO);
@@ -104,7 +105,7 @@ public class BuildingIO : MonoBehaviour
         foreach (Collider hit in hitColliders) //loop through each collider that was found
         {
             BuildingIO hitIO = hit.GetComponent<BuildingIO>();
-            if (!IOManager.Equals(hitIO.IOManager) && !iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
+            if (!ioManager.Equals(hitIO.ioManager) && !iosInside.Contains(hit) && !hit.Equals(coll)) // not in the list, and isn't this collider
             {
                 iosInside.Add(hit);
 
@@ -140,7 +141,7 @@ public class BuildingIO : MonoBehaviour
 
             if (IsInputSupported(io))
             {
-                VisualizeArrow(BuildingManager.instance.greenArrow); //visualize green arrow
+                VisualizeArrow(BuildingManager.Instance.greenArrow); //visualize green arrow
 
                 if (!attachedIO && !io.attachedIO)
                 {
@@ -150,7 +151,7 @@ public class BuildingIO : MonoBehaviour
             }
             else
             {
-                VisualizeArrow(BuildingManager.instance.redArrow); //visualize red arrow
+                VisualizeArrow(BuildingManager.Instance.redArrow); //visualize red arrow
 
                 if (!attachedIO && !io.attachedIO)
                 {
@@ -178,7 +179,7 @@ public class BuildingIO : MonoBehaviour
             }
             else
             {
-                VisualizeArrow(BuildingManager.instance.blueArrow);
+                VisualizeArrow(BuildingManager.Instance.blueArrow);
 
                 if (!attachedIO && !io.attachedIO)
                 {
@@ -207,10 +208,10 @@ public class BuildingIO : MonoBehaviour
         if (itemsAllowedToEnter.Length == 0)
             allowedToEnter = true;
 
-        if (!allowedToEnter || IOManager.mc.APM.CurrentStatus == APMStatus.Blocked)
+        if (!allowedToEnter || ioManager.mc.apm.CurrentStatus == APMStatus.Blocked)
             return;
 
-        IOManager.ProceedItemEnter(item.gameObject, item.data, ID);
+        ioManager.ProceedItemEnter(item.gameObject, item.data, ID);
     }
 
     public void OnItemExit(ItemBehaviour item)
@@ -252,20 +253,20 @@ public class BuildingIO : MonoBehaviour
         yield return new WaitUntil(() => !itemInside);
         Vector3 spawnPos;
 
-        if (IOManager.isConveyor)
+        if (ioManager.isConveyor)
             spawnPos = transform.position + Vector3.up * 0.25f;
         else
             spawnPos = itemIO.transform.position;
 
-        ObjectPoolManager.instance.ReuseObject(itemToSpawn.obj.gameObject, spawnPos, Quaternion.identity);
+        ObjectPoolManager.Instance.ReuseObject(itemToSpawn.obj.gameObject, spawnPos, Quaternion.identity);
         //An item has been instantiated, attempt to allow APM (if present) to insert an item
-        if (IOManager.mc.APM)
+        if (ioManager.mc.apm)
         {
-            IOManager.IOForEach(io =>
+            ioManager.IOForEach(io =>
             {
                 if (io.isInput && io.itemInside)
                 {
-                    IOManager.ProceedItemEnter(io.itemInside.gameObject, io.itemInside.data, io.ID);
+                    ioManager.ProceedItemEnter(io.itemInside.gameObject, io.itemInside.data, io.ID);
                 }
             });
         }
@@ -298,15 +299,15 @@ public class BuildingIO : MonoBehaviour
         switch (status)
         {
             case IOAttachmentStatus.Unconnected:
-                VisualizeArrow(BuildingManager.instance.blueArrow);
+                VisualizeArrow(BuildingManager.Instance.blueArrow);
                 break;
 
             case IOAttachmentStatus.InvalidConnection:
-                VisualizeArrow(BuildingManager.instance.redArrow);
+                VisualizeArrow(BuildingManager.Instance.redArrow);
                 break;
 
             case IOAttachmentStatus.SuccessfulConnection:
-                VisualizeArrow(BuildingManager.instance.greenArrow);
+                VisualizeArrow(BuildingManager.Instance.greenArrow);
                 break;
         }
     }
@@ -325,7 +326,7 @@ public class BuildingIO : MonoBehaviour
         }
         else
         {
-            arrow = ObjectPoolManager.instance.ReuseObject(BuildingManager.instance.ArrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
+            arrow = ObjectPoolManager.Instance.ReuseObject(BuildingManager.Instance.arrowIndicator.gameObject, gameObject.transform.position, gameObject.transform.rotation).transform;
             arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             arrow.transform.position += new Vector3(0, 1, 0);
             arrow.GetComponent<MeshRenderer>().material = material;
@@ -339,7 +340,7 @@ public class BuildingIO : MonoBehaviour
     {
         if (arrow != null)
         {
-            ObjectPoolManager.instance.DestroyObject(arrow.gameObject);
+            ObjectPoolManager.Instance.DestroyObject(arrow.gameObject);
             //Destroy(arrow.gameObject);
             visualizeIO = false;
             arrow = null;
@@ -390,7 +391,7 @@ public class BuildingIO : MonoBehaviour
     {
         bool toReturn = true;
 
-        if (!IOManager.isConveyor && !other.IOManager.isConveyor) //Both buildings aren't conveyors (incorrect)
+        if (!ioManager.isConveyor && !other.ioManager.isConveyor) //Both buildings aren't conveyors (incorrect)
             toReturn = false;
         if (isInput && other.isInput) //Female to female connection (incorrect)
             toReturn = false;
@@ -399,7 +400,7 @@ public class BuildingIO : MonoBehaviour
 
         if (other.attachedIO) return false; //Building already has an attached IO there, return red
 
-        if (GridManager.instance.visualization && !GridManager.instance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
+        if (GridManager.Instance.visualization && !GridManager.Instance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
 
         return toReturn;
     }

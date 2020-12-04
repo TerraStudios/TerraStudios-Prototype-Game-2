@@ -79,7 +79,7 @@ namespace Tests
 
             //Assert.AreNotEqual(proposedItems, itemsInside, "Item was rejected from APM.");
 
-            Assert.IsTrue(manager.mc.APM.IsAllowedToEnter(args), "Item was rejected from APM.");
+            Assert.IsTrue(manager.mc.apm.IsAllowedToEnter(args), "Item was rejected from APM.");
 
             //Currently throws a NPE because of the fake BuildingIO not containing proper information, to be revamped later 
             //Assert.IsTrue(manager.mc.APM.IsAllowedToStartCrafting(args), "APM not allowed to start crafting when it should be able to.");
@@ -96,8 +96,8 @@ namespace Tests
             ModuleConnector mc = apmObject.AddComponent<ModuleConnector>();
 
             // Attach modules
-            mc.APM = apm;
-            mc.BuildingIOManager = manager;
+            mc.apm = apm;
+            mc.buildingIOManager = manager;
 
             //Add ModuleConnector
             apm.mc = mc;

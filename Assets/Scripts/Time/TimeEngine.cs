@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Lowest level time management script for handling time counting on a different thread.
 /// </summary>
 public class TimeEngine : MonoBehaviour
 {
-    private Thread thread = null;
+    private Thread thread;
 
     [Header("Components")]
     [Tooltip("A reference to the UMTD")]
-    public UMTD UMTD;
+    public UMTD umtd;
 
     [Header("Constant variables")]
     [Tooltip("The default multiplier for time-based operations")]
@@ -19,7 +20,7 @@ public class TimeEngine : MonoBehaviour
 
     public static int TimeMultiplier
     {
-        get => GameSave.current.TimeSaveData.timeMultiplier;
+        get => GameSave.current.timeSaveData.timeMultiplier;
         set
         {
             Time.timeScale = value;
@@ -29,7 +30,7 @@ public class TimeEngine : MonoBehaviour
                 return;
             }
 
-            GameSave.current.TimeSaveData.timeMultiplier = value;
+            GameSave.current.timeSaveData.timeMultiplier = value;
         }
     }
 
@@ -39,18 +40,18 @@ public class TimeEngine : MonoBehaviour
         set
         {
             if (PauseMenu.isOpen)
-                GameSave.current.TimeSaveData.isPaused = PauseMenu.wasPaused;
+                GameSave.current.timeSaveData.isPaused = PauseMenu.wasPaused;
             else
-                GameSave.current.TimeSaveData.isPaused = value;
+                GameSave.current.timeSaveData.isPaused = value;
         }
     }
 
-    private static bool _isPaused;
+    private static bool isPaused;
 
     // Used for ingame processes
     public static bool IsPaused
     {
-        get => _isPaused;
+        get => isPaused;
         set
         {
             if (value)
@@ -61,14 +62,14 @@ public class TimeEngine : MonoBehaviour
                 Time.timeScale = TimeMultiplier;
 
             IsPaused_Save = value;
-            _isPaused = value;
+            isPaused = value;
         }
     }
 
     public DateTime CurrentTime
     {
-        get => GameSave.current.TimeSaveData.currentTime;
-        set => GameSave.current.TimeSaveData.currentTime = value;
+        get => GameSave.current.timeSaveData.currentTime;
+        set => GameSave.current.timeSaveData.currentTime = value;
     }
 
     public void StartClock()
@@ -88,7 +89,7 @@ public class TimeEngine : MonoBehaviour
                     CurrentTime = CurrentTime.AddMinutes(1);
                     int msToWait = Mathf.FloorToInt((float)100 / (defaultTimeMultiplier * TimeMultiplier));
                     Thread.Sleep(msToWait);
-                    UMTD.Enqueue(() => OnCounterTick());
+                    umtd.Enqueue(() => OnCounterTick());
                 }
             }
         }
@@ -106,6 +107,6 @@ public class TimeEngine : MonoBehaviour
         if (thread != null)
             thread.Abort();
 
-        _isPaused = false;
+        isPaused = false;
     }
 }

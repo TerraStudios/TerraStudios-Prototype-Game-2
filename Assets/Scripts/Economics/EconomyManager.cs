@@ -10,18 +10,18 @@ public class EconomyManager : EconomySystem
     [Header("UI Components")]
     public TMP_Text currentBalanceText;
 
-    public static EconomyManager instance;
+    public static EconomyManager Instance;
 
     private void Awake()
     {
-        instance = this;
-        if (GameSave.current.EconomySaveData.balanace == default)
+        Instance = this;
+        if (GameSave.current.economySaveData.balanace == default)
             Balance = startBalance;
         else
-            Balance = GameSave.current.EconomySaveData.balanace;
+            Balance = GameSave.current.economySaveData.balanace;
 
-        SeriousBankruptcyID = CallbackHandler.instance.RegisterCallback(OnSeriousBankruptcy);
-        GameOverID = CallbackHandler.instance.RegisterCallback(GameManager.instance.GameOver);
+        seriousBankruptcyID = CallbackHandler.Instance.RegisterCallback(OnSeriousBankruptcy);
+        gameOverID = CallbackHandler.Instance.RegisterCallback(GameManager.Instance.GameOver);
     }
 
     private void Update()
@@ -60,7 +60,7 @@ public class EconomyManager : EconomySystem
         Debug.Log("Recovered from bankruptcy!");
 
         currentBalanceText.color = Color.green;
-        TimeSpan howMuchBankruptcyLasted = LastBankruptcyEnd - LastBankruptcyStart;
+        TimeSpan howMuchBankruptcyLasted = lastBankruptcyEnd - lastBankruptcyStart;
         Debug.Log("The bankrupt lasted: " + howMuchBankruptcyLasted);
     }
 }

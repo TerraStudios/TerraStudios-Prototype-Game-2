@@ -22,7 +22,7 @@ public class TestSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(spawnEverySeconds);
 
-        ObjectPoolManager.instance.ReuseObject(itemToSpawn.obj.gameObject, transform.position, Quaternion.identity);
+        ObjectPoolManager.Instance.ReuseObject(itemToSpawn.obj.gameObject, transform.position, Quaternion.identity);
 
         //Instantiate(itemToSpawn.obj, transform.position, Quaternion.identity);
         StartCoroutine(LoopSpawnItem());

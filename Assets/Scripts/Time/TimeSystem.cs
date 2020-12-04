@@ -25,10 +25,10 @@ public class TimeCountEvent
 /// </summary>
 public class TimeSystem : TimeEngine
 {
-    [HideInInspector] public CultureInfo CurrentCulture { get { return GameManager.instance.currentCultureTimeDate; } }
+    [HideInInspector] public CultureInfo CurrentCulture { get { return GameManager.Instance.currentCultureTimeDate; } }
 
-    public List<TimeWaitEvent> TimeWaiters { get => GameSave.current.TimeSaveData.timeWaiters; set => GameSave.current.TimeSaveData.timeWaiters = value; }
-    public List<TimeCountEvent> TimeCounters { get => GameSave.current.TimeSaveData.timeCounters; set => GameSave.current.TimeSaveData.timeCounters = value; }
+    public List<TimeWaitEvent> timeWaiters { get => GameSave.current.timeSaveData.timeWaiters; set => GameSave.current.timeSaveData.timeWaiters = value; }
+    public List<TimeCountEvent> timeCounters { get => GameSave.current.timeSaveData.timeCounters; set => GameSave.current.timeSaveData.timeCounters = value; }
 
     public void StartCounting(DateTime? startTime)
     {
@@ -39,20 +39,20 @@ public class TimeSystem : TimeEngine
 
     public override void OnCounterTick()
     {
-        for (int i = 0; i < TimeWaiters.Count; i++)
+        for (int i = 0; i < timeWaiters.Count; i++)
         {
-            TimeWaitEvent ev = TimeWaiters[i];
+            TimeWaitEvent ev = timeWaiters[i];
             if (CurrentTime - ev.currentTime >= ev.waitTime)
             {
-                CallbackHandler.instance.GetEvent(ev.methodID).Invoke();
-                TimeWaiters.Remove(ev);
+                CallbackHandler.Instance.GetEvent(ev.methodID).Invoke();
+                timeWaiters.Remove(ev);
                 break;
             }
         }
 
-        for (int i = 0; i < TimeCounters.Count; i++)
+        for (int i = 0; i < timeCounters.Count; i++)
         {
-            TimeCountEvent ev = TimeCounters[i];
+            TimeCountEvent ev = timeCounters[i];
             if (!ev.isPaused)
             {
                 ev.timePassed += TimeSpan.FromMinutes(1);
@@ -68,12 +68,12 @@ public class TimeSystem : TimeEngine
             currentTime = CurrentTime,
             methodID = methodID
         };
-        TimeWaiters.Add(waitEvent);
+        timeWaiters.Add(waitEvent);
 
         return waitEvent;
     }
 
-    public void UnregisterTimeWaiter(TimeWaitEvent ev) => TimeWaiters.Remove(ev);
+    public void UnregisterTimeWaiter(TimeWaitEvent ev) => timeWaiters.Remove(ev);
 
     public TimeCountEvent StartTimeCounter()
     {
@@ -81,7 +81,7 @@ public class TimeSystem : TimeEngine
         {
             hash = Guid.NewGuid(),
         };
-        TimeCounters.Add(waitEvent);
+        timeCounters.Add(waitEvent);
 
         return waitEvent;
     }
@@ -109,13 +109,13 @@ public class TimeSystem : TimeEngine
     public TimeSpan StopTimeCounter(Guid hash)
     {
         TimeCountEvent ev = GetTCEFromGUID(hash);
-        TimeCounters.Remove(ev);
+        timeCounters.Remove(ev);
         return ev.timePassed;
     }
 
     private TimeCountEvent GetTCEFromGUID(Guid hash)
     {
-        foreach (TimeCountEvent ev in TimeCounters)
+        foreach (TimeCountEvent ev in timeCounters)
         {
             if (ev.hash == hash)
                 return ev;

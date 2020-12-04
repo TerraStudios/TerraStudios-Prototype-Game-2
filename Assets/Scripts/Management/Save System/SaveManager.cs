@@ -2,6 +2,7 @@
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -9,25 +10,25 @@ using UnityEngine.UI;
 /// </summary>
 public class SaveManager : MonoBehaviour
 {
-    public static SaveManager instance;
+    public static SaveManager Instance;
 
-    public Transform GameSaveButtonPrefab;
-    public Transform SelectSavePanel;
-    public Transform SaveGameSavePanel;
-    public Transform ConfirmOverwritePanel;
-    public Button ConfirmOverwriteBtn;
-    private List<GameObject> LoadGameSaveButtons = new List<GameObject>();
-    private List<GameObject> SaveGameButtons = new List<GameObject>();
-    public Transform LoadSaveButtonsRoot;
-    public Transform SaveGameButtonsRoot;
-    public TMP_InputField GameSaveName;
+    public Transform gameSaveButtonPrefab;
+    public Transform selectSavePanel;
+    public Transform saveGameSavePanel;
+    public Transform confirmOverwritePanel;
+    public Button confirmOverwriteBtn;
+    private readonly List<GameObject> LoadGameSaveButtons = new List<GameObject>();
+    private readonly List<GameObject> SaveGameButtons = new List<GameObject>();
+    public Transform loadSaveButtonsRoot;
+    public Transform saveGameButtonsRoot;
+    public TMP_InputField gameSaveName;
 
     public string[] saveFiles;
     public static bool saveLoaded;
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     /// <summary>
@@ -44,21 +45,21 @@ public class SaveManager : MonoBehaviour
 
         for (int i = 0; i < saveFiles.Length; i++)
         {
-            GameObject btnGO = Instantiate(GameSaveButtonPrefab, LoadSaveButtonsRoot).gameObject;
+            GameObject btnGO = Instantiate(gameSaveButtonPrefab, loadSaveButtonsRoot).gameObject;
             LoadGameSaveButtons.Add(btnGO);
 
             GameSaveBtn btn = btnGO.GetComponent<GameSaveBtn>();
 
             int index = i;
-            btn.SaveSelectedBtn.onClick.AddListener(() =>
+            btn.saveSelectedBtn.onClick.AddListener(() =>
             {
                 OnSaveSelected(saveFiles[index]);
             });
-            btn.TrashBtn.onClick.AddListener(() =>
+            btn.trashBtn.onClick.AddListener(() =>
             {
                 OnGameSaveDelete(saveFiles[index]);
             });
-            btn.SaveName.text = saveFiles[index].Replace(Application.persistentDataPath + "/saves/", "");
+            btn.saveName.text = saveFiles[index].Replace(Application.persistentDataPath + "/saves/", "");
         }
     }
 
@@ -78,21 +79,21 @@ public class SaveManager : MonoBehaviour
 
         for (int i = 0; i < saveFiles.Length; i++)
         {
-            GameObject btnGO = Instantiate(GameSaveButtonPrefab, SaveGameButtonsRoot).gameObject;
+            GameObject btnGO = Instantiate(gameSaveButtonPrefab, saveGameButtonsRoot).gameObject;
             SaveGameButtons.Add(btnGO);
 
             GameSaveBtn btn = btnGO.GetComponent<GameSaveBtn>();
 
             int index = i;
-            btn.SaveSelectedBtn.onClick.AddListener(() =>
+            btn.saveSelectedBtn.onClick.AddListener(() =>
             {
                 OnGameSaveSelectedOverwrite(saveFiles[index].Replace(Application.persistentDataPath + "/saves/", "").Replace(".pbag", ""));
             });
-            btn.TrashBtn.onClick.AddListener(() =>
+            btn.trashBtn.onClick.AddListener(() =>
             {
                 OnGameSaveDelete(saveFiles[index]);
             });
-            btn.SaveName.text = saveFiles[index].Replace(Application.persistentDataPath + "/saves/", "");
+            btn.saveName.text = saveFiles[index].Replace(Application.persistentDataPath + "/saves/", "");
         }
     }
 
@@ -101,9 +102,9 @@ public class SaveManager : MonoBehaviour
     /// </summary>
     private void ReloadSavesList()
     {
-        if (SelectSavePanel)
+        if (selectSavePanel)
             ShowLoadScreen();
-        if (SaveGameSavePanel)
+        if (saveGameSavePanel)
             ShowSaveScreen();
     }
 
@@ -115,7 +116,7 @@ public class SaveManager : MonoBehaviour
     {
         saveLoaded = true;
         GameSave.current = (GameSave)SerializationManager.Load(saveName);
-        GameManager.instance.ResetGame();
+        GameManager.Instance.ResetGame();
     }
 
     /// <summary>
@@ -124,10 +125,10 @@ public class SaveManager : MonoBehaviour
     /// <param name="saveName">The save's name to overwrite</param>
     public void OnGameSaveSelectedOverwrite(string saveName)
     {
-        ConfirmOverwritePanel.gameObject.SetActive(true);
-        SaveGameSavePanel.gameObject.SetActive(false);
-        ConfirmOverwriteBtn.onClick.RemoveAllListeners();
-        ConfirmOverwriteBtn.onClick.AddListener(() => OnConfimOverwirte(saveName));
+        confirmOverwritePanel.gameObject.SetActive(true);
+        saveGameSavePanel.gameObject.SetActive(false);
+        confirmOverwriteBtn.onClick.RemoveAllListeners();
+        confirmOverwriteBtn.onClick.AddListener(() => OnConfimOverwirte(saveName));
     }
 
     /// <summary>
@@ -136,8 +137,8 @@ public class SaveManager : MonoBehaviour
     /// <param name="saveName">The name of the save to overwrite</param>
     private void OnConfimOverwirte(string saveName)
     {
-        ConfirmOverwritePanel.gameObject.SetActive(false);
-        SaveGameSavePanel.gameObject.SetActive(true);
+        confirmOverwritePanel.gameObject.SetActive(false);
+        saveGameSavePanel.gameObject.SetActive(true);
         SerializationManager.Save(saveName, GameSave.current);
     }
 
@@ -156,15 +157,15 @@ public class SaveManager : MonoBehaviour
     /// </summary>
     public void OnSaveGameManualBtn()
     {
-        if (File.Exists(Application.persistentDataPath + "/saves/" + GameSaveName.text + ".pbag"))
+        if (File.Exists(Application.persistentDataPath + "/saves/" + gameSaveName.text + ".pbag"))
         {
             Debug.LogError("Save already exists");
             return;
         }
 
-        SerializationManager.Save(GameSaveName.text, GameSave.current);
+        SerializationManager.Save(gameSaveName.text, GameSave.current);
         ReloadSavesList();
-        GameSaveName.text = "";
+        gameSaveName.text = "";
     }
 
     /// <summary>

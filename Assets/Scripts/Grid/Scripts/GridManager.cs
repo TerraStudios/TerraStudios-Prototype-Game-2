@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Manages the processes of building and visualizing buildings.
 /// </summary>
 public class GridManager : MonoBehaviour
 {
-    public static GridManager instance;
+    public static GridManager Instance;
 
     [Header("Components")]
-    public BuildingManager BuildingManager;
+    public BuildingManager buildingManager;
 
-    public EconomyManager EconomyManager;
-    public Camera MainCamera;
+    public EconomyManager economyManager;
+    public Camera mainCamera;
     public GameObject removeModeEnabledText;
 
     [Header("Constant variables")]
@@ -39,10 +40,10 @@ public class GridManager : MonoBehaviour
     }
 
     private Building currentBuilding;
-    public string APM1Location;
-    public string APM2Location;
-    public string APM3Location;
-    public string ConveyorLocation;
+    public string apm1Location;
+    public string apm2Location;
+    public string apm3Location;
+    public string conveyorLocation;
 
     [Header("Controls / Shortcuts")]
     public KeyCode flipBuildingRight = KeyCode.R;
@@ -84,7 +85,7 @@ public class GridManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     /// <summary>
@@ -108,7 +109,7 @@ public class GridManager : MonoBehaviour
                 }
                 else
                 {
-                    BuildingManager.CheckForHit(Input.mousePosition);
+                    buildingManager.CheckForHit(Input.mousePosition);
                 }
 
                 click = true;
@@ -158,8 +159,8 @@ public class GridManager : MonoBehaviour
         //If debug mode is enabled, this will loop through every registered building as well as the visualization and call the VisualizeColliders() method
         if (debugMode && visualization)
         {
-            foreach (Building building in BuildingSystem.RegisteredBuildings) building.mc.BuildingIOManager.VisualizeColliders();
-            visualization.GetComponent<Building>().mc.BuildingIOManager.VisualizeColliders();
+            foreach (Building building in BuildingSystem.RegisteredBuildings) building.mc.buildingIOManager.VisualizeColliders();
+            visualization.GetComponent<Building>().mc.buildingIOManager.VisualizeColliders();
         }
 
         if (center != lastVisualize || !lastRotation.Equals(RotationChange))
@@ -177,18 +178,18 @@ public class GridManager : MonoBehaviour
 
             if (canPlace)
             {
-                visualization.GetComponent<MeshRenderer>().material = BuildingManager.greenArrow;
+                visualization.GetComponent<MeshRenderer>().material = buildingManager.greenArrow;
             }
             else
             {
-                visualization.GetComponent<MeshRenderer>().material = BuildingManager.redArrow;
+                visualization.GetComponent<MeshRenderer>().material = buildingManager.redArrow;
             }
 
             visualization.transform.position = center;
             visualization.transform.rotation = RotationChange;
 
-            b.mc.BuildingIOManager.UpdateIOPhysics();
-            b.mc.BuildingIOManager.UpdateArrows();
+            b.mc.buildingIOManager.UpdateIOPhysics();
+            b.mc.buildingIOManager.UpdateArrows();
         }
 
         lastRotation = RotationChange;
@@ -205,10 +206,10 @@ public class GridManager : MonoBehaviour
     /// <param name="center">Grid position for the visualization to be instantiated on</param>
     private void ConstructVisualization(Vector3 center)
     {
-        BuildingManager.OnBuildingDeselected();
+        buildingManager.OnBuildingDeselected();
         //TimeEngine.IsPaused = true;
         visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
-        visualization.GetComponent<Building>().SetIndicator(BuildingManager.instance.DirectionIndicator);
+        visualization.GetComponent<Building>().SetIndicator(BuildingManager.Instance.directionIndicator);
         tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
     }
 
@@ -240,17 +241,17 @@ public class GridManager : MonoBehaviour
         {
             Building b = visualization.GetComponent<Building>();
 
-            if (!GameManager.profile.allowBuildingIfBalanceInsufficient && EconomyManager.Balance - (decimal)b.Base.Price < 0)
+            if (!GameManager.Profile.allowBuildingIfBalanceInsufficient && economyManager.Balance - (decimal)b.bBase.Price < 0)
             {
                 Debug.LogWarning("Can't build because allowBuildingIfBalanceInsufficient is false");
                 return;
             }
 
-            EconomyManager.Balance -= (decimal)b.Base.Price;
+            economyManager.Balance -= (decimal)b.bBase.Price;
 
             visualization.GetComponent<MeshRenderer>().material = tempMat;
 
-            BuildingManager.SetUpBuilding(b);
+            buildingManager.SetUpBuilding(b);
 
             IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
         }
@@ -313,7 +314,7 @@ public class GridManager : MonoBehaviour
     /// <returns>The RayCastHit of the floor, or null if nothing is found.</returns>
     public RaycastHit? FindGridHit()
     {
-        if (Physics.Raycast(MainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 30000f, LayerMask.GetMask("GridFloor")))
+        if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 30000f, LayerMask.GetMask("GridFloor")))
         {
             return hit;
         }
@@ -350,9 +351,9 @@ public class GridManager : MonoBehaviour
             {
                 foreach (Building b in BuildingSystem.RegisteredBuildings)
                 {
-                    if (b.mc.BuildingIOManager)
+                    if (b.mc.buildingIOManager)
                     {
-                        b.mc.BuildingIOManager.DevisualizeAll();
+                        b.mc.buildingIOManager.DevisualizeAll();
                     }
                 }
             }
@@ -369,15 +370,15 @@ public class GridManager : MonoBehaviour
         switch (buildingID)
         {
             case 1:
-                currentBuilding = GetBuildingFromLocation(APM1Location);
+                currentBuilding = GetBuildingFromLocation(apm1Location);
                 break;
 
             case 2:
-                currentBuilding = GetBuildingFromLocation(APM2Location);
+                currentBuilding = GetBuildingFromLocation(apm2Location);
                 break;
 
             case 3:
-                currentBuilding = GetBuildingFromLocation(APM3Location);
+                currentBuilding = GetBuildingFromLocation(apm3Location);
                 break;
         }
 
@@ -390,7 +391,7 @@ public class GridManager : MonoBehaviour
     public void OnConveyorBuildButtonPressed()
     {
         DeconstructVisualization();
-        currentBuilding = GetBuildingFromLocation(ConveyorLocation);
+        currentBuilding = GetBuildingFromLocation(conveyorLocation);
         IsInBuildMode = true;
     }
 

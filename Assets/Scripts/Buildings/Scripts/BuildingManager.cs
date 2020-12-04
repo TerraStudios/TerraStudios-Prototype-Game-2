@@ -2,6 +2,7 @@
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// This class is the highest level of the <c>BuildingSystem</c>.
@@ -13,45 +14,45 @@ public class BuildingManager : BuildingSystem
     public bool enableDebugSpawn;
     public void EnableDebugSpawn(bool value) => enableDebugSpawn = value;
     [Header("BuildingInfo UI Components")]
-    public GameObject BuildingInfo;
+    public GameObject buildingInfo;
     public TMP_Text buildHealth;
     public TMP_Text itemInsideName;
 
     [Header("IO and Recipe Setup UI Components")]
     public TMP_Dropdown recipeSelection;
-    public GameObject IOSelectionPanel;
-    public Transform InputsParent;
-    public Transform InputsSelector;
-    public Transform OutputsParent;
-    public Transform OutputsSelector;
+    public GameObject ioSelectionPanel;
+    public Transform inputsParent;
+    public Transform inputsSelector;
+    public Transform outputsParent;
+    public Transform outputsSelector;
     private List<Transform> inputSelectorFields = new List<Transform>();
     private List<Transform> outputSelectorFields = new List<Transform>();
 
     [Header("Building Indicators")]
-    public Transform DirectionIndicator;
-    public Transform ArrowIndicator;
-    public Transform BrokenIndicator;
-    public Transform ErrorIndicator;
-    public Transform FixingIndicator;
+    public Transform directionIndicator;
+    public Transform arrowIndicator;
+    public Transform brokenIndicator;
+    public Transform errorIndicator;
+    public Transform fixingIndicator;
 
     [Header("Color Indicators")]
     public Material blueArrow;
     public Material greenArrow;
     public Material redArrow;
 
-    public static BuildingManager instance;
+    public static BuildingManager Instance;
 
-    private void Awake() => instance = this;
+    private void Awake() => Instance = this;
 
     //! Probably has to be moved to BuildingSystem since this script should only handle UI
     public void Start()
     {
         //Create pools for each indicator
-        ObjectPoolManager.instance.CreatePool(DirectionIndicator.gameObject, 80);
-        ObjectPoolManager.instance.CreatePool(ArrowIndicator.gameObject, 8);
-        ObjectPoolManager.instance.CreatePool(BrokenIndicator.gameObject, 50);
-        ObjectPoolManager.instance.CreatePool(ErrorIndicator.gameObject, 50);
-        ObjectPoolManager.instance.CreatePool(FixingIndicator.gameObject, 50);
+        ObjectPoolManager.Instance.CreatePool(directionIndicator.gameObject, 80);
+        ObjectPoolManager.Instance.CreatePool(arrowIndicator.gameObject, 8);
+        ObjectPoolManager.Instance.CreatePool(brokenIndicator.gameObject, 50);
+        ObjectPoolManager.Instance.CreatePool(errorIndicator.gameObject, 50);
+        ObjectPoolManager.Instance.CreatePool(fixingIndicator.gameObject, 50);
 
         ClearRegisteredBuildings();
         LoadAllBuildingsFromSave();
@@ -66,15 +67,15 @@ public class BuildingManager : BuildingSystem
     {
         base.OnBuildingSelected(b);
 
-        b.mc.BuildingIOManager.VisualizeAll();
+        b.mc.buildingIOManager.VisualizeAll();
 
-        BuildingInfo.SetActive(true);
+        buildingInfo.SetActive(true);
 
         RefreshRecipeList();
         RefreshIOUI();
 
-        if (b.mc.BuildingIOManager.isConveyor && enableDebugSpawn)
-            b.mc.BuildingIOManager.outputs[0].AddToSpawnQueue(testItemToSpawn, 0);
+        if (b.mc.buildingIOManager.isConveyor && enableDebugSpawn)
+            b.mc.buildingIOManager.outputs[0].AddToSpawnQueue(testItemToSpawn, 0);
     }
 
     /// <summary>
@@ -82,18 +83,18 @@ public class BuildingManager : BuildingSystem
     /// </summary>
     public override void OnBuildingDeselected()
     {
-        if (!FocusedBuilding)
+        if (!focusedBuilding)
             return;
-        FocusedBuilding.mc.BuildingIOManager.DevisualizeAll();
+        focusedBuilding.mc.buildingIOManager.DevisualizeAll();
 
         foreach (Building building in RegisteredBuildings)
         {
-            building.mc.BuildingIOManager.DevisualizeAll();
+            building.mc.buildingIOManager.DevisualizeAll();
         }
 
         base.OnBuildingDeselected();
-        BuildingInfo.SetActive(false);
-        IOSelectionPanel.SetActive(false);
+        buildingInfo.SetActive(false);
+        ioSelectionPanel.SetActive(false);
     }
 
     /// <summary>
@@ -102,9 +103,9 @@ public class BuildingManager : BuildingSystem
     public override void OnBuildingUpdateUI()
     {
         base.OnBuildingUpdateUI();
-        if (FocusedBuilding)
+        if (focusedBuilding)
         {
-            buildHealth.text = FocusedBuilding.Base.healthPercent.ToString();
+            buildHealth.text = focusedBuilding.bBase.healthPercent.ToString();
             //onTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.On).Duration().ToString();
             //idleTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.Idle).Duration().ToString();
             //offTime.text = FocusedBuilding.GetTimeForWS(WorkStateEnum.Off).Duration().ToString();
@@ -117,9 +118,9 @@ public class BuildingManager : BuildingSystem
     /// </summary>
     public void OnFixButtonPressed()
     {
-        if (FocusedBuilding.Base.healthPercent != 100)
+        if (focusedBuilding.bBase.healthPercent != 100)
         {
-            FocusedBuilding.Fix();
+            focusedBuilding.Fix();
         }
     }
 
@@ -132,13 +133,13 @@ public class BuildingManager : BuildingSystem
         switch (buttonID)
         {
             case 1:
-                FocusedBuilding.WorkState = WorkStateEnum.On;
+                focusedBuilding.WorkState = WorkStateEnum.On;
                 break;
             case 2:
-                FocusedBuilding.WorkState = WorkStateEnum.Idle;
+                focusedBuilding.WorkState = WorkStateEnum.Idle;
                 break;
             case 3:
-                FocusedBuilding.WorkState = WorkStateEnum.Off;
+                focusedBuilding.WorkState = WorkStateEnum.Off;
                 break;
         }
     }
@@ -151,23 +152,23 @@ public class BuildingManager : BuildingSystem
 
         recipeSelection.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
 
-        if (FocusedBuilding.mc.BuildingIOManager.isConveyor)
+        if (focusedBuilding.mc.buildingIOManager.isConveyor)
         {
             recipeSelection.value = 0;
             recipeSelection.RefreshShownValue();
             return;
         }
 
-        if (!FocusedBuilding.mc.APM.CurrentRecipe)
+        if (!focusedBuilding.mc.apm.CurrentRecipe)
         {
             recipeSelection.value = 0;
         }
 
-        for (int i = 0; i < FocusedBuilding.mc.APM.allowedRecipes.Count; i++)
+        for (int i = 0; i < focusedBuilding.mc.apm.allowedRecipes.Count; i++)
         {
-            MachineRecipe recipe = FocusedBuilding.mc.APM.allowedRecipes[i];
+            MachineRecipe recipe = focusedBuilding.mc.apm.allowedRecipes[i];
             recipeSelection.options.Add(new TMP_Dropdown.OptionData() { text = recipe.name });
-            if (FocusedBuilding.mc.APM.CurrentRecipe == recipe)
+            if (focusedBuilding.mc.apm.CurrentRecipe == recipe)
                 recipeSelection.value = i + 1;
         }
 
@@ -179,9 +180,9 @@ public class BuildingManager : BuildingSystem
     private void OnRecipeSelected(TMP_Dropdown changed)
     {
         if (changed.value == 0)
-            FocusedBuilding.mc.APM.CurrentRecipe = null;
+            focusedBuilding.mc.apm.CurrentRecipe = null;
         else
-            FocusedBuilding.mc.APM.CurrentRecipe = FocusedBuilding.mc.APM.allowedRecipes[changed.value - 1];
+            focusedBuilding.mc.apm.CurrentRecipe = focusedBuilding.mc.apm.allowedRecipes[changed.value - 1];
 
         RefreshIOUI();
     }
@@ -190,7 +191,7 @@ public class BuildingManager : BuildingSystem
 
     public void HideIOSelectionUI()
     {
-        IOSelectionPanel.SetActive(false);
+        ioSelectionPanel.SetActive(false);
     }
 
     private void RefreshIOUI(bool showPanel = false)
@@ -199,7 +200,7 @@ public class BuildingManager : BuildingSystem
             return;
 
         if (showPanel)
-            IOSelectionPanel.SetActive(true);
+            ioSelectionPanel.SetActive(true);
 
         // visualize the inputData from APM to the UI
 
@@ -210,18 +211,18 @@ public class BuildingManager : BuildingSystem
 
         inputSelectorFields.Clear();
 
-        for (int i = 0; i < FocusedBuilding.mc.APM.inputData.Count; i++)
+        for (int i = 0; i < focusedBuilding.mc.apm.inputData.Count; i++)
         {
-            KeyValuePair<MachineRecipe.InputData, int> entry = FocusedBuilding.mc.APM.inputData.ElementAt(i);
+            KeyValuePair<MachineRecipe.InputData, int> entry = focusedBuilding.mc.apm.inputData.ElementAt(i);
 
-            Transform fieldToAdd = Instantiate(InputsSelector, InputsParent);
+            Transform fieldToAdd = Instantiate(inputsSelector, inputsParent);
             InputSelector os = fieldToAdd.GetComponent<InputSelector>();
             os.value = entry.Key;
             os.InputID = entry.Value;
             os.itemNameText.text = entry.Key.item.name;
             inputSelectorFields.Add(fieldToAdd);
 
-            if (!FocusedBuilding.mc.APM.CurrentRecipe.allowPlayerInputsConfiguration)
+            if (!focusedBuilding.mc.apm.CurrentRecipe.allowPlayerInputsConfiguration)
                 os.button.interactable = false;
         }
 
@@ -234,18 +235,18 @@ public class BuildingManager : BuildingSystem
 
         outputSelectorFields.Clear();
 
-        for (int i = 0; i < FocusedBuilding.mc.APM.outputData.Count; i++)
+        for (int i = 0; i < focusedBuilding.mc.apm.outputData.Count; i++)
         {
-            KeyValuePair<MachineRecipe.OutputData, int> entry = FocusedBuilding.mc.APM.outputData.ElementAt(i);
+            KeyValuePair<MachineRecipe.OutputData, int> entry = focusedBuilding.mc.apm.outputData.ElementAt(i);
 
-            Transform fieldToAdd = Instantiate(OutputsSelector, OutputsParent);
+            Transform fieldToAdd = Instantiate(outputsSelector, outputsParent);
             OutputSelector os = fieldToAdd.GetComponent<OutputSelector>();
             os.value = entry.Key;
             os.OutputID = entry.Value;
             os.itemNameText.text = entry.Key.item.name;
             outputSelectorFields.Add(fieldToAdd);
 
-            if (!FocusedBuilding.mc.APM.CurrentRecipe.allowPlayerOutputsConfiguration)
+            if (!focusedBuilding.mc.apm.CurrentRecipe.allowPlayerOutputsConfiguration)
                 os.button.interactable = false;
         }
     }
@@ -253,6 +254,6 @@ public class BuildingManager : BuildingSystem
 
     private bool IsOutputSetupSupported()
     {
-        return FocusedBuilding && FocusedBuilding.mc.APM && !FocusedBuilding.mc.Conveyor;
+        return focusedBuilding && focusedBuilding.mc.apm && !focusedBuilding.mc.conveyor;
     }
 }

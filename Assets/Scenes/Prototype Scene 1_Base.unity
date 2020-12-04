@@ -810,7 +810,7 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8853624
+      value: 0.8853623
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -820,12 +820,12 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -1.595101e-15
+      value: -0.000000037315235
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 2.8274248e-15
+      value: 0.00000001959414
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762749, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -860,7 +860,7 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8853624
+      value: 0.8853623
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -870,12 +870,12 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -1.595101e-15
+      value: -0.000000037315235
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 2.8274248e-15
+      value: 0.00000001959414
       objectReference: {fileID: 0}
     - target: {fileID: 5662210995202258068, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -948,7 +948,22 @@ PrefabInstance:
       objectReference: {fileID: 684553706}
     - target: {fileID: 1413420034687812705, guid: 47177d67d72cf4641ac7609b5b879b77,
         type: 3}
+      propertyPath: cameraGO1
+      value: 
+      objectReference: {fileID: 1334802776}
+    - target: {fileID: 1413420034687812705, guid: 47177d67d72cf4641ac7609b5b879b77,
+        type: 3}
+      propertyPath: cameraGO2
+      value: 
+      objectReference: {fileID: 684553706}
+    - target: {fileID: 1413420034687812705, guid: 47177d67d72cf4641ac7609b5b879b77,
+        type: 3}
       propertyPath: CinemachineFollowZoom
+      value: 
+      objectReference: {fileID: 1797843145}
+    - target: {fileID: 1413420034687812705, guid: 47177d67d72cf4641ac7609b5b879b77,
+        type: 3}
+      propertyPath: cinemachineFollowZoom
       value: 
       objectReference: {fileID: 1797843145}
     - target: {fileID: 2643007424386464553, guid: 47177d67d72cf4641ac7609b5b879b77,
@@ -1188,10 +1203,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugMode: 1
-  Profile: {fileID: 11400000, guid: 398a01efedc0f0e41bb8275eb8c46b12, type: 2}
-  EasyProfile: {fileID: 0}
-  MediumProfile: {fileID: 0}
-  HardProfile: {fileID: 0}
+  profile: {fileID: 0}
+  easyProfile: {fileID: 0}
+  mediumProfile: {fileID: 0}
+  hardProfile: {fileID: 0}
   uProfile: {fileID: 11400000, guid: 6ae362b976878474aa82b4e73f780318, type: 2}
 --- !u!4 &1289954469
 Transform:
@@ -1291,12 +1306,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85b31010170af8b4aab9fea9ff5a433f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManager: {fileID: 1289954468}
-  UMTD: {fileID: 1384009087}
+  umtd: {fileID: 1384009087}
   defaultTimeMultiplier: 4
-  CurrentDateText: {fileID: 1675427110}
-  CurrentTimeText: {fileID: 1096323078}
-  PauseButton: {fileID: 1145536998}
+  currentDateText: {fileID: 1675427110}
+  currentTimeText: {fileID: 1096323078}
+  pauseButton: {fileID: 1145536998}
   x1Button: {fileID: 1404141710}
   x4Button: {fileID: 1249728649}
   x8Button: {fileID: 300344632}
@@ -1326,13 +1340,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6ef16e145d9a741b87fb0ec32cbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeManager: {fileID: 1384009078}
-  GameManager: {fileID: 1289954468}
+  timeManager: {fileID: 1384009078}
   startBalance: 1456536
   balanceChangeTest: -99999
   isInBankruptcy: 0
-  SeriousBankruptcyID: 0
-  GameOverID: 0
+  seriousBankruptcyID: 0
+  gameOverID: 0
   currentBalanceText: {fileID: 1298953742}
 --- !u!114 &1384009081
 MonoBehaviour:
@@ -1358,9 +1371,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcae96eea3084f94f9c0210df03f42c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BuildingManager: {fileID: 1384009083}
-  EconomyManager: {fileID: 1384009080}
-  MainCamera: {fileID: 1794220192}
+  buildingManager: {fileID: 0}
+  economyManager: {fileID: 1384009080}
+  mainCamera: {fileID: 1794220192}
   removeModeEnabledText: {fileID: 753113850}
   tileSize: 1
   canPlaceIgnoreLayers:
@@ -1368,10 +1381,10 @@ MonoBehaviour:
     m_Bits: 12800
   isInDeleteMode: 0
   forceVisualizeAll: 0
-  APM1Location: Buildings/APMs/PF_APM_Prot_1I_1O
-  APM2Location: Buildings/APMs/PF_APM_Prot_1I_2O
-  APM3Location: Buildings/APMs/PF_APM_Prot_2I_2O
-  ConveyorLocation: Buildings/Belts/PF_Build_Belt_01
+  apm1Location: Buildings/APMs/PF_APM_Prot_1I_1O
+  apm2Location: Buildings/APMs/PF_APM_Prot_1I_2O
+  apm3Location: Buildings/APMs/PF_APM_Prot_2I_2O
+  conveyorLocation: Buildings/Belts/PF_Build_Belt_01
   flipBuildingRight: 114
   flipBuildingLeft: 102
   visualization: {fileID: 0}
@@ -1389,35 +1402,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c41720545f5c8341b36523ee3342134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FocusedBuilding: {fileID: 0}
+  focusedBuilding: {fileID: 0}
   ignoreFocusLayers:
     serializedVersion: 2
     m_Bits: 13824
-  TimeManager: {fileID: 1384009078}
-  MainCamera: {fileID: 1794220192}
-  GridManager: {fileID: 1384009082}
-  EconomyManager: {fileID: 1384009080}
+  timeManager: {fileID: 1384009078}
+  mainCamera: {fileID: 1794220192}
+  gridManager: {fileID: 1384009082}
+  economyManager: {fileID: 1384009080}
   enableDebugSpawn: 0
-  BuildingInfo: {fileID: 1719833914}
+  buildingInfo: {fileID: 1719833914}
   buildHealth: {fileID: 486975605}
   itemInsideName: {fileID: 0}
   recipeSelection: {fileID: 235953057}
-  IOSelectionPanel: {fileID: 654965477}
-  InputsParent: {fileID: 429511094}
-  InputsSelector: {fileID: 1390955512748750, guid: 4b676b672f82d3645a86fc260f3ae99e,
+  ioSelectionPanel: {fileID: 654965477}
+  inputsParent: {fileID: 429511094}
+  inputsSelector: {fileID: 1390955512748750, guid: 4b676b672f82d3645a86fc260f3ae99e,
     type: 3}
-  OutputsParent: {fileID: 75808477}
-  OutputsSelector: {fileID: 1390955512748750, guid: d8f9db09377c41e42aaff54831d55f84,
+  outputsParent: {fileID: 75808477}
+  outputsSelector: {fileID: 1390955512748750, guid: d8f9db09377c41e42aaff54831d55f84,
     type: 3}
-  DirectionIndicator: {fileID: 4593096153047956324, guid: 7fa4b77d129366b4f909908888c32137,
+  directionIndicator: {fileID: 4593096153047956324, guid: 7fa4b77d129366b4f909908888c32137,
     type: 3}
-  ArrowIndicator: {fileID: 2207163310772959274, guid: 97e90c42e9d7beb42a5bc0e010444381,
+  arrowIndicator: {fileID: 2207163310772959274, guid: 97e90c42e9d7beb42a5bc0e010444381,
     type: 3}
-  BrokenIndicator: {fileID: 2391133962614016067, guid: ea00c913d29ab3e469d5f36d272a37a9,
+  brokenIndicator: {fileID: 2391133962614016067, guid: ea00c913d29ab3e469d5f36d272a37a9,
     type: 3}
-  ErrorIndicator: {fileID: 1948360420630236868, guid: e4af70bed530f3646a81c04f8185b682,
+  errorIndicator: {fileID: 1948360420630236868, guid: e4af70bed530f3646a81c04f8185b682,
     type: 3}
-  FixingIndicator: {fileID: 2530370576172192279, guid: 0bd1059d01fc3fd40beab9fdce757540,
+  fixingIndicator: {fileID: 2530370576172192279, guid: 0bd1059d01fc3fd40beab9fdce757540,
     type: 3}
   blueArrow: {fileID: 2100000, guid: 8ed400ec32e071f42bcb8c1fbf43e45c, type: 2}
   greenArrow: {fileID: 2100000, guid: a47c31f49599ae04ca93e14117c3c590, type: 2}
@@ -1434,9 +1447,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d1b5a8d49b890a4baea47ce3968894b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BuildingManager: {fileID: 1384009083}
-  TotalWattsForWork: {fileID: 1928617606}
-  TotalWattsForIdle: {fileID: 1167953476}
+  buildingManager: {fileID: 1384009083}
+  totalWattsForWork: {fileID: 1928617606}
+  totalWattsForIdle: {fileID: 1167953476}
 --- !u!114 &1384009085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1462,10 +1475,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c6d30664f148548840921275e6728c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EconomyManager: {fileID: 1384009080}
-  SuperSecretPanel: {fileID: 1247667996}
-  GraphyGO: {fileID: 111672780}
-  ElectricityStatsPanel: {fileID: 57754933}
+  economyManager: {fileID: 1384009080}
+  superSecretPanel: {fileID: 1247667996}
+  graphyGO: {fileID: 111672780}
+  electricityStatsPanel: {fileID: 57754933}
   testItemDropdown: {fileID: 421156297}
 --- !u!114 &1384009087
 MonoBehaviour:
@@ -1527,11 +1540,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6778c2639d1197640a50a7420706f70a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedItem: {fileID: 0}
-  ItemLayer:
+  selectedItem: {fileID: 0}
+  itemLayer:
     serializedVersion: 2
     m_Bits: 2048
-  MainCamera: {fileID: 1794220192}
+  mainCamera: {fileID: 1794220192}
   itemInfoUI: {fileID: 1384009092}
 --- !u!114 &1384009092
 MonoBehaviour:
@@ -1564,11 +1577,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10c97fdd9e56c2e49bd8573b0d095150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RemovePanel: {fileID: 85841440}
+  removePanel: {fileID: 85841440}
   brushSize: {fileID: 1387008626}
   brushText: {fileID: 1485074395}
-  GameManager: {fileID: 1289954468}
-  GridManager: {fileID: 1384009082}
+  gridManager: {fileID: 1384009082}
   buildingLayer:
     serializedVersion: 2
     m_Bits: 16384
@@ -1588,15 +1600,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cbfb6a48828fad48abd816fffb53de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameSaveButtonPrefab: {fileID: 2106781970740428948, guid: cdf1ed1263f8622499f0e3863b2ec8fa,
+  gameSaveButtonPrefab: {fileID: 2106781970740428948, guid: cdf1ed1263f8622499f0e3863b2ec8fa,
     type: 3}
-  SelectSavePanel: {fileID: 3366848007519220686}
-  SaveGameSavePanel: {fileID: 3366848007519220683}
-  ConfirmOverwritePanel: {fileID: 1963932013}
-  ConfirmOverwriteBtn: {fileID: 651154416}
-  LoadSaveButtonsRoot: {fileID: 3366848007519220680}
-  SaveGameButtonsRoot: {fileID: 1392793685}
-  GameSaveName: {fileID: 2046295605}
+  selectSavePanel: {fileID: 3366848007519220686}
+  saveGameSavePanel: {fileID: 3366848007519220683}
+  confirmOverwritePanel: {fileID: 1963932013}
+  confirmOverwriteBtn: {fileID: 651154416}
+  loadSaveButtonsRoot: {fileID: 3366848007519220680}
+  saveGameButtonsRoot: {fileID: 1392793685}
+  gameSaveName: {fileID: 2046295605}
   saveFiles: []
 --- !u!114 &1384009095
 MonoBehaviour:
@@ -1610,7 +1622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e63570c51496134ab151a9bbcbc8971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PauseMenuPanel: {fileID: 1096355020}
+  pauseMenuPanel: {fileID: 1096355020}
 --- !u!114 &1387008626 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2821059118435710806, guid: ba662ba7495ed674ea8b53f43b706d04,

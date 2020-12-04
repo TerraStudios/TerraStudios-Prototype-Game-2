@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Handles the Pause Menu UI.
 /// </summary>
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject PauseMenuPanel;
+    public GameObject pauseMenuPanel;
 
     [HideInInspector] public static bool isOpen;
     public static bool wasPaused;
@@ -14,19 +15,19 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (PauseMenuPanel.activeSelf)
+            if (pauseMenuPanel.activeSelf)
             {
                 isOpen = false;
                 wasPaused = TimeEngine.IsPaused;
                 TimeEngine.IsPaused = false;
-                PauseMenuPanel.SetActive(false);
+                pauseMenuPanel.SetActive(false);
             }
             else
             {
                 isOpen = true;
                 wasPaused = TimeEngine.IsPaused;
                 TimeEngine.IsPaused = true;
-                PauseMenuPanel.SetActive(true);
+                pauseMenuPanel.SetActive(true);
             }
         }
     }

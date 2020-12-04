@@ -14,9 +14,9 @@ public class ObjectPoolManager : MonoBehaviour
     /// <summary>
     /// Returns the instance of the <see cref="ObjectPoolManager"/>.
     /// </summary>
-    public static ObjectPoolManager instance;
+    public static ObjectPoolManager Instance;
 
-    private void Awake() => instance = this;
+    private void Awake() => Instance = this;
 
     /// <summary>
     /// Initializes an object pool for a prefab with an initial size. If the amount of active objects exceeds the initial pool size more objects will be instantiated to compensate.
@@ -24,7 +24,7 @@ public class ObjectPoolManager : MonoBehaviour
     /// <example>
     /// Below is an example of how to use the <see cref="CreatePool(GameObject, int)"/> method.
     /// <code>
-    /// ObjectPoolManager.instance.CreatePool(prefab, 100); //Creates an initial size of 100
+    /// ObjectPoolManager.Instance.CreatePool(prefab, 100); //Creates an initial size of 100
     /// </code>
     /// </example>
     /// <param name="prefab">The <see cref="GameObject"/> the pool will contain</param>
@@ -53,7 +53,7 @@ public class ObjectPoolManager : MonoBehaviour
     /// <example>
     /// Below is an example of how to instantiate a game object from the pool created using <see cref="ObjectPoolManager.CreatePool(GameObject, int)"/>. 
     /// <code>
-    /// GameObject instantiatedObject = ObjectPoolManager.instance.ReuseObject(prefab, new Vector3(0, 30, 0), Quaternion.identity);
+    /// GameObject instantiatedObject = ObjectPoolManager.Instance.ReuseObject(prefab, new Vector3(0, 30, 0), Quaternion.identity);
     /// //do whatever with the game object
     /// </code>
     /// 
@@ -94,7 +94,7 @@ public class ObjectPoolManager : MonoBehaviour
     /// <example>
     /// Below is an example of how to destroy a <see cref="GameObject"/>, freeing up space in the <see cref="ObjectPoolManager"/>
     /// <code>
-    /// ObjectPoolManager.instance.DestroyObject(instantiatedObject);
+    /// ObjectPoolManager.Instance.DestroyObject(instantiatedObject);
     /// </code>
     /// </example>
     /// <param name="gameObject">The <see cref="GameObject"/> to be destroyed</param>

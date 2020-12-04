@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum WorkStateEnum { On, Idle, Off }
 
@@ -17,7 +18,7 @@ public class BuildingBase
 
     [Header("Economics")]
     public float price;
-    public float Price { get => price * GameManager.instance.Profile.globalPriceMultiplierBuildings; set => price = value; }
+    public float Price { get => price * GameManager.Instance.profile.globalPriceMultiplierBuildings; set => price = value; }
 
     [Header("Work States")]
     public WorkStateEnum workState;
@@ -55,7 +56,7 @@ public class BuildingBase
 [RequireComponent(typeof(ModuleConnector))]
 public class Building : MonoBehaviour
 {
-    public BuildingBase Base;
+    public BuildingBase bBase;
     public ModuleConnector mc;
     [HideInInspector] public bool isSetUp;
 
@@ -69,20 +70,20 @@ public class Building : MonoBehaviour
 
     public WorkStateEnum WorkState
     {
-        get => Base.workState;
+        get => bBase.workState;
         set
         {
-            Base.workState = value;
+            bBase.workState = value;
             OnWorkStateChanged(value);
         }
     }
 
 
     // Required Components (Systems)
-    [HideInInspector] public TimeManager TimeManager;
-    [HideInInspector] public EconomyManager EconomyManager;
+    [HideInInspector] public TimeManager timeManager;
+    [HideInInspector] public EconomyManager economyManager;
 
-    private int HealthUpdateID;
+    private int healthUpdateID;
 
     [HideInInspector] public string prefabLocation;
 
@@ -92,21 +93,21 @@ public class Building : MonoBehaviour
     public void Init(bool newBasePresent = false)
     {
         gameObject.AddComponent<BoxCollider>();
-        if (mc.BuildingIOManager != null)
+        if (mc.buildingIOManager != null)
         {
-            mc.BuildingIOManager.Init();
-            mc.BuildingIOManager.UpdateIOPhysics();
-            mc.BuildingIOManager.LinkAll();
+            mc.buildingIOManager.Init();
+            mc.buildingIOManager.UpdateIOPhysics();
+            mc.buildingIOManager.LinkAll();
         }
         else
             Debug.LogWarning("Skipping Building IO Initialization");
 
-        if (mc.APM != null)
-            mc.APM.Init();
+        if (mc.apm != null)
+            mc.apm.Init();
 
         isSetUp = true;
 
-        HealthUpdateID = CallbackHandler.instance.RegisterCallback(OnHealthTimeUpdate);
+        healthUpdateID = CallbackHandler.Instance.RegisterCallback(OnHealthTimeUpdate);
 
         if (!newBasePresent)
         {
@@ -121,20 +122,20 @@ public class Building : MonoBehaviour
     #region Health Submodule
     public void GenerateBuildingHealth()
     {
-        Base.monthsLifespan = Mathf.RoundToInt(UnityEngine.Random.Range(Base.monthsLifespanMin, Base.monthsLifespanMax) * GameManager.profile.monthsLifespanMultiplier);
-        TimeSpan timeToWait = TimeManager.CurrentTime.AddMonths(Base.monthsLifespan) - TimeManager.CurrentTime;
-        Base.timeToDrainHealth = new TimeSpan(timeToWait.Ticks / Base.healthPercent);
+        bBase.monthsLifespan = Mathf.RoundToInt(UnityEngine.Random.Range(bBase.monthsLifespanMin, bBase.monthsLifespanMax) * GameManager.Profile.monthsLifespanMultiplier);
+        TimeSpan timeToWait = timeManager.CurrentTime.AddMonths(bBase.monthsLifespan) - timeManager.CurrentTime;
+        bBase.timeToDrainHealth = new TimeSpan(timeToWait.Ticks / bBase.healthPercent);
         DepleteHealthEvent();
     }
 
     public void OnHealthTimeUpdate()
     {
-        if (GameManager.profile.enableBuildingDamage)
-            Base.healthPercent--;
+        if (GameManager.Profile.enableBuildingDamage)
+            bBase.healthPercent--;
 
-        if (Base.healthPercent <= 0)
+        if (bBase.healthPercent <= 0)
         {
-            Base.healthPercent = 0;
+            bBase.healthPercent = 0;
             OnBuildingBreak();
             return;
         }
@@ -144,29 +145,29 @@ public class Building : MonoBehaviour
 
     private void DepleteHealthEvent()
     {
-        Base.healthWaitEvents.Add(TimeManager.RegisterTimeWaiter(Base.timeToDrainHealth, HealthUpdateID));
+        bBase.healthWaitEvents.Add(timeManager.RegisterTimeWaiter(bBase.timeToDrainHealth, healthUpdateID));
     }
 
     public virtual void OnBuildingBreak()
     {
-        SetIndicator(BuildingManager.instance.BrokenIndicator);
+        SetIndicator(BuildingManager.Instance.brokenIndicator);
     }
 
     public void Fix()
     {
-        if (Base.isFixRunning)
+        if (bBase.isFixRunning)
             return;
 
-        float priceForFix = (float)(Base.healthPercent + 1) / 100 * Base.price * Base.penaltyForFix * GameManager.profile.buildingPenaltyForFixMultiplier;
-        EconomyManager.Balance -= (decimal)priceForFix;
+        float priceForFix = (float)(bBase.healthPercent + 1) / 100 * bBase.price * bBase.penaltyForFix * GameManager.Profile.buildingPenaltyForFixMultiplier;
+        economyManager.Balance -= (decimal)priceForFix;
         WorkState = WorkStateEnum.Off;
 
-        SetIndicator(BuildingManager.instance.FixingIndicator);
-        foreach (TimeWaitEvent ev in Base.healthWaitEvents) { TimeManager.UnregisterTimeWaiter(ev); }
+        SetIndicator(BuildingManager.Instance.fixingIndicator);
+        foreach (TimeWaitEvent ev in bBase.healthWaitEvents) { timeManager.UnregisterTimeWaiter(ev); }
 
-        Base.isFixRunning = true;
+        bBase.isFixRunning = true;
 
-        float timeToWait = (100 - Base.healthPercent) * Base.timeToFixMultiplier * GameManager.profile.timeToFixMultiplier;
+        float timeToWait = (100 - bBase.healthPercent) * bBase.timeToFixMultiplier * GameManager.Profile.timeToFixMultiplier;
         StartCoroutine(FixCountdown());
 
         IEnumerator FixCountdown()
@@ -177,8 +178,8 @@ public class Building : MonoBehaviour
 
         void FinalizeFix()
         {
-            Base.isFixRunning = false;
-            Base.healthPercent = 100;
+            bBase.isFixRunning = false;
+            bBase.healthPercent = 100;
             WorkState = WorkStateEnum.On;
             DepleteHealthEvent();
             RemoveIndicator();
@@ -194,8 +195,8 @@ public class Building : MonoBehaviour
     {
         foreach (WorkStateEnum ws in (WorkStateEnum[])Enum.GetValues(typeof(WorkStateEnum)))
         {
-            TimeCountEvent ev = TimeManager.StartTimeCounter();
-            Base.workStateTimes.Add(ws, ev.hash);
+            TimeCountEvent ev = timeManager.StartTimeCounter();
+            bBase.workStateTimes.Add(ws, ev.hash);
         }
 
         WorkState = WorkStateEnum.On;
@@ -208,44 +209,44 @@ public class Building : MonoBehaviour
     /// <returns>A <see cref="TimeSpan"/> of how long the state has been active</returns>
     public TimeSpan GetTimeForWS(WorkStateEnum ws)
     {
-        return TimeManager.GetTCETimeSpan(Base.workStateTimes[ws]);
+        return timeManager.GetTCETimeSpan(bBase.workStateTimes[ws]);
     }
 
     /// <summary>
     /// Event for when the work state is changed in the machine.
-    /// The method currently pauses the time via <see cref="TimeManager.PauseTimeCounter(Guid)"/>
+    /// The method currently pauses the time via <see cref="timeManager.PauseTimeCounter(Guid)"/>
     /// </summary>
     /// <param name="newValue">The new value the building was set to</param>
     private void OnWorkStateChanged(WorkStateEnum newValue, bool quiet = false)
     {
-        for (int i = 0; i < Base.workStateTimes.Count; i++)
+        for (int i = 0; i < bBase.workStateTimes.Count; i++)
         {
-            WorkStateEnum key = Base.workStateTimes.Keys.ElementAt(i);
-            Guid value = Base.workStateTimes[key];
+            WorkStateEnum key = bBase.workStateTimes.Keys.ElementAt(i);
+            Guid value = bBase.workStateTimes[key];
 
             if (key != newValue)
             {
-                TimeManager.PauseTimeCounter(value); // stop counting current WS
+                timeManager.PauseTimeCounter(value); // stop counting current WS
             }
 
             else
             {
-                TimeManager.ContinueTimeCounter(value); // count new WS
+                timeManager.ContinueTimeCounter(value); // count new WS
             }
         }
 
-        if (mc.BuildingIOManager?.isConveyor == true)
+        if (mc.buildingIOManager?.isConveyor == true)
         {
             if (newValue == WorkStateEnum.On)
-                mc.BuildingIOManager.ChangeConveyorState(true);
+                mc.buildingIOManager.ChangeConveyorState(true);
             else if (newValue == WorkStateEnum.Off)
-                mc.BuildingIOManager.ChangeConveyorState(false);
+                mc.buildingIOManager.ChangeConveyorState(false);
 
             return;
         }
 
         if (!quiet)
-            mc.BuildingIOManager.SetConveyorGroupState(newValue);
+            mc.buildingIOManager.SetConveyorGroupState(newValue);
     }
     #endregion
 
@@ -256,10 +257,10 @@ public class Building : MonoBehaviour
         switch (ws)
         {
             case WorkStateEnum.Idle:
-                wattsPerMinute = Base.wattsPerHourIdle / 60;
+                wattsPerMinute = bBase.wattsPerHourIdle / 60;
                 break;
             case WorkStateEnum.On:
-                wattsPerMinute = Base.wattsPerHourWork / 60;
+                wattsPerMinute = bBase.wattsPerHourWork / 60;
                 break;
             default:
                 wattsPerMinute = 0;
@@ -280,7 +281,7 @@ public class Building : MonoBehaviour
         if (currentIndicator != null && currentIndicator.GetComponent<MeshRenderer>().Equals(indicator.GetComponent<MeshRenderer>())) return;
 
         RemoveIndicator();
-        currentIndicator = ObjectPoolManager.instance.ReuseObject(indicator.gameObject, transform.position + new Vector3(0, GetComponent<MeshRenderer>().bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
+        currentIndicator = ObjectPoolManager.Instance.ReuseObject(indicator.gameObject, transform.position + new Vector3(0, GetComponent<MeshRenderer>().bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
         currentIndicator.transform.parent = transform;
 
     }
@@ -292,7 +293,7 @@ public class Building : MonoBehaviour
     {
         if (currentIndicator != null)
         {
-            ObjectPoolManager.instance.DestroyObject(currentIndicator);
+            ObjectPoolManager.Instance.DestroyObject(currentIndicator);
             currentIndicator = null;
         }
     }
@@ -321,7 +322,7 @@ public class Building : MonoBehaviour
     /// </summary>
     public void SetWorkstateSilent(WorkStateEnum newWorkState)
     {
-        Base.workState = newWorkState;
+        bBase.workState = newWorkState;
         OnWorkStateChanged(newWorkState, true);
     }
 
@@ -332,7 +333,7 @@ public class Building : MonoBehaviour
         if (markedForDelete)
             return;
         markedForDelete = true;
-        GetComponent<MeshRenderer>().material = BuildingManager.instance.redArrow;
+        GetComponent<MeshRenderer>().material = BuildingManager.Instance.redArrow;
     }
 
     public void UnmarkForDelete()

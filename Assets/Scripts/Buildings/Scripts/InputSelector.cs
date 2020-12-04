@@ -36,6 +36,6 @@ public class InputSelector : MonoBehaviour
 
     private void OnChangeInputIDButtonClicked()
     {
-        BuildingManager.instance.FocusedBuilding.mc.APM.OnInputButtonPressed(this);
+        BuildingManager.Instance.focusedBuilding.mc.apm.OnInputButtonPressed(this);
     }
 }

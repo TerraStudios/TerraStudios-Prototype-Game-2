@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Contains data to save for each building.
@@ -27,5 +28,5 @@ public class BuildingSave
 [Serializable]
 public class WorldSaveData
 {
-    public List<BuildingSave> PlacedBuildings = new List<BuildingSave>();
+    public List<BuildingSave> placedBuildings = new List<BuildingSave>();
 }

@@ -37,14 +37,14 @@ namespace Assets.Tests
                 {
                     Assert.IsNotEmpty(building.name, $"A Building ({go.name}) was found with an empty name");
                     //Assert.AreNotEqual(building.EconomyManager.)
-                    Assert.AreNotEqual(building.Base.price, 0, $"{building.name} found with a price of 0");
-                    Assert.AreNotEqual(building.Base.healthPercent, 0, $"{building.name} found with a health percent of 0");
-                    Assert.AreNotEqual(building.Base.monthsLifespanMax, 0, $"{building.name} found with a months lifespan max of 0");
-                    Assert.AreNotEqual(building.Base.monthsLifespanMin, 0, $"{building.name} found with a months lifespan min of 0");
-                    Assert.AreNotEqual(building.Base.penaltyForFix, 0, $"{building.name} found with a penalty for fix of 0");
-                    Assert.AreNotEqual(building.Base.timeToFixMultiplier, 0, $"{building.name} found with a time to fix multiplier of 0");
-                    Assert.AreNotEqual(building.Base.wattsPerHourIdle, 0, $"{building.name} found with a watts per hour idle of 0");
-                    Assert.AreNotEqual(building.Base.wattsPerHourWork, 0, $"{building.name} found with a watts per hour work of 0");
+                    Assert.AreNotEqual(building.bBase.price, 0, $"{building.name} found with a price of 0");
+                    Assert.AreNotEqual(building.bBase.healthPercent, 0, $"{building.name} found with a health percent of 0");
+                    Assert.AreNotEqual(building.bBase.monthsLifespanMax, 0, $"{building.name} found with a months lifespan max of 0");
+                    Assert.AreNotEqual(building.bBase.monthsLifespanMin, 0, $"{building.name} found with a months lifespan min of 0");
+                    Assert.AreNotEqual(building.bBase.penaltyForFix, 0, $"{building.name} found with a penalty for fix of 0");
+                    Assert.AreNotEqual(building.bBase.timeToFixMultiplier, 0, $"{building.name} found with a time to fix multiplier of 0");
+                    Assert.AreNotEqual(building.bBase.wattsPerHourIdle, 0, $"{building.name} found with a watts per hour idle of 0");
+                    Assert.AreNotEqual(building.bBase.wattsPerHourWork, 0, $"{building.name} found with a watts per hour work of 0");
 
 
 
@@ -83,8 +83,8 @@ namespace Assets.Tests
 
                     ModuleConnector mc = building.mc;
 
-                    Assert.IsNotNull(mc.BuildingIOManager, $"{go.name}'s ModuleConnector is missing a BuildingIOManager");
-                    Assert.IsNotNull(mc.Building, $"{go.name}'s ModuleConnector is missing a Building");
+                    Assert.IsNotNull(mc.buildingIOManager, $"{go.name}'s ModuleConnector is missing a BuildingIOManager");
+                    Assert.IsNotNull(mc.building, $"{go.name}'s ModuleConnector is missing a Building");
                 }
             }
 
@@ -99,9 +99,9 @@ namespace Assets.Tests
 
                 if (building && building.mc)
                 {
-                    if (building.mc.BuildingIOManager)
+                    if (building.mc.buildingIOManager)
                     {
-                        List<BuildingIO> allIOs = building.mc.BuildingIOManager.inputs.Concat(building.mc.BuildingIOManager.outputs).ToList();
+                        List<BuildingIO> allIOs = building.mc.buildingIOManager.inputs.Concat(building.mc.buildingIOManager.outputs).ToList();
 
                         HashSet<BuildingIO> set = new HashSet<BuildingIO>();
 

@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Highest level class for the Electricity System.
@@ -8,12 +9,12 @@ using UnityEngine;
 public class ElectricityManager : ElectricitySystem
 {
     [Header("UI Components")]
-    public TMP_Text TotalWattsForWork;
-    public TMP_Text TotalWattsForIdle;
+    public TMP_Text totalWattsForWork;
+    public TMP_Text totalWattsForIdle;
 
     public void UpdateWatts()
     {
-        TotalWattsForWork.text = GetTotalElectricityUsed(WorkStateEnum.On).ToString() + " w";
-        TotalWattsForIdle.text = GetTotalElectricityUsed(WorkStateEnum.Idle).ToString() + " w";
+        totalWattsForWork.text = GetTotalElectricityUsed(WorkStateEnum.On).ToString() + " w";
+        totalWattsForIdle.text = GetTotalElectricityUsed(WorkStateEnum.Idle).ToString() + " w";
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// This class handles Item selection.
@@ -7,11 +8,11 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class ItemSelector : MonoBehaviour
 {
-    [HideInInspector] public Transform SelectedItem;
-    public LayerMask ItemLayer;
+    [HideInInspector] public Transform selectedItem;
+    public LayerMask itemLayer;
 
     [Header("Components")]
-    public Camera MainCamera;
+    public Camera mainCamera;
     public ItemInfoUI itemInfoUI;
 
     private void Update()
@@ -20,7 +21,7 @@ public class ItemSelector : MonoBehaviour
         {
             Transform hit = GetItemHit(Input.mousePosition);
 
-            if (SelectedItem != hit)
+            if (selectedItem != hit)
                 SelectItem(hit);
         }
     }
@@ -28,11 +29,11 @@ public class ItemSelector : MonoBehaviour
     private Transform GetItemHit(Vector3 mousePos)
     {
         if (EventSystem.current.IsPointerOverGameObject())
-            return SelectedItem;
+            return selectedItem;
 
-        Ray ray = MainCamera.ScreenPointToRay(mousePos);
+        Ray ray = mainCamera.ScreenPointToRay(mousePos);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ItemLayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, itemLayer))
             return hit.transform;
         else
             return null;
@@ -40,15 +41,15 @@ public class ItemSelector : MonoBehaviour
 
     public void SelectItem(Transform hit)
     {
-        SelectedItem = hit;
+        selectedItem = hit;
         if (hit)
         {
-            ItemBehaviour behaviour = SelectedItem.GetComponent<ItemBehaviour>();
+            ItemBehaviour behaviour = selectedItem.GetComponent<ItemBehaviour>();
 
             if (behaviour)
             {
                 itemInfoUI.OnUIOpen(); //enable UI
-                itemInfoUI.SetData(SelectedItem.gameObject, behaviour.data);
+                itemInfoUI.SetData(selectedItem.gameObject, behaviour.data);
             }
 
         }

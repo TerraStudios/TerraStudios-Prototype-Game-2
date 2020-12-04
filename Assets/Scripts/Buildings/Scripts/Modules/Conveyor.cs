@@ -4,7 +4,7 @@
 /// This class handles the conveyor behaviour and is placed on each conveyor.
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-public class Conveyor : MonoBehaviour, ConveyorBase
+public class Conveyor : MonoBehaviour, IConveyorBase
 {
     public Rigidbody rb;
     public float speed = 1;

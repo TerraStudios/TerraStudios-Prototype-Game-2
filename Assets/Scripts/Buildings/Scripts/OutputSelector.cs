@@ -33,6 +33,6 @@ public class OutputSelector : MonoBehaviour
 
     private void OnChangeOutputIDButtonClicked()
     {
-        BuildingManager.instance.FocusedBuilding.mc.APM.OnOutputButtonPressed(this);
+        BuildingManager.Instance.focusedBuilding.mc.apm.OnOutputButtonPressed(this);
     }
 }

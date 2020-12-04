@@ -11,11 +11,11 @@ public class RecipeManager : MonoBehaviour
 {
     private static List<MachineRecipe> recipes;
 
-    public static RecipeManager instance;
+    public static RecipeManager Instance;
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
         LoadResources();
         Debug.Log("Loaded " + recipes.Count() + " recipes");
     }

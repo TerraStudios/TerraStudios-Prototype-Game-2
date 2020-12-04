@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Top-level script of the game.
-/// Hold properties like CultureInfo, GameProfile and UserProfile.
+/// Holds properties like CultureInfo, GameProfile and UserProfile.
 /// </summary>
 public class GameManager : MonoBehaviour
 {
@@ -14,31 +15,31 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public CultureInfo currentCultureCurrency;
 
     [Header("Game Settings")]
-    public GameProfile Profile;
-    public static GameProfile profile
+    public GameProfile profile;
+    public static GameProfile Profile
     {
         get
         {
-            return instance.Profile;
+            return Instance.profile;
         }
     }
-    public GameProfile EasyProfile;
-    public GameProfile MediumProfile;
-    public GameProfile HardProfile;
+    public GameProfile easyProfile;
+    public GameProfile mediumProfile;
+    public GameProfile hardProfile;
 
     public UserProfile uProfile;
 
-    public static GameManager instance;
+    public static GameManager Instance;
 
     private void Awake()
     {
-        if (instance)
+        if (Instance)
         {
             Destroy(gameObject);
             return;
         }
 
-        instance = this;
+        Instance = this;
 
         DontDestroyOnLoad(this);
 
@@ -49,8 +50,8 @@ public class GameManager : MonoBehaviour
         else
             currentCultureTimeDate = CultureInfo.CurrentCulture;
 
-        if (profile.forceManualCurrencyCC)
-            currentCultureCurrency = CultureInfo.CreateSpecificCulture(profile.currencyCC);
+        if (Profile.forceManualCurrencyCC)
+            currentCultureCurrency = CultureInfo.CreateSpecificCulture(Profile.currencyCC);
         else if (uProfile.manualCurrencyCC)
             currentCultureCurrency = CultureInfo.CreateSpecificCulture(uProfile.currencyCC);
         else
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour
 
     public void InitGame()
     {
-        Time.timeScale = GameSave.current.TimeSaveData.timeMultiplier;
+        Time.timeScale = GameSave.current.timeSaveData.timeMultiplier;
     }
 
     public void GameOver()

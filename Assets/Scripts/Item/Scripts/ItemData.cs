@@ -20,7 +20,7 @@ public class ItemData : ScriptableObject
     [Header("Economic Simulation Properties")]
     public float startingPriceInShop;
 
-    public float StartingPriceInShop { get => startingPriceInShop * GameManager.instance.Profile.globalPriceMultiplierItems; set => startingPriceInShop = value; }
+    public float StartingPriceInShop { get => startingPriceInShop * GameManager.Instance.profile.globalPriceMultiplierItems; set => startingPriceInShop = value; }
 
     public bool isBuyable;
     public int ecoTax;

@@ -1,18 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public interface IConveyorBase
+{
+    void UpdateConveyor();
+}
+
 /// <summary>
 /// Manages all placed conveyors.
 /// </summary>
 public class ConveyorManager : MonoBehaviour
 {
-    public static ConveyorManager instance;
+    public static ConveyorManager Instance;
 
-    public List<ConveyorBase> conveyors = new List<ConveyorBase>();
+    public List<IConveyorBase> conveyors = new List<IConveyorBase>();
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     private void FixedUpdate()
