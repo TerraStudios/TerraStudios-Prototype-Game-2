@@ -810,7 +810,7 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8853623
+      value: 0.8853624
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -820,12 +820,12 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000037315235
+      value: 1.595101e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00000001959414
+      value: -2.8274248e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762749, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -860,7 +860,7 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8853623
+      value: 0.8853624
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -870,12 +870,12 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000037315235
+      value: 1.595101e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00000001959414
+      value: -2.8274248e-15
       objectReference: {fileID: 0}
     - target: {fileID: 5662210995202258068, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -1203,7 +1203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugMode: 1
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: 398a01efedc0f0e41bb8275eb8c46b12, type: 2}
   easyProfile: {fileID: 0}
   mediumProfile: {fileID: 0}
   hardProfile: {fileID: 0}
@@ -1371,7 +1371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcae96eea3084f94f9c0210df03f42c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingManager: {fileID: 0}
+  buildingManager: {fileID: 1384009083}
   economyManager: {fileID: 1384009080}
   mainCamera: {fileID: 1794220192}
   removeModeEnabledText: {fileID: 753113850}
