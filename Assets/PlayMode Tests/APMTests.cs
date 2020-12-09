@@ -139,7 +139,6 @@ namespace Tests
                 BuildingIO io = obj.AddComponent<BuildingIO>();
                 io.arrow = new GameObject("BuildingIO Output Arrow").transform;
 
-
                 return io;
             }
             catch (NullReferenceException)
@@ -153,8 +152,5 @@ namespace Tests
             string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
             return new string(chars.Select(c => chars[random.Next(chars.Length)]).Take(8).ToArray());
         }
-
-
     }
 }
-

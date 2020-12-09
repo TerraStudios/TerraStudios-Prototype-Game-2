@@ -50,12 +50,10 @@ namespace Tests
                             Assert.IsFalse(io.outputs.Length < recipe.outputs.Count,
                                 "Recipe inputs size is higher than APM inputs size. " +
                                 $"APM '{obj.name}' has '{io.outputs.Length}' inputs while recipe '{recipe.name}' attached from the recipe filter '{filter.name}' requires '{recipe.outputs.Count}' outputs");
-
                         }
                     }
                 }
             }
         }
     }
-
 }

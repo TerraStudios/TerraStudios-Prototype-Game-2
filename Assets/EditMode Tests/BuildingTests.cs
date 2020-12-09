@@ -8,7 +8,6 @@ namespace Assets.Tests
 {
     internal class BuildingTests
     {
-
         [Test]
         public void CheckRenderingData()
         {
@@ -22,7 +21,6 @@ namespace Assets.Tests
                     Assert.IsTrue(go.GetComponent<MeshRenderer>().shadowCastingMode == UnityEngine.Rendering.ShadowCastingMode.Off, $"Cast Shadows needs to be disabled on GameObject {go.name}");
                 }
             }
-
         }
 
 
@@ -45,13 +43,8 @@ namespace Assets.Tests
                     Assert.AreNotEqual(building.bBase.timeToFixMultiplier, 0, $"{building.name} found with a time to fix multiplier of 0");
                     Assert.AreNotEqual(building.bBase.wattsPerHourIdle, 0, $"{building.name} found with a watts per hour idle of 0");
                     Assert.AreNotEqual(building.bBase.wattsPerHourWork, 0, $"{building.name} found with a watts per hour work of 0");
-
-
-
                 }
-
             }
-
         }
 
         [Test]
@@ -67,7 +60,6 @@ namespace Assets.Tests
                     Assert.IsNotNull(conveyor.rb, $"{go.name} found with a null rb field");
                 }
             }
-
         }
 
         [Test]
@@ -87,7 +79,6 @@ namespace Assets.Tests
                     Assert.IsNotNull(mc.building, $"{go.name}'s ModuleConnector is missing a Building");
                 }
             }
-
         }
 
         [Test]
@@ -112,7 +103,6 @@ namespace Assets.Tests
                                 throw new Exception($"Duplicate BuildingIO found in building {building.name}");
                             }
                         }
-
                     }
                 }
             }

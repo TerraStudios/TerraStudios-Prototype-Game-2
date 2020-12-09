@@ -21,7 +21,6 @@ namespace Assets.Tests
                 Assert.Greater(item.startingPriceInShop, 0, $"The price for {item.name} has been found <= 0.");
             }
         }
-
     }
 }
 
