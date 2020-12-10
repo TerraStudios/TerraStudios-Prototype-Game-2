@@ -1,6 +1,8 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
+using EconomySystem;
+using BuildingModules;
+using BuildingManagers;
 
 /// <summary>
 /// This system is used for modifying various game properties in runtime.

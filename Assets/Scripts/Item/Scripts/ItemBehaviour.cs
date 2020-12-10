@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using BuildingModules;
+using BuildingManagers;
 
 /// <summary>
 /// This script is placed on each Item GameObjects.

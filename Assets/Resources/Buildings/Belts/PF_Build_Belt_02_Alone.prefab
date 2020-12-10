@@ -50,13 +50,12 @@ MonoBehaviour:
   isInput: 1
   isOutput: 0
   ID: 0
-  MeshRenderer: {fileID: 6356174149196595835}
+  meshRenderer: {fileID: 0}
   coll: {fileID: 9085562675427141577}
   itemIO: {fileID: 0}
-  IOManager: {fileID: 0}
+  ioManager: {fileID: 0}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
-  itemCategoriesAllowedToEnter: []
   outputMaxQueueSize: 5
   attachedIO: {fileID: 0}
   status: 0
@@ -191,13 +190,12 @@ MonoBehaviour:
   isInput: 1
   isOutput: 0
   ID: 0
-  MeshRenderer: {fileID: 5565748397498667383}
+  meshRenderer: {fileID: 0}
   coll: {fileID: 7718693699455562949}
   itemIO: {fileID: 0}
-  IOManager: {fileID: 0}
+  ioManager: {fileID: 0}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
-  itemCategoriesAllowedToEnter: []
   outputMaxQueueSize: 5
   attachedIO: {fileID: 0}
   status: 0
@@ -332,13 +330,12 @@ MonoBehaviour:
   isInput: 0
   isOutput: 1
   ID: 0
-  MeshRenderer: {fileID: 3956616474391862524}
+  meshRenderer: {fileID: 0}
   coll: {fileID: 687058343388026996}
   itemIO: {fileID: 0}
-  IOManager: {fileID: 0}
+  ioManager: {fileID: 0}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
-  itemCategoriesAllowedToEnter: []
   outputMaxQueueSize: 5
   attachedIO: {fileID: 0}
   status: 0
@@ -526,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dd24aa3e77d2c40883052ab649024e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Base:
+  bBase:
     name: Conveyor Belt
     price: 50
     workState: 0
@@ -544,8 +541,8 @@ MonoBehaviour:
   isSetUp: 0
   prefab: {fileID: 6834069572817059416}
   showDirectionOnVisualize: 1
-  TimeManager: {fileID: 0}
-  EconomyManager: {fileID: 0}
+  timeManager: {fileID: 0}
+  economyManager: {fileID: 0}
   prefabLocation: 
 --- !u!114 &1987835161396914966
 MonoBehaviour:
@@ -609,10 +606,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f9e21bc38e4114bb88a7896956b11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Building: {fileID: 4499327881019407246}
-  BuildingIOManager: {fileID: 1987835161396914966}
-  Conveyor: {fileID: 0}
-  APM: {fileID: 0}
+  building: {fileID: 4499327881019407246}
+  buildingIOManager: {fileID: 1987835161396914966}
+  conveyor: {fileID: 7124501148384470905}
+  apm: {fileID: 0}
 --- !u!1 &9194182273854890406
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,13 +660,12 @@ MonoBehaviour:
   isInput: 1
   isOutput: 0
   ID: 0
-  MeshRenderer: {fileID: 3360374191959669332}
+  meshRenderer: {fileID: 0}
   coll: {fileID: 612981228322611174}
   itemIO: {fileID: 0}
-  IOManager: {fileID: 0}
+  ioManager: {fileID: 0}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
-  itemCategoriesAllowedToEnter: []
   outputMaxQueueSize: 5
   attachedIO: {fileID: 0}
   status: 0

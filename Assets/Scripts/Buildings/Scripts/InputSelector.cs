@@ -2,40 +2,43 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// This script handles input selection for Buildings through the UI.
-/// </summary>
-public class InputSelector : MonoBehaviour
+namespace BuildingManagers
 {
-    // Dictionary values
-    [HideInInspector] public MachineRecipe.InputData value;
-    private int inputID;
-
-    [Header("UI Components")]
-    public TMP_Text itemNameText;
-    public Button button;
-    public TMP_Text buttonText;
-
-    public int InputID
+    /// <summary>
+    /// This script handles input selection for Buildings through the UI.
+    /// </summary>
+    public class InputSelector : MonoBehaviour
     {
-        get => inputID;
-        set
+        // Dictionary values
+        [HideInInspector] public MachineRecipe.InputData value;
+        private int inputID;
+
+        [Header("UI Components")]
+        public TMP_Text itemNameText;
+        public Button button;
+        public TMP_Text buttonText;
+
+        public int InputID
         {
-            inputID = value;
-            if (value == -1)
-                buttonText.text = "Input Any";
-            else
-                buttonText.text = "Input " + value;
+            get => inputID;
+            set
+            {
+                inputID = value;
+                if (value == -1)
+                    buttonText.text = "Input Any";
+                else
+                    buttonText.text = "Input " + value;
+            }
         }
-    }
 
-    private void Awake()
-    {
-        button.onClick.AddListener(OnChangeInputIDButtonClicked);
-    }
+        private void Awake()
+        {
+            button.onClick.AddListener(OnChangeInputIDButtonClicked);
+        }
 
-    private void OnChangeInputIDButtonClicked()
-    {
-        BuildingManager.Instance.focusedBuilding.mc.apm.OnInputButtonPressed(this);
+        private void OnChangeInputIDButtonClicked()
+        {
+            BuildingManager.Instance.focusedBuilding.mc.apm.OnInputButtonPressed(this);
+        }
     }
 }

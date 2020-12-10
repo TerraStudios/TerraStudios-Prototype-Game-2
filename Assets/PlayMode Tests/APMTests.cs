@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using BuildingModules;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;

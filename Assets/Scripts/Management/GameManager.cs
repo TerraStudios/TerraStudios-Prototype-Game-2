@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Globalization;
 using UnityEngine;
-using UnityEngine.Serialization;
+using DebugTools;
 
 /// <summary>
 /// Top-level script of the game.

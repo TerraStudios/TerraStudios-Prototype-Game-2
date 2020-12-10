@@ -2,37 +2,40 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// This script handles output selection for Buildings through the UI.
-/// </summary>
-public class OutputSelector : MonoBehaviour
+namespace BuildingManagers
 {
-    // Dictionary values
-    [HideInInspector] public MachineRecipe.OutputData value;
-    private int outputID;
-
-    [Header("UI Components")]
-    public TMP_Text itemNameText;
-    public Button button;
-    public TMP_Text buttonText;
-
-    public int OutputID
+    /// <summary>
+    /// This script handles output selection for Buildings through the UI.
+    /// </summary>
+    public class OutputSelector : MonoBehaviour
     {
-        get => outputID;
-        set
+        // Dictionary values
+        [HideInInspector] public MachineRecipe.OutputData value;
+        private int outputID;
+
+        [Header("UI Components")]
+        public TMP_Text itemNameText;
+        public Button button;
+        public TMP_Text buttonText;
+
+        public int OutputID
         {
-            outputID = value;
-            buttonText.text = "Output " + value;
+            get => outputID;
+            set
+            {
+                outputID = value;
+                buttonText.text = "Output " + value;
+            }
         }
-    }
 
-    private void Awake()
-    {
-        button.onClick.AddListener(OnChangeOutputIDButtonClicked);
-    }
+        private void Awake()
+        {
+            button.onClick.AddListener(OnChangeOutputIDButtonClicked);
+        }
 
-    private void OnChangeOutputIDButtonClicked()
-    {
-        BuildingManager.Instance.focusedBuilding.mc.apm.OnOutputButtonPressed(this);
+        private void OnChangeOutputIDButtonClicked()
+        {
+            BuildingManager.Instance.focusedBuilding.mc.apm.OnOutputButtonPressed(this);
+        }
     }
 }

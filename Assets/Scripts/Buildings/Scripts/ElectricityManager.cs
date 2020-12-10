@@ -1,20 +1,23 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
+using BuildingModules;
 
-/// <summary>
-/// Highest level class for the Electricity System.
-/// Handles UI connections with the code.
-/// </summary>
-public class ElectricityManager : ElectricitySystem
+namespace BuildingManagers
 {
-    [Header("UI Components")]
-    public TMP_Text totalWattsForWork;
-    public TMP_Text totalWattsForIdle;
-
-    public void UpdateWatts()
+    /// <summary>
+    /// Highest level class for the Electricity System.
+    /// Handles UI connections with the code.
+    /// </summary>
+    public class ElectricityManager : ElectricitySystem
     {
-        totalWattsForWork.text = GetTotalElectricityUsed(WorkStateEnum.On).ToString() + " w";
-        totalWattsForIdle.text = GetTotalElectricityUsed(WorkStateEnum.Idle).ToString() + " w";
+        [Header("UI Components")]
+        public TMP_Text totalWattsForWork;
+        public TMP_Text totalWattsForIdle;
+
+        public void UpdateWatts()
+        {
+            totalWattsForWork.text = GetTotalElectricityUsed(WorkStateEnum.On).ToString() + " w";
+            totalWattsForIdle.text = GetTotalElectricityUsed(WorkStateEnum.Idle).ToString() + " w";
+        }
     }
 }

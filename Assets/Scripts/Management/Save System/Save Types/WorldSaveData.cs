@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
+using BuildingModules;
 
 /// <summary>
 /// Contains data to save for each building.

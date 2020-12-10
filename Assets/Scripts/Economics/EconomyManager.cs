@@ -2,65 +2,68 @@
 using TMPro;
 using UnityEngine;
 
-/// <summary>
-/// Highest level class that handles economy simulations.
-/// </summary>
-public class EconomyManager : EconomySystem
+namespace EconomySystem
 {
-    [Header("UI Components")]
-    public TMP_Text currentBalanceText;
-
-    public static EconomyManager Instance;
-
-    private void Awake()
+    /// <summary>
+    /// Highest level class that handles economy simulations.
+    /// </summary>
+    public class EconomyManager : EconomySystem
     {
-        Instance = this;
-        if (GameSave.current.economySaveData.balanace == default)
-            Balance = startBalance;
-        else
-            Balance = GameSave.current.economySaveData.balanace;
+        [Header("UI Components")]
+        public TMP_Text currentBalanceText;
 
-        seriousBankruptcyID = CallbackHandler.Instance.RegisterCallback(OnSeriousBankruptcy);
-        gameOverID = CallbackHandler.Instance.RegisterCallback(GameManager.Instance.GameOver);
-    }
+        public static EconomyManager Instance;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
+        private void Awake()
         {
-            Balance += balanceChangeTest;
+            Instance = this;
+            if (GameSave.current.economySaveData.balanace == default)
+                Balance = startBalance;
+            else
+                Balance = GameSave.current.economySaveData.balanace;
+
+            seriousBankruptcyID = CallbackHandler.Instance.RegisterCallback(OnSeriousBankruptcy);
+            gameOverID = CallbackHandler.Instance.RegisterCallback(GameManager.Instance.GameOver);
         }
-    }
 
-    public override void OnBalanceUpdate()
-    {
-        base.OnBalanceUpdate();
-        currentBalanceText.text = GetReadableBalance();
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                Balance += balanceChangeTest;
+            }
+        }
 
-        if (Balance > 0) { currentBalanceText.color = Color.white; }
-    }
+        public override void OnBalanceUpdate()
+        {
+            base.OnBalanceUpdate();
+            currentBalanceText.text = GetReadableBalance();
 
-    public override void OnEnterBankruptcy()
-    {
-        base.OnEnterBankruptcy();
-        Debug.Log("Critical condition! Your balance is empty!");
+            if (Balance > 0) { currentBalanceText.color = Color.white; }
+        }
 
-        currentBalanceText.color = Color.red;
-    }
+        public override void OnEnterBankruptcy()
+        {
+            base.OnEnterBankruptcy();
+            Debug.Log("Critical condition! Your balance is empty!");
 
-    public override void OnSeriousBankruptcy()
-    {
-        base.OnSeriousBankruptcy();
-        Debug.Log("Extremely critical condition! Your're now in Serious Bankruptcy!");
-    }
+            currentBalanceText.color = Color.red;
+        }
 
-    public override void OnEndBankruptcy()
-    {
-        base.OnEndBankruptcy();
-        Debug.Log("Recovered from bankruptcy!");
+        public override void OnSeriousBankruptcy()
+        {
+            base.OnSeriousBankruptcy();
+            Debug.Log("Extremely critical condition! Your're now in Serious Bankruptcy!");
+        }
 
-        currentBalanceText.color = Color.green;
-        TimeSpan howMuchBankruptcyLasted = lastBankruptcyEnd - lastBankruptcyStart;
-        Debug.Log("The bankrupt lasted: " + howMuchBankruptcyLasted);
+        public override void OnEndBankruptcy()
+        {
+            base.OnEndBankruptcy();
+            Debug.Log("Recovered from bankruptcy!");
+
+            currentBalanceText.color = Color.green;
+            TimeSpan howMuchBankruptcyLasted = lastBankruptcyEnd - lastBankruptcyStart;
+            Debug.Log("The bankrupt lasted: " + howMuchBankruptcyLasted);
+        }
     }
 }

@@ -99,10 +99,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f9e21bc38e4114bb88a7896956b11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Building: {fileID: 7947313054608314309}
-  BuildingIOManager: {fileID: 6527831780616597528}
-  Conveyor: {fileID: 0}
-  APM: {fileID: 481111163924646872}
+  building: {fileID: 7947313054608314309}
+  buildingIOManager: {fileID: 6527831780616597528}
+  conveyor: {fileID: 0}
+  apm: {fileID: 481111163924646872}
 --- !u!114 &7947313054608314309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dd24aa3e77d2c40883052ab649024e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Base:
+  bBase:
     name: Proto APM
     price: 6000
     workState: 0
@@ -133,8 +133,8 @@ MonoBehaviour:
   isSetUp: 0
   prefab: {fileID: 2941611580773582538}
   showDirectionOnVisualize: 1
-  TimeManager: {fileID: 0}
-  EconomyManager: {fileID: 0}
+  timeManager: {fileID: 0}
+  economyManager: {fileID: 0}
   prefabLocation: Buildings/APMs/PF_APM_Prot_1I_1O
 --- !u!114 &6527831780616597528
 MonoBehaviour:

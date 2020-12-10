@@ -4,8 +4,12 @@ using Tayx.Graphy.Utils.NumString;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
+using BuildingModules;
+using BuildingManagers;
+using DebugTools;
+using EconomySystem;
+using TimeSystem;
 
 /// <summary>
 /// The RemoveSystem removes items and buildings placed in the world.

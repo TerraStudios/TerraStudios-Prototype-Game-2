@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
+using TimeSystem;
 
 /// <summary>
 /// Handles the Pause Menu UI.

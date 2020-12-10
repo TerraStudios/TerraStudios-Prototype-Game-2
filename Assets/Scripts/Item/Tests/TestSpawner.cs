@@ -1,30 +1,33 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class TestSpawner : MonoBehaviour
+namespace DebugTools
 {
-    public float spawnEverySeconds;
-    public ItemData itemToSpawn;
-
-    // Start is called before the first frame update
-    private void Start()
+    public class TestSpawner : MonoBehaviour
     {
-        StartCoroutine(StartLoop());
-    }
+        public float spawnEverySeconds;
+        public ItemData itemToSpawn;
 
-    private IEnumerator StartLoop()
-    {
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(LoopSpawnItem());
-    }
+        // Start is called before the first frame update
+        private void Start()
+        {
+            StartCoroutine(StartLoop());
+        }
 
-    private IEnumerator LoopSpawnItem()
-    {
-        yield return new WaitForSeconds(spawnEverySeconds);
+        private IEnumerator StartLoop()
+        {
+            yield return new WaitForSeconds(0.5f);
+            StartCoroutine(LoopSpawnItem());
+        }
 
-        ObjectPoolManager.Instance.ReuseObject(itemToSpawn.obj.gameObject, transform.position, Quaternion.identity);
+        private IEnumerator LoopSpawnItem()
+        {
+            yield return new WaitForSeconds(spawnEverySeconds);
 
-        //Instantiate(itemToSpawn.obj, transform.position, Quaternion.identity);
-        StartCoroutine(LoopSpawnItem());
+            ObjectPoolManager.Instance.ReuseObject(itemToSpawn.obj.gameObject, transform.position, Quaternion.identity);
+
+            //Instantiate(itemToSpawn.obj, transform.position, Quaternion.identity);
+            StartCoroutine(LoopSpawnItem());
+        }
     }
 }

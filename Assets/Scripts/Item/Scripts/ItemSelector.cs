@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 /// <summary>
 /// This class handles Item selection.

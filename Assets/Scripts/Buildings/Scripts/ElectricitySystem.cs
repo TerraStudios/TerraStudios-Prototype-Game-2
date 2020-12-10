@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
+using BuildingModules;
 
-/// <summary>
-/// Used to gather and generate electricity data for the Building.
-/// </summary>
-public class ElectricitySystem : MonoBehaviour
+namespace BuildingManagers
 {
-    [Header("Components")]
-    public BuildingManager buildingManager;
-
-    public int GetTotalElectricityUsed(WorkStateEnum ws)
+    /// <summary>
+    /// Used to gather and generate electricity data for the Building.
+    /// </summary>
+    public class ElectricitySystem : MonoBehaviour
     {
-        int toReturn = 0;
+        [Header("Components")]
+        public BuildingManager buildingManager;
 
-        if (!GameManager.Profile.enableElectricityCalculations)
-            return 0;
-
-        foreach (Building b in BuildingSystem.RegisteredBuildings)
+        public int GetTotalElectricityUsed(WorkStateEnum ws)
         {
-            toReturn += b.GetUsedElectricity(ws);
+            int toReturn = 0;
+
+            if (!GameManager.Profile.enableElectricityCalculations)
+                return 0;
+
+            foreach (Building b in BuildingSystem.RegisteredBuildings)
+            {
+                toReturn += b.GetUsedElectricity(ws);
+            }
+            return toReturn;
         }
-        return toReturn;
     }
 }

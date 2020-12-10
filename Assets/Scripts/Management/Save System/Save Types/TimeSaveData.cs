@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TimeSystem;
 
 /// <summary>
 /// Contains data about the time simulation.
