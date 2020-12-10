@@ -9,7 +9,7 @@ namespace Assets.Tests
         /// Loops through each registered MachineRecipe and checks different values to be valid
         /// </summary>
         [Test]
-        public void CheckForInvalidRecipes()
+        public void TestRecipes_RecipeValues_HasCorrectRecipeValues()
         {
             foreach (MachineRecipe recipe in Resources.LoadAll<MachineRecipe>(""))
             {
@@ -23,7 +23,7 @@ namespace Assets.Tests
         }
 
         [Test]
-        public void CheckValidOutputID()
+        public void TestRecipes_RecipeValues_HasValidOutputID()
         {
             foreach (MachineRecipe recipe in Resources.LoadAll<MachineRecipe>(""))
             {
@@ -38,7 +38,7 @@ namespace Assets.Tests
         }
 
         [Test]
-        public void CheckCorrectBaseTimeValue()
+        public void TestRecipes_RecipeValues_HasValidBaseTimeValue()
         {
             foreach (MachineRecipe recipe in Resources.LoadAll<MachineRecipe>(""))
             {

@@ -12,9 +12,8 @@ namespace Tests
 
         // A Test behaves as an ordinary method
         [Test]
-        public void TestRecipe_1Input_1Output()
+        public void TestRecipeInAPM_1Input1Output_ItemsShouldEnterSuccessfully()
         {
-
             GameObject apmGO = CreateAPM();
             BuildingIOManager manager = apmGO.GetComponent<BuildingIOManager>();
             APM apm = apmGO.GetComponent<APM>();
@@ -22,7 +21,6 @@ namespace Tests
 
             manager.inputs = new BuildingIO[0];
             manager.outputs = new BuildingIO[] { GetFakeBuildingIOOutput() };
-
 
             ItemData input1 = GetFakeItem();
 
@@ -59,7 +57,6 @@ namespace Tests
 
             GameObject sceneInstance = new GameObject("Fake scene instance");
 
-
             Dictionary<ItemData, int> proposedItems = new Dictionary<ItemData, int>();
 
             ItemData toInput = GetFakeItemData(input1);
@@ -83,7 +80,6 @@ namespace Tests
 
             //Currently throws a NPE because of the fake BuildingIO not containing proper information, to be revamped later 
             //Assert.IsTrue(manager.mc.APM.IsAllowedToStartCrafting(args), "APM not allowed to start crafting when it should be able to.");
-
         }
 
         private GameObject CreateAPM()

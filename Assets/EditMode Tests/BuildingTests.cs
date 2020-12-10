@@ -8,8 +8,11 @@ namespace Assets.Tests
 {
     internal class BuildingTests
     {
+        /// <summary>
+        /// Tests for valid MeshRenderer values in all Building GameObjects.
+        /// </summary>
         [Test]
-        public void CheckRenderingData()
+        public void TestBuildings_MeshRenderer_CheckValidValues()
         {
             foreach (GameObject go in Resources.LoadAll<GameObject>("Buildings"))
             {
@@ -23,9 +26,11 @@ namespace Assets.Tests
             }
         }
 
-
+        /// <summary>
+        /// Tests for valid values in the Building component of all Building GameObjects.
+        /// </summary>
         [Test]
-        public void CheckBuildingData()
+        public void TestBuildings_BuildingValues_HasValidBuildingValues()
         {
             foreach (GameObject go in Resources.LoadAll<GameObject>("Buildings"))
             {
@@ -47,8 +52,11 @@ namespace Assets.Tests
             }
         }
 
+        /// <summary>
+        /// Tests if the Conveyor component in the Conveyor GameObjects has correct values.
+        /// </summary>
         [Test]
-        public void CheckConveyorData()
+        public void TestBuildings_ConveyorValues_HasValidValues()
         {
             foreach (GameObject go in Resources.LoadAll<GameObject>("Buildings"))
             {
@@ -62,8 +70,12 @@ namespace Assets.Tests
             }
         }
 
+        /// <summary>
+        /// Tests for attached ModuleConnector to the Building component.
+        /// Tests for missing essential components in the Module Connector.
+        /// </summary>
         [Test]
-        public void CheckModuleConnectorData()
+        public void TestBuildings_BuildingValues_HasAttachedModuleConnectorWithEssentialValues()
         {
             foreach (GameObject go in Resources.LoadAll<GameObject>("Buildings"))
             {
@@ -75,14 +87,16 @@ namespace Assets.Tests
 
                     ModuleConnector mc = building.mc;
 
-                    Assert.IsNotNull(mc.buildingIOManager, $"{go.name}'s ModuleConnector is missing a BuildingIOManager");
                     Assert.IsNotNull(mc.building, $"{go.name}'s ModuleConnector is missing a Building");
                 }
             }
         }
 
+        /// <summary>
+        /// Tests to see if the BuildingIOManager of all Buildings has duplicates IOs registered.
+        /// </summary>
         [Test]
-        public void TestBuildingIOData()
+        public void TestBuildings_BuildingValues_HasDuplicateIOsAssignedToBuildingManager()
         {
             foreach (GameObject go in Resources.LoadAll<GameObject>("Buildings"))
             {
@@ -106,11 +120,13 @@ namespace Assets.Tests
                     }
                 }
             }
-
         }
 
+        /// <summary>
+        /// Tests to see if the APMs have correct input and output space values.
+        /// </summary>
         [Test]
-        public void CheckValidAPMSpace()
+        public void TestBuildings_APMValues_HasValidAPMSpace()
         {
             foreach (GameObject go in Resources.LoadAll<GameObject>("Buildings"))
             {

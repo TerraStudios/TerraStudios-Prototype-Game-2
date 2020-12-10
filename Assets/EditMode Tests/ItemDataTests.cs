@@ -9,10 +9,9 @@ namespace Assets.Tests
         /// Loops through each registered ItemData and checks different values to be valid
         /// </summary>
         [Test]
-        public void CheckIfItemDataIsCorrect()
+        public void TestItemDatas_ItemDataValues_HasValidValues()
         {
-            ItemData[] itemDB = Resources.LoadAll<ItemData>("");
-            foreach (ItemData item in itemDB)
+            foreach (ItemData item in Resources.LoadAll<ItemData>(""))
             {
                 Assert.IsNotEmpty(item.name, "An item was found with no name.");
                 Assert.IsNotNull(item.obj, $"The item {item.name} had a null obj attached.");
@@ -23,4 +22,3 @@ namespace Assets.Tests
         }
     }
 }
-

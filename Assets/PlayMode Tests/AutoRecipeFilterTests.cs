@@ -7,7 +7,7 @@ namespace Tests
     public class AutoRecipeFilterTests
     {
         [Test]
-        public void CheckNoAllowedRecipes()
+        public void TestRecipeInAPM_AllowedRecipes_HasAtleastOneAllowedRecipe()
         {
             foreach (GameObject obj in Resources.LoadAll<GameObject>("Buildings"))
             {
@@ -27,7 +27,7 @@ namespace Tests
         }
 
         [Test]
-        public void CheckRecipeIOFit()
+        public void TestRecipeInAPM_RecipeIO_HasCorrectRecipeIOSize()
         {
             foreach (GameObject obj in Resources.LoadAll<GameObject>("Buildings"))
             {

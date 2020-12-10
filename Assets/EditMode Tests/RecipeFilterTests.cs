@@ -6,7 +6,7 @@ namespace Assets.Tests
     public class RecipeFilterTests
     {
         [Test]
-        public void CheckCorrectRecipeFilterAttachedToAPM()
+        public void TestRecipeFilters_RecipeFilterValues_HasValidInputsAmount()
         {
             foreach (RecipeFilter r in Resources.LoadAll<RecipeFilter>(""))
             {
@@ -16,7 +16,7 @@ namespace Assets.Tests
         }
 
         [Test]
-        public void CheckValidOutputsAmount()
+        public void TestRecipeFilters_RecipeFilterValues_HasValidOutputsAmount()
         {
             foreach (RecipeFilter r in Resources.LoadAll<RecipeFilter>(""))
             {
@@ -25,7 +25,7 @@ namespace Assets.Tests
         }
 
         [Test]
-        public void CheckNullManualRecipe()
+        public void TestRecipeFilterLists_RecipeFilterListValues_ContainsNullRecipe()
         {
             foreach (RecipeFilterList r in Resources.LoadAll<RecipeFilterList>(""))
             {
