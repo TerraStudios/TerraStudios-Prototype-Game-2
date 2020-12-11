@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BuildingManagers
+namespace BuildingManagement
 {
     /// <summary>
     /// This script handles output selection for Buildings through the UI.

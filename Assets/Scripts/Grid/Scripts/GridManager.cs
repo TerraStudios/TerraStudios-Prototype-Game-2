@@ -4,7 +4,7 @@ using DebugTools;
 using EconomySystem;
 using UnityEngine;
 
-namespace BuildingManagers
+namespace BuildingManagement
 {
     /// <summary>
     /// Manages the processes of building and visualizing buildings.

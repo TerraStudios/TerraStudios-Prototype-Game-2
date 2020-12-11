@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using Utilities;
 
-namespace BuildingManagers
+namespace BuildingManagement
 {
     /// <summary>
     /// This class is the highest level of the <c>BuildingSystem</c>.

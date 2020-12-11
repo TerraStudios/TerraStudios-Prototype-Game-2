@@ -8,7 +8,7 @@ using TimeSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace BuildingManagers
+namespace BuildingManagement
 {
     /// <summary>
     /// This class acts like a layer between the <c>GridManager</c> and the <c>BuildingSystem</c>.

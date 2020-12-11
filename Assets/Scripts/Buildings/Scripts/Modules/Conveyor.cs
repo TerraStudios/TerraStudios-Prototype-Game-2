@@ -1,4 +1,4 @@
-﻿using BuildingManagers;
+﻿using BuildingManagement;
 using UnityEngine;
 
 namespace BuildingModules

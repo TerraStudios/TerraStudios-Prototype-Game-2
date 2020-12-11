@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace BuildingManagers
+namespace BuildingManagement
 {
     /// <summary>
     /// Highest level class for the Electricity System.

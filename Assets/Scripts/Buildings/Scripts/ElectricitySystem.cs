@@ -2,7 +2,7 @@
 using CoreManagement;
 using UnityEngine;
 
-namespace BuildingManagers
+namespace BuildingManagement
 {
     /// <summary>
     /// Used to gather and generate electricity data for the Building.

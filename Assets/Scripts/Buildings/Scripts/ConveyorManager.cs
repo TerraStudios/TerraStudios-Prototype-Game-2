@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BuildingManagers
+namespace BuildingManagement
 {
     public interface IConveyorBase
     {
