@@ -1,6 +1,6 @@
 ﻿using BuildingManagement;
 using BuildingModules;
-using EconomySystem;
+using EconomyManagement;
 using ItemManagement;
 using TMPro;
 using UnityEngine;

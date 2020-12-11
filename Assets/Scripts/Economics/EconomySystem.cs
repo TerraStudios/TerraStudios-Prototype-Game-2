@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using TimeSystem;
 using UnityEngine;
 
-namespace EconomySystem
+namespace EconomyManagement
 {
     /// <summary>
     /// Handles the calculations for the economy calculations.

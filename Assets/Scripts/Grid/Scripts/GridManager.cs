@@ -1,7 +1,7 @@
 ﻿using BuildingModules;
 using CoreManagement;
 using DebugTools;
-using EconomySystem;
+using EconomyManagement;
 using UnityEngine;
 
 namespace BuildingManagement

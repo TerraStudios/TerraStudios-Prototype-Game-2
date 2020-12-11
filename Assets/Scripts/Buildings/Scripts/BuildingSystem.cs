@@ -1,5 +1,5 @@
 ﻿using BuildingModules;
-using EconomySystem;
+using EconomyManagement;
 using Player;
 using SaveSystem;
 using System.Collections.Generic;

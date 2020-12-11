@@ -4,7 +4,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-namespace EconomySystem
+namespace EconomyManagement
 {
     /// <summary>
     /// Highest level class that handles economy simulations.

@@ -1,6 +1,6 @@
 ﻿using BuildingManagement;
 using CoreManagement;
-using EconomySystem;
+using EconomyManagement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
