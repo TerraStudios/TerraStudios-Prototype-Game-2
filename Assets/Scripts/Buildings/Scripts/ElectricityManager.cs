@@ -1,6 +1,6 @@
-﻿using TMPro;
+﻿using BuildingModules;
+using TMPro;
 using UnityEngine;
-using BuildingModules;
 
 namespace BuildingManagers
 {

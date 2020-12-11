@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using BuildingModules;
+using ItemManagement;
+using RecipeManagement;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using BuildingModules;
 using Utilities;
-using ItemManagement;
-using RecipeManagement;
 
 namespace BuildingManagers
 {

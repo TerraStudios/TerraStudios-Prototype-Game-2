@@ -7,6 +7,7 @@ using UnityEngine;
 namespace Utilities
 {
     /// <summary>
+    /// Unity Main Thread Dispatcher (UMTD) class
     /// Used for calling code on the main thread from other threads.
     /// Third-party script.
     /// </summary>
