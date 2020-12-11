@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 
-/// <summary>
-/// These properties are used so the player can customize his playing experience.
-/// </summary>
-[CreateAssetMenu(fileName = "New User Profile", menuName = "Settings/New User Profile")]
-public class UserProfile : ScriptableObject
+namespace CoreManagement
 {
-    [Header("Currency visualization")]
-    public bool manualTimeDateCC;
-    public string timeDateCC;
+    /// <summary>
+    /// These properties are used so the player can customize his playing experience.
+    /// </summary>
+    [CreateAssetMenu(fileName = "New User Profile", menuName = "Settings/New User Profile")]
+    public class UserProfile : ScriptableObject
+    {
+        [Header("Currency visualization")]
+        public bool manualTimeDateCC;
+        public string timeDateCC;
 
-    public bool manualCurrencyCC;
-    public string currencyCC;
+        public bool manualCurrencyCC;
+        public string currencyCC;
+    }
 }

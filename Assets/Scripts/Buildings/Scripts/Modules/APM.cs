@@ -1,8 +1,12 @@
 ﻿using BuildingManagers;
+using CoreManagement;
+using ItemManagement;
+using RecipeManagement;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utilities;
 
 namespace BuildingModules
 {

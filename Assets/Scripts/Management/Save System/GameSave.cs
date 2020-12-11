@@ -1,32 +1,33 @@
-﻿using UnityEngine.Serialization;
-
-/// <summary>
-/// Contains all variables that are stored inside a game save.
-/// </summary>
-[System.Serializable]
-public class GameSave
+﻿namespace SaveSystem
 {
-    private static GameSave Current;
-
-    public static GameSave current
+    /// <summary>
+    /// Contains all variables that are stored inside a game save.
+    /// </summary>
+    [System.Serializable]
+    public class GameSave
     {
-        get
-        {
-            if (Current == null)
-                Current = new GameSave();
+        private static GameSave Current;
 
-            return Current;
-        }
-        set
+        public static GameSave current
         {
-            if (value != null)
+            get
             {
-                Current = value;
+                if (Current == null)
+                    Current = new GameSave();
+
+                return Current;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    Current = value;
+                }
             }
         }
-    }
 
-    public TimeSaveData timeSaveData = new TimeSaveData();
-    public EconomySaveData economySaveData = new EconomySaveData();
-    public WorldSaveData worldSaveData = new WorldSaveData();
+        public TimeSaveData timeSaveData = new TimeSaveData();
+        public EconomySaveData economySaveData = new EconomySaveData();
+        public WorldSaveData worldSaveData = new WorldSaveData();
+    }
 }

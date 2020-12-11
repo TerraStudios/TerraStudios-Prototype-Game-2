@@ -1,60 +1,64 @@
-﻿using UnityEngine;
+﻿using Player;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
-/// <summary>
-/// This class handles Item selection.
-/// It is used when the player clicks on an item.
-/// </summary>
-public class ItemSelector : MonoBehaviour
+namespace ItemManagement
 {
-    [HideInInspector] public Transform selectedItem;
-    public LayerMask itemLayer;
-
-    [Header("Components")]
-    public Camera mainCamera;
-    public ItemInfoUI itemInfoUI;
-
-    private void Update()
+    /// <summary>
+    /// This class handles Item selection.
+    /// It is used when the player clicks on an item.
+    /// </summary>
+    public class ItemSelector : MonoBehaviour
     {
-        if (Input.GetMouseButtonDown(0) && !RemoveSystem.instance.removeModeEnabled)
+        [HideInInspector] public Transform selectedItem;
+        public LayerMask itemLayer;
+
+        [Header("Components")]
+        public Camera mainCamera;
+        public ItemInfoUI itemInfoUI;
+
+        private void Update()
         {
-            Transform hit = GetItemHit(Input.mousePosition);
-
-            if (selectedItem != hit)
-                SelectItem(hit);
-        }
-    }
-
-    private Transform GetItemHit(Vector3 mousePos)
-    {
-        if (EventSystem.current.IsPointerOverGameObject())
-            return selectedItem;
-
-        Ray ray = mainCamera.ScreenPointToRay(mousePos);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, itemLayer))
-            return hit.transform;
-        else
-            return null;
-    }
-
-    public void SelectItem(Transform hit)
-    {
-        selectedItem = hit;
-        if (hit)
-        {
-            ItemBehaviour behaviour = selectedItem.GetComponent<ItemBehaviour>();
-
-            if (behaviour)
+            if (Input.GetMouseButtonDown(0) && !RemoveSystem.instance.removeModeEnabled)
             {
-                itemInfoUI.OnUIOpen(); //enable UI
-                itemInfoUI.SetData(selectedItem.gameObject, behaviour.data);
-            }
+                Transform hit = GetItemHit(Input.mousePosition);
 
+                if (selectedItem != hit)
+                    SelectItem(hit);
+            }
         }
-        else
+
+        private Transform GetItemHit(Vector3 mousePos)
         {
-            itemInfoUI.OnUIExit();
+            if (EventSystem.current.IsPointerOverGameObject())
+                return selectedItem;
+
+            Ray ray = mainCamera.ScreenPointToRay(mousePos);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, itemLayer))
+                return hit.transform;
+            else
+                return null;
+        }
+
+        public void SelectItem(Transform hit)
+        {
+            selectedItem = hit;
+            if (hit)
+            {
+                ItemBehaviour behaviour = selectedItem.GetComponent<ItemBehaviour>();
+
+                if (behaviour)
+                {
+                    itemInfoUI.OnUIOpen(); //enable UI
+                    itemInfoUI.SetData(selectedItem.gameObject, behaviour.data);
+                }
+
+            }
+            else
+            {
+                itemInfoUI.OnUIExit();
+            }
         }
     }
 }

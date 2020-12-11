@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using ItemManagement;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace Assets.Tests

@@ -1,50 +1,54 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utilities;
 
-/// <summary>
-/// Manages all items in the game. 
-/// Loads and retrives items from the items list.
-/// </summary>
-public class ItemManagement : MonoBehaviour
+namespace ItemManagement
 {
-    [Tooltip("Determines the initial pool size for each item")]
-    public int initialPoolSize = 100;
-
-    [HideInInspector] public static List<ItemData> db = new List<ItemData>();
-
-    private void Awake()
+    /// <summary>
+    /// Manages all items in the game. 
+    /// Loads and retrives items from the items list.
+    /// </summary>
+    public class ItemManagement : MonoBehaviour
     {
-        LoadItemDB();
-    }
+        [Tooltip("Determines the initial pool size for each item")]
+        public int initialPoolSize = 100;
 
-    public ItemData GetItemFromDB(int ID)
-    {
-        for (int i = 0; i < db.Count; i++)
+        [HideInInspector] public static List<ItemData> db = new List<ItemData>();
+
+        private void Awake()
         {
-            if (db[i].ID == ID)
-                return db[i];
+            LoadItemDB();
         }
 
-        return null;
-    }
-
-    private void LoadItemDB()
-    {
-        db.Clear();
-        ItemData[] itemDB = Resources.LoadAll<ItemData>("");
-        for (int i = 0; i < itemDB.Count(); i++)
+        public ItemData GetItemFromDB(int ID)
         {
-            ItemData data = itemDB[i];
-            data.ID = i;
-            db.Insert(i, data);
+            for (int i = 0; i < db.Count; i++)
+            {
+                if (db[i].ID == ID)
+                    return db[i];
+            }
+
+            return null;
         }
 
-        Debug.Log("[Item Management] Loaded " + db.Count + " items");
-
-        foreach (ItemData data in db)
+        private void LoadItemDB()
         {
-            ObjectPoolManager.Instance.CreatePool(data.obj.gameObject, initialPoolSize);
+            db.Clear();
+            ItemData[] itemDB = Resources.LoadAll<ItemData>("");
+            for (int i = 0; i < itemDB.Count(); i++)
+            {
+                ItemData data = itemDB[i];
+                data.ID = i;
+                db.Insert(i, data);
+            }
+
+            Debug.Log("[Item Management] Loaded " + db.Count + " items");
+
+            foreach (ItemData data in db)
+            {
+                ObjectPoolManager.Instance.CreatePool(data.obj.gameObject, initialPoolSize);
+            }
         }
     }
 }

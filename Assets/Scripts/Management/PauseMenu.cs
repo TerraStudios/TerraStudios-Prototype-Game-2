@@ -1,33 +1,36 @@
 ﻿using UnityEngine;
 using TimeSystem;
 
-/// <summary>
-/// Handles the Pause Menu UI.
-/// </summary>
-public class PauseMenu : MonoBehaviour
+namespace CoreManagement
 {
-    public GameObject pauseMenuPanel;
-
-    [HideInInspector] public static bool isOpen;
-    public static bool wasPaused;
-
-    private void Update()
+    /// <summary>
+    /// Handles the Pause Menu UI.
+    /// </summary>
+    public class PauseMenu : MonoBehaviour
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        public GameObject pauseMenuPanel;
+
+        [HideInInspector] public static bool isOpen;
+        public static bool wasPaused;
+
+        private void Update()
         {
-            if (pauseMenuPanel.activeSelf)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                isOpen = false;
-                wasPaused = TimeEngine.IsPaused;
-                TimeEngine.IsPaused = false;
-                pauseMenuPanel.SetActive(false);
-            }
-            else
-            {
-                isOpen = true;
-                wasPaused = TimeEngine.IsPaused;
-                TimeEngine.IsPaused = true;
-                pauseMenuPanel.SetActive(true);
+                if (pauseMenuPanel.activeSelf)
+                {
+                    isOpen = false;
+                    wasPaused = TimeEngine.IsPaused;
+                    TimeEngine.IsPaused = false;
+                    pauseMenuPanel.SetActive(false);
+                }
+                else
+                {
+                    isOpen = true;
+                    wasPaused = TimeEngine.IsPaused;
+                    TimeEngine.IsPaused = true;
+                    pauseMenuPanel.SetActive(true);
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using BuildingModules;
+using CoreManagement;
 
 namespace BuildingManagers
 {

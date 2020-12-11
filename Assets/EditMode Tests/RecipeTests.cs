@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using RecipeManagement;
 using UnityEngine;
 
 namespace Assets.Tests

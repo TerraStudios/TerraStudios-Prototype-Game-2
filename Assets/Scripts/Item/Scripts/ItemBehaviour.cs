@@ -2,67 +2,70 @@
 using BuildingModules;
 using BuildingManagers;
 
-/// <summary>
-/// This script is placed on each Item GameObjects.
-/// Its purpose is to hold properties of Items as well as handling physics events.
-/// </summary>
-[ExecuteInEditMode]
-public class ItemBehaviour : MonoBehaviour
+namespace ItemManagement
 {
-    public ItemData data;
-    private BuildingIO insideIO;
-
-    private Material originalMaterial;
-    private bool markedForDelete;
-
-    private void Awake()
+    /// <summary>
+    /// This script is placed on each Item GameObjects.
+    /// Its purpose is to hold properties of Items as well as handling physics events.
+    /// </summary>
+    [ExecuteInEditMode]
+    public class ItemBehaviour : MonoBehaviour
     {
-        originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
-    }
+        public ItemData data;
+        private BuildingIO insideIO;
 
-    public void MarkForDelete()
-    {
-        if (markedForDelete)
-            return;
-        markedForDelete = true;
-        GetComponent<MeshRenderer>().material = BuildingManager.Instance.redArrow;
-    }
+        private Material originalMaterial;
+        private bool markedForDelete;
 
-    public void UnmarkForDelete()
-    {
-        if (!markedForDelete)
-            return;
-        markedForDelete = false;
-        GetComponent<MeshRenderer>().material = originalMaterial;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer.Equals(12))
+        private void Awake()
         {
-            insideIO = other.transform.parent.GetComponent<BuildingIO>();
-            insideIO.itemInside = this;
-            if (insideIO.isInput && !insideIO.ioManager.isConveyor)
-                insideIO.OnItemEnter(this);
+            originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.layer.Equals(12))
+        public void MarkForDelete()
         {
-            BuildingIO bIO = other.transform.parent.GetComponent<BuildingIO>();
-            bIO.itemInside = null;
-            if (bIO.isInput && !bIO.ioManager.isConveyor)
-                bIO.OnItemExit(this);
-            insideIO = null;
+            if (markedForDelete)
+                return;
+            markedForDelete = true;
+            GetComponent<MeshRenderer>().material = BuildingManager.Instance.redArrow;
         }
-    }
 
-    private void OnDisable()
-    {
-        if (insideIO)
-            insideIO.itemInside = null;
-        UnmarkForDelete();
+        public void UnmarkForDelete()
+        {
+            if (!markedForDelete)
+                return;
+            markedForDelete = false;
+            GetComponent<MeshRenderer>().material = originalMaterial;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.layer.Equals(12))
+            {
+                insideIO = other.transform.parent.GetComponent<BuildingIO>();
+                insideIO.itemInside = this;
+                if (insideIO.isInput && !insideIO.ioManager.isConveyor)
+                    insideIO.OnItemEnter(this);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.layer.Equals(12))
+            {
+                BuildingIO bIO = other.transform.parent.GetComponent<BuildingIO>();
+                bIO.itemInside = null;
+                if (bIO.isInput && !bIO.ioManager.isConveyor)
+                    bIO.OnItemExit(this);
+                insideIO = null;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (insideIO)
+                insideIO.itemInside = null;
+            UnmarkForDelete();
+        }
     }
 }

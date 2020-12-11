@@ -2,82 +2,86 @@
 using System.Globalization;
 using UnityEngine;
 using DebugTools;
+using SaveSystem;
 
-/// <summary>
-/// Top-level script of the game.
-/// Holds properties like CultureInfo, GameProfile and UserProfile.
-/// </summary>
-public class GameManager : MonoBehaviour
+namespace CoreManagement
 {
-    public bool DebugMode = false; //May be moved to Super Secret Settings later on
-
-    [HideInInspector] public CultureInfo currentCultureTimeDate;
-    [HideInInspector] public CultureInfo currentCultureCurrency;
-
-    [Header("Game Settings")]
-    public GameProfile profile;
-    public static GameProfile Profile
+    /// <summary>
+    /// Top-level script of the game.
+    /// Holds properties like CultureInfo, GameProfile and UserProfile.
+    /// </summary>
+    public class GameManager : MonoBehaviour
     {
-        get
+        public bool DebugMode; //May be moved to Super Secret Settings later on
+
+        [HideInInspector] public CultureInfo currentCultureTimeDate;
+        [HideInInspector] public CultureInfo currentCultureCurrency;
+
+        [Header("Game Settings")]
+        public GameProfile profile;
+        public static GameProfile Profile
         {
-            return Instance.profile;
+            get
+            {
+                return Instance.profile;
+            }
         }
-    }
-    public GameProfile easyProfile;
-    public GameProfile mediumProfile;
-    public GameProfile hardProfile;
+        public GameProfile easyProfile;
+        public GameProfile mediumProfile;
+        public GameProfile hardProfile;
 
-    public UserProfile uProfile;
+        public UserProfile uProfile;
 
-    public static GameManager Instance;
+        public static GameManager Instance;
 
-    private void Awake()
-    {
-        if (Instance)
+        private void Awake()
         {
-            Destroy(gameObject);
-            return;
+            if (Instance)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+
+            DontDestroyOnLoad(this);
+
+            // Game Profile always has higher priority than User Profile
+
+            if (uProfile.manualTimeDateCC)
+                currentCultureTimeDate = CultureInfo.CreateSpecificCulture(uProfile.timeDateCC);
+            else
+                currentCultureTimeDate = CultureInfo.CurrentCulture;
+
+            if (Profile.forceManualCurrencyCC)
+                currentCultureCurrency = CultureInfo.CreateSpecificCulture(Profile.currencyCC);
+            else if (uProfile.manualCurrencyCC)
+                currentCultureCurrency = CultureInfo.CreateSpecificCulture(uProfile.currencyCC);
+            else
+                currentCultureTimeDate = CultureInfo.CurrentCulture;
+
+            Log.DEBUG_MODE = DebugMode; //Set the debug mode for logging
         }
 
-        Instance = this;
+        public void ResetGame()
+        {
+            StartCoroutine(ResetGameAction());
+        }
 
-        DontDestroyOnLoad(this);
+        private IEnumerator ResetGameAction()
+        {
+            yield return StartCoroutine(SceneHandler.instance.ReloadLevelAction());
+            InitGame();
+        }
 
-        // Game Profile always has higher priority than User Profile
+        public void InitGame()
+        {
+            Time.timeScale = GameSave.current.timeSaveData.timeMultiplier;
+        }
 
-        if (uProfile.manualTimeDateCC)
-            currentCultureTimeDate = CultureInfo.CreateSpecificCulture(uProfile.timeDateCC);
-        else
-            currentCultureTimeDate = CultureInfo.CurrentCulture;
-
-        if (Profile.forceManualCurrencyCC)
-            currentCultureCurrency = CultureInfo.CreateSpecificCulture(Profile.currencyCC);
-        else if (uProfile.manualCurrencyCC)
-            currentCultureCurrency = CultureInfo.CreateSpecificCulture(uProfile.currencyCC);
-        else
-            currentCultureTimeDate = CultureInfo.CurrentCulture;
-
-        Log.DEBUG_MODE = DebugMode; //Set the debug mode for logging
-    }
-
-    public void ResetGame()
-    {
-        StartCoroutine(ResetGameAction());
-    }
-
-    private IEnumerator ResetGameAction()
-    {
-        yield return StartCoroutine(SceneHandler.instance.ReloadLevelAction());
-        InitGame();
-    }
-
-    public void InitGame()
-    {
-        Time.timeScale = GameSave.current.timeSaveData.timeMultiplier;
-    }
-
-    public void GameOver()
-    {
-        Debug.Log("Game Over!");
+        public void GameOver()
+        {
+            Debug.Log("Game Over!");
+        }
     }
 }

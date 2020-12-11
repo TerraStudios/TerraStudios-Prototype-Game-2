@@ -1,51 +1,54 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-/// <summary>
-/// This editor script is used for finding missing scripts in the hierarchy.
-/// Third-party script.
-/// </summary>
-public class FindMissingScripts : EditorWindow
+namespace EditorUtilities
 {
-    [MenuItem("Window/FindMissingScripts")]
-    public static void ShowWindow()
+    /// <summary>
+    /// This editor script is used for finding missing scripts in the hierarchy.
+    /// Third-party script.
+    /// </summary>
+    public class FindMissingScripts : EditorWindow
     {
-        GetWindow(typeof(FindMissingScripts));
-    }
-
-    public void OnGUI()
-    {
-        if (GUILayout.Button("Find Missing Scripts in selected prefabs"))
+        [MenuItem("Window/FindMissingScripts")]
+        public static void ShowWindow()
         {
-            FindInSelected();
+            GetWindow(typeof(FindMissingScripts));
         }
-    }
-    private static void FindInSelected()
-    {
-        GameObject[] go = Selection.gameObjects;
-        int go_count = 0, components_count = 0, missing_count = 0;
-        foreach (GameObject g in go)
+
+        public void OnGUI()
         {
-            go_count++;
-            Component[] components = g.GetComponents<Component>();
-            for (int i = 0; i < components.Length; i++)
+            if (GUILayout.Button("Find Missing Scripts in selected prefabs"))
             {
-                components_count++;
-                if (components[i] == null)
-                {
-                    missing_count++;
-                    string s = g.name;
-                    Transform t = g.transform;
-                    while (t.parent != null)
-                    {
-                        s = t.parent.name + "/" + s;
-                        t = t.parent;
-                    }
-                    Debug.Log(s + " has an empty script attached in position: " + i, g);
-                }
+                FindInSelected();
             }
         }
+        private static void FindInSelected()
+        {
+            GameObject[] go = Selection.gameObjects;
+            int go_count = 0, components_count = 0, missing_count = 0;
+            foreach (GameObject g in go)
+            {
+                go_count++;
+                Component[] components = g.GetComponents<Component>();
+                for (int i = 0; i < components.Length; i++)
+                {
+                    components_count++;
+                    if (components[i] == null)
+                    {
+                        missing_count++;
+                        string s = g.name;
+                        Transform t = g.transform;
+                        while (t.parent != null)
+                        {
+                            s = t.parent.name + "/" + s;
+                            t = t.parent;
+                        }
+                        Debug.Log(s + " has an empty script attached in position: " + i, g);
+                    }
+                }
+            }
 
-        Debug.Log(string.Format("Searched {0} GameObjects, {1} components, found {2} missing", go_count, components_count, missing_count));
+            Debug.Log(string.Format("Searched {0} GameObjects, {1} components, found {2} missing", go_count, components_count, missing_count));
+        }
     }
 }
