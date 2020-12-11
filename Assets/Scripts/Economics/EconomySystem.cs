@@ -23,12 +23,12 @@ namespace EconomyManagement
         public bool isInBankruptcy;
         public decimal Balance
         {
-            get { return GameSave.current.economySaveData.balanace; }
+            get { return GameSave.current.economySaveData.balance; }
             set
             {
                 if (!GameManager.Profile.enableGodMode)
                 {
-                    GameSave.current.economySaveData.balanace = value;
+                    GameSave.current.economySaveData.balance = value;
                     OnBalanceUpdate();
                 }
             }

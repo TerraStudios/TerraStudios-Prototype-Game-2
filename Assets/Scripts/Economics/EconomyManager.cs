@@ -19,10 +19,10 @@ namespace EconomyManagement
         private void Awake()
         {
             Instance = this;
-            if (GameSave.current.economySaveData.balanace == default)
+            if (GameSave.current.economySaveData.balance == default)
                 Balance = startBalance;
             else
-                Balance = GameSave.current.economySaveData.balanace;
+                Balance = GameSave.current.economySaveData.balance;
 
             seriousBankruptcyID = CallbackHandler.Instance.RegisterCallback(OnSeriousBankruptcy);
             gameOverID = CallbackHandler.Instance.RegisterCallback(GameManager.Instance.GameOver);

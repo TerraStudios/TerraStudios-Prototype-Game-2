@@ -10,7 +10,7 @@ namespace SaveSystem
     [Serializable]
     public class EconomySaveData
     {
-        public decimal balanace;
+        public decimal balance;
         public DateTime lastBankruptcyStart;
         public DateTime lastBankruptcyEnd;
         public List<TimeWaitEvent> bankruptcyTimers = new List<TimeWaitEvent>();
