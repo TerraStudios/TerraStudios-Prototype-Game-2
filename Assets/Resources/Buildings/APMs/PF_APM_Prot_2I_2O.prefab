@@ -87,6 +87,16 @@ PrefabInstance:
       propertyPath: IOManager
       value: 
       objectReference: {fileID: 4403210534089065020}
+    - target: {fileID: 9183637379809750852, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
+        type: 3}
+      propertyPath: ioManager
+      value: 
+      objectReference: {fileID: 4403210534089065020}
+    - target: {fileID: 9183637379809750852, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64,
+        type: 3}
+      propertyPath: meshRenderer
+      value: 
+      objectReference: {fileID: 6132415075755556427}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecc2d9f7b38c38f45a74c7fdd0fabd64, type: 3}
 --- !u!114 &8838093920373244738 stripped
@@ -113,6 +123,16 @@ PrefabInstance:
       propertyPath: IOManager
       value: 
       objectReference: {fileID: 4403210534089065020}
+    - target: {fileID: 1960481988754174890, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: ioManager
+      value: 
+      objectReference: {fileID: 4403210534089065020}
+    - target: {fileID: 1960481988754174890, guid: 321b5f8855abd8f49b7da12f76a7719c,
+        type: 3}
+      propertyPath: meshRenderer
+      value: 
+      objectReference: {fileID: 6132415075755556427}
     - target: {fileID: 5571085036058034170, guid: 321b5f8855abd8f49b7da12f76a7719c,
         type: 3}
       propertyPath: m_Name
@@ -311,6 +331,12 @@ PrefabInstance:
 --- !u!4 &5719123923885634798 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2941611580773582538, guid: c1fe1648509854e46be06abb82c9a485,
+    type: 3}
+  m_PrefabInstance: {fileID: 7461581459674591780}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6132415075755556427 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3645219458682948719, guid: c1fe1648509854e46be06abb82c9a485,
     type: 3}
   m_PrefabInstance: {fileID: 7461581459674591780}
   m_PrefabAsset: {fileID: 0}

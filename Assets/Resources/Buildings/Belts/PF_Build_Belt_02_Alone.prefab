@@ -50,10 +50,10 @@ MonoBehaviour:
   isInput: 1
   isOutput: 0
   ID: 0
-  meshRenderer: {fileID: 0}
+  meshRenderer: {fileID: 8120255957366487191}
   coll: {fileID: 9085562675427141577}
   itemIO: {fileID: 0}
-  ioManager: {fileID: 0}
+  ioManager: {fileID: 1987835161396914966}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   outputMaxQueueSize: 5
@@ -190,10 +190,10 @@ MonoBehaviour:
   isInput: 1
   isOutput: 0
   ID: 0
-  meshRenderer: {fileID: 0}
+  meshRenderer: {fileID: 8120255957366487191}
   coll: {fileID: 7718693699455562949}
   itemIO: {fileID: 0}
-  ioManager: {fileID: 0}
+  ioManager: {fileID: 1987835161396914966}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   outputMaxQueueSize: 5
@@ -330,10 +330,10 @@ MonoBehaviour:
   isInput: 0
   isOutput: 1
   ID: 0
-  meshRenderer: {fileID: 0}
+  meshRenderer: {fileID: 8120255957366487191}
   coll: {fileID: 687058343388026996}
   itemIO: {fileID: 0}
-  ioManager: {fileID: 0}
+  ioManager: {fileID: 1987835161396914966}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   outputMaxQueueSize: 5
@@ -660,10 +660,10 @@ MonoBehaviour:
   isInput: 1
   isOutput: 0
   ID: 0
-  meshRenderer: {fileID: 0}
+  meshRenderer: {fileID: 8120255957366487191}
   coll: {fileID: 612981228322611174}
   itemIO: {fileID: 0}
-  ioManager: {fileID: 0}
+  ioManager: {fileID: 1987835161396914966}
   isTrashcanOutput: 0
   itemsAllowedToEnter: []
   outputMaxQueueSize: 5
