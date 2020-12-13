@@ -24,10 +24,11 @@ MonoBehaviour:
   enableElectricityCalculations: 1
   wattsPerHourIdleMultiplier: 1
   wattsPerHourWorkMultiplier: 1
+  globalBaseTimeMultiplier: 1
   removePenaltyMultiplier: 5
   garbageRemoveMultiplier: 2
   globalPriceMultiplierItems: 1
-  globalPriceMultiplierBuildings: 10
+  globalPriceMultiplierBuildings: 1
   forceManualCurrencyCC: 0
   currencyCC: 
   enableGodMode: 0
