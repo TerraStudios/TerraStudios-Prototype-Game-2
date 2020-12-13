@@ -146,9 +146,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7237c4271493e348b6cf3b0e602b24b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SaveName: {fileID: 5155495882235912956}
-  SaveSelectedBtn: {fileID: 9021018340963482292}
-  TrashBtn: {fileID: 3009287924545268412}
+  saveName: {fileID: 5155495882235912956}
+  saveSelectedBtn: {fileID: 9021018340963482292}
+  trashBtn: {fileID: 3009287924545268412}
 --- !u!1 &2629109606876831338
 GameObject:
   m_ObjectHideFlags: 0
