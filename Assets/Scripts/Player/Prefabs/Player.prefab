@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6766237766753924144}
+  - component: {fileID: 5760796297467058168}
   - component: {fileID: 1413420034687812705}
+  - component: {fileID: 2367884800272579803}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -31,6 +33,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5760796297467058168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643007424386464553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0f4ce52533d114f8e3569c8111b7d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraMode: 0
+  normalCamera: {fileID: 0}
+  topDownCamera: {fileID: 0}
+  freeCamera: {fileID: 0}
+  cameraMovement: {fileID: 1413420034687812705}
+  photoCameraMovement: {fileID: 2367884800272579803}
 --- !u!114 &1413420034687812705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,10 +63,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602a9844e3e542f4aad03fe49d826fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraGO: {fileID: 0}
-  CinemachineFollowZoom: {fileID: 0}
+  cinemachineFollowZoom: {fileID: 0}
   movementSpeed: 20
   movementTime: 10
+  rotationSpeed: 100
   dragSpeed: 25
   zoomSpeed: 150
   showGizmo: 0
@@ -54,3 +74,19 @@ MonoBehaviour:
   minX: 0
   maxZ: 20
   minZ: -10
+  cameraRotation: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2367884800272579803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643007424386464553}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b20f3ad981e09d46a066e52210b0e67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 100
+  moveSpeed: 15
+  fasterMoveSpeed: 30

@@ -8,9 +8,6 @@ namespace Player
     /// </summary>
     public class CameraMovement : MonoBehaviour
     {
-        public Transform cameraGO1;
-        public Transform cameraGO2;
-
         public CinemachineFollowZoom cinemachineFollowZoom;
 
         public float movementSpeed;
@@ -33,7 +30,7 @@ namespace Player
 
         // Saved camera rotation when switching to the secondary camera (with Z)
         // Used to restore rotation after switching back
-        private Quaternion cameraRotation;
+        [HideInInspector] public Quaternion cameraRotation;
 
         private void Start()
         {
@@ -74,9 +71,8 @@ namespace Player
             }
 
             // Only allow the normal camera to rotate
-            if (cameraGO1.gameObject.activeInHierarchy)
+            if (CamerasManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
-
                 // Q and E 90 degrees rotation
                 if (Input.GetKey(KeyCode.Q))
                 {
@@ -86,23 +82,6 @@ namespace Player
                 if (Input.GetKey(KeyCode.E))
                 {
                     transform.rotation *= Quaternion.Euler(0, -rotationSpeed / 200f, 0);
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                if (cameraGO1.gameObject.activeInHierarchy)
-                {
-                    cameraRotation = cameraGO1.rotation;
-                    cameraGO1.gameObject.SetActive(false);
-                    cameraGO2.gameObject.SetActive(true);
-                    cameraGO2.rotation = Quaternion.Euler(90, 0, 0);
-                }
-                else
-                {
-                    cameraGO1.gameObject.SetActive(true);
-                    cameraGO1.rotation = cameraRotation;
-                    cameraGO2.gameObject.SetActive(false);
                 }
             }
         }
@@ -131,7 +110,6 @@ namespace Player
             {
                 // scroll up
                 zoomLevel -= Input.GetAxis("Mouse ScrollWheel") * Time.unscaledDeltaTime * zoomSpeed * 10;
-
             }
             else if (d < 0f && zoomLevel <= maxFOV)
             {
