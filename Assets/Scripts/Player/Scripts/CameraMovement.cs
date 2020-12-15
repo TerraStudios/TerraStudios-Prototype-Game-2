@@ -71,7 +71,7 @@ namespace Player
             }
 
             // Only allow the normal camera to rotate
-            if (CamerasManager.Instance.cameraMode.Equals(CameraMode.Normal))
+            if (CamerasManager.Instance.cameraMode.Equals(CameraMode.Normal) || CamerasManager.Instance.cameraMode.Equals(CameraMode.Topdown))
             {
                 // Q and E 90 degrees rotation
                 if (Input.GetKey(KeyCode.Q))
