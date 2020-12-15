@@ -98,23 +98,26 @@ namespace Player
 
             // Middle click rotation
 
-            if (Input.GetKey(KeyCode.Mouse2))
+            if (CamerasManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
-                mouseYaw += 2f * Input.GetAxis("Mouse X");
-                transform.rotation = Quaternion.Euler(0, mouseYaw, 0);
-            }
+                if (Input.GetKey(KeyCode.Mouse2))
+                {
+                    mouseYaw += 2f * Input.GetAxis("Mouse X");
+                    transform.rotation = Quaternion.Euler(0, mouseYaw, 0);
+                }
 
-            float d = Input.GetAxis("Mouse ScrollWheel");
+                float d = Input.GetAxis("Mouse ScrollWheel");
 
-            if (d > 0f && zoomLevel >= minFOV)
-            {
-                // scroll up
-                zoomLevel -= Input.GetAxis("Mouse ScrollWheel") * Time.unscaledDeltaTime * zoomSpeed * 10;
-            }
-            else if (d < 0f && zoomLevel <= maxFOV)
-            {
-                // scroll down
-                zoomLevel += -Input.GetAxis("Mouse ScrollWheel") * Time.unscaledDeltaTime * zoomSpeed * 10;
+                if (d > 0f && zoomLevel >= minFOV)
+                {
+                    // scroll up
+                    zoomLevel -= Input.GetAxis("Mouse ScrollWheel") * Time.unscaledDeltaTime * zoomSpeed * 10;
+                }
+                else if (d < 0f && zoomLevel <= maxFOV)
+                {
+                    // scroll down
+                    zoomLevel += -Input.GetAxis("Mouse ScrollWheel") * Time.unscaledDeltaTime * zoomSpeed * 10;
+                }
             }
         }
 
