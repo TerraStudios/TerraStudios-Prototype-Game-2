@@ -22,9 +22,15 @@ namespace Player
         public CameraMovement cameraMovement;
         public PhotoCameraMovement photoCameraMovement;
 
+        public Vector3 lastPosition;
+        public Quaternion lastRotation;
+
         private void Awake()
         {
             Instance = this;
+
+            lastPosition = transform.position;
+            lastRotation = transform.rotation;
         }
 
         private void Update()
@@ -52,11 +58,16 @@ namespace Player
         {
             cameraMode = CameraMode.Normal;
 
+            // apply pos and rot from the last camera pos and rot
+            transform.position = lastPosition;
+            transform.rotation = lastRotation;
+
             normalCamera.SetActive(true);
             topDownCamera.SetActive(false);
             freeCamera.SetActive(false);
 
-            normalCamera.transform.rotation = cameraMovement.cameraRotation;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
 
             cameraMovement.enabled = true;
             photoCameraMovement.enabled = false;
@@ -66,12 +77,18 @@ namespace Player
         {
             cameraMode = CameraMode.Topdown;
 
+            // set lastRot
+            // apply pos and rot from the last camera pos and rot. the rot is 0 because the camera has to look straight down
+            lastRotation = transform.rotation;
+            transform.position = lastPosition;
+            transform.rotation = Quaternion.identity;
+
             normalCamera.SetActive(false);
             topDownCamera.SetActive(true);
             freeCamera.SetActive(false);
 
-            cameraMovement.cameraRotation = normalCamera.transform.rotation;
-            topDownCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
 
             cameraMovement.enabled = true;
             photoCameraMovement.enabled = false;
@@ -79,11 +96,21 @@ namespace Player
 
         public void SwitchToFreecam()
         {
+            // save last position and rotation so we can restore them when we return to vcam 1 or 2
+            if (cameraMode == CameraMode.Normal)
+            {
+                lastPosition = transform.position;
+                lastRotation = transform.rotation;
+            }
+
             cameraMode = CameraMode.Freecam;
 
             normalCamera.SetActive(false);
             topDownCamera.SetActive(false);
             freeCamera.SetActive(true);
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
 
             cameraMovement.enabled = false;
             photoCameraMovement.enabled = true;

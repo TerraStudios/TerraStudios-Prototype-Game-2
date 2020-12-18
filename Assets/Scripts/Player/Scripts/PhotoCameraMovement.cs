@@ -55,19 +55,23 @@ public class PhotoCameraMovement : MonoBehaviour
 
     public void ApplyRotation()
     {
-        /*mouseAxis.x -= Input.GetAxis("Mouse Y") * sensitivity * Time.unscaledDeltaTime;
-        mouseAxis.y += Input.GetAxis("Mouse X") * sensitivity * Time.unscaledDeltaTime;
-        mouseAxis.x = Mathf.Clamp(mouseAxis.x, minY, maxY);
-
-        transform.rotation = Quaternion.Euler(mouseAxis.x, mouseAxis.y, 0);*/
-
-        mouseAxis.x += -Input.GetAxis("Mouse Y") * sensitivity;
-        mouseAxis.y += Input.GetAxis("Mouse X") * sensitivity;
+        float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivity;
+        float rotationY = transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * sensitivity;
 
         //clamping
-        mouseAxis.x = Mathf.Clamp(mouseAxis.x, -90, 90);
+        Debug.Log(rotationY);
+        rotationY = ClampAngle(rotationY, -90, 90);
 
         //rotation
-        transform.localRotation = Quaternion.Euler(mouseAxis.x, mouseAxis.y, 0);
+        transform.localEulerAngles = new Vector3(rotationY, rotationX, 0);
+    }
+
+    public static float ClampAngle(float angle, float min, float max)
+    {
+        if (angle < -360F)
+            angle += 360F;
+        if (angle > 360F)
+            angle -= 360F;
+        return Mathf.Clamp(angle, min, max);
     }
 }

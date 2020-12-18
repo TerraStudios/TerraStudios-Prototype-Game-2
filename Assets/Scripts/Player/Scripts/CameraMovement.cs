@@ -28,10 +28,6 @@ namespace Player
         public float maxZ;
         public float minZ;
 
-        // Saved camera rotation when switching to the secondary camera (with Z)
-        // Used to restore rotation after switching back
-        [HideInInspector] public Quaternion cameraRotation;
-
         private void Start()
         {
             zoomLevel = cinemachineFollowZoom.m_MaxFOV;
