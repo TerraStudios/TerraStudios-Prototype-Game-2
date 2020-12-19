@@ -52,25 +52,31 @@ public class PhotoCameraMovement : MonoBehaviour
         transform.position += transform.right * X * moveSpeed * Time.unscaledDeltaTime;
     }
 
+    float horizontal = 0;
+    float vertical = 0;
+
     public void ApplyRotation()
     {
-        float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivity;
-        float rotationY = transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * sensitivity;
+        // Add current mouse x axis delta
+        horizontal += Input.GetAxis("Mouse X") * sensitivity;
 
-        //clamping
-        Debug.Log(rotationY);
-        rotationY = ClampAngle(rotationY, -90, 90);
+        // Subtract current mouse y axis delta, as y is inverted
+        vertical -= Input.GetAxis("Mouse Y") * sensitivity;
 
-        //rotation
-        transform.localEulerAngles = new Vector3(rotationY, rotationX, 0);
+        // Clamp y axis to not roll
+        vertical = Mathf.Clamp(vertical, -90, 90);
+
+        // Set rotation using quaternions
+        // Using localEulerAngles proved to be inadequate as the game was experiencing what is known as the gimbal lock when looking straight up or down
+        transform.localRotation = Quaternion.Euler(vertical, horizontal, 0);
     }
 
     public static float ClampAngle(float angle, float min, float max)
     {
-        if (angle < -360F)
-            angle += 360F;
-        if (angle > 360F)
-            angle -= 360F;
+        //if (angle < -360F)
+        //    angle += 360F;
+        //if (angle > 360F)
+        //    angle -= 360F;
         return Mathf.Clamp(angle, min, max);
     }
 }
