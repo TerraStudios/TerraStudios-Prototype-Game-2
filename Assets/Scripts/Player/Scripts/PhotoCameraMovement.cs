@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Handles the photo camera movement in-game.
+/// </summary>
 public class PhotoCameraMovement : MonoBehaviour
 {
     public float sensitivity;
-
     public float moveSpeed = 10f;
     public float fasterMoveSpeed = 15f;
-
     private float initalMoveSpeed;
-
-    private Vector2 mouseAxis;
 
     private void Awake()
     {

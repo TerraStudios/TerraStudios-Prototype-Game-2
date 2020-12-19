@@ -2,6 +2,10 @@
 
 namespace Player
 {
+    /// <summary>
+    /// The types of Camera modes.
+    /// Each camera modes correspond to a Cinemachine camera.
+    /// </summary>
     public enum CameraMode
     {
         Normal,
@@ -9,6 +13,9 @@ namespace Player
         Freecam
     }
 
+    /// <summary>
+    /// Manages all Cinemachine cameras and camera modes.
+    /// </summary>
     public class CamerasManager : MonoBehaviour
     {
         public static CamerasManager Instance;
@@ -22,8 +29,8 @@ namespace Player
         public CameraMovement cameraMovement;
         public PhotoCameraMovement photoCameraMovement;
 
-        public Vector3 lastPosition;
-        public Quaternion lastRotation;
+        private Vector3 lastPosition;
+        private Quaternion lastRotation;
 
         private void Awake()
         {
