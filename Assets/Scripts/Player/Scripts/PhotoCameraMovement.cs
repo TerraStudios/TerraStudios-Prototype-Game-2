@@ -1,18 +1,31 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Handles the photo camera movement in-game.
+/// Handles the photo camera movement in-game (freecam).
 /// </summary>
 public class PhotoCameraMovement : MonoBehaviour
 {
     public float sensitivity;
+
     public float moveSpeed = 10f;
     public float fasterMoveSpeed = 15f;
+
     private float initalMoveSpeed;
+
+    float horizontal = 0;
+    float vertical = 0;
 
     private void Awake()
     {
         initalMoveSpeed = moveSpeed;
+    }
+
+    private void OnEnable()
+    {
+
+        // Set initial angles
+        horizontal = transform.rotation.eulerAngles.y;
+        vertical = transform.rotation.eulerAngles.x;
     }
 
     private void Update()
@@ -45,6 +58,7 @@ public class PhotoCameraMovement : MonoBehaviour
             transform.position -= transform.up * moveSpeed * Time.unscaledDeltaTime;
         }
 
+
         float X = Input.GetAxis("Horizontal");
         float Z = Input.GetAxis("Vertical");
 
@@ -52,8 +66,7 @@ public class PhotoCameraMovement : MonoBehaviour
         transform.position += transform.right * X * moveSpeed * Time.unscaledDeltaTime;
     }
 
-    float horizontal = 0;
-    float vertical = 0;
+
 
     public void ApplyRotation()
     {
