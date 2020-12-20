@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f51cf96de4cb9144adb6e84c631966e, type: 3}
-  m_Name: Default_uProfile
+  m_Name: uProfile_Default
   m_EditorClassIdentifier: 
   manualTimeDateCC: 0
   timeDateCC: 
