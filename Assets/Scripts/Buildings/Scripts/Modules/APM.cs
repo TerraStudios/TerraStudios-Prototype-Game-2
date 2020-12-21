@@ -86,7 +86,10 @@ namespace BuildingModules
                 currentRecipe = value;
                 InitIOData();
 
-                Debug.Log("Set recipe: " + value?.name, this);
+                if (value)
+                    Debug.Log("Set recipe: " + value.name, this);
+                else
+                    Debug.Log("Set recipe null", this);
 
                 if (!value)
                     CurrentStatus = APMStatus.Blocked;

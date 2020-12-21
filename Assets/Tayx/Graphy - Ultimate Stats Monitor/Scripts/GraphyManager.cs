@@ -568,14 +568,14 @@ namespace Tayx.Graphy
                 DontDestroyOnLoad(transform.root.gameObject);
             }
             
-            m_fpsMonitor    = GetComponentInChildren(typeof(G_FpsMonitor),    true) as G_FpsMonitor;
-            m_ramMonitor    = GetComponentInChildren(typeof(G_RamMonitor),    true) as G_RamMonitor;
-            m_audioMonitor  = GetComponentInChildren(typeof(G_AudioMonitor),  true) as G_AudioMonitor;
+            m_fpsMonitor    = GetComponentInChildren<G_FpsMonitor>(true);
+            m_ramMonitor    = GetComponentInChildren<G_RamMonitor>(true);
+            m_audioMonitor  = GetComponentInChildren<G_AudioMonitor>(true);
             
-            m_fpsManager    = GetComponentInChildren(typeof(G_FpsManager),    true) as G_FpsManager;
-            m_ramManager    = GetComponentInChildren(typeof(G_RamManager),    true) as G_RamManager;
-            m_audioManager  = GetComponentInChildren(typeof(G_AudioManager),  true) as G_AudioManager;
-            m_advancedData  = GetComponentInChildren(typeof(G_AdvancedData),  true) as G_AdvancedData;
+            m_fpsManager    = GetComponentInChildren<G_FpsManager>(true);
+            m_ramManager    = GetComponentInChildren<G_RamManager>(true);
+            m_audioManager  = GetComponentInChildren<G_AudioManager>(true);
+            m_advancedData  = GetComponentInChildren<G_AdvancedData>(true);
 
             m_fpsManager    .SetPosition(m_graphModulePosition);
             m_ramManager    .SetPosition(m_graphModulePosition);

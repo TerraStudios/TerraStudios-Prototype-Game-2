@@ -69,6 +69,7 @@ namespace BuildingManagement
             get => rotationChange;
             set
             {
+                var test = tempMat;
                 rotationChange = value;
                 if (value == Quaternion.Euler(0, 90, 0) || value == Quaternion.Euler(0, -90, 0) || value == Quaternion.Euler(0, 270, 0) || value == Quaternion.Euler(0, -270, 0))
                     isFlipped = true;

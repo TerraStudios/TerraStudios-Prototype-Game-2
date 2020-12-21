@@ -241,14 +241,17 @@ namespace BuildingModules
                 }
             }
 
-            if (mc.buildingIOManager?.isConveyor == true)
+            if (mc.buildingIOManager)
             {
-                if (newValue == WorkStateEnum.On)
-                    mc.buildingIOManager.ChangeConveyorState(true);
-                else if (newValue == WorkStateEnum.Off)
-                    mc.buildingIOManager.ChangeConveyorState(false);
+                if (mc.buildingIOManager.isConveyor)
+                {
+                    if (newValue == WorkStateEnum.On)
+                        mc.buildingIOManager.ChangeConveyorState(true);
+                    else if (newValue == WorkStateEnum.Off)
+                        mc.buildingIOManager.ChangeConveyorState(false);
 
-                return;
+                    return;
+                }
             }
 
             if (!quiet)
