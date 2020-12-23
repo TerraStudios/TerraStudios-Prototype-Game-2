@@ -80,6 +80,7 @@ namespace TerrainGeneration
 
         private void Awake()
         {
+            Debug.Log("Starting terrain generation...");
             instance = this;
         }
 
