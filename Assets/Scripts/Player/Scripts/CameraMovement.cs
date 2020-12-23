@@ -21,7 +21,8 @@ namespace Player
         private float maxFOV;
         private float minFOV;
 
-        [Header("World Boundries")]
+        [Header("World Boundaries")]
+        public bool enableWorldBoundaries = true;
         public bool showGizmo = true;
         public float maxX;
         public float minX;
@@ -119,7 +120,10 @@ namespace Player
 
         private Vector3 GetMovement(Vector3 newPos)
         {
-            return new Vector3(Mathf.Clamp(newPos.x, minX, maxX), transform.position.y, Mathf.Clamp(newPos.z, minZ, maxZ));
+            if (enableWorldBoundaries)
+                return new Vector3(Mathf.Clamp(newPos.x, minX, maxX), transform.position.y, Mathf.Clamp(newPos.z, minZ, maxZ));
+            else
+                return new Vector3(newPos.x, transform.position.y, newPos.z);
         }
 
         private void ApplyCameraFOV()
