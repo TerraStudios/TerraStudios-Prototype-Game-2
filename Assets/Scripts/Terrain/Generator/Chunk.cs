@@ -394,7 +394,7 @@ namespace TerrainGeneration
             mesh.uv = uvs.ToArray();
 
             // Recalculate normals of the mesh
-            //mesh.RecalculateNormals();
+            mesh.RecalculateNormals();
 
             MeshFilter filter = GetComponent<MeshFilter>();
             MeshRenderer renderer = GetComponent<MeshRenderer>();
