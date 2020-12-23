@@ -33,6 +33,18 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_1:
+        m_Texture: {fileID: 2800000, guid: 4849463279ad7b948a146210b99ea093, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_2:
+        m_Texture: {fileID: 2800000, guid: 1cff50f696e47004793933731f01ff8e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_54dfc64a485a4032b6730eeec3ed208c:
+        m_Texture: {fileID: 2800000, guid: 9cdcc94f1929c744c9f8c6847f9cdf5b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_e0202402f3934799b8e7873398191b6d:
         m_Texture: {fileID: 2800000, guid: bbad5ac4fd3341240b744f5a55201549, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -78,15 +90,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_195d1c39ad2d4ae6b2aedf28fb5d2c33_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 4849463279ad7b948a146210b99ea093, type: 3}
+        m_Texture: {fileID: 2800000, guid: d43ee1b47e149b644a00fe7561b3d5fe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_2a129ec374b2454fa94afacd9e16c81d_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 1cff50f696e47004793933731f01ff8e, type: 3}
+        m_Texture: {fileID: 2800000, guid: d43ee1b47e149b644a00fe7561b3d5fe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_cec82ab6686744548e9d1526ea81b35f_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 9cdcc94f1929c744c9f8c6847f9cdf5b, type: 3}
+        m_Texture: {fileID: 2800000, guid: d43ee1b47e149b644a00fe7561b3d5fe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -138,8 +150,8 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TerrainHeight: 0.0625
-    - _TerrainWidth: 0.0625
+    - _TerrainHeight: 0.03125
+    - _TerrainWidth: 0.03125
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -147,10 +159,14 @@ Material:
         a: 0}
     - Color_3bb08bd97fc74715957c7398b9267dda: {r: 0.7951182, g: 1, b: 0, a: 0}
     - Color_54711a5637b748dd8270df416260d298: {r: 0, g: 0.1008155, b: 1, a: 0}
+    - Color_e91371f4b61148dfa4d146dfc974fc7e: {r: 1, g: 1, b: 1, a: 0}
+    - Color_e91371f4b61148dfa4d146dfc974fc7e_1: {r: 0.6226415, g: 0.6226415, b: 0.6226415,
+        a: 0}
+    - Color_e91371f4b61148dfa4d146dfc974fc7e_2: {r: 1, g: 1, b: 1, a: 0}
     - Vector2_cc08a91480fc4c8da8325653914c1b03: {r: 0.03125, g: 0.03125, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _TextureTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _TextureTiling: {r: 0.03125, g: 0.03125, b: 0, a: 0}
   m_BuildTextureStacks: []
