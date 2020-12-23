@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a0864b49ed3c81458d4e564b8f1d457, type: 3}
-  m_Name: Prototype Scene 1 Shortcut (ALL)
+  m_Name: Prototype Scene 1 Shortcut (HeightMap)
   m_EditorClassIdentifier: 
   activeScene: {fileID: 102900000, guid: c6a8df60f0ee077478a1f143faa46df0, type: 3}
   sceneAssets:
   - asset: {fileID: 102900000, guid: c6a8df60f0ee077478a1f143faa46df0, type: 3}
     loadScene: 1
-  - asset: {fileID: 102900000, guid: 7e257e478f753444bafb2063b63bd15b, type: 3}
+  - asset: {fileID: 102900000, guid: 1099772b59437a24ba1b6d5227e82c18, type: 3}
     loadScene: 1
