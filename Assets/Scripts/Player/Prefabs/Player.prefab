@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5760796297467058168}
   - component: {fileID: 1413420034687812705}
   - component: {fileID: 2367884800272579803}
+  - component: {fileID: 4258413241926741786}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -67,14 +68,14 @@ MonoBehaviour:
   movementSpeed: 20
   movementTime: 10
   rotationSpeed: 100
-  dragSpeed: 25
+  dragSpeed: 5
   zoomSpeed: 150
+  enableWorldBoundaries: 1
   showGizmo: 0
   maxX: 40
   minX: 0
   maxZ: 20
   minZ: -10
-  cameraRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &2367884800272579803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,6 +88,133 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b20f3ad981e09d46a066e52210b0e67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 100
+  sensitivity: 5
   moveSpeed: 15
   fasterMoveSpeed: 30
+--- !u!114 &4258413241926741786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643007424386464553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 9bc5c5e383c6c7a4486ede56928e60d8,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1413420034687812705}
+        m_TargetAssemblyTypeName: Player.CameraMovement, MainAssembly
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 382675d8-1eb0-4590-a13b-3eacc4fe9ed2
+    m_ActionName: Camera/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1413420034687812705}
+        m_TargetAssemblyTypeName: Player.CameraMovement, MainAssembly
+        m_MethodName: Rotate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b7ead13b-af31-4543-ac92-90d18d67bd59
+    m_ActionName: Camera/Rotate[/Keyboard/q,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1413420034687812705}
+        m_TargetAssemblyTypeName: Player.CameraMovement, MainAssembly
+        m_MethodName: Zoom
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 02df1c6e-29d3-4237-b437-bdaf5219a660
+    m_ActionName: Camera/Zoom[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1413420034687812705}
+        m_TargetAssemblyTypeName: Player.CameraMovement, MainAssembly
+        m_MethodName: Drag
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 35523880-500f-4965-b3a7-f312a61d4083
+    m_ActionName: Camera/Drag[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1413420034687812705}
+        m_TargetAssemblyTypeName: Player.CameraMovement, MainAssembly
+        m_MethodName: DragState
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: db7bac09-980a-4d93-a1a1-f521ce054f29
+    m_ActionName: Camera/BeginDrag[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1413420034687812705}
+        m_TargetAssemblyTypeName: Player.CameraMovement, MainAssembly
+        m_MethodName: PanRotateState
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6c9ff716-f9ad-40a8-a0a1-865d903eafbc
+    m_ActionName: Camera/BeginPanRotate[/Mouse/middleButton]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard and Mouse
+  m_DefaultActionMap: Camera
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}

@@ -22,7 +22,6 @@ public class PhotoCameraMovement : MonoBehaviour
 
     private void OnEnable()
     {
-
         // Set initial angles
         horizontal = transform.rotation.eulerAngles.y;
         vertical = transform.rotation.eulerAngles.x;
