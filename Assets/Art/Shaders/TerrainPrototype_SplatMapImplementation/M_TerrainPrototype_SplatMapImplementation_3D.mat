@@ -106,6 +106,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - BOOLEAN_587994C8C4F54845826156D1646EC467: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -130,13 +131,13 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TerrainSize: 50
+    - _TerrainSize: 0.03125
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - Color_e91371f4b61148dfa4d146dfc974fc7e: {r: 1, g: 1, b: 1, a: 0}
-    - Color_e91371f4b61148dfa4d146dfc974fc7e_1: {r: 0, g: 0, b: 0, a: 0}
-    - Color_e91371f4b61148dfa4d146dfc974fc7e_2: {r: 0, g: 0, b: 0, a: 0}
+    - Color_e91371f4b61148dfa4d146dfc974fc7e_1: {r: 1, g: 1, b: 1, a: 0}
+    - Color_e91371f4b61148dfa4d146dfc974fc7e_2: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
