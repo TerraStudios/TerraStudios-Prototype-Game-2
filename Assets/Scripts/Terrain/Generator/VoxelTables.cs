@@ -15,12 +15,12 @@ namespace TerrainGeneration
 		/// <summary>
 		/// Amount of blocks in length of the sprite
 		/// </summary>
-		public static readonly int TextureAtlasScaleX = (int)(TerrainGenerator.material.mainTexture.width / BlockSize.x);
+		public static readonly int TextureAtlasScaleX = 1;//(int)(TerrainGenerator.material.mainTexture.width / BlockSize.x);
 
 		/// <summary>
 		/// Amount of blocks in width of the sprite
 		/// </summary>
-		public static readonly int TextureAtlasScaleY = (int)(TerrainGenerator.material.mainTexture.height / BlockSize.y);
+		public static readonly int TextureAtlasScaleY = 1;//(int)(TerrainGenerator.material.mainTexture.height / BlockSize.y);
 
 		/// <summary>
 		/// Normalizes the x texture size, used for calculating UVs

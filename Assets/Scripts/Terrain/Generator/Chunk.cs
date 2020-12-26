@@ -357,6 +357,15 @@ namespace TerrainGeneration
                 {
                     byte id = GetVoxelData(cubePos.x, cubePos.y, cubePos.z);
 
+                    
+
+
+                    // 0, 0, 0 ; face 0 
+                    // vert 1 - (0, 0, 0)
+                    // vert 2 - (0, 1, 0)
+                    // vert 3 - (1, 0, 0)
+                    // vert 4 - (1, 1, 0)
+
                     // Add 4 vertices of cube side
                     vertices.Add(cubePos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 0]]);
                     vertices.Add(cubePos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 1]]);
@@ -366,6 +375,37 @@ namespace TerrainGeneration
                     // Adds designated texture side based on ID (UVs)
                     AddTexture(generator.blockTypes[id].GetTextureSide(p));
 
+
+
+                    //Find indices from the ID 
+
+                    
+
+                    float x = Mathf.Clamp(cubePos.z / (float) chunkSizeZ, 0, 1f); //because uvs start top left, y needs to be inverted
+                    float y = Mathf.Clamp(cubePos.x / (float)chunkSizeX, 0f, 1f);
+
+
+                    //Find corresponding UV coordinates
+                    //if y = 3 and atlas size is 9, 1/9 * 3 = .33 = uv index
+                    //y *= VoxelTables.NormalizedTextureSizeY;
+                    //x *= VoxelTables.NormalizedTextureSizeX;
+
+                    //Debug.Log($"Chunk size Z: {chunkSizeZ}");
+                    //Debug.Log($"Chunk size X: {chunkSizeX}");
+                     
+                    float xAmount = 1f / chunkSizeZ;
+                    float yAmount = 1f / chunkSizeX;
+
+
+                    //uvs.Add(new Vector2(x, y));
+                    //uvs.Add(new Vector2(x + xAmount, y));
+                    //uvs.Add(new Vector2(x, y + yAmount));
+                    //uvs.Add(new Vector2(x + xAmount, y + yAmount));
+                    uvs.Add(new Vector2(y, x)); // 0, 0 - bottom left
+                    uvs.Add(new Vector2(y, x + xAmount)); //0, 1 - top left
+                    uvs.Add(new Vector2(y + yAmount, x)); // 1, 0 - bottom right
+                    uvs.Add(new Vector2(y + yAmount, x + xAmount)); // 1, 1 - top right
+                    
                     // Add triangles
                     triangles.Add(vIndex);
                     triangles.Add(vIndex + 1);
@@ -411,19 +451,7 @@ namespace TerrainGeneration
         /// <param name="id">The texture ID, designated by the tile sprite image (first texture is id 0, 1, 2..)</param>
         private void AddTexture(int id)
         {
-            //Find indices from the ID 
-            float y = (VoxelTables.TextureAtlasScaleY - 1 - ((id / VoxelTables.TextureAtlasScaleX))); //because uvs start top left, y needs to be inverted
-            float x = (id % VoxelTables.TextureAtlasScaleX);
 
-            //Find corresponding UV coordinates
-            //if y = 3 and atlas size is 9, 1/9 * 3 = .33 = uv index
-            y *= VoxelTables.NormalizedTextureSizeY;
-            x *= VoxelTables.NormalizedTextureSizeX;
-
-            uvs.Add(new Vector2(x + uvOffset, y + uvOffset));
-            uvs.Add(new Vector2(x + uvOffset, y + VoxelTables.NormalizedTextureSizeY - uvOffset));
-            uvs.Add(new Vector2(x + VoxelTables.NormalizedTextureSizeX - uvOffset, y + uvOffset));
-            uvs.Add(new Vector2(x + VoxelTables.NormalizedTextureSizeX - uvOffset, y + VoxelTables.NormalizedTextureSizeY - uvOffset));
         }
 
         /// <summary>
