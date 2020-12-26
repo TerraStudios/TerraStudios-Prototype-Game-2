@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraMode: 0
+  inputManager: {fileID: 4258413241926741786}
   normalCamera: {fileID: 0}
   topDownCamera: {fileID: 0}
   freeCamera: {fileID: 0}

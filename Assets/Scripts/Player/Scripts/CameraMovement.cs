@@ -15,6 +15,7 @@ namespace Player
         public float movementTime;
         public float rotationSpeed = 100;
         public float dragSpeed;
+        public float panSpeed = 0.5f;
         public float zoomSpeed;
 
         private Vector3 moveDirection;
@@ -24,7 +25,7 @@ namespace Player
         private bool isPanning;
         private float mouseScrollY;
 
-        private float mouseYaw = 0f;
+        private float mouseYawXForPanning;
         private float zoomLevel;
         private float maxFOV;
         private float minFOV;
@@ -39,6 +40,7 @@ namespace Player
 
         private void Start()
         {
+            mouseYawXForPanning = transform.rotation.eulerAngles.x;
             zoomLevel = cinemachineFollowZoom.m_MaxFOV;
             maxFOV = cinemachineFollowZoom.m_MaxFOV;
             minFOV = cinemachineFollowZoom.m_MinFOV;
@@ -60,13 +62,17 @@ namespace Player
 
         public void Drag(InputAction.CallbackContext context) => mouseDelta = context.ReadValue<Vector2>();
 
-        public void PanRotateState(InputAction.CallbackContext context) => isPanning = !isPanning;
+        public void PanRotateState(InputAction.CallbackContext context)
+        {
+            isPanning = !isPanning;
+            mouseYawXForPanning = transform.rotation.eulerAngles.y;
+        }
 
         public void Zoom(InputAction.CallbackContext context) => mouseScrollY = context.ReadValue<float>();
 
         private void ApplyMovement()
         {
-            transform.position = GetMovement(transform.position + (moveDirection * movementSpeed * Time.unscaledDeltaTime));
+            transform.position = GetMovement(transform.position + (transform.TransformDirection(moveDirection) * movementSpeed * Time.unscaledDeltaTime));
         }
 
         private void ApplyRotation()
@@ -87,8 +93,8 @@ namespace Player
 
             if (isPanning && CamerasManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
-                mouseYaw += mouseDelta.x * 8f;
-                transform.rotation = Quaternion.Euler(0, mouseYaw / 200f, 0);
+                mouseYawXForPanning += mouseDelta.x * panSpeed;
+                transform.rotation = Quaternion.Euler(0, mouseYawXForPanning, 0);
             }
         }
 
