@@ -18,7 +18,7 @@ namespace TerrainGeneration
         /// <summary>
         /// The X value of the coord
         /// 
-        /// Note that this isn't WORLD space, rather a local chunk system, where the first chunk is (0, 0) and the next is 0, 1)
+        /// Note that this isn't WORLD space, rather a local chunk system, where the first chunk is (0, 0) and the next is (0, 1)
         /// 
         /// </summary>
         public int x;
@@ -26,7 +26,7 @@ namespace TerrainGeneration
         /// <summary>
         /// The Z value of the coord
         /// 
-        /// Note that this isn't WORLD space, rather a local chunk system, where the first chunk is (0, 0) and the next is 0, 1)
+        /// Note that this isn't WORLD space, rather a local chunk system, where the first chunk is (0, 0) and the next is (0, 1)
         /// 
         public int z;
 
@@ -125,10 +125,6 @@ namespace TerrainGeneration
         /// A list of the UV Coordinates in the mesh
         /// </summary>
         private readonly List<Vector2> uvs = new List<Vector2>();
-
-        //Apparently adding an offset helps prevent seams 
-        private static readonly float uvOffset = 0.004f;
-
 
         // Chunk size reference is broken into its components to minimize field references (Vector3.x, Vector3.y, etc)
 
@@ -375,14 +371,9 @@ namespace TerrainGeneration
                     // Adds designated texture side based on ID (UVs)
                     AddTexture(generator.blockTypes[id].GetTextureSide(p));
 
-
-
-                    //Find indices from the ID 
-
-                    
-
-                    float x = Mathf.Clamp(cubePos.z / (float) chunkSizeZ, 0, 1f); //because uvs start top left, y needs to be inverted
-                    float y = Mathf.Clamp(cubePos.x / (float)chunkSizeX, 0f, 1f);
+                    // Find x and y in relation to the texture 
+                    float y = Mathf.Clamp(cubePos.z / (float) chunkSizeZ, 0, 1f); //because uvs start top left, y needs to be inverted
+                    float x = Mathf.Clamp(cubePos.x / (float) chunkSizeX, 0f, 1f);
 
 
                     //Find corresponding UV coordinates
@@ -393,18 +384,18 @@ namespace TerrainGeneration
                     //Debug.Log($"Chunk size Z: {chunkSizeZ}");
                     //Debug.Log($"Chunk size X: {chunkSizeX}");
                      
-                    float xAmount = 1f / chunkSizeZ;
-                    float yAmount = 1f / chunkSizeX;
+                    float yAmount = 1f / chunkSizeZ;
+                    float xAmount = 1f / chunkSizeX;
 
 
                     //uvs.Add(new Vector2(x, y));
                     //uvs.Add(new Vector2(x + xAmount, y));
                     //uvs.Add(new Vector2(x, y + yAmount));
                     //uvs.Add(new Vector2(x + xAmount, y + yAmount));
-                    uvs.Add(new Vector2(y, x)); // 0, 0 - bottom left
-                    uvs.Add(new Vector2(y, x + xAmount)); //0, 1 - top left
-                    uvs.Add(new Vector2(y + yAmount, x)); // 1, 0 - bottom right
-                    uvs.Add(new Vector2(y + yAmount, x + xAmount)); // 1, 1 - top right
+                    uvs.Add(new Vector2(x, y)); // 0, 0 - bottom left
+                    uvs.Add(new Vector2(x, y + yAmount)); //0, 1 - top left
+                    uvs.Add(new Vector2(x + xAmount, y)); // 1, 0 - bottom right
+                    uvs.Add(new Vector2(x + xAmount, y + yAmount)); // 1, 1 - top right
                     
                     // Add triangles
                     triangles.Add(vIndex);
