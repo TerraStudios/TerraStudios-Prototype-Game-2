@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2624757380908215629
+--- !u!114 &-7740891098844507663
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_TerrainPrototype_SplatMapImplementation
-  m_Shader: {fileID: -6465566751694194690, guid: 5c840d407bd508e40a7b4a7a3fd07741,
+  m_Name: M_TerrainPrototype_SplatMapImplementation_3D
+  m_Shader: {fileID: -6465566751694194690, guid: ee3354eb8b1f8e446946c5658f75da71,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -43,10 +43,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     - Texture2D_54dfc64a485a4032b6730eeec3ed208c:
         m_Texture: {fileID: 2800000, guid: 9cdcc94f1929c744c9f8c6847f9cdf5b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_e0202402f3934799b8e7873398191b6d:
-        m_Texture: {fileID: 2800000, guid: bbad5ac4fd3341240b744f5a55201549, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -89,24 +85,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_195d1c39ad2d4ae6b2aedf28fb5d2c33_Texture_1:
-        m_Texture: {fileID: 2800000, guid: d43ee1b47e149b644a00fe7561b3d5fe, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_2a129ec374b2454fa94afacd9e16c81d_Texture_1:
-        m_Texture: {fileID: 2800000, guid: d43ee1b47e149b644a00fe7561b3d5fe, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_cec82ab6686744548e9d1526ea81b35f_Texture_1:
-        m_Texture: {fileID: 2800000, guid: d43ee1b47e149b644a00fe7561b3d5fe, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SplatMap:
-        m_Texture: {fileID: 2800000, guid: bbad5ac4fd3341240b744f5a55201549, type: 3}
+        m_Texture: {fileID: 11700000, guid: 51bb1cbb1fabe9c41b3ae28b1f8d61fd, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -122,10 +106,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_04a97e3dc27e47928396c33c46a0933c: 1
-    - Vector1_139d449d7feb4b90830d7fd649d0f474: 1
-    - Vector1_2c488493c13d45cf8936df7ea16a71b0: 0.03125
-    - Vector1_8a7d18a9c5864dd98f897a12a52d8c2d: 0.03125
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -150,22 +130,16 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TerrainHeight: 0.03125
-    - _TerrainWidth: 0.03125
+    - _TerrainSize: 50
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_0a5c8681f08f485381e66bb0a64ff8fe: {r: 0.93333334, g: 0, b: 0.80960107,
-        a: 0}
-    - Color_3bb08bd97fc74715957c7398b9267dda: {r: 0.7951182, g: 1, b: 0, a: 0}
-    - Color_54711a5637b748dd8270df416260d298: {r: 0, g: 0.1008155, b: 1, a: 0}
-    - Color_e91371f4b61148dfa4d146dfc974fc7e: {r: 1, g: 1, b: 1, a: 1}
-    - Color_e91371f4b61148dfa4d146dfc974fc7e_1: {r: 1, g: 1, b: 1, a: 1}
-    - Color_e91371f4b61148dfa4d146dfc974fc7e_2: {r: 1, g: 1, b: 1, a: 1}
-    - Vector2_cc08a91480fc4c8da8325653914c1b03: {r: 0.03125, g: 0.03125, b: 0, a: 0}
+    - Color_e91371f4b61148dfa4d146dfc974fc7e: {r: 1, g: 1, b: 1, a: 0}
+    - Color_e91371f4b61148dfa4d146dfc974fc7e_1: {r: 0, g: 0, b: 0, a: 0}
+    - Color_e91371f4b61148dfa4d146dfc974fc7e_2: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _TextureTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _TextureTiling: {r: 0.03125, g: 0.03125, b: 0, a: 0}
   m_BuildTextureStacks: []
