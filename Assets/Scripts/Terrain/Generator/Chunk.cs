@@ -6,6 +6,8 @@ using UnityEngine;
 using Unity.Collections;
 using Unity.Burst;
 using Unity.Mathematics;
+using UnityEditor;
+using System.Threading;
 
 namespace TerrainGeneration
 {
@@ -149,6 +151,8 @@ namespace TerrainGeneration
         /// </summary>
         public bool generated = false;
 
+        private bool threadFinished = false;
+
         /// <summary>
         /// A reference to the <see cref="TerrainGenerator"/> <see cref="GameObject"/>, attached when created
         /// </summary>
@@ -156,6 +160,14 @@ namespace TerrainGeneration
 
         private bool dirty = false;
 
+
+        #region Job Variables
+
+        private JobHandle jHandle;
+        private NativeArray<byte> j_voxels;
+        private ChunkNoiseJob j_chunkJob;
+
+        #endregion
 
         public void Start()
         {
@@ -166,12 +178,14 @@ namespace TerrainGeneration
             chunkSizeX = generator.chunkXSize;
             chunkSizeY = generator.chunkYSize;
             chunkSizeZ = generator.chunkZSize;
-
+            
+            // Begin initial regeneration
             Regenerate();
         }
 
         private void Update()
         {
+            // Chunk is marked for regeneration, start the process
             if (dirty)
             {
                 Regenerate();
@@ -180,8 +194,39 @@ namespace TerrainGeneration
 
         public void Regenerate()
         {
+            dirty = true;
             // Start chunk generation
-            StartCoroutine(GetBlockData());
+            GetBlockData();
+        }
+
+        public void LateUpdate()
+        {
+            if (dirty)
+            {
+                jHandle.Complete();
+
+
+                // Mark the chunk as no longer dirty, as it doesn't need to be regenerated again
+                dirty = false;
+
+                // Copy the NativeArray contents over to the voxelData array
+                j_chunkJob.voxels.CopyTo(voxelData);
+
+                // Dispose of the NativeArray to prevent memory leaks
+                j_voxels.Dispose();
+
+
+                // Begin threaded chunk mesh generation off of data created
+                ThreadPool.QueueUserWorkItem(new WaitCallback(CreateChunkMeshData));
+            }
+            else if (threadFinished && !generated)
+            {
+                // Construct the mesh using data obtained previously
+                ConstructMesh();
+                
+                // The chunk is now generated, and can stop calling these methods
+                generated = true;
+            }
         }
 
         private void OnDestroy()
@@ -261,13 +306,13 @@ namespace TerrainGeneration
         /// <summary>
         /// Fill chunk with voxel type data
         /// </summary>
-        private IEnumerator GetBlockData()
+        private void GetBlockData()
         {
             voxelData = new byte[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
 
-            NativeArray<byte> j_voxels = new NativeArray<byte>(voxelData, Allocator.TempJob);
+            j_voxels = new NativeArray<byte>(voxelData, Allocator.TempJob);
 
-            ChunkNoiseJob j_chunkJob = new ChunkNoiseJob
+            j_chunkJob = new ChunkNoiseJob
             {
                 voxels = j_voxels,
                 worldPos = JWorldPos,
@@ -277,26 +322,10 @@ namespace TerrainGeneration
             };
 
             // Schedule job with a batchsize of 32
-            JobHandle jHandle = j_chunkJob.Schedule(voxelData.Length, 32);
+            jHandle = j_chunkJob.Schedule(voxelData.Length, 32);
 
             // Complete the job
             jHandle.Complete();
-
-            // Copy the NativeArray contents over to the voxelData array
-            j_chunkJob.voxels.CopyTo(voxelData);
-
-            // Dispose of the NativeArray to prevent memory leaks
-            j_voxels.Dispose();
-
-            generated = true;
-
-            // Begin chunk mesh generation off of data created
-            CreateChunkMeshData();
-
-            // Create mesh
-            ConstructMesh();
-
-            yield return null;
         }
 
         /// <summary>
@@ -321,7 +350,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Adds all block data to a chunk
         /// </summary>
-        private void CreateChunkMeshData()
+        private void CreateChunkMeshData(object callback)
         {
             for (int x = 0; x < chunkSizeX; x++)
             {
@@ -333,6 +362,9 @@ namespace TerrainGeneration
                     }
                 }
             }
+
+            // Thread is now finished, signal main thread
+            threadFinished = true;
         }
 
         /// <summary>
@@ -341,6 +373,9 @@ namespace TerrainGeneration
         /// <param name="cubePos"></param>
         private void AddBlockData(Vector3Int cubePos)
         {
+
+
+
             // If the block isn't solid don't try rendering it
             if (!generator.blockTypes[GetVoxelData(cubePos.x, cubePos.y, cubePos.z)].isSolid) return;
             //if (!CheckBlock(cubePos)) return;
@@ -351,10 +386,6 @@ namespace TerrainGeneration
                 // Checks each side whether it contains a block, used for omitting sides that don't need to be rendered
                 if (!CheckBlock(cubePos + VoxelTables.faces[p]))
                 {
-                    byte id = GetVoxelData(cubePos.x, cubePos.y, cubePos.z);
-
-                    
-
 
                     // 0, 0, 0 ; face 0 
                     // vert 1 - (0, 0, 0)
@@ -369,11 +400,11 @@ namespace TerrainGeneration
                     vertices.Add(cubePos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 3]]);
 
                     // Adds designated texture side based on ID (UVs)
-                    AddTexture(generator.blockTypes[id].GetTextureSide(p));
+                    AddTexture(generator.blockTypes[GetVoxelData(cubePos.x, cubePos.y, cubePos.z)].GetTextureSide(p));
 
                     // Find x and y in relation to the texture 
-                    float y = Mathf.Clamp(cubePos.z / (float) chunkSizeZ, 0, 1f); //because uvs start top left, y needs to be inverted
-                    float x = Mathf.Clamp(cubePos.x / (float) chunkSizeX, 0f, 1f);
+                    float y = cubePos.z / (float)chunkSizeZ; //because uvs start top left, y needs to be inverted
+                    float x = cubePos.x / (float)chunkSizeX;
 
 
                     //Find corresponding UV coordinates
@@ -383,7 +414,7 @@ namespace TerrainGeneration
 
                     //Debug.Log($"Chunk size Z: {chunkSizeZ}");
                     //Debug.Log($"Chunk size X: {chunkSizeX}");
-                     
+
                     float yAmount = 1f / chunkSizeZ;
                     float xAmount = 1f / chunkSizeX;
 
@@ -396,7 +427,7 @@ namespace TerrainGeneration
                     uvs.Add(new Vector2(x, y + yAmount)); //0, 1 - top left
                     uvs.Add(new Vector2(x + xAmount, y)); // 1, 0 - bottom right
                     uvs.Add(new Vector2(x + xAmount, y + yAmount)); // 1, 1 - top right
-                    
+
                     // Add triangles
                     triangles.Add(vIndex);
                     triangles.Add(vIndex + 1);
@@ -419,10 +450,12 @@ namespace TerrainGeneration
         private void ConstructMesh()
         {
             // Add Mesh properties
-            Mesh mesh = new Mesh();
-            mesh.vertices = vertices.ToArray();
-            mesh.triangles = triangles.ToArray();
-            mesh.uv = uvs.ToArray();
+            Mesh mesh = new Mesh
+            {
+                vertices = vertices.ToArray(),
+                triangles = triangles.ToArray(),
+                uv = uvs.ToArray()
+            };
 
             // Recalculate normals of the mesh
             mesh.RecalculateNormals();
@@ -484,4 +517,5 @@ namespace TerrainGeneration
 
 
     }
+
 }

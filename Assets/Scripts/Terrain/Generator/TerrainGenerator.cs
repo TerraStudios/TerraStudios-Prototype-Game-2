@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TerrainGeneration;
 using Unity.Mathematics;
 using UnityEngine;
@@ -48,7 +49,7 @@ namespace TerrainGeneration
         /// <summary>
         /// A list of chunks currently in the world
         /// </summary>
-        public List<ChunkCoord> currentChunks = new List<ChunkCoord>();
+        public Dictionary<ChunkCoord, Chunk> currentChunks = new Dictionary<ChunkCoord, Chunk>();
 
         /// <summary>
         /// The tilemap of the terrain
@@ -80,7 +81,6 @@ namespace TerrainGeneration
 
         private void Awake()
         {
-            Debug.Log("Starting terrain generation...");
             instance = this;
         }
 
@@ -119,7 +119,7 @@ namespace TerrainGeneration
 
                         if (!next.IsDistanceFrom(GetChunkCoord(player.position), chunkRange)) continue;
 
-                        if (!currentChunks.Contains(next)) // Prevents chunks from being generated so fast they duplicate
+                        if (!currentChunks.ContainsKey(next)) // Prevents chunks from being generated so fast they duplicate
                         {
                             //Chunk chunk = ObjectPoolManager.instance.ReuseObject(emptyChunk, new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize), Quaternion.identity).GetComponent<Chunk>();
                             GameObject go = Instantiate(emptyChunk);
@@ -135,7 +135,7 @@ namespace TerrainGeneration
 
                             //new Chunk(this, next);
 
-                            currentChunks.Add(next);
+                            currentChunks[next] = chunk;
                         }
                     }
 
@@ -168,7 +168,7 @@ namespace TerrainGeneration
                         //Debug.Log($"Create Loop: ({x}, {z})");
                         ChunkCoord coord = new ChunkCoord { x = x, z = z };
 
-                        if (currentChunks.Contains(coord)) continue; // Chunk has already been loaded}
+                        if (currentChunks.ContainsKey(coord)) continue; // Chunk has already been loaded}
 
 
                         if (coord.x < 0 || coord.x > worldSize.x - 1 || coord.z < 0 || coord.z > worldSize.y - 1) continue; // Chunk doesn't exist
@@ -181,20 +181,28 @@ namespace TerrainGeneration
                     }
                 }
 
-                // Unload all chunks that are a certain distance away from the player
-                currentChunks.RemoveAll(coord =>
+                foreach (var pair in currentChunks.Where(p =>
                 {
+                    ChunkCoord coord = p.Key;
+
                     if (!coord.IsDistanceFrom(playerPos, chunkRange))
                     {
                         Destroy(chunks[coord.x, coord.z].gameObject);
-                    //ObjectPoolManager.instance.DestroyObject(chunks[coord.x, coord.z].gameObject);
-                    chunks[coord.x, coord.z] = null;
+                        //ObjectPoolManager.instance.DestroyObject(chunks[coord.x, coord.z].gameObject);
+                        chunks[coord.x, coord.z] = null;
 
-                    //chunks[coord.x, coord.z].chunkGO.SetActive(false)
-                    return true;
+                        //chunks[coord.x, coord.z].chunkGO.SetActive(false)
+                        return true;
                     }
                     return false;
-                });
+                }).ToList())
+                {
+                    currentChunks.Remove(pair.Key);
+                }
+
+
+                // Unload all chunks that are a certain distance away from the player
+
             }
 
             lastChunkPos = playerPos;
