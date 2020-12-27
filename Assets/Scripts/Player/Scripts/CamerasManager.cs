@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -21,6 +22,7 @@ namespace Player
         public static CamerasManager Instance;
 
         public CameraMode cameraMode;
+        public PlayerInput inputManager;
 
         public GameObject normalCamera;
         public GameObject topDownCamera;
@@ -40,25 +42,22 @@ namespace Player
             lastRotation = transform.rotation;
         }
 
-        private void Update()
+        public void SwitchTopDownCamera() 
         {
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (!cameraMode.Equals(CameraMode.Topdown))
             {
-                if (!cameraMode.Equals(CameraMode.Topdown))
-                {
-                    SwitchToTopdownCamera();
-                }
-                else
-                    SwitchToNormalCamera();
+                SwitchToTopdownCamera();
             }
+            else
+                SwitchToNormalCamera();
+        }
 
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                if (!cameraMode.Equals(CameraMode.Freecam))
-                    SwitchToFreecam();
-                else
-                    SwitchToNormalCamera();
-            }
+        public void SwitchFreecam()
+        {
+            if (!cameraMode.Equals(CameraMode.Freecam))
+                SwitchToFreecam();
+            else
+                SwitchToNormalCamera();
         }
 
         public void SwitchToNormalCamera()

@@ -58,11 +58,11 @@ namespace Player
 
         public void Rotate(InputAction.CallbackContext context) => rotationDirection = context.ReadValue<float>();
 
-        public void DragState(InputAction.CallbackContext context) => isDragging = !isDragging;
+        public void DragState() => isDragging = !isDragging;
 
         public void Drag(InputAction.CallbackContext context) => mouseDelta = context.ReadValue<Vector2>();
 
-        public void PanRotateState(InputAction.CallbackContext context)
+        public void PanRotateState()
         {
             isPanning = !isPanning;
             mouseYawXForPanning = transform.rotation.eulerAngles.y;
@@ -93,7 +93,7 @@ namespace Player
 
             if (isPanning && CamerasManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
-                mouseYawXForPanning += mouseDelta.x * panSpeed;
+                mouseYawXForPanning += mouseDelta.x * panSpeed * Time.unscaledDeltaTime;
                 transform.rotation = Quaternion.Euler(0, mouseYawXForPanning, 0);
             }
         }

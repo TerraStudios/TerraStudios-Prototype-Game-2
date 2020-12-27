@@ -69,7 +69,8 @@ MonoBehaviour:
   movementSpeed: 20
   movementTime: 10
   rotationSpeed: 100
-  dragSpeed: 5
+  dragSpeed: 2
+  panSpeed: 5
   zoomSpeed: 150
   enableWorldBoundaries: 1
   showGizmo: 0
@@ -89,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b20f3ad981e09d46a066e52210b0e67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 5
+  sensitivity: 15
   moveSpeed: 15
   fasterMoveSpeed: 30
 --- !u!114 &4258413241926741786
@@ -200,9 +201,9 @@ MonoBehaviour:
     m_ActionName: Camera/BeginDrag[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1413420034687812705}
-        m_TargetAssemblyTypeName: Player.CameraMovement, MainAssembly
-        m_MethodName: PanRotateState
+      - m_Target: {fileID: 2367884800272579803}
+        m_TargetAssemblyTypeName: PhotoCameraMovement, MainAssembly
+        m_MethodName: Look
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -212,10 +213,106 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 6c9ff716-f9ad-40a8-a0a1-865d903eafbc
-    m_ActionName: Camera/BeginPanRotate[/Mouse/middleButton]
+    m_ActionId: e9dcaa5e-9d0b-441c-a752-cce57569a4c3
+    m_ActionName: Camera/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2367884800272579803}
+        m_TargetAssemblyTypeName: PhotoCameraMovement, MainAssembly
+        m_MethodName: MoveUpAndDown
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c0cd1484-0313-4f69-a7ab-a9e395757c7d
+    m_ActionName: Gameplay/Camera_Freecam_UpAndDown[/Keyboard/q,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2367884800272579803}
+        m_TargetAssemblyTypeName: PhotoCameraMovement, MainAssembly
+        m_MethodName: ShiftSpeedState
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1bc334e3-cba9-4c74-bf58-aa10cbd42709
+    m_ActionName: Gameplay/Camera_Freecam_Faster[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2367884800272579803}
+        m_TargetAssemblyTypeName: PhotoCameraMovement, MainAssembly
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fb1671e4-1b26-4048-8e7a-00be20f1cb13
+    m_ActionName: Gameplay/Camera_Freecam_Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/rightArrow,/Keyboard/d,/Keyboard/leftArrow,/Keyboard/a]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1413420034687812705}
+        m_TargetAssemblyTypeName: Player.CameraMovement, MainAssembly
+        m_MethodName: PanRotateState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8e43bdc9-795b-4431-8bd7-8347ca56d619
+    m_ActionName: Gameplay/Camera_Normal_PanRotateState[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5760796297467058168}
+        m_TargetAssemblyTypeName: Player.CamerasManager, MainAssembly
+        m_MethodName: SwitchTopDownCamera
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 617d593f-acaf-426a-a451-ddfff894e1b1
+    m_ActionName: Gameplay/Camera_Manager_SwitchTopdownCamera[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5760796297467058168}
+        m_TargetAssemblyTypeName: Player.CamerasManager, MainAssembly
+        m_MethodName: SwitchFreecam
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c26e6300-e355-4acb-bd65-096559b64082
+    m_ActionName: Gameplay/Camera_Manager_SwitchFreecam[/Keyboard/x]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard and Mouse
-  m_DefaultActionMap: Camera
+  m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
