@@ -77,7 +77,7 @@ namespace Player
 
         private void ApplyRotation()
         {
-            if (CamerasManager.Instance.cameraMode.Equals(CameraMode.Normal))
+            if (CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
                 transform.rotation *= Quaternion.Euler(0, rotationSpeed * rotationDirection / 200f, 0);
             }
@@ -91,7 +91,7 @@ namespace Player
                 transform.position = GetMovement(transform.position - (mouseDelta.x * speed * transform.right + mouseDelta.y * speed * transform.forward));
             }
 
-            if (isPanning && CamerasManager.Instance.cameraMode.Equals(CameraMode.Normal))
+            if (isPanning && CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
                 mouseYawXForPanning += mouseDelta.x * panSpeed * Time.unscaledDeltaTime;
                 transform.rotation = Quaternion.Euler(0, mouseYawXForPanning, 0);
@@ -100,7 +100,7 @@ namespace Player
 
         private void ApplyZoom()
         {
-            if (CamerasManager.Instance.cameraMode.Equals(CameraMode.Normal))
+            if (CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
                 if (mouseScrollY > 0 && zoomLevel >= minFOV)
                 {

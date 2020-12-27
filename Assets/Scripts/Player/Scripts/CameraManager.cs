@@ -17,9 +17,9 @@ namespace Player
     /// <summary>
     /// Manages all Cinemachine cameras and camera modes.
     /// </summary>
-    public class CamerasManager : MonoBehaviour
+    public class CameraManager : MonoBehaviour
     {
-        public static CamerasManager Instance;
+        public static CameraManager Instance;
 
         public CameraMode cameraMode;
         public PlayerInput inputManager;
