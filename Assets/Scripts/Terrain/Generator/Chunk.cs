@@ -160,15 +160,6 @@ namespace TerrainGeneration
 
         private bool dirty = false;
 
-
-        #region Job Variables
-
-        private JobHandle jHandle;
-        private NativeArray<byte> j_voxels;
-        private ChunkNoiseJob j_chunkJob;
-
-        #endregion
-
         public void Start()
         {
             // Register chunk in TerrainGenerator
@@ -178,7 +169,7 @@ namespace TerrainGeneration
             chunkSizeX = generator.chunkXSize;
             chunkSizeY = generator.chunkYSize;
             chunkSizeZ = generator.chunkZSize;
-            
+
             // Begin initial regeneration
             Regenerate();
         }
@@ -189,43 +180,36 @@ namespace TerrainGeneration
             if (dirty)
             {
                 Regenerate();
+                dirty = false;
             }
         }
 
         public void Regenerate()
         {
-            dirty = true;
+
+
             // Start chunk generation
+
+            threadFinished = false;
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(PrepareMesh));
+
+        }
+
+        private void PrepareMesh(object callback)
+        {
             GetBlockData();
+            CreateChunkMeshData(null);
         }
 
         public void LateUpdate()
         {
-            if (dirty)
+            if (!generated && threadFinished)
             {
-                jHandle.Complete();
-
-
-                // Mark the chunk as no longer dirty, as it doesn't need to be regenerated again
-                dirty = false;
-
-                // Copy the NativeArray contents over to the voxelData array
-                j_chunkJob.voxels.CopyTo(voxelData);
-
-                // Dispose of the NativeArray to prevent memory leaks
-                j_voxels.Dispose();
-
-
-                // Begin threaded chunk mesh generation off of data created
-                ThreadPool.QueueUserWorkItem(new WaitCallback(CreateChunkMeshData));
-            }
-            else if (threadFinished && !generated)
-            {
-                // Construct the mesh using data obtained previously
                 ConstructMesh();
-                
-                // The chunk is now generated, and can stop calling these methods
                 generated = true;
+
+
             }
         }
 
@@ -237,72 +221,6 @@ namespace TerrainGeneration
         }
 
 
-
-        /// <summary>
-        /// Generates all of the noise for the chunk in a parallel job
-        /// </summary>
-        [BurstCompile]
-        public struct ChunkNoiseJob : IJobParallelFor
-        {
-            /// <summary>
-            /// Used for writing voxel data back to the chunk
-            /// </summary>
-            [WriteOnly]
-            public NativeArray<byte> voxels;
-
-            /// <summary>
-            /// World position of the chunk
-            /// </summary>
-            [ReadOnly] public int3 worldPos;
-
-            /// <summary>
-            /// X Size of the chunk
-            /// </summary>
-            [ReadOnly] public int chunkSizeX;
-
-            /// <summary>
-            /// Y size of the chunk
-            /// </summary>
-            [ReadOnly] public int chunkSizeY;
-
-            /// <summary>
-            /// Z size of the chunk
-            /// </summary>
-            [ReadOnly] public int chunkSizeZ;
-
-            public ChunkNoiseJob(NativeArray<byte> voxels, int3 worldPos, int chunkSizeX, int chunkSizeY, int chunkSizeZ)
-            {
-                this.voxels = voxels;
-                this.worldPos = worldPos;
-                this.chunkSizeX = chunkSizeX;
-                this.chunkSizeY = chunkSizeY;
-                this.chunkSizeZ = chunkSizeZ;
-            }
-
-            public void Execute(int index)
-            {
-                // Calculate 3D index from 1D index
-                int3 pos = IndexToVector3(index);
-
-                // Set voxel data from TerrainGenerator generation
-                voxels[index] = TerrainGenerator.GenerateVoxelType(pos + worldPos);
-
-            }
-
-            /// <summary>
-            /// Calculates the local 3D position of a voxel from a 1D index (for array compression)
-            /// </summary>
-            /// <param name="idx">The 1D index of the voxel</param>
-            /// <returns>An <see cref="int3"/> local position of the voxel</returns>
-            private int3 IndexToVector3(int idx)
-            {
-                int z = idx % chunkSizeZ;
-                int y = (idx / chunkSizeZ) % chunkSizeY;
-                int x = idx / (chunkSizeY * chunkSizeZ);
-                return new int3(z, y, x);
-            }
-        }
-
         /// <summary>
         /// Fill chunk with voxel type data
         /// </summary>
@@ -310,22 +228,40 @@ namespace TerrainGeneration
         {
             voxelData = new byte[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
 
-            j_voxels = new NativeArray<byte>(voxelData, Allocator.TempJob);
-
-            j_chunkJob = new ChunkNoiseJob
+            for (int x = 0; x < chunkSizeX; x++)
             {
-                voxels = j_voxels,
-                worldPos = JWorldPos,
-                chunkSizeX = chunkSizeX,
-                chunkSizeY = chunkSizeY,
-                chunkSizeZ = chunkSizeZ
-            };
+                for (int y = 0; y < chunkSizeY; y++)
+                {
+                    for (int z = 0; z < chunkSizeZ; z++)
+                    {
+                        // Calculate 3D index from 1D index
+                        int3 pos = new int3(x, y, z);
 
-            // Schedule job with a batchsize of 32
-            jHandle = j_chunkJob.Schedule(voxelData.Length, 32);
+                        // Set voxel data from TerrainGenerator generation
+                        voxelData[GetVoxelDataIndex(x, y, z)] = TerrainGenerator.GenerateVoxelType(pos + JWorldPos);
+                    }
+                }
+            }
 
-            // Complete the job
-            jHandle.Complete();
+
+
+
+            //j_voxels = new NativeArray<byte>(voxelData, Allocator.TempJob);
+
+            //j_chunkJob = new ChunkNoiseJob
+            //{
+            //    voxels = j_voxels,
+            //    worldPos = JWorldPos,
+            //    chunkSizeX = chunkSizeX,
+            //    chunkSizeY = chunkSizeY,
+            //    chunkSizeZ = chunkSizeZ
+            //};
+
+            //// Schedule job with a batchsize of 32
+            //jHandle = j_chunkJob.Schedule(voxelData.Length, 32);
+
+            //// Complete the job
+            //jHandle.Complete();
         }
 
         /// <summary>

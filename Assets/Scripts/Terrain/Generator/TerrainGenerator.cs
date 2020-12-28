@@ -77,7 +77,7 @@ namespace TerrainGeneration
         /// Noise generation class
         /// See https://github.com/Auburn/FastNoise/blob/master/CSharp/README.md for more information
         /// </summary>
-        private FastNoiseLite noise;
+        private static FastNoiseLite noise;
 
         private void Awake()
         {
