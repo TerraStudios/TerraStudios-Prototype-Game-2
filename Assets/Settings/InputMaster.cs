@@ -108,7 +108,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Camera_Freecam_Faster"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""1bc334e3-cba9-4c74-bf58-aa10cbd42709"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
