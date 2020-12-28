@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_TerrainPrototype_SplatMapImplementation_3D
-  m_Shader: {fileID: -6465566751694194690, guid: ee3354eb8b1f8e446946c5658f75da71,
+  m_Shader: {fileID: -6465566751694194690, guid: 4fef7d6bf2eccc3428eb73ac949355fd,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -135,9 +135,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_e91371f4b61148dfa4d146dfc974fc7e: {r: 1, g: 1, b: 1, a: 0}
-    - Color_e91371f4b61148dfa4d146dfc974fc7e_1: {r: 1, g: 1, b: 1, a: 0}
-    - Color_e91371f4b61148dfa4d146dfc974fc7e_2: {r: 1, g: 1, b: 1, a: 0}
+    - Color_e91371f4b61148dfa4d146dfc974fc7e: {r: 1, g: 1, b: 1, a: 1}
+    - Color_e91371f4b61148dfa4d146dfc974fc7e_1: {r: 1, g: 1, b: 1, a: 1}
+    - Color_e91371f4b61148dfa4d146dfc974fc7e_2: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
