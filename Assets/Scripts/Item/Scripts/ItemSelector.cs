@@ -1,6 +1,7 @@
 ﻿using Player;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace ItemManagement
 {
@@ -17,16 +18,23 @@ namespace ItemManagement
         public Camera mainCamera;
         public ItemInfoUI itemInfoUI;
 
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0) && !RemoveSystem.instance.removeModeEnabled)
-            {
-                Transform hit = GetItemHit(Input.mousePosition);
+        private Vector2 mouseDelta;
 
-                if (selectedItem != hit)
-                    SelectItem(hit);
+        public void SelectItem(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                if (!RemoveSystem.instance.removeModeEnabled)
+                {
+                    Transform hit = GetItemHit(mouseDelta);
+
+                    if (selectedItem != hit)
+                        SelectItem(hit);
+                }
             }
         }
+
+        public void SelectPosition(InputAction.CallbackContext context) => mouseDelta = context.ReadValue<Vector2>();
 
         private Transform GetItemHit(Vector3 mousePos)
         {

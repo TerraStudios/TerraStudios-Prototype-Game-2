@@ -71,7 +71,7 @@ MonoBehaviour:
   rotationSpeed: 100
   dragSpeed: 2
   panSpeed: 5
-  zoomSpeed: 150
+  zoomSpeed: 10
   enableWorldBoundaries: 1
   showGizmo: 0
   maxX: 40
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b20f3ad981e09d46a066e52210b0e67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 15
+  sensitivity: 5
   moveSpeed: 15
   fasterMoveSpeed: 30
 --- !u!114 &4258413241926741786
@@ -268,7 +268,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1413420034687812705}
         m_TargetAssemblyTypeName: Player.CameraMovement, MainAssembly
         m_MethodName: PanRotateState
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -311,6 +311,46 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c26e6300-e355-4acb-bd65-096559b64082
     m_ActionName: Gameplay/Camera_Manager_SwitchFreecam[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 74655bea-bb51-4e25-8d0a-3620f3fe9e78
+    m_ActionName: Gameplay/RemoveSystem_RemoveTrigger[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8278b30d-d35f-4e33-ab6b-078526941f39
+    m_ActionName: Gameplay/EconomyManager_TestBalanceChange[/Keyboard/b]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c2fcf54f-9911-41dc-86da-c32933bf4928
+    m_ActionName: Gameplay/ItemSelector_SelectItem[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fe726f2d-b752-41bb-85d3-4d343a3bc90f
+    m_ActionName: Gameplay/ItemSelector_Position[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6768d740-dc6c-4418-9106-e403e70676a9
+    m_ActionName: Gameplay/GridManager_GridHitPosition[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 40879897-6dc4-49b9-8b2a-efbd03cc9b3f
+    m_ActionName: Gameplay/GridManager_PlaceBuilding[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0262edbe-4483-49e3-b2e1-2cc608dabdfd
+    m_ActionName: Gameplay/GridManager_RotateBuilding[/Keyboard/f,/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 61e0ef6e-cc51-427d-a316-11962b80e6f9
+    m_ActionName: Gameplay/GridManager_ContinueBuilding[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 450f3aab-3aa4-4b63-9306-6b801591443a
+    m_ActionName: Gameplay/DebugUI_Show[/Keyboard/leftCtrl,/Keyboard/rightCtrl]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: af29e5a0-72da-42f6-b381-888b686209a4
+    m_ActionName: Gameplay/PauseMenu_Show[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard and Mouse
   m_DefaultActionMap: Gameplay

@@ -1,5 +1,6 @@
 ﻿using TimeSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace CoreManagement
 {
@@ -13,9 +14,9 @@ namespace CoreManagement
         [HideInInspector] public static bool isOpen;
         public static bool wasPaused;
 
-        private void Update()
+        public void ShowTrigger(InputAction.CallbackContext context)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (context.performed)
             {
                 if (pauseMenuPanel.activeSelf)
                 {

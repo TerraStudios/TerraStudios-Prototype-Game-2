@@ -46,18 +46,21 @@ public class PhotoCameraMovement : MonoBehaviour
 
     public void ShiftSpeedState(InputAction.CallbackContext context)
     {
-        isShiftPressed = !isShiftPressed;
+        if (context.performed)
+        {
+            isShiftPressed = !isShiftPressed;
 
-        if (isShiftPressed)
-        {
-            moveSpeed = fasterMoveSpeed;
-        }
-        else
-        {
-            moveSpeed = initalMoveSpeed;
-            if (initalMoveSpeed > moveSpeed)
+            if (isShiftPressed)
+            {
+                moveSpeed = fasterMoveSpeed;
+            }
+            else
             {
                 moveSpeed = initalMoveSpeed;
+                if (initalMoveSpeed > moveSpeed)
+                {
+                    moveSpeed = initalMoveSpeed;
+                }
             }
         }
     }

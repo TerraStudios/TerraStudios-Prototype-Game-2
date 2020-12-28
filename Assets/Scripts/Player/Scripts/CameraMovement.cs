@@ -58,14 +58,23 @@ namespace Player
 
         public void Rotate(InputAction.CallbackContext context) => rotationDirection = context.ReadValue<float>();
 
-        public void DragState() => isDragging = !isDragging;
+        public void DragState(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                isDragging = !isDragging;
+            }
+        }
 
         public void Drag(InputAction.CallbackContext context) => mouseDelta = context.ReadValue<Vector2>();
 
-        public void PanRotateState()
+        public void PanRotateState(InputAction.CallbackContext context)
         {
-            isPanning = !isPanning;
-            mouseYawXForPanning = transform.rotation.eulerAngles.y;
+            if (context.performed)
+            {
+                isPanning = !isPanning;
+                mouseYawXForPanning = transform.rotation.eulerAngles.y;
+            }
         }
 
         public void Zoom(InputAction.CallbackContext context) => mouseScrollY = context.ReadValue<float>();

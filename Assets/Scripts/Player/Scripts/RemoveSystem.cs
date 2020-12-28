@@ -11,6 +11,7 @@ using TimeSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Utilities;
 
@@ -54,23 +55,6 @@ namespace Player
         {
             if (removeModeEnabled)
             {
-                if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
-                {
-                    foreach (ItemBehaviour t in inRange.Item1)
-                    {
-                        if (!DeleteItem(t.data, t.gameObject))
-                            return;
-                    }
-
-                    foreach (Building b in inRange.Item2)
-                    {
-                        if (!DeleteBuilding(b))
-                            return;
-                    }
-
-                    inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
-                }
-
                 Vector3 snappedPos = GetSnappedPos();
 
                 // check if we're at the same position
@@ -91,6 +75,29 @@ namespace Player
                     t.MarkForDelete();
                 foreach (Building b in inRange.Item2)
                     b.MarkForDelete();
+            }
+        }
+
+        public void RemoveTrigger(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                if (removeModeEnabled && !EventSystem.current.IsPointerOverGameObject())
+                {
+                    foreach (ItemBehaviour t in inRange.Item1)
+                    {
+                        if (!DeleteItem(t.data, t.gameObject))
+                            return;
+                    }
+
+                    foreach (Building b in inRange.Item2)
+                    {
+                        if (!DeleteBuilding(b))
+                            return;
+                    }
+
+                    inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
+                }
             }
         }
 

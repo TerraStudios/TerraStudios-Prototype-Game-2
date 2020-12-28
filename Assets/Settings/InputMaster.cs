@@ -54,7 +54,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""name"": ""Camera_Normal_DragState"",
                     ""type"": ""PassThrough"",
                     ""id"": ""db7bac09-980a-4d93-a1a1-f521ce054f29"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -108,8 +108,96 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Camera_Freecam_Faster"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""1bc334e3-cba9-4c74-bf58-aa10cbd42709"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""RemoveSystem_RemoveTrigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""74655bea-bb51-4e25-8d0a-3620f3fe9e78"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""EconomyManager_TestBalanceChange"",
+                    ""type"": ""Button"",
+                    ""id"": ""8278b30d-d35f-4e33-ab6b-078526941f39"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ItemSelector_SelectItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""c2fcf54f-9911-41dc-86da-c32933bf4928"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ItemSelector_Position"",
+                    ""type"": ""Value"",
+                    ""id"": ""fe726f2d-b752-41bb-85d3-4d343a3bc90f"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""GridManager_GridHitPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""6768d740-dc6c-4418-9106-e403e70676a9"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""GridManager_PlaceBuilding"",
+                    ""type"": ""Button"",
+                    ""id"": ""40879897-6dc4-49b9-8b2a-efbd03cc9b3f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""GridManager_RotateBuildingLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""0db2edd5-043b-4b53-a1d2-eb263be1afca"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""GridManager_RotateBuildingRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""6ee0803c-ac35-4f92-a8b5-164546b52a22"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""GridManager_ContinueBuilding"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""61e0ef6e-cc51-427d-a316-11962b80e6f9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DebugUI_Show"",
+                    ""type"": ""Button"",
+                    ""id"": ""450f3aab-3aa4-4b63-9306-6b801591443a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""PauseMenu_Show"",
+                    ""type"": ""Button"",
+                    ""id"": ""af29e5a0-72da-42f6-b381-888b686209a4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -262,7 +350,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0f2199d7-4658-4c7d-b05e-3d7f5fd19ef1"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -467,6 +555,149 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""Camera_Manager_SwitchFreecam"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4f38bbfc-023f-4d47-81d1-1193c3e6105a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""RemoveSystem_RemoveTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f14c6fc0-7fef-4019-a82f-2e3e69515088"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""EconomyManager_TestBalanceChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48c43edd-ee78-4c75-844b-8685be02dda9"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""ItemSelector_SelectItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cbb294ab-0ee1-4e50-8cde-fb15b60df48b"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""ItemSelector_Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47bbcf15-377c-49b2-8885-5f4665d18a31"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""GridManager_PlaceBuilding"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ca846f42-0cfd-43d3-8054-02215b57037e"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""GridManager_GridHitPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f094a1a0-25c7-45e7-912e-914abe50bed4"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""GridManager_ContinueBuilding"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Show"",
+                    ""id"": ""50a14a12-5e7f-447d-a3dd-5159948d099d"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DebugUI_Show"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""e02366db-74ac-4e1e-a6d7-7e7031329f40"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""DebugUI_Show"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""e5d5ab6f-cd29-452a-b23d-1411a3d9dd19"",
+                    ""path"": ""<Keyboard>/rightCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""DebugUI_Show"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1cba9ae-1289-43ea-a652-baf7ad918788"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""PauseMenu_Show"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd006c71-412e-4d1f-9cf6-76ee1050345f"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""GridManager_RotateBuildingRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""064c756c-238e-4d03-9ccc-3cac0757445e"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""GridManager_RotateBuildingLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -504,6 +735,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Gameplay_Camera_Freecam_Look = m_Gameplay.FindAction("Camera_Freecam_Look", throwIfNotFound: true);
         m_Gameplay_Camera_Freecam_UpAndDown = m_Gameplay.FindAction("Camera_Freecam_UpAndDown", throwIfNotFound: true);
         m_Gameplay_Camera_Freecam_Faster = m_Gameplay.FindAction("Camera_Freecam_Faster", throwIfNotFound: true);
+        m_Gameplay_RemoveSystem_RemoveTrigger = m_Gameplay.FindAction("RemoveSystem_RemoveTrigger", throwIfNotFound: true);
+        m_Gameplay_EconomyManager_TestBalanceChange = m_Gameplay.FindAction("EconomyManager_TestBalanceChange", throwIfNotFound: true);
+        m_Gameplay_ItemSelector_SelectItem = m_Gameplay.FindAction("ItemSelector_SelectItem", throwIfNotFound: true);
+        m_Gameplay_ItemSelector_Position = m_Gameplay.FindAction("ItemSelector_Position", throwIfNotFound: true);
+        m_Gameplay_GridManager_GridHitPosition = m_Gameplay.FindAction("GridManager_GridHitPosition", throwIfNotFound: true);
+        m_Gameplay_GridManager_PlaceBuilding = m_Gameplay.FindAction("GridManager_PlaceBuilding", throwIfNotFound: true);
+        m_Gameplay_GridManager_RotateBuildingLeft = m_Gameplay.FindAction("GridManager_RotateBuildingLeft", throwIfNotFound: true);
+        m_Gameplay_GridManager_RotateBuildingRight = m_Gameplay.FindAction("GridManager_RotateBuildingRight", throwIfNotFound: true);
+        m_Gameplay_GridManager_ContinueBuilding = m_Gameplay.FindAction("GridManager_ContinueBuilding", throwIfNotFound: true);
+        m_Gameplay_DebugUI_Show = m_Gameplay.FindAction("DebugUI_Show", throwIfNotFound: true);
+        m_Gameplay_PauseMenu_Show = m_Gameplay.FindAction("PauseMenu_Show", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -565,6 +807,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Camera_Freecam_Look;
     private readonly InputAction m_Gameplay_Camera_Freecam_UpAndDown;
     private readonly InputAction m_Gameplay_Camera_Freecam_Faster;
+    private readonly InputAction m_Gameplay_RemoveSystem_RemoveTrigger;
+    private readonly InputAction m_Gameplay_EconomyManager_TestBalanceChange;
+    private readonly InputAction m_Gameplay_ItemSelector_SelectItem;
+    private readonly InputAction m_Gameplay_ItemSelector_Position;
+    private readonly InputAction m_Gameplay_GridManager_GridHitPosition;
+    private readonly InputAction m_Gameplay_GridManager_PlaceBuilding;
+    private readonly InputAction m_Gameplay_GridManager_RotateBuildingLeft;
+    private readonly InputAction m_Gameplay_GridManager_RotateBuildingRight;
+    private readonly InputAction m_Gameplay_GridManager_ContinueBuilding;
+    private readonly InputAction m_Gameplay_DebugUI_Show;
+    private readonly InputAction m_Gameplay_PauseMenu_Show;
     public struct GameplayActions
     {
         private @InputMaster m_Wrapper;
@@ -581,6 +834,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @Camera_Freecam_Look => m_Wrapper.m_Gameplay_Camera_Freecam_Look;
         public InputAction @Camera_Freecam_UpAndDown => m_Wrapper.m_Gameplay_Camera_Freecam_UpAndDown;
         public InputAction @Camera_Freecam_Faster => m_Wrapper.m_Gameplay_Camera_Freecam_Faster;
+        public InputAction @RemoveSystem_RemoveTrigger => m_Wrapper.m_Gameplay_RemoveSystem_RemoveTrigger;
+        public InputAction @EconomyManager_TestBalanceChange => m_Wrapper.m_Gameplay_EconomyManager_TestBalanceChange;
+        public InputAction @ItemSelector_SelectItem => m_Wrapper.m_Gameplay_ItemSelector_SelectItem;
+        public InputAction @ItemSelector_Position => m_Wrapper.m_Gameplay_ItemSelector_Position;
+        public InputAction @GridManager_GridHitPosition => m_Wrapper.m_Gameplay_GridManager_GridHitPosition;
+        public InputAction @GridManager_PlaceBuilding => m_Wrapper.m_Gameplay_GridManager_PlaceBuilding;
+        public InputAction @GridManager_RotateBuildingLeft => m_Wrapper.m_Gameplay_GridManager_RotateBuildingLeft;
+        public InputAction @GridManager_RotateBuildingRight => m_Wrapper.m_Gameplay_GridManager_RotateBuildingRight;
+        public InputAction @GridManager_ContinueBuilding => m_Wrapper.m_Gameplay_GridManager_ContinueBuilding;
+        public InputAction @DebugUI_Show => m_Wrapper.m_Gameplay_DebugUI_Show;
+        public InputAction @PauseMenu_Show => m_Wrapper.m_Gameplay_PauseMenu_Show;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -626,6 +890,39 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Camera_Freecam_Faster.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_Faster;
                 @Camera_Freecam_Faster.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_Faster;
                 @Camera_Freecam_Faster.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_Faster;
+                @RemoveSystem_RemoveTrigger.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRemoveSystem_RemoveTrigger;
+                @RemoveSystem_RemoveTrigger.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRemoveSystem_RemoveTrigger;
+                @RemoveSystem_RemoveTrigger.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRemoveSystem_RemoveTrigger;
+                @EconomyManager_TestBalanceChange.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEconomyManager_TestBalanceChange;
+                @EconomyManager_TestBalanceChange.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEconomyManager_TestBalanceChange;
+                @EconomyManager_TestBalanceChange.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEconomyManager_TestBalanceChange;
+                @ItemSelector_SelectItem.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItemSelector_SelectItem;
+                @ItemSelector_SelectItem.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItemSelector_SelectItem;
+                @ItemSelector_SelectItem.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItemSelector_SelectItem;
+                @ItemSelector_Position.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItemSelector_Position;
+                @ItemSelector_Position.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItemSelector_Position;
+                @ItemSelector_Position.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItemSelector_Position;
+                @GridManager_GridHitPosition.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_GridHitPosition;
+                @GridManager_GridHitPosition.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_GridHitPosition;
+                @GridManager_GridHitPosition.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_GridHitPosition;
+                @GridManager_PlaceBuilding.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_PlaceBuilding;
+                @GridManager_PlaceBuilding.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_PlaceBuilding;
+                @GridManager_PlaceBuilding.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_PlaceBuilding;
+                @GridManager_RotateBuildingLeft.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_RotateBuildingLeft;
+                @GridManager_RotateBuildingLeft.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_RotateBuildingLeft;
+                @GridManager_RotateBuildingLeft.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_RotateBuildingLeft;
+                @GridManager_RotateBuildingRight.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_RotateBuildingRight;
+                @GridManager_RotateBuildingRight.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_RotateBuildingRight;
+                @GridManager_RotateBuildingRight.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_RotateBuildingRight;
+                @GridManager_ContinueBuilding.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_ContinueBuilding;
+                @GridManager_ContinueBuilding.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_ContinueBuilding;
+                @GridManager_ContinueBuilding.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_ContinueBuilding;
+                @DebugUI_Show.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDebugUI_Show;
+                @DebugUI_Show.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDebugUI_Show;
+                @DebugUI_Show.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDebugUI_Show;
+                @PauseMenu_Show.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPauseMenu_Show;
+                @PauseMenu_Show.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPauseMenu_Show;
+                @PauseMenu_Show.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPauseMenu_Show;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -666,6 +963,39 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Camera_Freecam_Faster.started += instance.OnCamera_Freecam_Faster;
                 @Camera_Freecam_Faster.performed += instance.OnCamera_Freecam_Faster;
                 @Camera_Freecam_Faster.canceled += instance.OnCamera_Freecam_Faster;
+                @RemoveSystem_RemoveTrigger.started += instance.OnRemoveSystem_RemoveTrigger;
+                @RemoveSystem_RemoveTrigger.performed += instance.OnRemoveSystem_RemoveTrigger;
+                @RemoveSystem_RemoveTrigger.canceled += instance.OnRemoveSystem_RemoveTrigger;
+                @EconomyManager_TestBalanceChange.started += instance.OnEconomyManager_TestBalanceChange;
+                @EconomyManager_TestBalanceChange.performed += instance.OnEconomyManager_TestBalanceChange;
+                @EconomyManager_TestBalanceChange.canceled += instance.OnEconomyManager_TestBalanceChange;
+                @ItemSelector_SelectItem.started += instance.OnItemSelector_SelectItem;
+                @ItemSelector_SelectItem.performed += instance.OnItemSelector_SelectItem;
+                @ItemSelector_SelectItem.canceled += instance.OnItemSelector_SelectItem;
+                @ItemSelector_Position.started += instance.OnItemSelector_Position;
+                @ItemSelector_Position.performed += instance.OnItemSelector_Position;
+                @ItemSelector_Position.canceled += instance.OnItemSelector_Position;
+                @GridManager_GridHitPosition.started += instance.OnGridManager_GridHitPosition;
+                @GridManager_GridHitPosition.performed += instance.OnGridManager_GridHitPosition;
+                @GridManager_GridHitPosition.canceled += instance.OnGridManager_GridHitPosition;
+                @GridManager_PlaceBuilding.started += instance.OnGridManager_PlaceBuilding;
+                @GridManager_PlaceBuilding.performed += instance.OnGridManager_PlaceBuilding;
+                @GridManager_PlaceBuilding.canceled += instance.OnGridManager_PlaceBuilding;
+                @GridManager_RotateBuildingLeft.started += instance.OnGridManager_RotateBuildingLeft;
+                @GridManager_RotateBuildingLeft.performed += instance.OnGridManager_RotateBuildingLeft;
+                @GridManager_RotateBuildingLeft.canceled += instance.OnGridManager_RotateBuildingLeft;
+                @GridManager_RotateBuildingRight.started += instance.OnGridManager_RotateBuildingRight;
+                @GridManager_RotateBuildingRight.performed += instance.OnGridManager_RotateBuildingRight;
+                @GridManager_RotateBuildingRight.canceled += instance.OnGridManager_RotateBuildingRight;
+                @GridManager_ContinueBuilding.started += instance.OnGridManager_ContinueBuilding;
+                @GridManager_ContinueBuilding.performed += instance.OnGridManager_ContinueBuilding;
+                @GridManager_ContinueBuilding.canceled += instance.OnGridManager_ContinueBuilding;
+                @DebugUI_Show.started += instance.OnDebugUI_Show;
+                @DebugUI_Show.performed += instance.OnDebugUI_Show;
+                @DebugUI_Show.canceled += instance.OnDebugUI_Show;
+                @PauseMenu_Show.started += instance.OnPauseMenu_Show;
+                @PauseMenu_Show.performed += instance.OnPauseMenu_Show;
+                @PauseMenu_Show.canceled += instance.OnPauseMenu_Show;
             }
         }
     }
@@ -693,5 +1023,16 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnCamera_Freecam_Look(InputAction.CallbackContext context);
         void OnCamera_Freecam_UpAndDown(InputAction.CallbackContext context);
         void OnCamera_Freecam_Faster(InputAction.CallbackContext context);
+        void OnRemoveSystem_RemoveTrigger(InputAction.CallbackContext context);
+        void OnEconomyManager_TestBalanceChange(InputAction.CallbackContext context);
+        void OnItemSelector_SelectItem(InputAction.CallbackContext context);
+        void OnItemSelector_Position(InputAction.CallbackContext context);
+        void OnGridManager_GridHitPosition(InputAction.CallbackContext context);
+        void OnGridManager_PlaceBuilding(InputAction.CallbackContext context);
+        void OnGridManager_RotateBuildingLeft(InputAction.CallbackContext context);
+        void OnGridManager_RotateBuildingRight(InputAction.CallbackContext context);
+        void OnGridManager_ContinueBuilding(InputAction.CallbackContext context);
+        void OnDebugUI_Show(InputAction.CallbackContext context);
+        void OnPauseMenu_Show(InputAction.CallbackContext context);
     }
 }
