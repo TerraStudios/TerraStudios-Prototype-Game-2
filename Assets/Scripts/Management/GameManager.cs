@@ -1,38 +1,67 @@
 ﻿using DebugTools;
 using SaveSystem;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
+using Unity.Collections;
 using UnityEngine;
 
 namespace CoreManagement
 {
+    [Serializable]
+    public class GameProfilePlayData
+    {
+        public string name;
+        public GameProfile profile;
+        public bool isHidden;
+    }
+
     /// <summary>
     /// Top-level script of the game.
     /// Holds properties like CultureInfo, GameProfile and UserProfile.
     /// </summary>
     public class GameManager : MonoBehaviour
     {
+        public static GameManager Instance;
+
         public bool DebugMode; //May be moved to Super Secret Settings later on
 
         [HideInInspector] public CultureInfo currentCultureTimeDate;
         [HideInInspector] public CultureInfo currentCultureCurrency;
 
         [Header("Game Settings")]
-        public GameProfile profile;
-        public static GameProfile Profile
+        private GameProfileData debugLoadedGameProfile;
+        public GameProfile editorGameProfile;
+        public List<GameProfilePlayData> gameProfiles;
+
+        public GameProfileData CurrentGameProfile
         {
-            get
+            get => GameSave.current.gameProfileData;
+            set
             {
-                return Instance.profile;
+                GameSave.current.gameProfileData = value;
+                debugLoadedGameProfile = value;
             }
         }
-        public GameProfile easyProfile;
-        public GameProfile mediumProfile;
-        public GameProfile hardProfile;
 
-        public UserProfile uProfile;
+        private UserProfileData debugLoadedUserProfile;
+        public UserProfile defaultUserProfile;
+        public UserProfileData CurrentUserProfile
+        {
+            get => GameSave.current.userProfileData;
+            set
+            {
+                GameSave.current.userProfileData = value;
+                debugLoadedUserProfile = value;
+            }
+        }
 
-        public static GameManager Instance;
+        private void Update()
+        {
+            Debug.Log(CurrentGameProfile.enableBankruptcy);
+            Debug.Log(CurrentUserProfile.currencyCC);
+        }
 
         private void Awake()
         {
@@ -46,25 +75,37 @@ namespace CoreManagement
 
             DontDestroyOnLoad(this);
 
-            // Game Profile always has higher priority than User Profile
+            if (Application.isEditor && CurrentGameProfile == null)
+                CurrentGameProfile = editorGameProfile.data;
 
-            if (uProfile.manualTimeDateCC)
-                currentCultureTimeDate = CultureInfo.CreateSpecificCulture(uProfile.timeDateCC);
-            else
-                currentCultureTimeDate = CultureInfo.CurrentCulture;
+            if (CurrentUserProfile == null)
+                CurrentUserProfile = defaultUserProfile.data;
 
-            if (Profile.forceManualCurrencyCC)
-                currentCultureCurrency = CultureInfo.CreateSpecificCulture(Profile.currencyCC);
-            else if (uProfile.manualCurrencyCC)
-                currentCultureCurrency = CultureInfo.CreateSpecificCulture(uProfile.currencyCC);
-            else
-                currentCultureTimeDate = CultureInfo.CurrentCulture;
+            GenerateCultures();
 
             Log.DEBUG_MODE = DebugMode; //Set the debug mode for logging
         }
 
+        private void GenerateCultures()
+        {
+            // Game Profile always has higher priority than User Profile
+
+            if (CurrentUserProfile.manualTimeDateCC)
+                currentCultureTimeDate = CultureInfo.CreateSpecificCulture(CurrentUserProfile.timeDateCC);
+            else
+                currentCultureTimeDate = CultureInfo.CurrentCulture;
+
+            if (CurrentGameProfile.forceManualCurrencyCC)
+                currentCultureCurrency = CultureInfo.CreateSpecificCulture(CurrentGameProfile.currencyCC);
+            else if (CurrentUserProfile.manualCurrencyCC)
+                currentCultureCurrency = CultureInfo.CreateSpecificCulture(CurrentUserProfile.currencyCC);
+            else
+                currentCultureTimeDate = CultureInfo.CurrentCulture;
+        }
+
         public void ResetGame()
         {
+            GenerateCultures();
             StartCoroutine(ResetGameAction());
         }
 

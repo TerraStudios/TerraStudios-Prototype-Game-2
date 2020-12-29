@@ -4,6 +4,7 @@ using EconomyManagement;
 using ItemManagement;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -23,9 +24,9 @@ namespace Player
         private bool isItemsDropdownLoaded;
         public TMP_Dropdown testItemDropdown;
 
-        private void Update()
+        public void ShowTrigger(InputAction.CallbackContext context)
         {
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.RightControl))
+            if (context.performed)
             {
                 if (superSecretPanel.activeSelf)
                     superSecretPanel.SetActive(false);
@@ -35,7 +36,6 @@ namespace Player
                         LoadItemsDropdown();
                     superSecretPanel.SetActive(true);
                 }
-
             }
         }
 

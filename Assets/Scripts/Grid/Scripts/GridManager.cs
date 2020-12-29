@@ -3,6 +3,7 @@ using CoreManagement;
 using DebugTools;
 using EconomyManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace BuildingManagement
 {
@@ -50,11 +51,6 @@ namespace BuildingManagement
         public string apm3Location;
         public string conveyorLocation;
 
-        [Header("Controls / Shortcuts")]
-        public KeyCode flipBuildingRight = KeyCode.R;
-
-        public KeyCode flipBuildingLeft = KeyCode.F;
-
         private Vector3 lastVisualize;
         private Quaternion lastRotation;
 
@@ -69,7 +65,6 @@ namespace BuildingManagement
             get => rotationChange;
             set
             {
-                var test = tempMat;
                 rotationChange = value;
                 if (value == Quaternion.Euler(0, 90, 0) || value == Quaternion.Euler(0, -90, 0) || value == Quaternion.Euler(0, 270, 0) || value == Quaternion.Euler(0, -270, 0))
                     isFlipped = true;
@@ -79,13 +74,15 @@ namespace BuildingManagement
         }
 
         private bool isFlipped;
-        private bool click;
-
         public bool canPlace;
 
         //This variable needs to be moved to a proper debugging system, only used temporarily here
         [Tooltip("Used for drawing IO collision checks in the Scene view")]
         public bool debugMode;
+
+        private Vector2 mousePos;
+        private float rotationDirection;
+        private bool continueBuilding;
 
         #region Unity Events
 
@@ -100,58 +97,30 @@ namespace BuildingManagement
         private void Update()
         {
             if (IsInBuildMode)
-            {
-                HandleRotation();
                 UpdateVisualization();
-            }
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (!click)
-                {
-                    if (IsInBuildMode)
-                    {
-                        Build();
-                    }
-                    else
-                    {
-                        buildingManager.CheckForHit(Input.mousePosition);
-                    }
-
-                    click = true;
-                }
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                if (click)
-                {
-                    click = false;
-                }
-            }
         }
 
         #endregion Unity Events
 
         #region Rotation
 
-        /// <summary>
-        /// Checks if the input sends a rotation request to the building, applying Quaternions if necessary
-        /// </summary>
-        private void HandleRotation()
+        public void RotateBuildingLeft(InputAction.CallbackContext context)
         {
-            if (Input.GetKeyDown(flipBuildingRight))
-            {
-                RotationChange *= Quaternion.Euler(0, 90, 0);
-            }
-            if (Input.GetKeyDown(flipBuildingLeft))
-            {
+            if (context.performed)
                 RotationChange *= Quaternion.Euler(0, -90, 0);
-            }
+        }
+
+        public void RotateBuildingRight(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                RotationChange *= Quaternion.Euler(0, 90, 0);
         }
 
         #endregion Rotation
 
         #region Visualization
+
+        public void MousePosition(InputAction.CallbackContext context) => mousePos = context.ReadValue<Vector2>();
 
         /// <summary>
         /// Updates the visualization position, material and IOs
@@ -206,6 +175,23 @@ namespace BuildingManagement
 
         #region Building
 
+        public void BuildTrigger(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                if (IsInBuildMode)
+                {
+                    Build();
+                }
+                else
+                {
+                    buildingManager.CheckForHit(mousePos);
+                }
+            }
+        }
+
+        public void ContinueBuildingTrigger(InputAction.CallbackContext context) => continueBuilding = !continueBuilding;
+
         /// <summary>
         /// Instantiates the building visualization and sets the appropriate material
         /// </summary>
@@ -247,7 +233,7 @@ namespace BuildingManagement
             {
                 Building b = visualization.GetComponent<Building>();
 
-                if (!GameManager.Profile.allowBuildingIfBalanceInsufficient && economyManager.Balance - (decimal)b.bBase.Price < 0)
+                if (!GameManager.Instance.CurrentGameProfile.allowBuildingIfBalanceInsufficient && economyManager.Balance - (decimal)b.bBase.Price < 0)
                 {
                     Debug.LogWarning("Can't build because allowBuildingIfBalanceInsufficient is false");
                     return;
@@ -259,7 +245,7 @@ namespace BuildingManagement
 
                 buildingManager.SetUpBuilding(b);
 
-                IsInBuildMode = Input.GetKey(KeyCode.LeftShift);
+                IsInBuildMode = continueBuilding;
             }
         }
 
@@ -320,7 +306,7 @@ namespace BuildingManagement
         /// <returns>The RayCastHit of the floor, or null if nothing is found.</returns>
         public RaycastHit? FindGridHit()
         {
-            if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 30000f, LayerMask.GetMask("GridFloor")))
+            if (Physics.Raycast(mainCamera.ScreenPointToRay(mousePos), out RaycastHit hit, 30000f, LayerMask.GetMask("GridFloor")))
             {
                 return hit;
             }

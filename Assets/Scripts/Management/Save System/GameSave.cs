@@ -1,9 +1,12 @@
-﻿namespace SaveSystem
+﻿using CoreManagement;
+using System;
+
+namespace SaveSystem
 {
     /// <summary>
     /// Contains all variables that are stored inside a game save.
     /// </summary>
-    [System.Serializable]
+    [Serializable]
     public class GameSave
     {
         private static GameSave Current;
@@ -25,6 +28,9 @@
                 }
             }
         }
+
+        public GameProfileData gameProfileData;
+        public UserProfileData userProfileData;
 
         public TimeSaveData timeSaveData = new TimeSaveData();
         public EconomySaveData economySaveData = new EconomySaveData();

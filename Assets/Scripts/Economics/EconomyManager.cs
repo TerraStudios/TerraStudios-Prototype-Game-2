@@ -3,6 +3,7 @@ using SaveSystem;
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace EconomyManagement
 {
@@ -28,10 +29,11 @@ namespace EconomyManagement
             gameOverID = CallbackHandler.Instance.RegisterCallback(GameManager.Instance.GameOver);
         }
 
-        private void Update()
+        public void TestBalanceChange(InputAction.CallbackContext context)
         {
-            if (Input.GetKeyDown(KeyCode.B))
+            if (context.performed)
             {
+                Debug.Log("Filtered");
                 Balance += balanceChangeTest;
             }
         }

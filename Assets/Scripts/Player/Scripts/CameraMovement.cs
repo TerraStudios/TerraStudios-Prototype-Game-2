@@ -1,5 +1,6 @@
 ﻿using Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -14,9 +15,17 @@ namespace Player
         public float movementTime;
         public float rotationSpeed = 100;
         public float dragSpeed;
+        public float panSpeed = 0.5f;
         public float zoomSpeed;
 
-        private float mouseYaw = 0f;
+        private Vector3 moveDirection;
+        private float rotationDirection;
+        private bool isDragging;
+        private Vector2 mouseDelta;
+        private bool isPanning;
+        private float mouseScrollY;
+
+        private float mouseYawXForPanning;
         private float zoomLevel;
         private float maxFOV;
         private float minFOV;
@@ -31,6 +40,7 @@ namespace Player
 
         private void Start()
         {
+            mouseYawXForPanning = transform.rotation.eulerAngles.x;
             zoomLevel = cinemachineFollowZoom.m_MaxFOV;
             maxFOV = cinemachineFollowZoom.m_MaxFOV;
             minFOV = cinemachineFollowZoom.m_MinFOV;
@@ -38,83 +48,81 @@ namespace Player
 
         private void Update()
         {
-            HandleKeyboardMovement();
-            HandleMouseMovement();
-            ApplyCameraFOV();
+            ApplyMovement();
+            ApplyRotation();
+            ApplyDrag();
+            ApplyZoom();
         }
 
-        private void HandleKeyboardMovement()
+        public void Move(InputAction.CallbackContext context) => moveDirection = context.ReadValue<Vector3>();
+
+        public void Rotate(InputAction.CallbackContext context) => rotationDirection = context.ReadValue<float>();
+
+        public void DragState(InputAction.CallbackContext context)
         {
-            // WASD + Arrows Movement
-
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            if (context.performed)
             {
-                transform.position = GetMovement(transform.position + (transform.forward * movementSpeed * Time.unscaledDeltaTime));
-            }
-
-            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-            {
-                transform.position = GetMovement(transform.position + (-transform.forward * movementSpeed * Time.unscaledDeltaTime));
-            }
-
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            {
-                transform.position = GetMovement(transform.position + (transform.right * movementSpeed * Time.unscaledDeltaTime));
-            }
-
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            {
-                transform.position = GetMovement(transform.position + (-transform.right * movementSpeed * Time.unscaledDeltaTime));
-            }
-
-            // Only allow the normal camera to rotate
-            if (CamerasManager.Instance.cameraMode.Equals(CameraMode.Normal))
-            {
-                // Q and E 90 degrees rotation
-                if (Input.GetKey(KeyCode.Q))
-                {
-                    transform.rotation *= Quaternion.Euler(0, rotationSpeed / 200f, 0);
-                }
-
-                if (Input.GetKey(KeyCode.E))
-                {
-                    transform.rotation *= Quaternion.Euler(0, -rotationSpeed / 200f, 0);
-                }
+                isDragging = !isDragging;
             }
         }
 
-        private void HandleMouseMovement()
-        {
-            // Mouse Drag movement
+        public void Drag(InputAction.CallbackContext context) => mouseDelta = context.ReadValue<Vector2>();
 
-            if (Input.GetMouseButton(1))
+        public void PanRotateState(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                isPanning = !isPanning;
+                mouseYawXForPanning = transform.rotation.eulerAngles.y;
+            }
+        }
+
+        public void Zoom(InputAction.CallbackContext context) => mouseScrollY = context.ReadValue<float>();
+
+        private void ApplyMovement()
+        {
+            transform.position = GetMovement(transform.position + (transform.TransformDirection(moveDirection) * movementSpeed * Time.unscaledDeltaTime));
+        }
+
+        private void ApplyRotation()
+        {
+            if (CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
+            {
+                transform.rotation *= Quaternion.Euler(0, rotationSpeed * rotationDirection / 200f, 0);
+            }
+        }
+
+        private void ApplyDrag()
+        {
+            if (isDragging)
             {
                 float speed = dragSpeed * Time.unscaledDeltaTime;
-                transform.position = GetMovement(transform.position - (Input.GetAxis("Mouse X") * speed * transform.right + Input.GetAxis("Mouse Y") * speed * transform.forward));
+                transform.position = GetMovement(transform.position - (mouseDelta.x * speed * transform.right + mouseDelta.y * speed * transform.forward));
             }
 
-            // Middle click rotation
-
-            if (CamerasManager.Instance.cameraMode.Equals(CameraMode.Normal))
+            if (isPanning && CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
-                if (Input.GetKey(KeyCode.Mouse2))
-                {
-                    mouseYaw += 2f * Input.GetAxis("Mouse X");
-                    transform.rotation = Quaternion.Euler(0, mouseYaw, 0);
-                }
+                mouseYawXForPanning += mouseDelta.x * panSpeed * Time.unscaledDeltaTime;
+                transform.rotation = Quaternion.Euler(0, mouseYawXForPanning, 0);
+            }
+        }
 
-                float d = Input.GetAxis("Mouse ScrollWheel");
-
-                if (d > 0f && zoomLevel >= minFOV)
+        private void ApplyZoom()
+        {
+            if (CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
+            {
+                if (mouseScrollY > 0 && zoomLevel >= minFOV)
                 {
                     // scroll up
-                    zoomLevel -= Input.GetAxis("Mouse ScrollWheel") * Time.unscaledDeltaTime * zoomSpeed * 10;
+                    zoomLevel -= Time.unscaledDeltaTime * zoomSpeed * 10;
                 }
-                else if (d < 0f && zoomLevel <= maxFOV)
+                else if (mouseScrollY < 0 && zoomLevel <= maxFOV)
                 {
                     // scroll down
-                    zoomLevel += -Input.GetAxis("Mouse ScrollWheel") * Time.unscaledDeltaTime * zoomSpeed * 10;
+                    zoomLevel += Time.unscaledDeltaTime * zoomSpeed * 10;
                 }
+
+                cinemachineFollowZoom.m_MaxFOV = Mathf.Lerp(cinemachineFollowZoom.m_MaxFOV, zoomLevel, Time.unscaledDeltaTime * zoomSpeed);
             }
         }
 
@@ -124,11 +132,6 @@ namespace Player
                 return new Vector3(Mathf.Clamp(newPos.x, minX, maxX), transform.position.y, Mathf.Clamp(newPos.z, minZ, maxZ));
             else
                 return new Vector3(newPos.x, transform.position.y, newPos.z);
-        }
-
-        private void ApplyCameraFOV()
-        {
-            cinemachineFollowZoom.m_MaxFOV = Mathf.Lerp(cinemachineFollowZoom.m_MaxFOV, zoomLevel, Time.unscaledDeltaTime * zoomSpeed);
         }
 
         private void OnDrawGizmos()

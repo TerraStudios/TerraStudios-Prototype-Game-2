@@ -1,5 +1,6 @@
 ﻿using TimeSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace CoreManagement
 {
@@ -12,10 +13,11 @@ namespace CoreManagement
 
         [HideInInspector] public static bool isOpen;
         public static bool wasPaused;
+        private bool wasCursorShown;
 
-        private void Update()
+        public void ShowTrigger(InputAction.CallbackContext context)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (context.performed)
             {
                 if (pauseMenuPanel.activeSelf)
                 {
@@ -23,6 +25,12 @@ namespace CoreManagement
                     wasPaused = TimeEngine.IsPaused;
                     TimeEngine.IsPaused = false;
                     pauseMenuPanel.SetActive(false);
+                    InputSystemManager.Instance.SwitchToGameplay();
+                    Cursor.visible = wasCursorShown;
+                    if (wasCursorShown)
+                        Cursor.lockState = CursorLockMode.None;
+                    else
+                        Cursor.lockState = CursorLockMode.Locked;
                 }
                 else
                 {
@@ -30,6 +38,10 @@ namespace CoreManagement
                     wasPaused = TimeEngine.IsPaused;
                     TimeEngine.IsPaused = true;
                     pauseMenuPanel.SetActive(true);
+                    InputSystemManager.Instance.SwitchToPauseMenu();
+                    wasCursorShown = Cursor.visible;
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
                 }
             }
         }

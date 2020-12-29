@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace CoreManagement
 {
@@ -7,6 +8,12 @@ namespace CoreManagement
     /// </summary>
     [CreateAssetMenu(fileName = "New User Profile", menuName = "Settings/New User Profile")]
     public class UserProfile : ScriptableObject
+    {
+        public UserProfileData data = new UserProfileData();
+    }
+
+    [Serializable]
+    public class UserProfileData
     {
         [Header("Currency visualization")]
         public bool manualTimeDateCC;

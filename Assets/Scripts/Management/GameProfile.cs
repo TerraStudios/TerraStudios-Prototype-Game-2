@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace CoreManagement
 {
@@ -9,6 +10,12 @@ namespace CoreManagement
     /// </summary>
     [CreateAssetMenu(fileName = "New Game Profile", menuName = "Settings/New Game Profile")]
     public class GameProfile : ScriptableObject
+    {
+        public GameProfileData data = new GameProfileData();
+    }
+
+    [Serializable]
+    public class GameProfileData
     {
         [Header("[WIP] Taxes - income tax")]
         public bool enableIncomeTax = true;
