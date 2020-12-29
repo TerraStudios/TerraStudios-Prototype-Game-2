@@ -1843,7 +1843,7 @@ MonoBehaviour:
   - name: Default
     profile: {fileID: 11400000, guid: 398a01efedc0f0e41bb8275eb8c46b12, type: 2}
     isHidden: 0
-  uProfile: {fileID: 11400000, guid: 6ae362b976878474aa82b4e73f780318, type: 2}
+  defaultUserProfile: {fileID: 11400000, guid: 6ae362b976878474aa82b4e73f780318, type: 2}
 --- !u!4 &1289954469
 Transform:
   m_ObjectHideFlags: 0

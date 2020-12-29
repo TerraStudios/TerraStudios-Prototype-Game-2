@@ -8,9 +8,14 @@ namespace CoreManagement
     /// <summary>
     /// This class contains properties that we use to enforce different game experiences by changing values of various systems.
     /// </summary>
-    [Serializable]
     [CreateAssetMenu(fileName = "New Game Profile", menuName = "Settings/New Game Profile")]
     public class GameProfile : ScriptableObject
+    {
+        public GameProfileData data = new GameProfileData();
+    }
+
+    [Serializable]
+    public class GameProfileData
     {
         [Header("[WIP] Taxes - income tax")]
         public bool enableIncomeTax = true;

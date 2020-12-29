@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using Unity.Collections;
 using UnityEngine;
 
 namespace CoreManagement
@@ -22,19 +23,39 @@ namespace CoreManagement
     /// </summary>
     public class GameManager : MonoBehaviour
     {
+        public static GameManager Instance;
+
         public bool DebugMode; //May be moved to Super Secret Settings later on
 
         [HideInInspector] public CultureInfo currentCultureTimeDate;
         [HideInInspector] public CultureInfo currentCultureCurrency;
 
         [Header("Game Settings")]
+        private GameProfileData debugLoadedGameProfile;
         public GameProfile editorGameProfile;
         public List<GameProfilePlayData> gameProfiles;
-        public static GameProfile currentGameProfile;
 
-        public UserProfile uProfile;
+        public GameProfileData CurrentGameProfile
+        {
+            get => GameSave.current.gameProfileData;
+            set
+            {
+                GameSave.current.gameProfileData = value;
+                debugLoadedGameProfile = value;
+            }
+        }
 
-        public static GameManager Instance;
+        private UserProfileData debugLoadedUserProfile;
+        public UserProfile defaultUserProfile;
+        public UserProfileData currentUserProfile
+        {
+            get => GameSave.current.userProfileData;
+            set
+            {
+                GameSave.current.userProfileData = value;
+                debugLoadedUserProfile = value;
+            }
+        }
 
         private void Awake()
         {
@@ -49,19 +70,22 @@ namespace CoreManagement
             DontDestroyOnLoad(this);
 
             if (Application.isEditor)
-                currentGameProfile = editorGameProfile;
+                CurrentGameProfile = editorGameProfile.data;
+
+            if (currentUserProfile == null)
+                currentUserProfile = defaultUserProfile.data;
 
             // Game Profile always has higher priority than User Profile
 
-            if (uProfile.manualTimeDateCC)
-                currentCultureTimeDate = CultureInfo.CreateSpecificCulture(uProfile.timeDateCC);
+            if (currentUserProfile.manualTimeDateCC)
+                currentCultureTimeDate = CultureInfo.CreateSpecificCulture(currentUserProfile.timeDateCC);
             else
                 currentCultureTimeDate = CultureInfo.CurrentCulture;
 
-            if (currentGameProfile.forceManualCurrencyCC)
-                currentCultureCurrency = CultureInfo.CreateSpecificCulture(currentGameProfile.currencyCC);
-            else if (uProfile.manualCurrencyCC)
-                currentCultureCurrency = CultureInfo.CreateSpecificCulture(uProfile.currencyCC);
+            if (CurrentGameProfile.forceManualCurrencyCC)
+                currentCultureCurrency = CultureInfo.CreateSpecificCulture(CurrentGameProfile.currencyCC);
+            else if (currentUserProfile.manualCurrencyCC)
+                currentCultureCurrency = CultureInfo.CreateSpecificCulture(currentUserProfile.currencyCC);
             else
                 currentCultureTimeDate = CultureInfo.CurrentCulture;
 

@@ -26,7 +26,7 @@ namespace EconomyManagement
             get { return GameSave.current.economySaveData.balance; }
             set
             {
-                if (!GameManager.currentGameProfile.enableGodMode)
+                if (!GameManager.Instance.CurrentGameProfile.enableGodMode)
                 {
                     GameSave.current.economySaveData.balance = value;
                     OnBalanceUpdate();
@@ -53,7 +53,7 @@ namespace EconomyManagement
 
         private void MakeBankruptcyCheck()
         {
-            if (!GameManager.currentGameProfile.enableBankruptcy)
+            if (!GameManager.Instance.CurrentGameProfile.enableBankruptcy)
                 return;
 
             if (Balance < 0 && !isInBankruptcy)
@@ -73,12 +73,12 @@ namespace EconomyManagement
             isInBankruptcy = true;
             lastBankruptcyStart = timeManager.CurrentTime;
 
-            bankruptcyTimers.Add(timeManager.RegisterTimeWaiter(TimeSpan.FromDays(GameManager.currentGameProfile.daysBeforeSeriousBankruptcy), seriousBankruptcyID));
+            bankruptcyTimers.Add(timeManager.RegisterTimeWaiter(TimeSpan.FromDays(GameManager.Instance.CurrentGameProfile.daysBeforeSeriousBankruptcy), seriousBankruptcyID));
         }
 
         public virtual void OnSeriousBankruptcy()
         {
-            bankruptcyTimers.Add(timeManager.RegisterTimeWaiter(TimeSpan.FromDays(GameManager.currentGameProfile.daysBeforeGameOverBankruptcy), gameOverID));
+            bankruptcyTimers.Add(timeManager.RegisterTimeWaiter(TimeSpan.FromDays(GameManager.Instance.CurrentGameProfile.daysBeforeGameOverBankruptcy), gameOverID));
         }
 
         public virtual void OnEndBankruptcy()

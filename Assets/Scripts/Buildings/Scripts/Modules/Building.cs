@@ -24,7 +24,7 @@ namespace BuildingModules
 
         [Header("Economics")]
         public float price;
-        public float Price { get => price * GameManager.currentGameProfile.globalPriceMultiplierBuildings; set => price = value; }
+        public float Price { get => price * GameManager.Instance.CurrentGameProfile.globalPriceMultiplierBuildings; set => price = value; }
 
         [Header("Work States")]
         public WorkStateEnum workState;
@@ -128,7 +128,7 @@ namespace BuildingModules
         #region Health Submodule
         public void GenerateBuildingHealth()
         {
-            bBase.monthsLifespan = Mathf.RoundToInt(UnityEngine.Random.Range(bBase.monthsLifespanMin, bBase.monthsLifespanMax) * GameManager.currentGameProfile.monthsLifespanMultiplier);
+            bBase.monthsLifespan = Mathf.RoundToInt(UnityEngine.Random.Range(bBase.monthsLifespanMin, bBase.monthsLifespanMax) * GameManager.Instance.CurrentGameProfile.monthsLifespanMultiplier);
             TimeSpan timeToWait = timeManager.CurrentTime.AddMonths(bBase.monthsLifespan) - timeManager.CurrentTime;
             bBase.timeToDrainHealth = new TimeSpan(timeToWait.Ticks / bBase.healthPercent);
             DepleteHealthEvent();
@@ -136,7 +136,7 @@ namespace BuildingModules
 
         public void OnHealthTimeUpdate()
         {
-            if (GameManager.currentGameProfile.enableBuildingDamage)
+            if (GameManager.Instance.CurrentGameProfile.enableBuildingDamage)
                 bBase.healthPercent--;
 
             if (bBase.healthPercent <= 0)
@@ -164,7 +164,7 @@ namespace BuildingModules
             if (bBase.isFixRunning)
                 return;
 
-            float priceForFix = (float)(bBase.healthPercent + 1) / 100 * bBase.price * bBase.penaltyForFix * GameManager.currentGameProfile.buildingPenaltyForFixMultiplier;
+            float priceForFix = (float)(bBase.healthPercent + 1) / 100 * bBase.price * bBase.penaltyForFix * GameManager.Instance.CurrentGameProfile.buildingPenaltyForFixMultiplier;
             economyManager.Balance -= (decimal)priceForFix;
             WorkState = WorkStateEnum.Off;
 
@@ -173,7 +173,7 @@ namespace BuildingModules
 
             bBase.isFixRunning = true;
 
-            float timeToWait = (100 - bBase.healthPercent) * bBase.timeToFixMultiplier * GameManager.currentGameProfile.timeToFixMultiplier;
+            float timeToWait = (100 - bBase.healthPercent) * bBase.timeToFixMultiplier * GameManager.Instance.CurrentGameProfile.timeToFixMultiplier;
             StartCoroutine(FixCountdown());
 
             IEnumerator FixCountdown()

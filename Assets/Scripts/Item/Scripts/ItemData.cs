@@ -23,7 +23,7 @@ namespace ItemManagement
         [Header("Economic Simulation Properties")]
         public float startingPriceInShop;
 
-        public float StartingPriceInShop { get => startingPriceInShop * GameManager.currentGameProfile.globalPriceMultiplierItems; set => startingPriceInShop = value; }
+        public float StartingPriceInShop { get => startingPriceInShop * GameManager.Instance.CurrentGameProfile.globalPriceMultiplierItems; set => startingPriceInShop = value; }
 
         public bool isBuyable;
         public int ecoTax;

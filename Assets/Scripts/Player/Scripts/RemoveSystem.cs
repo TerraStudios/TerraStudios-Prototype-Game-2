@@ -159,7 +159,7 @@ namespace Player
 
         public bool DeleteBuilding(Building b)
         {
-            decimal change = (decimal)((float)b.bBase.healthPercent / 100 * b.bBase.Price - (b.bBase.Price * GameManager.currentGameProfile.removePenaltyMultiplier));
+            decimal change = (decimal)((float)b.bBase.healthPercent / 100 * b.bBase.Price - (b.bBase.Price * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier));
             EconomyManager.Instance.Balance += change;
 
             b.mc.buildingIOManager.DevisualizeAll();
@@ -196,12 +196,12 @@ namespace Player
             //Debug.Log($"Adding {data.startingPriceInShop * GameManager.removePenaltyMultiplier} to the balance.");
             if (data.isGarbage)
             {
-                decimal change = (decimal)(data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.currentGameProfile.garbageRemoveMultiplier));
+                decimal change = (decimal)(data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.garbageRemoveMultiplier));
                 EconomyManager.Instance.Balance += change;
             }
             else
             {
-                decimal change = (decimal)(data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.currentGameProfile.removePenaltyMultiplier));
+                decimal change = (decimal)(data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier));
                 EconomyManager.Instance.Balance += change;
             }
 

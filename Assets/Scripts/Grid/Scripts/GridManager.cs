@@ -233,7 +233,7 @@ namespace BuildingManagement
             {
                 Building b = visualization.GetComponent<Building>();
 
-                if (!GameManager.currentGameProfile.allowBuildingIfBalanceInsufficient && economyManager.Balance - (decimal)b.bBase.Price < 0)
+                if (!GameManager.Instance.CurrentGameProfile.allowBuildingIfBalanceInsufficient && economyManager.Balance - (decimal)b.bBase.Price < 0)
                 {
                     Debug.LogWarning("Can't build because allowBuildingIfBalanceInsufficient is false");
                     return;

@@ -16,7 +16,7 @@ namespace BuildingManagement
         {
             int toReturn = 0;
 
-            if (!GameManager.currentGameProfile.enableElectricityCalculations)
+            if (!GameManager.Instance.CurrentGameProfile.enableElectricityCalculations)
                 return 0;
 
             foreach (Building b in BuildingSystem.RegisteredBuildings)
