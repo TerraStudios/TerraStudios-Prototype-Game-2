@@ -1,19 +1,30 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using CoreManagement;
 
-public class InputSystemManager : MonoBehaviour
+namespace CoreManagement
 {
-    private UnscaledFixedUpdate updateInputSystem;
-
-    private void Awake()
+    public class InputSystemManager : MonoBehaviour
     {
-        updateInputSystem = new UnscaledFixedUpdate(0.02f, UpdateInputSystem);
-    }
+        public static InputSystemManager Instance;
+        public PlayerInput playerInput;
+        private UnscaledFixedUpdate updateInputSystem;
 
-    private void Update()
-    {
-        updateInputSystem.Update(Time.unscaledDeltaTime);
-    }
+        private void Awake()
+        {
+            Instance = this;
+            updateInputSystem = new UnscaledFixedUpdate(0.02f, UpdateInputSystem);
+        }
 
-    private void UpdateInputSystem() => InputSystem.Update();
+        private void Update()
+        {
+            updateInputSystem.Update(Time.unscaledDeltaTime);
+        }
+
+        private void UpdateInputSystem() => InputSystem.Update();
+
+        public void SwitchToGameplay() => playerInput.SwitchCurrentActionMap("Gameplay");
+
+        public void SwitchToPauseMenu() => playerInput.SwitchCurrentActionMap("Pause Menu");
+    }
 }

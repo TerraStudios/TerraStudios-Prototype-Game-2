@@ -700,6 +700,33 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Pause Menu"",
+            ""id"": ""ec968856-9719-4c1c-858b-a9730ef0275a"",
+            ""actions"": [
+                {
+                    ""name"": ""PauseMenu_Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""8f4e8b0f-4b55-4b92-a811-28b86a229a05"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""41a56f50-9fae-47b1-b0cf-801827c4769a"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""PauseMenu_Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -746,6 +773,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Gameplay_GridManager_ContinueBuilding = m_Gameplay.FindAction("GridManager_ContinueBuilding", throwIfNotFound: true);
         m_Gameplay_DebugUI_Show = m_Gameplay.FindAction("DebugUI_Show", throwIfNotFound: true);
         m_Gameplay_PauseMenu_Show = m_Gameplay.FindAction("PauseMenu_Show", throwIfNotFound: true);
+        // Pause Menu
+        m_PauseMenu = asset.FindActionMap("Pause Menu", throwIfNotFound: true);
+        m_PauseMenu_PauseMenu_Exit = m_PauseMenu.FindAction("PauseMenu_Exit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1000,6 +1030,39 @@ public class @InputMaster : IInputActionCollection, IDisposable
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+
+    // Pause Menu
+    private readonly InputActionMap m_PauseMenu;
+    private IPauseMenuActions m_PauseMenuActionsCallbackInterface;
+    private readonly InputAction m_PauseMenu_PauseMenu_Exit;
+    public struct PauseMenuActions
+    {
+        private @InputMaster m_Wrapper;
+        public PauseMenuActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
+        public InputAction @PauseMenu_Exit => m_Wrapper.m_PauseMenu_PauseMenu_Exit;
+        public InputActionMap Get() { return m_Wrapper.m_PauseMenu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PauseMenuActions set) { return set.Get(); }
+        public void SetCallbacks(IPauseMenuActions instance)
+        {
+            if (m_Wrapper.m_PauseMenuActionsCallbackInterface != null)
+            {
+                @PauseMenu_Exit.started -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnPauseMenu_Exit;
+                @PauseMenu_Exit.performed -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnPauseMenu_Exit;
+                @PauseMenu_Exit.canceled -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnPauseMenu_Exit;
+            }
+            m_Wrapper.m_PauseMenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @PauseMenu_Exit.started += instance.OnPauseMenu_Exit;
+                @PauseMenu_Exit.performed += instance.OnPauseMenu_Exit;
+                @PauseMenu_Exit.canceled += instance.OnPauseMenu_Exit;
+            }
+        }
+    }
+    public PauseMenuActions @PauseMenu => new PauseMenuActions(this);
     private int m_KeyboardandMouseSchemeIndex = -1;
     public InputControlScheme KeyboardandMouseScheme
     {
@@ -1034,5 +1097,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnGridManager_ContinueBuilding(InputAction.CallbackContext context);
         void OnDebugUI_Show(InputAction.CallbackContext context);
         void OnPauseMenu_Show(InputAction.CallbackContext context);
+    }
+    public interface IPauseMenuActions
+    {
+        void OnPauseMenu_Exit(InputAction.CallbackContext context);
     }
 }

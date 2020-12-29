@@ -51,7 +51,7 @@ namespace UnityEngine.InputSystem.Composites
             InputSystem.RegisterBindingComposite<MovementVector3Composite>();
         }
 
-        [RuntimeInitializeOnLoadMethod]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void Init() { } // Trigger static constructor.
     }
 }

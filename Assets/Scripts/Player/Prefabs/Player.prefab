@@ -337,10 +337,6 @@ MonoBehaviour:
     m_ActionName: Gameplay/GridManager_PlaceBuilding[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 0262edbe-4483-49e3-b2e1-2cc608dabdfd
-    m_ActionName: Gameplay/GridManager_RotateBuilding[/Keyboard/f,/Keyboard/r]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 61e0ef6e-cc51-427d-a316-11962b80e6f9
     m_ActionName: Gameplay/GridManager_ContinueBuilding[/Keyboard/leftShift]
   - m_PersistentCalls:
@@ -351,6 +347,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: af29e5a0-72da-42f6-b381-888b686209a4
     m_ActionName: Gameplay/PauseMenu_Show[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0db2edd5-043b-4b53-a1d2-eb263be1afca
+    m_ActionName: Gameplay/GridManager_RotateBuildingLeft[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6ee0803c-ac35-4f92-a8b5-164546b52a22
+    m_ActionName: Gameplay/GridManager_RotateBuildingRight[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8f4e8b0f-4b55-4b92-a811-28b86a229a05
+    m_ActionName: Pause Menu/PauseMenu_Exit[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard and Mouse
   m_DefaultActionMap: Gameplay

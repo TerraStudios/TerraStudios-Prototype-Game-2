@@ -13,6 +13,7 @@ namespace CoreManagement
 
         [HideInInspector] public static bool isOpen;
         public static bool wasPaused;
+        private bool wasCursorShown;
 
         public void ShowTrigger(InputAction.CallbackContext context)
         {
@@ -24,6 +25,12 @@ namespace CoreManagement
                     wasPaused = TimeEngine.IsPaused;
                     TimeEngine.IsPaused = false;
                     pauseMenuPanel.SetActive(false);
+                    InputSystemManager.Instance.SwitchToGameplay();
+                    Cursor.visible = wasCursorShown;
+                    if (wasCursorShown)
+                        Cursor.lockState = CursorLockMode.None;
+                    else
+                        Cursor.lockState = CursorLockMode.Locked;
                 }
                 else
                 {
@@ -31,6 +38,10 @@ namespace CoreManagement
                     wasPaused = TimeEngine.IsPaused;
                     TimeEngine.IsPaused = true;
                     pauseMenuPanel.SetActive(true);
+                    InputSystemManager.Instance.SwitchToPauseMenu();
+                    wasCursorShown = Cursor.visible;
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
                 }
             }
         }
