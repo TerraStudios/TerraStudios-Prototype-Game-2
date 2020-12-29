@@ -391,7 +391,7 @@ namespace BuildingModules
 
         private IEnumerator RunCraftingTimer()
         {
-            yield return new WaitForSeconds(currentlyCrafting.Peek().currentRecipe.baseTime * baseTimeMultiplier * GameManager.Instance.profile.globalBaseTimeMultiplier);
+            yield return new WaitForSeconds(currentlyCrafting.Peek().currentRecipe.baseTime * baseTimeMultiplier * GameManager.currentGameProfile.globalBaseTimeMultiplier);
             while (!IsOutputStorageSufficient()) ;
             ExecuteCrafting();
         }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace CoreManagement
 {
@@ -7,6 +8,7 @@ namespace CoreManagement
     /// <summary>
     /// This class contains properties that we use to enforce different game experiences by changing values of various systems.
     /// </summary>
+    [Serializable]
     [CreateAssetMenu(fileName = "New Game Profile", menuName = "Settings/New Game Profile")]
     public class GameProfile : ScriptableObject
     {
