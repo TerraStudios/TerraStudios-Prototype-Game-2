@@ -47,7 +47,7 @@ namespace CoreManagement
 
         private UserProfileData debugLoadedUserProfile;
         public UserProfile defaultUserProfile;
-        public UserProfileData currentUserProfile
+        public UserProfileData CurrentUserProfile
         {
             get => GameSave.current.userProfileData;
             set
@@ -55,6 +55,12 @@ namespace CoreManagement
                 GameSave.current.userProfileData = value;
                 debugLoadedUserProfile = value;
             }
+        }
+
+        private void Update()
+        {
+            Debug.Log(CurrentGameProfile.enableBankruptcy);
+            Debug.Log(CurrentUserProfile.currencyCC);
         }
 
         private void Awake()
@@ -69,31 +75,44 @@ namespace CoreManagement
 
             DontDestroyOnLoad(this);
 
-            if (Application.isEditor)
+            if (Application.isEditor && CurrentGameProfile == null)
+            {
                 CurrentGameProfile = editorGameProfile.data;
+                Debug.Log("Applied default editor gprofile");
+            }
+            else
+                Debug.Log("Skipping default editor gprofile");
 
-            if (currentUserProfile == null)
-                currentUserProfile = defaultUserProfile.data;
+            if (CurrentUserProfile == null)
+                CurrentUserProfile = defaultUserProfile.data;
 
+            GenerateCultures();
+
+            Log.DEBUG_MODE = DebugMode; //Set the debug mode for logging
+        }
+
+        private void GenerateCultures()
+        {
             // Game Profile always has higher priority than User Profile
 
-            if (currentUserProfile.manualTimeDateCC)
-                currentCultureTimeDate = CultureInfo.CreateSpecificCulture(currentUserProfile.timeDateCC);
+            if (CurrentUserProfile.manualTimeDateCC)
+                currentCultureTimeDate = CultureInfo.CreateSpecificCulture(CurrentUserProfile.timeDateCC);
             else
                 currentCultureTimeDate = CultureInfo.CurrentCulture;
 
             if (CurrentGameProfile.forceManualCurrencyCC)
                 currentCultureCurrency = CultureInfo.CreateSpecificCulture(CurrentGameProfile.currencyCC);
-            else if (currentUserProfile.manualCurrencyCC)
-                currentCultureCurrency = CultureInfo.CreateSpecificCulture(currentUserProfile.currencyCC);
+            else if (CurrentUserProfile.manualCurrencyCC)
+                currentCultureCurrency = CultureInfo.CreateSpecificCulture(CurrentUserProfile.currencyCC);
             else
                 currentCultureTimeDate = CultureInfo.CurrentCulture;
 
-            Log.DEBUG_MODE = DebugMode; //Set the debug mode for logging
+            Debug.Log("Current time culture: " + currentCultureCurrency.Name);
         }
 
         public void ResetGame()
         {
+            GenerateCultures();
             StartCoroutine(ResetGameAction());
         }
 
