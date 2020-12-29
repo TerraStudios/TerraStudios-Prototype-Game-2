@@ -76,12 +76,7 @@ namespace CoreManagement
             DontDestroyOnLoad(this);
 
             if (Application.isEditor && CurrentGameProfile == null)
-            {
                 CurrentGameProfile = editorGameProfile.data;
-                Debug.Log("Applied default editor gprofile");
-            }
-            else
-                Debug.Log("Skipping default editor gprofile");
 
             if (CurrentUserProfile == null)
                 CurrentUserProfile = defaultUserProfile.data;
@@ -106,8 +101,6 @@ namespace CoreManagement
                 currentCultureCurrency = CultureInfo.CreateSpecificCulture(CurrentUserProfile.currencyCC);
             else
                 currentCultureTimeDate = CultureInfo.CurrentCulture;
-
-            Debug.Log("Current time culture: " + currentCultureCurrency.Name);
         }
 
         public void ResetGame()
