@@ -182,28 +182,7 @@ namespace TerrainGeneration
                 Regenerate();
                 dirty = false;
             }
-        }
 
-        public void Regenerate()
-        {
-
-
-            // Start chunk generation
-
-            threadFinished = false;
-
-            ThreadPool.QueueUserWorkItem(new WaitCallback(PrepareMesh));
-
-        }
-
-        private void PrepareMesh(object callback)
-        {
-            GetBlockData();
-            CreateChunkMeshData(null);
-        }
-
-        public void LateUpdate()
-        {
             if (!generated && threadFinished)
             {
                 ConstructMesh();
@@ -211,6 +190,29 @@ namespace TerrainGeneration
 
 
             }
+        }
+
+        public void Regenerate()
+        {
+
+
+            // Start chunk generation
+            generated = false;
+            threadFinished = false;
+
+            voxelData = new byte[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
+
+            //PrepareMesh(null);
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(PrepareMesh));
+
+        }
+
+        private void PrepareMesh(object callback)
+        {
+
+            GetBlockData();
+            CreateChunkMeshData(null);
         }
 
         private void OnDestroy()
@@ -226,7 +228,7 @@ namespace TerrainGeneration
         /// </summary>
         private void GetBlockData()
         {
-            voxelData = new byte[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
+
 
             for (int x = 0; x < chunkSizeX; x++)
             {
@@ -242,6 +244,8 @@ namespace TerrainGeneration
                     }
                 }
             }
+
+
 
 
 
@@ -288,17 +292,26 @@ namespace TerrainGeneration
         /// </summary>
         private void CreateChunkMeshData(object callback)
         {
+
+
             for (int x = 0; x < chunkSizeX; x++)
             {
+                //TerrainGenerator.threadCount++;
+
+
                 for (int y = 0; y < chunkSizeY; y++)
                 {
                     for (int z = 0; z < chunkSizeZ; z++)
                     {
+                        //new Vector3Int(x, y, z);
+                        //TerrainGenerator.threadCount++;
                         AddBlockData(new Vector3Int(x, y, z));
                     }
                 }
             }
 
+
+            //TerrainGenerator.threadCount++;
             // Thread is now finished, signal main thread
             threadFinished = true;
         }
@@ -309,8 +322,6 @@ namespace TerrainGeneration
         /// <param name="cubePos"></param>
         private void AddBlockData(Vector3Int cubePos)
         {
-
-
 
             // If the block isn't solid don't try rendering it
             if (!generator.blockTypes[GetVoxelData(cubePos.x, cubePos.y, cubePos.z)].isSolid) return;
@@ -329,6 +340,7 @@ namespace TerrainGeneration
                     // vert 3 - (1, 0, 0)
                     // vert 4 - (1, 1, 0)
 
+
                     // Add 4 vertices of cube side
                     vertices.Add(cubePos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 0]]);
                     vertices.Add(cubePos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 1]]);
@@ -342,23 +354,9 @@ namespace TerrainGeneration
                     float y = cubePos.z / (float)chunkSizeZ; //because uvs start top left, y needs to be inverted
                     float x = cubePos.x / (float)chunkSizeX;
 
-
-                    //Find corresponding UV coordinates
-                    //if y = 3 and atlas size is 9, 1/9 * 3 = .33 = uv index
-                    //y *= VoxelTables.NormalizedTextureSizeY;
-                    //x *= VoxelTables.NormalizedTextureSizeX;
-
-                    //Debug.Log($"Chunk size Z: {chunkSizeZ}");
-                    //Debug.Log($"Chunk size X: {chunkSizeX}");
-
                     float yAmount = 1f / chunkSizeZ;
                     float xAmount = 1f / chunkSizeX;
 
-
-                    //uvs.Add(new Vector2(x, y));
-                    //uvs.Add(new Vector2(x + xAmount, y));
-                    //uvs.Add(new Vector2(x, y + yAmount));
-                    //uvs.Add(new Vector2(x + xAmount, y + yAmount));
                     uvs.Add(new Vector2(x, y)); // 0, 0 - bottom left
                     uvs.Add(new Vector2(x, y + yAmount)); //0, 1 - top left
                     uvs.Add(new Vector2(x + xAmount, y)); // 1, 0 - bottom right
@@ -371,6 +369,7 @@ namespace TerrainGeneration
                     triangles.Add(vIndex + 2);
                     triangles.Add(vIndex + 1);
                     triangles.Add(vIndex + 3);
+
 
                     // Increment index for next faces
                     vIndex += 4;
@@ -402,6 +401,7 @@ namespace TerrainGeneration
             // Set mesh to the GO and add the spritemap material from TerrainGenerator
             filter.mesh = mesh;
             renderer.material = TerrainGenerator.material;
+
 
         }
 

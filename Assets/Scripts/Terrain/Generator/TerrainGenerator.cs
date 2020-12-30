@@ -84,8 +84,6 @@ namespace TerrainGeneration
         private void Awake()
         {
             instance = this;
-            ThreadPool.SetMaxThreads(Environment.ProcessorCount, Environment.ProcessorCount);
-            //Debug.Log("User has " + Environment.ProcessorCount + " processors");
         }
 
 
@@ -169,7 +167,6 @@ namespace TerrainGeneration
                 {
                     for (int z = playerPos.z - chunkRange; z < playerPos.z + chunkRange; z++)
                     {
-                        //Debug.Log($"Create Loop: ({x}, {z})");
                         ChunkCoord coord = new ChunkCoord { x = x, z = z };
 
                         if (currentChunks.ContainsKey(coord)) continue; // Chunk has already been loaded}
@@ -177,7 +174,6 @@ namespace TerrainGeneration
 
                         if (coord.x < 0 || coord.x > worldSize.x - 1 || coord.z < 0 || coord.z > worldSize.y - 1) continue; // Chunk doesn't exist
 
-                        //Debug.Log($"Enqueueing: ({coord.x}, {coord.z})");
 
                         chunkQueue.Enqueue(coord); // Queue chunk for loading
 
