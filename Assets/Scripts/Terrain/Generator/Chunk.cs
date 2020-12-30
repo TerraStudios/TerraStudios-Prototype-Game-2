@@ -204,8 +204,15 @@ namespace TerrainGeneration
 
             //PrepareMesh(null);
 
-            ThreadPool.QueueUserWorkItem(new WaitCallback(PrepareMesh));
+            StartCoroutine(StartChunkThread());
 
+        }
+
+        private IEnumerator StartChunkThread()
+        {
+            yield return new WaitForEndOfFrame();
+            ThreadPool.QueueUserWorkItem(new WaitCallback(PrepareMesh));
+            yield return null;
         }
 
         private void PrepareMesh(object callback)
