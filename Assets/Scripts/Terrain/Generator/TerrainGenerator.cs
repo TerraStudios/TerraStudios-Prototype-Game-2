@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using TerrainGeneration;
 using Unity.Mathematics;
 using UnityEngine;
@@ -82,6 +84,8 @@ namespace TerrainGeneration
         private void Awake()
         {
             instance = this;
+            ThreadPool.SetMaxThreads(Environment.ProcessorCount, Environment.ProcessorCount);
+            //Debug.Log("User has " + Environment.ProcessorCount + " processors");
         }
 
 
