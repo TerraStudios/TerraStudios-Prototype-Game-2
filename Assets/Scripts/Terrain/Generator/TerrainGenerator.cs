@@ -267,7 +267,7 @@ namespace TerrainGeneration
             Chunk foundChunk = chunks[coord.x, coord.z];
 
             // Chunk is already loaded
-            if (foundChunk != null)
+            if (foundChunk != null && foundChunk.generated)
             {
                 return foundChunk.GetVoxelData(posX - (coord.x * chunkXSize), posY, posZ - (coord.z * chunkZSize)); // Return the byte value in the chunk to avoid extra noise call
             }
