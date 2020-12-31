@@ -57,12 +57,6 @@ namespace CoreManagement
             }
         }
 
-        private void Update()
-        {
-            Debug.Log(CurrentGameProfile.enableBankruptcy);
-            Debug.Log(CurrentUserProfile.currencyCC);
-        }
-
         private void Awake()
         {
             if (Instance)
