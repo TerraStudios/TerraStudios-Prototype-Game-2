@@ -150,11 +150,11 @@ namespace TerrainGeneration
         /// <summary>
         /// A reference to the <see cref="TerrainGenerator"/> <see cref="GameObject"/>, attached when created
         /// </summary>
-        public TerrainGenerator generator;
+        public TerrainGenerator generator = TerrainGenerator.instance;
 
         private bool dirty = false;
 
-        public void Start()
+        public void OnEnable()
         {
             // Register chunk in TerrainGenerator
             generator.chunks[chunkCoord.x, chunkCoord.z] = this;
@@ -361,6 +361,10 @@ namespace TerrainGeneration
                 triangles = triangles.ToArray(),
                 uv = uvs.ToArray()
             };
+
+            vertices.Clear();
+            triangles.Clear();
+            uvs.Clear();
 
             // Recalculate normals of the mesh
             mesh.RecalculateNormals();

@@ -6,6 +6,7 @@ using System.Threading;
 using TerrainGeneration;
 using Unity.Mathematics;
 using UnityEngine;
+using Utilities;
 
 namespace TerrainGeneration
 {
@@ -92,6 +93,8 @@ namespace TerrainGeneration
         /// </summary>
         private void Start()
         {
+            ObjectPoolManager.Instance.CreatePool(emptyChunk, 200);
+
             noise = new FastNoiseLite();
             noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
 
@@ -123,14 +126,14 @@ namespace TerrainGeneration
 
                         if (!currentChunks.ContainsKey(next)) // Prevents chunks from being generated so fast they duplicate
                         {
-                            //Chunk chunk = ObjectPoolManager.instance.ReuseObject(emptyChunk, new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize), Quaternion.identity).GetComponent<Chunk>();
-                            GameObject go = Instantiate(emptyChunk);
+                            Chunk chunk = ObjectPoolManager.Instance.ReuseObject(emptyChunk, new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize), Quaternion.identity).AddComponent<Chunk>();
+                            //GameObject go = Instantiate(emptyChunk);
 
-                            go.transform.parent = transform;
+                            //go.transform.parent = transform;
 
-                            go.transform.position = new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize);
+                            //go.transform.position = new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize);
 
-                            Chunk chunk = go.GetComponent<Chunk>();
+                            //Chunk chunk = go.GetComponent<Chunk>();
 
                             chunk.generator = this;
                             chunk.chunkCoord = next;
@@ -165,11 +168,13 @@ namespace TerrainGeneration
                 // Loop through every chunk around player
                 for (int x = playerPos.x - chunkRange; x < playerPos.x + chunkRange; x++)
                 {
+
+
                     for (int z = playerPos.z - chunkRange; z < playerPos.z + chunkRange; z++)
                     {
                         ChunkCoord coord = new ChunkCoord { x = x, z = z };
 
-                        if (currentChunks.ContainsKey(coord)) continue; // Chunk has already been loaded}
+                        if (currentChunks.TryGetValue(coord, out Chunk c)) continue; // Chunk has already been loaded}
 
 
                         if (coord.x < 0 || coord.x > worldSize.x - 1 || coord.z < 0 || coord.z > worldSize.y - 1) continue; // Chunk doesn't exist
@@ -187,8 +192,9 @@ namespace TerrainGeneration
 
                     if (!coord.IsDistanceFrom(playerPos, chunkRange))
                     {
-                        Destroy(chunks[coord.x, coord.z].gameObject);
-                        //ObjectPoolManager.instance.DestroyObject(chunks[coord.x, coord.z].gameObject);
+                        //chunks[coord.x, coord.z].gameObject.component
+                        //Destroy(chunks[coord.x, coord.z].gameObject);
+                        ObjectPoolManager.Instance.DestroyObject(chunks[coord.x, coord.z].gameObject);
                         chunks[coord.x, coord.z] = null;
 
                         //chunks[coord.x, coord.z].chunkGO.SetActive(false)
