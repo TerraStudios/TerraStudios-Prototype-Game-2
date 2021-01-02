@@ -8,6 +8,7 @@ using Unity.Burst;
 using Unity.Mathematics;
 using UnityEditor;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace TerrainGeneration
 {
@@ -97,13 +98,6 @@ namespace TerrainGeneration
         public ChunkCoord chunkCoord;
 
         /// <summary>
-        /// The world space position of the chunk as an int3
-        /// 
-        /// This is only used for the burst C# jobs as int3s are more optimized when it comes to calculations versus Vector3s
-        /// </summary>
-        private int3 JWorldPos => new int3(Mathf.FloorToInt(chunkCoord.x * chunkSizeX), 0, Mathf.FloorToInt(chunkCoord.z * chunkSizeZ));
-
-        /// <summary>
         /// The world space position of the chunk as a Vector3
         /// </summary>
         private Vector3Int WorldPos => Vector3Int.FloorToInt(new Vector3(chunkCoord.x * chunkSizeX, 0, chunkCoord.z * chunkSizeZ));
@@ -187,8 +181,6 @@ namespace TerrainGeneration
             {
                 ConstructMesh();
                 generated = true;
-
-
             }
         }
 
@@ -204,22 +196,20 @@ namespace TerrainGeneration
 
             //PrepareMesh(null);
 
-            StartCoroutine(StartChunkThread());
-
+            new Task(() => PrepareMesh()).Start();
         }
 
-        private IEnumerator StartChunkThread()
+        private void PrepareMesh()
         {
-            yield return new WaitForEndOfFrame();
-            ThreadPool.QueueUserWorkItem(new WaitCallback(PrepareMesh));
-            yield return null;
-        }
-
-        private void PrepareMesh(object callback)
-        {
-
-            GetBlockData();
-            CreateChunkMeshData(null);
+            try
+            {
+                GetBlockData();
+                CreateChunkMeshData();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
 
         private void OnDestroy()
@@ -244,35 +234,13 @@ namespace TerrainGeneration
                     for (int z = 0; z < chunkSizeZ; z++)
                     {
                         // Calculate 3D index from 1D index
-                        int3 pos = new int3(x, y, z);
+                        Vector3Int pos = new Vector3Int(x, y, z);
 
                         // Set voxel data from TerrainGenerator generation
-                        voxelData[GetVoxelDataIndex(x, y, z)] = TerrainGenerator.GenerateVoxelType(pos + JWorldPos);
+                        voxelData[GetVoxelDataIndex(x, y, z)] = generator.GenerateVoxelType(pos + WorldPos);
                     }
                 }
             }
-
-
-
-
-
-
-            //j_voxels = new NativeArray<byte>(voxelData, Allocator.TempJob);
-
-            //j_chunkJob = new ChunkNoiseJob
-            //{
-            //    voxels = j_voxels,
-            //    worldPos = JWorldPos,
-            //    chunkSizeX = chunkSizeX,
-            //    chunkSizeY = chunkSizeY,
-            //    chunkSizeZ = chunkSizeZ
-            //};
-
-            //// Schedule job with a batchsize of 32
-            //jHandle = j_chunkJob.Schedule(voxelData.Length, 32);
-
-            //// Complete the job
-            //jHandle.Complete();
         }
 
         /// <summary>
@@ -284,20 +252,18 @@ namespace TerrainGeneration
         /// <returns>Whether the block needs to be rendered or not</returns>
         private bool CheckBlock(Vector3Int pos)
         {
-
             if (!VoxelInsideChunk(pos))
             {
-                return generator.blockTypes[generator.GetVoxel(pos + WorldPos)].isSolid;
+                return generator.voxelTypes[generator.GetVoxelValue(pos + WorldPos)].isSolid;
             }
 
-
-            return generator.blockTypes[GetVoxelData(pos.x, pos.y, pos.z)].isSolid;
+            return generator.voxelTypes[GetVoxelData(pos.x, pos.y, pos.z)].isSolid;
         }
 
         /// <summary>
         /// Adds all block data to a chunk
         /// </summary>
-        private void CreateChunkMeshData(object callback)
+        private void CreateChunkMeshData()
         {
 
 
@@ -331,7 +297,7 @@ namespace TerrainGeneration
         {
 
             // If the block isn't solid don't try rendering it
-            if (!generator.blockTypes[GetVoxelData(cubePos.x, cubePos.y, cubePos.z)].isSolid) return;
+            if (!generator.voxelTypes[GetVoxelData(cubePos.x, cubePos.y, cubePos.z)].isSolid) return;
             //if (!CheckBlock(cubePos)) return;
 
             // Loop through every side of the voxel
@@ -353,9 +319,6 @@ namespace TerrainGeneration
                     vertices.Add(cubePos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 1]]);
                     vertices.Add(cubePos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 2]]);
                     vertices.Add(cubePos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 3]]);
-
-                    // Adds designated texture side based on ID (UVs)
-                    AddTexture(generator.blockTypes[GetVoxelData(cubePos.x, cubePos.y, cubePos.z)].GetTextureSide(p));
 
                     // Find x and y in relation to the texture 
                     float y = cubePos.z / (float)chunkSizeZ; //because uvs start top left, y needs to be inverted
@@ -409,15 +372,6 @@ namespace TerrainGeneration
             filter.mesh = mesh;
             renderer.material = TerrainGenerator.material;
 
-
-        }
-
-        /// <summary>
-        /// Adds the designated UVs to a face of a voxel
-        /// </summary>
-        /// <param name="id">The texture ID, designated by the tile sprite image (first texture is id 0, 1, 2..)</param>
-        private void AddTexture(int id)
-        {
 
         }
 

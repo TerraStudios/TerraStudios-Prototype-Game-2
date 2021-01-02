@@ -71,9 +71,9 @@ namespace TerrainGeneration
         private ChunkCoord lastChunkPos;
 
         /// <summary>
-        /// List of all the block types in the game
+        /// List of all the voxel types in the game
         /// </summary>
-        public BlockType[] blockTypes;
+        public VoxelType[] voxelTypes;
 
         /// <summary>
         /// Noise generation class
@@ -225,7 +225,7 @@ namespace TerrainGeneration
         /// </summary>
         /// <param name="pos">The position of the voxel in world space</param>
         /// <returns></returns>
-        public static byte GenerateVoxelType(int3 pos)
+        public byte GenerateVoxelType(Vector3Int pos)
         {
             int posX = pos.x;
             int posY = pos.y;
@@ -245,11 +245,11 @@ namespace TerrainGeneration
 
 
         /// <summary>
-        /// Retrieves the current block type of a voxel
+        /// Retrieves the current voxel type byte value of a position
         /// </summary>
         /// <param name="pos">The position of the voxel</param>
         /// <returns></returns>
-        public byte GetVoxel(Vector3Int pos)
+        public byte GetVoxelValue(Vector3Int pos)
         {
 
             int posX = pos.x;
@@ -272,8 +272,18 @@ namespace TerrainGeneration
                 return foundChunk.GetVoxelData(posX - (coord.x * chunkXSize), posY, posZ - (coord.z * chunkZSize)); // Return the byte value in the chunk to avoid extra noise call
             }
 
-            return GenerateVoxelType(new int3(posX, posY, posZ)); // Chunk hasn't been generated yet, just generate the voxel
+            return GenerateVoxelType(pos); // Chunk hasn't been generated yet, just generate the voxel
 
+        }
+
+        /// <summary>
+        /// Retrieves the <see cref="VoxelType"/> of a position
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public VoxelType GetVoxelType(Vector3Int pos)
+        {
+            return voxelTypes[GetVoxelValue(pos)];
         }
     }
 
@@ -281,48 +291,12 @@ namespace TerrainGeneration
     /// Represents a block's ID and transparency, as well as texturing
     /// </summary>
     [System.Serializable]
-    public class BlockType
+    public class VoxelType
     {
         [Header("Block Properties")]
         [Tooltip("The name of the block")]
         public string id;
         [Tooltip("Determines whether the block is air or not")]
         public bool isSolid;
-
-        [Header("Texture")]
-        public int topTexture;
-        public int bottomTexture;
-        public int leftTexture;
-        public int rightTexture;
-        public int frontTexture;
-        public int backTexture;
-
-        /// <summary>
-        /// Retrieves a texture index from the tileset depending on the face
-        /// </summary>
-        /// <param name="face">The face to retrieve the index from</param>
-        /// <returns>An index of the texture from the tileset</returns>
-        public int GetTextureSide(int face)
-        {
-            switch (face)
-            {
-                case 0:
-                    return backTexture;
-                case 1:
-                    return frontTexture;
-                case 2:
-                    return topTexture;
-                case 3:
-                    return bottomTexture;
-                case 4:
-                    return leftTexture;
-                case 5:
-                    return rightTexture;
-                default:
-                    return 0;
-            }
-        }
-
-
     }
 }

@@ -823,12 +823,12 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000037315235
+      value: 0.000000037315235
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00000001959414
+      value: -0.00000001959414
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762749, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -873,12 +873,12 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000037315235
+      value: 0.000000037315235
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00000001959414
+      value: -0.00000001959414
       objectReference: {fileID: 0}
     - target: {fileID: 612778395846576487, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -1405,11 +1405,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugMode: 1
-  profile: {fileID: 11400000, guid: 398a01efedc0f0e41bb8275eb8c46b12, type: 2}
-  easyProfile: {fileID: 0}
-  mediumProfile: {fileID: 0}
-  hardProfile: {fileID: 0}
-  uProfile: {fileID: 11400000, guid: 6ae362b976878474aa82b4e73f780318, type: 2}
+  editorGameProfile: {fileID: 0}
+  gameProfiles: []
+  defaultUserProfile: {fileID: 0}
 --- !u!4 &1289954469
 Transform:
   m_ObjectHideFlags: 0
@@ -1581,8 +1579,6 @@ MonoBehaviour:
   apm2Location: Buildings/APMs/PF_APM_Prot_1I_2O
   apm3Location: Buildings/APMs/PF_APM_Prot_2I_2O
   conveyorLocation: Buildings/Belts/PF_Build_Belt_01
-  flipBuildingRight: 114
-  flipBuildingLeft: 102
   visualization: {fileID: 0}
   canPlace: 1
   debugMode: 0
@@ -1992,10 +1988,9 @@ MonoBehaviour:
   chunkXSize: 16
   chunkYSize: 32
   chunkZSize: 16
-  chunkRange: 6
+  chunkRange: 100
   cubeMaterial: {fileID: 2100000, guid: 1b46bec1ad373b5439466682dde17a59, type: 2}
   player: {fileID: 1434801918}
-  currentChunks: []
   blockTypes:
   - id: Air
     isSolid: 0
