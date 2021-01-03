@@ -152,7 +152,7 @@ namespace Player
         {
             RaycastHit? gridHit = GridManager.Instance.FindGridHit();
             if (gridHit == null) return default;
-            Vector3 snappedPos = GridManager.Instance.GetGridPosition(gridHit.Value.point, new Vector2Int() { x = brushSize.value.ToInt() + 1, y = brushSize.value.ToInt() + 1 });
+            Vector3 snappedPos = GridManager.Instance.GetGridPosition(gridHit.Value.point, new Vector3Int() { x = brushSize.value.ToInt() + 1, y = brushSize.value.ToInt() + 1, z = 1 });
             if (snappedPos == lastSnappedPos) return default;
             return snappedPos;
         }

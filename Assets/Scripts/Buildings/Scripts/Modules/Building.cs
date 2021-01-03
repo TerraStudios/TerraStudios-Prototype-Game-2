@@ -320,10 +320,10 @@ namespace BuildingModules
         /// Retrieves the grid size of the building
         /// </summary>
         /// <returns>A <see cref="Vector2Int"/> representing the grid size</returns>
-        public Vector2Int GetBuildSize()
+        public Vector3Int GetBuildSize()
         {
             Vector3 e = GetComponent<MeshRenderer>().bounds.size;
-            return new Vector2Int((int)Math.Round(e.x), (int)Math.Round(e.z));
+            return new Vector3Int(Mathf.RoundToInt(e.x), Mathf.RoundToInt(e.y), Mathf.RoundToInt(e.z));
         }
 
         /// <summary>

@@ -371,9 +371,11 @@ namespace TerrainGeneration
 
             MeshFilter filter = GetComponent<MeshFilter>();
             MeshRenderer renderer = GetComponent<MeshRenderer>();
+            MeshCollider collider = GetComponent<MeshCollider>();
 
             // Set mesh to the GO and add the spritemap material from TerrainGenerator
             filter.mesh = mesh;
+            collider.sharedMesh = mesh;
             renderer.material = TerrainGenerator.material;
 
 

@@ -2,6 +2,7 @@
 using CoreManagement;
 using DebugTools;
 using EconomyManagement;
+using TerrainGeneration;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -260,14 +261,40 @@ namespace BuildingManagement
         /// <returns>Whether the current building can be placed at this position</returns>
         private bool CanPlace(Vector3 grid)
         {
-            Vector2 buildingSize = currentBuilding.GetBuildSize();
+            Vector3Int buildingSize = currentBuilding.GetBuildSize();
 
-            ExtDebug.DrawBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange, Color.red);
+            for (int x = (int)grid.x - 1; x < grid.x + buildingSize.x - 1; x++)
+            {
+                for (int z = (int)grid.z - 1; z < grid.z + buildingSize.z - 1; z++)
+                {
+                    for (int y = (int)grid.y; y < grid.y + buildingSize.y; y++)
+                    {
+                        // Check if the floor below is all solid
+                        if (y == (int)grid.y)
+                        {
+                            if (!TerrainGenerator.instance.voxelTypes[TerrainGenerator.instance.GetVoxelValue(new Vector3Int(x, y - 1, z))].isSolid)
+                            {
+                                return false;
+                            }
+                        }
 
-            if (Physics.CheckBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange, ~canPlaceIgnoreLayers))
-                return false;
-            else
-                return true;
+                        // Check if the entire space the building will occupy is not solid
+                        if (TerrainGenerator.instance.voxelTypes[TerrainGenerator.instance.GetVoxelValue(new Vector3Int(x, y, z))].isSolid)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+
+            //
+
+            //if (Physics.CheckBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange, ~canPlaceIgnoreLayers))
+            //    return false;
+            //else
+            //    return true;
         }
 
         /// <summary>
@@ -275,9 +302,9 @@ namespace BuildingManagement
         /// </summary>
         /// <param name="pos"></param>
         /// <returns>A locked grid position</returns>
-        public Vector3 GetGridPosition(Vector3 pos, Vector2Int gridSize = default) // when argument is supplied - use it instead of GetBuildSize
+        public Vector3 GetGridPosition(Vector3 pos, Vector3Int gridSize = default) // when argument is supplied - use it instead of GetBuildSize
         {
-            Vector2Int buildSize;
+            Vector3Int buildSize;
             if (!Equals(gridSize, default(Vector2Int)))
                 buildSize = gridSize;
             else
@@ -297,7 +324,9 @@ namespace BuildingManagement
                 z = buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
             }
 
-            return new Vector3(x, pos.y, z);
+            return new Vector3(x, Mathf.FloorToInt(pos.y + 0.1f), z);
+            //ExtDebug.DrawBox(new Vector3(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.RoundToInt(pos.z)), new Vector3(0.5f, 0.5f, 0.5f), RotationChange, Color.white);
+            //return new Vector3(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y + 0.1f), Mathf.RoundToInt(pos.z));
         }
 
         /// <summary>
@@ -306,7 +335,7 @@ namespace BuildingManagement
         /// <returns>The RayCastHit of the floor, or null if nothing is found.</returns>
         public RaycastHit? FindGridHit()
         {
-            if (Physics.Raycast(mainCamera.ScreenPointToRay(mousePos), out RaycastHit hit, 30000f, LayerMask.GetMask("GridFloor")))
+            if (Physics.Raycast(mainCamera.ScreenPointToRay(mousePos), out RaycastHit hit, 300000f))
             {
                 return hit;
             }
