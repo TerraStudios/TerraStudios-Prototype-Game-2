@@ -12,7 +12,7 @@ namespace SaveSystem
     public class BuildingSave
     {
 #pragma warning disable CA2235 // Uses serialization surrogate
-        public Vector3 location;
+        public Vector2 chunkCoord;
         public Quaternion rotation;
 #pragma warning restore CA2235 // End serialization surrogate usage
         public BuildingBase building;

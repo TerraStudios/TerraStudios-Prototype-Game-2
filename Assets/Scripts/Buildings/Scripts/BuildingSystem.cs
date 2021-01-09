@@ -26,7 +26,7 @@ namespace BuildingManagement
         public GridManager gridManager;
         public EconomyManager economyManager;
 
-        public static readonly List<Building> RegisteredBuildings = new List<Building>();
+        public static readonly Dictionary<KeyValuePair<Building, GameObject>, Vector2> RegisteredBuildings = new Dictionary<KeyValuePair<Building, GameObject>, Vector2>();
 
         private GameObject _buildingHolder;
 
@@ -38,23 +38,27 @@ namespace BuildingManagement
             }
         }
 
-        public static void RegisterBuilding(Building b, bool save = true)
+        public static void RegisterBuilding(Vector2 chunkCoord, Building b, GameObject go, bool save = true)
         {
-            RegisteredBuildings.Add(b);
-            BuildingSave toSave = new BuildingSave()
-            {
-                location = b.transform.position,
-                rotation = b.transform.rotation,
-                building = b.bBase,
-                prefabLocation = b.prefabLocation
-            };
+            RegisteredBuildings.Add(new KeyValuePair<Building, GameObject>(b, go), chunkCoord);
             if (save)
+            {
+                BuildingSave toSave = new BuildingSave()
+                {
+                    chunkCoord = chunkCoord,
+                    rotation = b.transform.rotation,
+                    building = b.bBase,
+                    prefabLocation = b.prefabLocation
+                };
+
                 GameSave.current.worldSaveData.placedBuildings.Add(toSave);
+            }
         }
 
         public static void UnRegisterBuilding(Building b)
         {
-            RegisteredBuildings.Remove(b);
+            // Remove Dict entry of Building b found in the KVP in RegisteredBuildings.Values
+            RegisteredBuildings.Remove(RegisteredBuildings.FirstOrDefault(kvp => kvp.Key.Key == b).Key);
             GameSave.current.worldSaveData.placedBuildings.Where(bSave => bSave.building == b.bBase);
         }
 
@@ -72,10 +76,11 @@ namespace BuildingManagement
         {
             foreach (BuildingSave b in GameSave.current.worldSaveData.placedBuildings)
             {
-                Transform t = Instantiate(b.GetObj().gameObject, b.location, b.rotation).transform;
+                Transform t = Instantiate(b.GetObj().gameObject, b.chunkCoord, b.rotation).transform;
                 Building building = t.GetComponent<Building>();
+                Vector2 chunkCoord = b.chunkCoord;
                 building.bBase = b.building;
-                SetUpBuilding(building, false);
+                SetUpBuilding(building, t, chunkCoord, false);
             }
         }
 
@@ -83,12 +88,12 @@ namespace BuildingManagement
         /// Initializes all of the needed data for the building in question
         /// </summary>
         /// <param name="b"></param>
-        public void SetUpBuilding(Building b, bool register = true)
+        public void SetUpBuilding(Building b, Transform t, Vector2 coord, bool register = true)
         {
             b.transform.parent = buildingHolder.transform;
             b.timeManager = timeManager;
             b.economyManager = economyManager;
-            RegisterBuilding(b, register);
+            RegisterBuilding(coord, b, t.gameObject, register);
             b.Init(!register);
 
             if (b.mc.buildingIOManager.isConveyor)

@@ -1,6 +1,7 @@
 ﻿using BuildingModules;
 using CoreManagement;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace BuildingManagement
 {
@@ -19,9 +20,9 @@ namespace BuildingManagement
             if (!GameManager.Instance.CurrentGameProfile.enableElectricityCalculations)
                 return 0;
 
-            foreach (Building b in BuildingSystem.RegisteredBuildings)
+            foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.RegisteredBuildings.Keys)
             {
-                toReturn += b.GetUsedElectricity(ws);
+                toReturn += kvp.Key.GetUsedElectricity(ws);
             }
             return toReturn;
         }

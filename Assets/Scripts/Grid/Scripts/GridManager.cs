@@ -5,6 +5,7 @@ using EconomyManagement;
 using TerrainGeneration;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 namespace BuildingManagement
 {
@@ -46,7 +47,7 @@ namespace BuildingManagement
             }
         }
 
-        private Building currentBuilding;
+        private KeyValuePair<Building, GameObject> currentBuilding;
         public string apm1Location;
         public string apm2Location;
         public string apm3Location;
@@ -135,7 +136,9 @@ namespace BuildingManagement
             //If debug mode is enabled, this will loop through every registered building as well as the visualization and call the VisualizeColliders() method
             if (debugMode && visualization)
             {
-                foreach (Building building in BuildingSystem.RegisteredBuildings) building.mc.buildingIOManager.VisualizeColliders();
+                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.RegisteredBuildings.Keys)
+                    kvp.Key.mc.buildingIOManager.VisualizeColliders();
+
                 visualization.GetComponent<Building>().mc.buildingIOManager.VisualizeColliders();
             }
 
@@ -201,9 +204,9 @@ namespace BuildingManagement
         {
             buildingManager.OnBuildingDeselected();
             //TimeEngine.IsPaused = true;
-            visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
+            visualization = Instantiate(currentBuilding.Key.prefab, center, RotationChange).transform;
             visualization.GetComponent<Building>().SetIndicator(BuildingManager.Instance.directionIndicator);
-            tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
+            tempMat = currentBuilding.Key.prefab.GetComponent<MeshRenderer>().sharedMaterial;
         }
 
         /// <summary>
@@ -226,6 +229,8 @@ namespace BuildingManagement
             RaycastHit? hit = FindGridHit();
             if (hit == null) return;
 
+            Vector2 chunkCoord = Vector2.zero; //! Figure out this somehow
+
             Vector3 center = GetGridPosition(hit.Value.point);
 
             if (center == Vector3.zero)
@@ -244,7 +249,7 @@ namespace BuildingManagement
 
                 visualization.GetComponent<MeshRenderer>().material = tempMat;
 
-                buildingManager.SetUpBuilding(b);
+                buildingManager.SetUpBuilding(b, visualization, chunkCoord);
 
                 IsInBuildMode = continueBuilding;
             }
@@ -261,7 +266,7 @@ namespace BuildingManagement
         /// <returns>Whether the current building can be placed at this position</returns>
         private bool CanPlace(Vector3 grid)
         {
-            Vector3Int buildingSize = currentBuilding.GetBuildSize();
+            Vector3Int buildingSize = currentBuilding.Key.GetBuildSize();
 
             for (int x = (int)grid.x - 1; x < grid.x + buildingSize.x - 1; x++)
             {
@@ -308,7 +313,7 @@ namespace BuildingManagement
             if (!Equals(gridSize, default(Vector2Int)))
                 buildSize = gridSize;
             else
-                buildSize = currentBuilding.GetBuildSize();
+                buildSize = currentBuilding.Key.GetBuildSize();
 
             float x;
             float z;
@@ -370,11 +375,11 @@ namespace BuildingManagement
                 visualization = null;
                 if (!forceVisualizeAll)
                 {
-                    foreach (Building b in BuildingSystem.RegisteredBuildings)
+                    foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.RegisteredBuildings.Keys)
                     {
-                        if (b.mc.buildingIOManager)
+                        if (kvp.Key.mc.buildingIOManager)
                         {
-                            b.mc.buildingIOManager.DevisualizeAll();
+                            kvp.Key.mc.buildingIOManager.DevisualizeAll();
                         }
                     }
                 }
@@ -416,12 +421,13 @@ namespace BuildingManagement
             IsInBuildMode = true;
         }
 
-        public Building GetBuildingFromLocation(string resourcesLocation)
+        public KeyValuePair<Building, GameObject> GetBuildingFromLocation(string resourcesLocation)
         {
-            Transform tr = Resources.Load<Transform>(resourcesLocation);
-            Building b = tr.GetComponent<Building>();
+            Transform scriptGO = Resources.Load<Transform>(resourcesLocation);
+            Transform meshGO = Resources.Load<Transform>(resourcesLocation + "_Mesh");
+            Building b = scriptGO.GetComponent<Building>();
             b.prefabLocation = resourcesLocation;
-            return b;
+            return new KeyValuePair<Building, GameObject>(b, meshGO.gameObject);
         }
     }
 

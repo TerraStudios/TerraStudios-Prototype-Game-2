@@ -92,9 +92,9 @@ namespace BuildingManagement
                 return;
             focusedBuilding.mc.buildingIOManager.DevisualizeAll();
 
-            foreach (Building building in RegisteredBuildings)
+            foreach (KeyValuePair<Building, GameObject> kvp in RegisteredBuildings.Keys)
             {
-                building.mc.buildingIOManager.DevisualizeAll();
+                kvp.Key.mc.buildingIOManager.DevisualizeAll();
             }
 
             base.OnBuildingDeselected();

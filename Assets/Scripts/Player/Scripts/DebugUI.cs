@@ -5,6 +5,7 @@ using ItemManagement;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 namespace Player
 {
@@ -77,18 +78,18 @@ namespace Player
             {
                 // show all
                 GridManager.Instance.forceVisualizeAll = true;
-                foreach (Building registered in BuildingSystem.RegisteredBuildings)
+                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.RegisteredBuildings.Keys)
                 {
-                    registered.mc.buildingIOManager.VisualizeAll();
+                    kvp.Key.mc.buildingIOManager.VisualizeAll();
                 }
             }
             else
             {
                 // hide all
                 GridManager.Instance.forceVisualizeAll = false;
-                foreach (Building registered in BuildingSystem.RegisteredBuildings)
+                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.RegisteredBuildings.Keys)
                 {
-                    registered.mc.buildingIOManager.DevisualizeAll();
+                    kvp.Key.mc.buildingIOManager.DevisualizeAll();
                 }
             }
         }
