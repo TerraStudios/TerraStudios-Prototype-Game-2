@@ -28,7 +28,9 @@ namespace BuildingManagement
         public EconomyManager economyManager;
 
         /// <summary>
-        /// Stores all placed buildings in the world.
+        /// A dictionary that stores the following things:
+        /// Key - Coordinates of the chunk where the Building is placed
+        /// Value - KeyValuePair containing the Building (Script Prefab) as a key and GameObject (Mesh Prefab) as a value
         /// </summary>
         public static readonly Dictionary<ChunkCoord, KeyValuePair<Building, GameObject>> PlacedBuildings = new Dictionary<ChunkCoord, KeyValuePair<Building, GameObject>>();
 
