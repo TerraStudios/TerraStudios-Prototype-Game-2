@@ -92,7 +92,7 @@ namespace BuildingManagement
                 return;
             focusedBuilding.mc.buildingIOManager.DevisualizeAll();
 
-            foreach (KeyValuePair<Building, GameObject> kvp in RegisteredBuildings.Keys)
+            foreach (KeyValuePair<Building, GameObject> kvp in PlacedBuildings.Values)
             {
                 kvp.Key.mc.buildingIOManager.DevisualizeAll();
             }

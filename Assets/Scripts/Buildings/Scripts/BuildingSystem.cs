@@ -4,6 +4,7 @@ using Player;
 using SaveSystem;
 using System.Collections.Generic;
 using System.Linq;
+using TerrainGeneration;
 using TimeSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -26,7 +27,10 @@ namespace BuildingManagement
         public GridManager gridManager;
         public EconomyManager economyManager;
 
-        public static readonly Dictionary<KeyValuePair<Building, GameObject>, Vector2> RegisteredBuildings = new Dictionary<KeyValuePair<Building, GameObject>, Vector2>();
+        /// <summary>
+        /// Stores all placed buildings in the world.
+        /// </summary>
+        public static readonly Dictionary<ChunkCoord, KeyValuePair<Building, GameObject>> PlacedBuildings = new Dictionary<ChunkCoord, KeyValuePair<Building, GameObject>>();
 
         private GameObject _buildingHolder;
 
@@ -38,9 +42,9 @@ namespace BuildingManagement
             }
         }
 
-        public static void RegisterBuilding(Vector2 chunkCoord, Building b, GameObject go, bool save = true)
+        public static void RegisterBuilding(ChunkCoord chunkCoord, Building b, GameObject go, bool save = true)
         {
-            RegisteredBuildings.Add(new KeyValuePair<Building, GameObject>(b, go), chunkCoord);
+            PlacedBuildings.Add(chunkCoord, new KeyValuePair<Building, GameObject>(b, go));
             if (save)
             {
                 BuildingSave toSave = new BuildingSave()
@@ -58,11 +62,11 @@ namespace BuildingManagement
         public static void UnRegisterBuilding(Building b)
         {
             // Remove Dict entry of Building b found in the KVP in RegisteredBuildings.Values
-            RegisteredBuildings.Remove(RegisteredBuildings.FirstOrDefault(kvp => kvp.Key.Key == b).Key);
+            PlacedBuildings.Remove(PlacedBuildings.FirstOrDefault(kvp => kvp.Value.Key == b).Key);
             GameSave.current.worldSaveData.placedBuildings.Where(bSave => bSave.building == b.bBase);
         }
 
-        public void ClearRegisteredBuildings() { RegisteredBuildings.Clear(); }
+        public void ClearRegisteredBuildings() { PlacedBuildings.Clear(); }
 
         /// <summary>
         /// Main update loop for the BuildingSystem, refreshes the UI with OnBuildingUpdateUI
@@ -76,9 +80,12 @@ namespace BuildingManagement
         {
             foreach (BuildingSave b in GameSave.current.worldSaveData.placedBuildings)
             {
-                Transform t = Instantiate(b.GetObj().gameObject, b.chunkCoord, b.rotation).transform;
+                float x = b.chunkCoord.x;
+                float y = b.chunkCoord.z;
+
+                Transform t = Instantiate(b.GetObj().gameObject, new Vector3(x, y), b.rotation).transform;
                 Building building = t.GetComponent<Building>();
-                Vector2 chunkCoord = b.chunkCoord;
+                ChunkCoord chunkCoord = b.chunkCoord;
                 building.bBase = b.building;
                 SetUpBuilding(building, t, chunkCoord, false);
             }
@@ -88,7 +95,7 @@ namespace BuildingManagement
         /// Initializes all of the needed data for the building in question
         /// </summary>
         /// <param name="b"></param>
-        public void SetUpBuilding(Building b, Transform t, Vector2 coord, bool register = true)
+        public void SetUpBuilding(Building b, Transform t, ChunkCoord coord, bool register = true)
         {
             b.transform.parent = buildingHolder.transform;
             b.timeManager = timeManager;

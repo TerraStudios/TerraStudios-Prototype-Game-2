@@ -78,7 +78,7 @@ namespace Player
             {
                 // show all
                 GridManager.Instance.forceVisualizeAll = true;
-                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.RegisteredBuildings.Keys)
+                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings.Values)
                 {
                     kvp.Key.mc.buildingIOManager.VisualizeAll();
                 }
@@ -87,7 +87,7 @@ namespace Player
             {
                 // hide all
                 GridManager.Instance.forceVisualizeAll = false;
-                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.RegisteredBuildings.Keys)
+                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings.Values)
                 {
                     kvp.Key.mc.buildingIOManager.DevisualizeAll();
                 }

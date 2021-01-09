@@ -1,6 +1,7 @@
 ﻿using BuildingModules;
 using System;
 using System.Collections.Generic;
+using TerrainGeneration;
 using UnityEngine;
 
 namespace SaveSystem
@@ -12,7 +13,7 @@ namespace SaveSystem
     public class BuildingSave
     {
 #pragma warning disable CA2235 // Uses serialization surrogate
-        public Vector2 chunkCoord;
+        public ChunkCoord chunkCoord;
         public Quaternion rotation;
 #pragma warning restore CA2235 // End serialization surrogate usage
         public BuildingBase building;

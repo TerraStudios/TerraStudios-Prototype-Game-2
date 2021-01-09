@@ -136,7 +136,7 @@ namespace BuildingManagement
             //If debug mode is enabled, this will loop through every registered building as well as the visualization and call the VisualizeColliders() method
             if (debugMode && visualization)
             {
-                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.RegisteredBuildings.Keys)
+                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings.Values)
                     kvp.Key.mc.buildingIOManager.VisualizeColliders();
 
                 visualization.GetComponent<Building>().mc.buildingIOManager.VisualizeColliders();
@@ -229,7 +229,7 @@ namespace BuildingManagement
             RaycastHit? hit = FindGridHit();
             if (hit == null) return;
 
-            Vector2 chunkCoord = Vector2.zero; //! Figure out this somehow
+            ChunkCoord chunkCoord = new ChunkCoord(); //! Figure out this somehow
 
             Vector3 center = GetGridPosition(hit.Value.point);
 
@@ -375,7 +375,7 @@ namespace BuildingManagement
                 visualization = null;
                 if (!forceVisualizeAll)
                 {
-                    foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.RegisteredBuildings.Keys)
+                    foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings.Values)
                     {
                         if (kvp.Key.mc.buildingIOManager)
                         {

@@ -20,7 +20,7 @@ namespace BuildingManagement
             if (!GameManager.Instance.CurrentGameProfile.enableElectricityCalculations)
                 return 0;
 
-            foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.RegisteredBuildings.Keys)
+            foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings.Values)
             {
                 toReturn += kvp.Key.GetUsedElectricity(ws);
             }
