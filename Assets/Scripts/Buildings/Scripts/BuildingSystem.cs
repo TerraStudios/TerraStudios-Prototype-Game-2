@@ -82,10 +82,7 @@ namespace BuildingManagement
         {
             foreach (BuildingSave b in GameSave.current.worldSaveData.placedBuildings)
             {
-                float x = b.chunkCoord.x;
-                float y = b.chunkCoord.z;
-
-                Transform t = Instantiate(b.GetObj().gameObject, new Vector3(x, y), b.rotation).transform;
+                Transform t = Instantiate(b.GetObj().gameObject, b.chunkCoord.ToWorldSpace(), b.rotation).transform;
                 Building building = t.GetComponent<Building>();
                 ChunkCoord chunkCoord = b.chunkCoord;
                 building.bBase = b.building;

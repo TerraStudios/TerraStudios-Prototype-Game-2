@@ -80,6 +80,15 @@ namespace TerrainGeneration
         {
             return first.x != second.x || first.z != second.z;
         }
+
+        /// <summary>
+        /// Converts from the chunk coordinate system to world space using the terrain chunk size.
+        /// </summary>
+        /// <returns>The world space location in the form of a <see cref="Vector3"/></returns>
+        public Vector3 ToWorldSpace()
+        {
+            return new Vector3(x * TerrainGenerator.instance.chunkXSize, 0, z * TerrainGenerator.instance.chunkZSize);
+        }
     }
 
     /// <summary>
