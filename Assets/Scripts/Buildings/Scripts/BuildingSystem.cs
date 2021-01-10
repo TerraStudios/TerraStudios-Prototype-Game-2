@@ -29,10 +29,10 @@ namespace BuildingManagement
 
         /// <summary>
         /// A dictionary that stores the following things:
-        /// Key - Coordinates of the chunk where the Building is placed
-        /// Value - KeyValuePair containing the Building (Script Prefab) as a key and GameObject (Mesh Prefab) as a value
+        /// Key - Coordinates of the chunk where the Building is placed.
+        /// Value - List of KeyValuePairs (Buildings in ChunkCoord) containing the Building (Script Prefab) as a key and GameObject (Mesh Prefab) as a value.
         /// </summary>
-        public static readonly Dictionary<ChunkCoord, KeyValuePair<Building, GameObject>> PlacedBuildings = new Dictionary<ChunkCoord, KeyValuePair<Building, GameObject>>();
+        public static readonly Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>> PlacedBuildings = new Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>>();
 
         private GameObject _buildingHolder;
 
@@ -46,12 +46,21 @@ namespace BuildingManagement
 
         public static void RegisterBuilding(ChunkCoord chunkCoord, Building b, GameObject go, bool save = true)
         {
-            PlacedBuildings.Add(chunkCoord, new KeyValuePair<Building, GameObject>(b, go));
+            if (PlacedBuildings.ContainsKey(chunkCoord))
+            {
+                PlacedBuildings[chunkCoord].Add(new KeyValuePair<Building, GameObject>(b, go));
+            }
+            else
+            {
+                PlacedBuildings.Add(chunkCoord, new List<KeyValuePair<Building, GameObject>> { new KeyValuePair<Building, GameObject>(b, go) });
+            }
+
             if (save)
             {
                 BuildingSave toSave = new BuildingSave()
                 {
                     chunkCoord = chunkCoord,
+                    position = b.transform.position,
                     rotation = b.transform.rotation,
                     building = b.bBase,
                     prefabLocation = b.prefabLocation
@@ -63,8 +72,13 @@ namespace BuildingManagement
 
         public static void UnRegisterBuilding(Building b)
         {
-            // Remove Dict entry of Building b found in the KVP in RegisteredBuildings.Values
-            PlacedBuildings.Remove(PlacedBuildings.FirstOrDefault(kvp => kvp.Value.Key == b).Key);
+            // Remove List entry of Building b found in the KVP List in RegisteredBuildings.Values
+            
+            foreach (List<KeyValuePair<Building, GameObject>> kvp in PlacedBuildings.Values)
+            {
+                kvp.Remove(kvp.Find(kvp => kvp.Key == b));
+            }
+
             GameSave.current.worldSaveData.placedBuildings.Where(bSave => bSave.building == b.bBase);
         }
 
@@ -82,7 +96,7 @@ namespace BuildingManagement
         {
             foreach (BuildingSave b in GameSave.current.worldSaveData.placedBuildings)
             {
-                Transform t = Instantiate(b.GetObj().gameObject, b.chunkCoord.ToWorldSpace(), b.rotation).transform;
+                Transform t = Instantiate(b.GetObj().gameObject, b.position, b.rotation).transform;
                 Building building = t.GetComponent<Building>();
                 ChunkCoord chunkCoord = b.chunkCoord;
                 building.bBase = b.building;

@@ -92,10 +92,11 @@ namespace BuildingManagement
                 return;
             focusedBuilding.mc.buildingIOManager.DevisualizeAll();
 
-            foreach (KeyValuePair<Building, GameObject> kvp in PlacedBuildings.Values)
-            {
-                kvp.Key.mc.buildingIOManager.DevisualizeAll();
-            }
+            foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
+                foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
+                {
+                    buildingKVP.Key.mc.buildingIOManager.DevisualizeAll();
+                }
 
             base.OnBuildingDeselected();
             buildingInfo.SetActive(false);

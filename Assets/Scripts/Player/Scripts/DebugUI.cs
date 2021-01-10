@@ -78,19 +78,17 @@ namespace Player
             {
                 // show all
                 GridManager.Instance.forceVisualizeAll = true;
-                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings.Values)
-                {
-                    kvp.Key.mc.buildingIOManager.VisualizeAll();
-                }
+                foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
+                    foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
+                        buildingKVP.Key.mc.buildingIOManager.VisualizeAll();
             }
             else
             {
                 // hide all
                 GridManager.Instance.forceVisualizeAll = false;
-                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings.Values)
-                {
-                    kvp.Key.mc.buildingIOManager.DevisualizeAll();
-                }
+                foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
+                    foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
+                        buildingKVP.Key.mc.buildingIOManager.DevisualizeAll();
             }
         }
 

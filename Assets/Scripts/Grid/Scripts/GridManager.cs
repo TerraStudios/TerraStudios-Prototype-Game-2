@@ -136,8 +136,9 @@ namespace BuildingManagement
             //If debug mode is enabled, this will loop through every registered building as well as the visualization and call the VisualizeColliders() method
             if (debugMode && visualization)
             {
-                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings.Values)
-                    kvp.Key.mc.buildingIOManager.VisualizeColliders();
+                foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
+                    foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
+                        buildingKVP.Key.mc.buildingIOManager.VisualizeColliders();
 
                 visualization.GetComponent<Building>().mc.buildingIOManager.VisualizeColliders();
             }
@@ -234,6 +235,8 @@ namespace BuildingManagement
             Vector3 center = GetGridPosition(hit.Value.point);
 
             ChunkCoord chunkCoord = new ChunkCoord { x = Mathf.FloorToInt(center.x) / TerrainGenerator.instance.chunkXSize, z = Mathf.FloorToInt(center.z) / TerrainGenerator.instance.chunkZSize }; //! Figure out this somehow
+
+            Debug.Log(chunkCoord.x + " " + chunkCoord.z);
 
             if (center == Vector3.zero)
                 return;
@@ -377,13 +380,14 @@ namespace BuildingManagement
                 visualization = null;
                 if (!forceVisualizeAll)
                 {
-                    foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings.Values)
-                    {
-                        if (kvp.Key.mc.buildingIOManager)
+                    foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
+                        foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
                         {
-                            kvp.Key.mc.buildingIOManager.DevisualizeAll();
+                            if (buildingKVP.Key.mc.buildingIOManager)
+                            {
+                                buildingKVP.Key.mc.buildingIOManager.DevisualizeAll();
+                            }
                         }
-                    }
                 }
             }
         }
