@@ -229,9 +229,11 @@ namespace BuildingManagement
             RaycastHit? hit = FindGridHit();
             if (hit == null) return;
 
-            ChunkCoord chunkCoord = new ChunkCoord(); //! Figure out this somehow
+
 
             Vector3 center = GetGridPosition(hit.Value.point);
+
+            ChunkCoord chunkCoord = new ChunkCoord { x = Mathf.FloorToInt(center.x) / TerrainGenerator.instance.chunkXSize, z = Mathf.FloorToInt(center.z) / TerrainGenerator.instance.chunkZSize }; //! Figure out this somehow
 
             if (center == Vector3.zero)
                 return;
