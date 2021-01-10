@@ -46,10 +46,13 @@ namespace CoreManagement
             while (!load1.isDone)
                 yield return null;
 
-            AsyncOperation load2 = SceneManager.LoadSceneAsync(staticSceneIndex, LoadSceneMode.Additive);
+            if (SceneManager.GetSceneByBuildIndex(baseSceneIndex).name != "Prototype Scene 2")
+            {
+                AsyncOperation load2 = SceneManager.LoadSceneAsync(staticSceneIndex, LoadSceneMode.Additive);
 
-            while (!load2.isDone)
-                yield return null;
+                while (!load2.isDone)
+                    yield return null;
+            }
         }
     }
 }
