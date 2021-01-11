@@ -405,7 +405,7 @@ namespace BuildingModules
 
             if (other.attachedIO) return false; //Building already has an attached IO there, return red
 
-            if (GridManager.Instance.visualization && !GridManager.Instance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
+            if (GridManager.Instance.visualization.Key && !GridManager.Instance.canPlace) return false; //Building is red, arrows shouldn't be anything other than red
 
             return toReturn;
         }
