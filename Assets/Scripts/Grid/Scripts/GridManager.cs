@@ -6,6 +6,7 @@ using TerrainGeneration;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using Unity.Mathematics;
 
 namespace BuildingManagement
 {
@@ -208,7 +209,7 @@ namespace BuildingManagement
                  Instantiate(currentBuilding.Key.prefab, center, RotationChange).GetComponent<Building>(),
                  Instantiate(currentBuilding.Value, center, RotationChange)
                 );
-   
+
             visualization.Key.SetIndicator(BuildingManager.Instance.directionIndicator);
             tempMat = currentBuilding.Key.prefab.GetComponent<MeshRenderer>().sharedMaterial;
         }
@@ -279,14 +280,14 @@ namespace BuildingManagement
                         // Check if the floor below is all solid
                         if (y == (int)grid.y)
                         {
-                            if (!TerrainGenerator.instance.voxelTypes[TerrainGenerator.instance.GetVoxelValue(new Vector3Int(x, y - 1, z))].isSolid)
+                            if (!TerrainGenerator.instance.voxelTypes[TerrainGenerator.instance.GetVoxelValue(new int3(x, y - 1, z))].isSolid)
                             {
                                 return false;
                             }
                         }
 
                         // Check if the entire space the building will occupy is not solid
-                        if (TerrainGenerator.instance.voxelTypes[TerrainGenerator.instance.GetVoxelValue(new Vector3Int(x, y, z))].isSolid)
+                        if (TerrainGenerator.instance.voxelTypes[TerrainGenerator.instance.GetVoxelValue(new int3(x, y, z))].isSolid)
                         {
                             return false;
                         }

@@ -77,6 +77,11 @@ namespace TerrainGeneration
         public VoxelType[] voxelTypes;
 
         /// <summary>
+        /// Caches the last player pos to avoid grabbing its component
+        /// </summary>
+        private Vector3 lastPlayerPos;
+
+        /// <summary>
         /// Noise generation class
         /// See https://github.com/Auburn/FastNoise/blob/master/CSharp/README.md for more information
         /// </summary>
@@ -122,7 +127,7 @@ namespace TerrainGeneration
                     {
                         ChunkCoord next = chunkQueue.Dequeue();
 
-                        if (!next.IsDistanceFrom(GetChunkCoord(player.position), chunkRange)) continue;
+                        if (!next.IsDistanceFrom(GetChunkCoord(lastPlayerPos), chunkRange)) continue;
 
                         if (!currentChunks.ContainsKey(next)) // Prevents chunks from being generated so fast they duplicate
                         {
@@ -156,10 +161,10 @@ namespace TerrainGeneration
         /// </summary>
         private void Update()
         {
-            Vector3 position = player.position;
+            lastPlayerPos = player.position;
             // Retrieve the coord for the player
             //ChunkCoord playerPos = new ChunkCoord { x = 7, z = 4 };
-            ChunkCoord playerPos = GetChunkCoord(position);
+            ChunkCoord playerPos = GetChunkCoord(lastPlayerPos);
 
             // Avoids unnecessary checks by only updating once the player has reached a new chunk
             if (playerPos != lastChunkPos)
@@ -215,11 +220,11 @@ namespace TerrainGeneration
         }
 
         /// <summary>
-        /// Retrieves a chunk coord based off of a <see cref="Vector3"/> position
+        /// Retrieves a chunk coord based off of a <see cref="float3"/> position
         /// </summary>
         /// <param name="pos">The location to be converted</param>
         /// <returns>A chunk coord based on the <see cref="chunkXSize"/> and <see cref="chunkZSize"/></returns>
-        public ChunkCoord GetChunkCoord(Vector3 pos)
+        public ChunkCoord GetChunkCoord(float3 pos)
         {
             return new ChunkCoord { x = Mathf.FloorToInt(pos.x / chunkXSize), z = Mathf.FloorToInt(pos.z / chunkZSize) };
         }
@@ -231,7 +236,7 @@ namespace TerrainGeneration
         /// </summary>
         /// <param name="pos">The position of the voxel in world space</param>
         /// <returns></returns>
-        public byte GenerateVoxelType(Vector3Int pos)
+        public byte GenerateVoxelType(int3 pos)
         {
             int posX = pos.x;
             int posY = pos.y;
@@ -239,7 +244,7 @@ namespace TerrainGeneration
 
             // TERRAIN GENERATION CODE
 
-            int height = (int)(Mathf.PerlinNoise(posX * .1f, posZ * .1f) * 3 + 13); // Noise method
+            int height = (int)(noise.GetNoise(posX * .1f, posZ * .1f) * 3 + 13); // Noise method
 
             byte val = 2; // By default type 2
 
@@ -255,7 +260,7 @@ namespace TerrainGeneration
         /// </summary>
         /// <param name="pos">The position of the voxel</param>
         /// <returns></returns>
-        public byte GetVoxelValue(Vector3Int pos)
+        public byte GetVoxelValue(int3 pos)
         {
 
             int posX = pos.x;
@@ -278,7 +283,9 @@ namespace TerrainGeneration
                 return foundChunk.GetVoxelData(posX - (coord.x * chunkXSize), posY, posZ - (coord.z * chunkZSize)); // Return the byte value in the chunk to avoid extra noise call
             }
 
-            return GenerateVoxelType(pos); // Chunk hasn't been generated yet, just generate the voxel
+            // Chunk hasn't been generated yet, just generate the voxel
+            // NOTE: If possible avoid having to pull blocks from unloaded chunks
+            return GenerateVoxelType(new int3(pos.x, pos.y, pos.z));
 
         }
 
@@ -287,7 +294,7 @@ namespace TerrainGeneration
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public VoxelType GetVoxelType(Vector3Int pos)
+        public VoxelType GetVoxelType(int3 pos)
         {
             return voxelTypes[GetVoxelValue(pos)];
         }

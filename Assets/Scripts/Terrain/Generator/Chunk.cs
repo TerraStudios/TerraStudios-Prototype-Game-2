@@ -109,7 +109,7 @@ namespace TerrainGeneration
         /// <summary>
         /// The world space position of the chunk as a Vector3
         /// </summary>
-        private Vector3Int WorldPos => Vector3Int.FloorToInt(new Vector3(chunkCoord.x * chunkSizeX, 0, chunkCoord.z * chunkSizeZ));
+        private int3 WorldPos => new int3(chunkCoord.x * chunkSizeX, 0, chunkCoord.z * chunkSizeZ);
 
         /// <summary>
         /// The current vertex index, used for forming quads in mesh generation
@@ -243,9 +243,12 @@ namespace TerrainGeneration
                     for (int z = 0; z < chunkSizeZ; z++)
                     {
                         // Calculate 3D index from 1D index
-                        Vector3Int pos = new Vector3Int(x, y, z);
+                        //Vector3Int pos = new Vector3Int(x, y, z);
 
                         // Set voxel data from TerrainGenerator generation
+
+                        int3 pos = new int3(x, y, z);
+
                         voxelData[GetVoxelDataIndex(x, y, z)] = generator.GenerateVoxelType(pos + WorldPos);
                     }
                 }
@@ -259,11 +262,14 @@ namespace TerrainGeneration
         /// </summary>
         /// <param name="pos">The position of the cube</param>
         /// <returns>Whether the block needs to be rendered or not</returns>
-        private bool CheckBlock(Vector3Int pos)
+        private bool CheckBlock(int3 pos)
         {
             if (!VoxelInsideChunk(pos))
             {
                 return generator.voxelTypes[generator.GetVoxelValue(pos + WorldPos)].isSolid;
+
+
+                //return generator.voxelTypes[generator.GetVoxelValue(pos + WorldPos)].isSolid;
             }
 
             return generator.voxelTypes[GetVoxelData(pos.x, pos.y, pos.z)].isSolid;
@@ -287,7 +293,7 @@ namespace TerrainGeneration
                     {
                         //new Vector3Int(x, y, z);
                         //TerrainGenerator.threadCount++;
-                        AddBlockData(new Vector3Int(x, y, z));
+                        AddBlockData(new int3(x, y, z));
                     }
                 }
             }
@@ -302,7 +308,7 @@ namespace TerrainGeneration
         /// Adds all vertex, triangle, and UV data to a cube position based on certain conditions
         /// </summary>
         /// <param name="cubePos"></param>
-        private void AddBlockData(Vector3Int cubePos)
+        private void AddBlockData(int3 cubePos)
         {
 
             // If the block isn't solid don't try rendering it
@@ -324,10 +330,18 @@ namespace TerrainGeneration
 
 
                     // Add 4 vertices of cube side
-                    vertices.Add(cubePos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 0]]);
-                    vertices.Add(cubePos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 1]]);
-                    vertices.Add(cubePos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 2]]);
-                    vertices.Add(cubePos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 3]]);
+
+                    int3 cPos = new int3(cubePos.x, cubePos.y, cubePos.z);
+
+                    int3 v1 = cPos + new int3(VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 0]]);
+                    int3 v2 = cPos + new int3(VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 1]]);
+                    int3 v3 = cPos + new int3(VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 2]]);
+                    int3 v4 = cPos + new int3(VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 3]]);
+
+                    vertices.Add(new Vector3(v1.x, v1.y, v1.z));
+                    vertices.Add(new Vector3(v2.x, v2.y, v2.z));
+                    vertices.Add(new Vector3(v3.x, v3.y, v3.z));
+                    vertices.Add(new Vector3(v4.x, v4.y, v4.z));
 
                     // Find x and y in relation to the texture 
                     float y = cubePos.z / (float)chunkSizeZ; //because uvs start top left, y needs to be inverted
@@ -395,7 +409,7 @@ namespace TerrainGeneration
         /// </summary>
         /// <param name="pos">The position of the chunk</param>
         /// <returns></returns>
-        public bool VoxelInsideChunk(Vector3 pos)
+        public bool VoxelInsideChunk(int3 pos)
         {
             return !(pos.x < 0 || pos.x > chunkSizeX - 1 || pos.y < 0 || pos.y > chunkSizeY - 1 || pos.z < 0 || pos.z > chunkSizeZ - 1);
         }
@@ -415,7 +429,7 @@ namespace TerrainGeneration
 
         /// <summary>
         /// Retrieves the byte voxel value of a block INSIDE the chunk. For retrieval of voxels outside 
-        /// use <see cref="TerrainGenerator.GetVoxel(Vector3Int)"/>.
+        /// use <see cref="TerrainGenerator.GetVoxelValue(int3)"/>.
         /// </summary>
         /// <param name="x">The local x coordinate of the voxel</param>
         /// <param name="y">The local y coordinate of the voxel</param>
