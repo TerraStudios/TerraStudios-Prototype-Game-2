@@ -34,13 +34,22 @@ namespace BuildingManagement
         /// </summary>
         public static readonly Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>> PlacedBuildings = new Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>>();
 
-        private GameObject _buildingHolder;
+        private GameObject _buildingScriptParent;
 
-        private GameObject buildingHolder
+        private GameObject buildingScriptParent
         {
             get
             {
-                return _buildingHolder ? _buildingHolder : (_buildingHolder = new GameObject("Buildings"));
+                return _buildingScriptParent ? _buildingScriptParent : (_buildingScriptParent = new GameObject("Building GO Scripts"));
+            }
+        }
+
+        private GameObject _buildingMeshParent;
+        private GameObject buildingMeshParent
+        {
+            get
+            {
+                return _buildingMeshParent ? _buildingMeshParent : (_buildingMeshParent = new GameObject("Building GO Meshes"));
             }
         }
 
@@ -110,7 +119,8 @@ namespace BuildingManagement
         /// <param name="b"></param>
         public void SetUpBuilding(Building b, Transform t, ChunkCoord coord, bool register = true)
         {
-            b.transform.parent = buildingHolder.transform;
+            b.transform.parent = buildingScriptParent.transform;
+            t.transform.parent = buildingMeshParent.transform;
             b.timeManager = timeManager;
             b.economyManager = economyManager;
             RegisterBuilding(coord, b, t.gameObject, register);

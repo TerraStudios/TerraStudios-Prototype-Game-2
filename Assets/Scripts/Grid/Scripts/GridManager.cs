@@ -76,6 +76,16 @@ namespace BuildingManagement
             }
         }
 
+        public KeyValuePair<Building, Transform> CurrentBuilding
+        {
+            get => currentBuilding;
+            set
+            {
+                Debug.Log("Current Building changed to: " + value);
+                currentBuilding = value;
+            }
+        }
+
         private bool isFlipped;
         public bool canPlace;
 
@@ -101,6 +111,8 @@ namespace BuildingManagement
         {
             if (IsInBuildMode)
                 UpdateVisualization();
+
+            Debug.Log(CurrentBuilding.Key?.gameObject.name);
         }
 
         #endregion Unity Events
@@ -205,13 +217,16 @@ namespace BuildingManagement
             buildingManager.OnBuildingDeselected();
             //TimeEngine.IsPaused = true;
 
+            Debug.Log("construct");
             visualization = new KeyValuePair<Building, Transform>(
-                 Instantiate(currentBuilding.Key.prefab, center, RotationChange).GetComponent<Building>(),
-                 Instantiate(currentBuilding.Value, center, RotationChange)
+                 Instantiate(CurrentBuilding.Key.prefab, Vector3.zero, RotationChange).GetComponent<Building>(),
+                 Instantiate(CurrentBuilding.Value, center, RotationChange)
                 );
 
+            visualization.Key.correspondingMesh = visualization.Value;
+
             visualization.Key.SetIndicator(BuildingManager.Instance.directionIndicator);
-            tempMat = currentBuilding.Key.prefab.GetComponent<MeshRenderer>().sharedMaterial;
+            tempMat = CurrentBuilding.Value.GetComponent<MeshRenderer>().sharedMaterial;
         }
 
         /// <summary>
@@ -269,7 +284,7 @@ namespace BuildingManagement
         /// <returns>Whether the current building can be placed at this position</returns>
         private bool CanPlace(Vector3 grid)
         {
-            Vector3Int buildingSize = currentBuilding.Key.GetBuildSize();
+            Vector3Int buildingSize = CurrentBuilding.Key.GetBuildSize();
 
             for (int x = (int)grid.x - 1; x < grid.x + buildingSize.x - 1; x++)
             {
@@ -316,7 +331,7 @@ namespace BuildingManagement
             if (!Equals(gridSize, default(Vector2Int)))
                 buildSize = gridSize;
             else
-                buildSize = currentBuilding.Key.GetBuildSize();
+                buildSize = CurrentBuilding.Key.GetBuildSize();
 
             float x;
             float z;
@@ -375,7 +390,8 @@ namespace BuildingManagement
             else
             {
                 //TimeEngine.IsPaused = false;
-                visualization = new KeyValuePair<Building, Transform>();
+                Debug.Log("Changed to null KVP");
+                visualization = new KeyValuePair<Building, Transform>(null, null);
                 if (!forceVisualizeAll)
                 {
                     foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
@@ -400,15 +416,15 @@ namespace BuildingManagement
             switch (buildingID)
             {
                 case 1:
-                    currentBuilding = GetBuildingFromLocation(apm1Location);
+                    CurrentBuilding = GetBuildingFromLocation(apm1Location);
                     break;
 
                 case 2:
-                    currentBuilding = GetBuildingFromLocation(apm2Location);
+                    CurrentBuilding = GetBuildingFromLocation(apm2Location);
                     break;
 
                 case 3:
-                    currentBuilding = GetBuildingFromLocation(apm3Location);
+                    CurrentBuilding = GetBuildingFromLocation(apm3Location);
                     break;
             }
 
@@ -421,7 +437,7 @@ namespace BuildingManagement
         public void OnConveyorBuildButtonPressed()
         {
             DeconstructVisualization();
-            currentBuilding = GetBuildingFromLocation(conveyorLocation);
+            CurrentBuilding = GetBuildingFromLocation(conveyorLocation);
             IsInBuildMode = true;
         }
 

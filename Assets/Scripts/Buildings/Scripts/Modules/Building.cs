@@ -64,6 +64,7 @@ namespace BuildingModules
     {
         public BuildingBase bBase;
         public ModuleConnector mc;
+        [HideInInspector] public Transform correspondingMesh;
         [HideInInspector] public bool isSetUp;
 
         [Header("Grid Building Properties")]
@@ -83,7 +84,6 @@ namespace BuildingModules
                 OnWorkStateChanged(value);
             }
         }
-
 
         // Required Components (Systems)
         [HideInInspector] public TimeManager timeManager;
@@ -121,7 +121,7 @@ namespace BuildingModules
                 GenerateBuildingHealth();
             }
 
-            originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
+            originalMaterial = correspondingMesh.GetComponent<MeshRenderer>().sharedMaterial;
             RemoveIndicator();
         }
 
@@ -287,10 +287,13 @@ namespace BuildingModules
         /// <param name="indicator">A <see cref="Transform"/> object representing the indicator prefab</param>
         public void SetIndicator(Transform indicator)
         {
+            if (correspondingMesh)
+                Debug.Log("I have");
+            Debug.Log("My name is " + gameObject.name);
             if (currentIndicator != null && currentIndicator.GetComponent<MeshRenderer>().Equals(indicator.GetComponent<MeshRenderer>())) return;
 
             RemoveIndicator();
-            currentIndicator = ObjectPoolManager.Instance.ReuseObject(indicator.gameObject, transform.position + new Vector3(0, GetComponent<MeshRenderer>().bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
+            currentIndicator = ObjectPoolManager.Instance.ReuseObject(indicator.gameObject, transform.position + new Vector3(0, correspondingMesh.GetComponent<MeshRenderer>().bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
             currentIndicator.transform.parent = transform;
 
         }
@@ -322,7 +325,10 @@ namespace BuildingModules
         /// <returns>A <see cref="Vector2Int"/> representing the grid size</returns>
         public Vector3Int GetBuildSize()
         {
-            Vector3 e = GetComponent<MeshRenderer>().bounds.size;
+            if (correspondingMesh)
+                Debug.Log("I have");
+                Debug.Log("My name is " + gameObject.name);
+            Vector3 e = correspondingMesh.GetComponent<MeshRenderer>().bounds.size;
             return new Vector3Int(Mathf.RoundToInt(e.x), Mathf.RoundToInt(e.y), Mathf.RoundToInt(e.z));
         }
 
@@ -342,7 +348,7 @@ namespace BuildingModules
             if (markedForDelete)
                 return;
             markedForDelete = true;
-            GetComponent<MeshRenderer>().material = BuildingManager.Instance.redArrow;
+            correspondingMesh.GetComponent<MeshRenderer>().material = BuildingManager.Instance.redArrow;
         }
 
         public void UnmarkForDelete()
@@ -350,7 +356,7 @@ namespace BuildingModules
             if (!markedForDelete)
                 return;
             markedForDelete = false;
-            GetComponent<MeshRenderer>().material = originalMaterial;
+            correspondingMesh.GetComponent<MeshRenderer>().material = originalMaterial;
         }
     }
 }
