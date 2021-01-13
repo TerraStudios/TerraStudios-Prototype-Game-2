@@ -53,15 +53,15 @@ namespace BuildingManagement
             }
         }
 
-        public static void RegisterBuilding(ChunkCoord chunkCoord, Building b, GameObject go, bool save = true)
+        public static void RegisterBuilding(ChunkCoord chunkCoord, Building b, GameObject meshGO, bool save = true)
         {
             if (PlacedBuildings.ContainsKey(chunkCoord))
             {
-                PlacedBuildings[chunkCoord].Add(new KeyValuePair<Building, GameObject>(b, go));
+                PlacedBuildings[chunkCoord].Add(new KeyValuePair<Building, GameObject>(b, meshGO));
             }
             else
             {
-                PlacedBuildings.Add(chunkCoord, new List<KeyValuePair<Building, GameObject>> { new KeyValuePair<Building, GameObject>(b, go) });
+                PlacedBuildings.Add(chunkCoord, new List<KeyValuePair<Building, GameObject>> { new KeyValuePair<Building, GameObject>(b, meshGO) });
             }
 
             if (save)
@@ -69,10 +69,10 @@ namespace BuildingManagement
                 BuildingSave toSave = new BuildingSave()
                 {
                     chunkCoord = chunkCoord,
-                    position = b.transform.position,
-                    rotation = b.transform.rotation,
+                    position = meshGO.transform.position,
+                    rotation = meshGO.transform.rotation,
                     building = b.bBase,
-                    prefabLocation = b.prefabLocation
+                    scriptPrefabPath = b.prefabLocation
                 };
 
                 GameSave.current.worldSaveData.placedBuildings.Add(toSave);
@@ -103,13 +103,18 @@ namespace BuildingManagement
 
         public void LoadAllBuildingsFromSave()
         {
-            foreach (BuildingSave b in GameSave.current.worldSaveData.placedBuildings)
+            foreach (BuildingSave save in GameSave.current.worldSaveData.placedBuildings)
             {
-                Transform t = Instantiate(b.GetObj().gameObject, b.position, b.rotation).transform;
-                Building building = t.GetComponent<Building>();
-                ChunkCoord chunkCoord = b.chunkCoord;
-                building.bBase = b.building;
-                SetUpBuilding(building, t, chunkCoord, false);
+                Transform buildingGO = Instantiate(save.GetScriptObj().gameObject, Vector3.zero, Quaternion.identity).transform;
+                Transform meshGO = Instantiate(save.GetMeshObj().gameObject, save.position, save.rotation).transform;
+
+                buildingGO.parent = buildingScriptParent.transform;
+                meshGO.parent = buildingMeshParent.transform;
+
+                Building building = buildingGO.GetComponent<Building>();
+                ChunkCoord chunkCoord = save.chunkCoord;
+                building.bBase = save.building;
+                SetUpBuilding(building, meshGO, chunkCoord, false);
             }
         }
 
@@ -124,7 +129,7 @@ namespace BuildingManagement
             b.timeManager = timeManager;
             b.economyManager = economyManager;
             RegisterBuilding(coord, b, t.gameObject, register);
-            b.Init(!register);
+            b.Init(t, !register);
 
             if (b.mc.buildingIOManager.isConveyor)
             {

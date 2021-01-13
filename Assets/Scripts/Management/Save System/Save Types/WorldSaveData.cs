@@ -18,11 +18,16 @@ namespace SaveSystem
         public Quaternion rotation;
 #pragma warning restore CA2235 // End serialization surrogate usage
         public BuildingBase building;
-        public string prefabLocation;
+        public string scriptPrefabPath;
 
-        public Transform GetObj()
+        public Transform GetScriptObj()
         {
-            return Resources.Load<Transform>(prefabLocation);
+            return Resources.Load<Transform>(scriptPrefabPath);
+        }
+
+        public Transform GetMeshObj()
+        {
+            return Resources.Load<Transform>(scriptPrefabPath + "_Mesh");
         }
     }
 

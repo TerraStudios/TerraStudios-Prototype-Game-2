@@ -96,9 +96,13 @@ namespace BuildingModules
         /// <summary>
         /// Initializes the building's properties and work state.
         /// </summary>
-        public void Init(bool newBasePresent = false)
+        public void Init(Transform meshGO, bool newBasePresent = false)
         {
+            //TODO: Is this needed?
             gameObject.AddComponent<BoxCollider>();
+
+            correspondingMesh = meshGO;
+
             if (mc.buildingIOManager != null)
             {
                 mc.buildingIOManager.Init();
