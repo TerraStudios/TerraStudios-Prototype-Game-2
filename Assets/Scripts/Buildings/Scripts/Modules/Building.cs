@@ -287,9 +287,6 @@ namespace BuildingModules
         /// <param name="indicator">A <see cref="Transform"/> object representing the indicator prefab</param>
         public void SetIndicator(Transform indicator)
         {
-            if (correspondingMesh)
-                Debug.Log("I have");
-            Debug.Log("My name is " + gameObject.name);
             if (currentIndicator != null && currentIndicator.GetComponent<MeshRenderer>().Equals(indicator.GetComponent<MeshRenderer>())) return;
 
             RemoveIndicator();
@@ -325,9 +322,6 @@ namespace BuildingModules
         /// <returns>A <see cref="Vector2Int"/> representing the grid size</returns>
         public Vector3Int GetBuildSize()
         {
-            if (correspondingMesh)
-                Debug.Log("I have");
-                Debug.Log("My name is " + gameObject.name);
             Vector3 e = correspondingMesh.GetComponent<MeshRenderer>().bounds.size;
             return new Vector3Int(Mathf.RoundToInt(e.x), Mathf.RoundToInt(e.y), Mathf.RoundToInt(e.z));
         }

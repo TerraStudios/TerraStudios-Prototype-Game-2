@@ -76,16 +76,6 @@ namespace BuildingManagement
             }
         }
 
-        public KeyValuePair<Building, Transform> CurrentBuilding
-        {
-            get => currentBuilding;
-            set
-            {
-                Debug.Log("Current Building changed to: " + value);
-                currentBuilding = value;
-            }
-        }
-
         private bool isFlipped;
         public bool canPlace;
 
@@ -111,8 +101,6 @@ namespace BuildingManagement
         {
             if (IsInBuildMode)
                 UpdateVisualization();
-
-            Debug.Log(CurrentBuilding.Key?.gameObject.name);
         }
 
         #endregion Unity Events
@@ -217,16 +205,15 @@ namespace BuildingManagement
             buildingManager.OnBuildingDeselected();
             //TimeEngine.IsPaused = true;
 
-            Debug.Log("construct");
             visualization = new KeyValuePair<Building, Transform>(
-                 Instantiate(CurrentBuilding.Key.prefab, Vector3.zero, RotationChange).GetComponent<Building>(),
-                 Instantiate(CurrentBuilding.Value, center, RotationChange)
+                 Instantiate(currentBuilding.Key.prefab, Vector3.zero, RotationChange).GetComponent<Building>(),
+                 Instantiate(currentBuilding.Value, center, RotationChange)
                 );
 
             visualization.Key.correspondingMesh = visualization.Value;
 
             visualization.Key.SetIndicator(BuildingManager.Instance.directionIndicator);
-            tempMat = CurrentBuilding.Value.GetComponent<MeshRenderer>().sharedMaterial;
+            tempMat = currentBuilding.Value.GetComponent<MeshRenderer>().sharedMaterial;
         }
 
         /// <summary>
@@ -284,7 +271,7 @@ namespace BuildingManagement
         /// <returns>Whether the current building can be placed at this position</returns>
         private bool CanPlace(Vector3 grid)
         {
-            Vector3Int buildingSize = CurrentBuilding.Key.GetBuildSize();
+            Vector3Int buildingSize = currentBuilding.Key.GetBuildSize();
 
             for (int x = (int)grid.x - 1; x < grid.x + buildingSize.x - 1; x++)
             {
@@ -331,7 +318,7 @@ namespace BuildingManagement
             if (!Equals(gridSize, default(Vector2Int)))
                 buildSize = gridSize;
             else
-                buildSize = CurrentBuilding.Key.GetBuildSize();
+                buildSize = currentBuilding.Key.GetBuildSize();
 
             float x;
             float z;
@@ -390,7 +377,6 @@ namespace BuildingManagement
             else
             {
                 //TimeEngine.IsPaused = false;
-                Debug.Log("Changed to null KVP");
                 visualization = new KeyValuePair<Building, Transform>(null, null);
                 if (!forceVisualizeAll)
                 {
@@ -416,17 +402,19 @@ namespace BuildingManagement
             switch (buildingID)
             {
                 case 1:
-                    CurrentBuilding = GetBuildingFromLocation(apm1Location);
+                    currentBuilding = GetBuildingFromLocation(apm1Location);
                     break;
 
                 case 2:
-                    CurrentBuilding = GetBuildingFromLocation(apm2Location);
+                    currentBuilding = GetBuildingFromLocation(apm2Location);
                     break;
 
                 case 3:
-                    CurrentBuilding = GetBuildingFromLocation(apm3Location);
+                    currentBuilding = GetBuildingFromLocation(apm3Location);
                     break;
             }
+
+            currentBuilding.Key.correspondingMesh = currentBuilding.Value;
 
             IsInBuildMode = true;
         }
@@ -437,7 +425,7 @@ namespace BuildingManagement
         public void OnConveyorBuildButtonPressed()
         {
             DeconstructVisualization();
-            CurrentBuilding = GetBuildingFromLocation(conveyorLocation);
+            currentBuilding = GetBuildingFromLocation(conveyorLocation);
             IsInBuildMode = true;
         }
 
