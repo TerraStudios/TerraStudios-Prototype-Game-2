@@ -19,7 +19,7 @@ namespace ItemManagement
     public class ItemBehaviour : MonoBehaviour
     {
         public ItemData data;
-        private BuildingIO insideIO;
+        //private BuildingIO insideIO;
 
         private Material originalMaterial;
         private bool markedForDelete;
@@ -45,7 +45,7 @@ namespace ItemManagement
             GetComponent<MeshRenderer>().material = originalMaterial;
         }
 
-        private void OnTriggerEnter(Collider other)
+        /*private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.layer.Equals(12))
             {
@@ -66,12 +66,12 @@ namespace ItemManagement
                     bIO.OnItemExit(this);
                 insideIO = null;
             }
-        }
+        }*/
 
         private void OnDisable()
         {
-            if (insideIO)
-                insideIO.itemInside = null;
+            //if (insideIO)
+            //    insideIO.itemInside = null;
             UnmarkForDelete();
         }
     }

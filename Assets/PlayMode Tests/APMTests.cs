@@ -134,8 +134,9 @@ namespace Tests
 
             try
             {
-                BuildingIO io = obj.AddComponent<BuildingIO>();
-                io.arrow = new GameObject("BuildingIO Output Arrow").transform;
+                BuildingIO io = new BuildingIO();
+                // TODO: Update with new code here
+                //io.arrow = new GameObject("BuildingIO Output Arrow").transform;
 
                 return io;
             }

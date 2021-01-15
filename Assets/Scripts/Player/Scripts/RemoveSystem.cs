@@ -187,10 +187,11 @@ namespace Player
 
             foreach (BuildingIO io in b.mc.buildingIOManager.outputs)
             {
-                foreach (ItemSpawnData item in io.itemsToSpawn)
+                // TODO: Update with new code here
+                /*foreach (ItemSpawnData item in io.itemsToSpawn)
                 {
                     DeleteItem(item.itemToSpawn);
-                }
+                }*/
             }
 
             BuildingSystem.UnRegisterBuilding(b);

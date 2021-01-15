@@ -131,10 +131,11 @@ namespace BuildingModules
 
             allowedRecipes = RecipeManager.GetRecipes(recipeFilter).allowed;
 
-            foreach (BuildingIO io in mc.buildingIOManager.outputs)
+            // TODO: Update with new code here.
+            /*foreach (BuildingIO io in mc.buildingIOManager.outputs)
             {
-                io.outputMaxQueueSize = outputSpace;
-            }
+                //io.outputMaxQueueSize = outputSpace;
+            }*/
         }
 
         private void InitIOData()
@@ -282,12 +283,13 @@ namespace BuildingModules
             foreach (KeyValuePair<MachineRecipe.OutputData, int> kvp in outputData)
             {
                 BuildingIO io = mc.buildingIOManager.outputs[kvp.Value - 1];
-                if (io.itemsToSpawn.Count + kvp.Key.amount > io.outputMaxQueueSize)
+                // TODO: Update with new code here
+                /*if (io.itemsToSpawn.Count + kvp.Key.amount > io.outputMaxQueueSize)
                 {
                     ItemLog(ItemEnterInfo.item.name, "Not enough space to one or more of the output/s", this);
                     mc.building.SetIndicator(BuildingManager.Instance.errorIndicator);
                     return (false, inputID, outputID);
-                }
+                }*/
             }
 
             mc.building.RemoveIndicator();
@@ -348,8 +350,9 @@ namespace BuildingModules
         {
             foreach (BuildingIO output in mc.buildingIOManager.outputs)
             {
-                if (output.itemsToSpawn.Count >= outputSpace)
-                    return false;
+                // TODO: Update with new code here
+                //if (output.itemsToSpawn.Count >= outputSpace)
+                //    return false;
             }
 
             return true;
@@ -414,7 +417,8 @@ namespace BuildingModules
 
                 for (int t = 0; t < kvp.Key.amount; t++)
                 {
-                    mc.buildingIOManager.outputs[kvp.Value - 1].AddToSpawnQueue(kvp.Key.item);
+                    // TODO: Update with new code here
+                    //mc.buildingIOManager.outputs[kvp.Value - 1].AddToSpawnQueue(kvp.Key.item);
                 }
             }
 

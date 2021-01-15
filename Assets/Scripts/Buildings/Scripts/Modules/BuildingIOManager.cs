@@ -13,6 +13,28 @@ using UnityEngine.Events;
 
 namespace BuildingModules
 {
+    public class BuildingIO
+    {
+        public Vector2 localPosition;
+        public IODirection direction;
+        public IOType type;
+        public bool isTrashcanOutput;
+    }
+
+    public enum IODirection
+    {
+        Forward,
+        Backward,
+        Left,
+        Right
+    }
+
+    public enum IOType
+    {
+        Input,
+        Output
+    }
+
     /// <summary>
     /// Properties for the event when an item attempts to 'enter' a Building.
     /// </summary>
@@ -64,13 +86,14 @@ namespace BuildingModules
         /// </summary>
         public void Init()
         {
-            IOForEach(io => io.Init());
+            /*IOForEach(io => io.Init());
 
             for (int i = 0; i < inputs.Length; i++)
                 inputs[i].ID = i;
 
             for (int i = 0; i < outputs.Length; i++)
                 outputs[i].ID = i;
+            */
 
             OnItemEnterInput = new OnItemEnterEvent();
         }
@@ -81,14 +104,16 @@ namespace BuildingModules
         /// </summary>
         public void UpdateArrows()
         {
-            IOForEach(io =>
+            // TODO: Update with new code here
+
+            /*IOForEach(io =>
             {
                 if (io.arrow)
                 {
                     io.arrow.position = io.transform.position + new Vector3(0, 1, 0);
                     io.arrow.rotation = io.transform.rotation;
                 }
-            });
+            });*/
         }
 
         /// <summary>
@@ -96,7 +121,7 @@ namespace BuildingModules
         /// </summary>
         public void UpdateIOPhysics()
         {
-            IOForEach(io => io.OnVisualizationMoved());
+            //IOForEach(io => io.OnVisualizationMoved());
         }
 
         /// <summary>
@@ -104,12 +129,14 @@ namespace BuildingModules
         /// </summary>
         public void LinkAll()
         {
-            IOForEach(io => io.MakeLink());
+            // TODO: Update with new code here
+            //IOForEach(io => io.MakeLink());
         }
 
         public void UnlinkAll()
         {
-            IOForEach(io => io.Unlink());
+            // TODO: Update with new code here
+            //IOForEach(io => io.Unlink());
         }
 
         public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
@@ -146,7 +173,10 @@ namespace BuildingModules
         {
             Destroy(sceneInstance, 1f);
             BuildingIO trashOutput = GetTrashOutput();
-            trashOutput.AddToSpawnQueue(item);
+
+            // TODO: Update with new code here. Instantiate item in the output
+
+            //trashOutput.AddToSpawnQueue(item);
         }
 
         /// <summary>
@@ -154,7 +184,8 @@ namespace BuildingModules
         /// </summary>
         public void VisualizeAll()
         {
-            IOForEach(io => io.VisualizeArrow());
+            // TODO: Update with new code here
+            //IOForEach(io => io.VisualizeArrow());
         }
 
         /// <summary>
@@ -162,17 +193,9 @@ namespace BuildingModules
         /// </summary>
         public void DevisualizeAll()
         {
-            IOForEach(io => io.Devisualize());
+            // TODO: Update with new code here
+            //IOForEach(io => io.Devisualize());
         }
-
-        // FIX!!!!
-        /*public string GetItemInsideName()
-        {
-            if (itemInside)
-                return itemInside.name;
-            else
-                return "None";
-        }*/
 
         /// <summary>
         /// Retrieves the <see cref="BuildingIO"/> marked with <see cref="BuildingIO.isTrashcanOutput"/> 
@@ -194,7 +217,6 @@ namespace BuildingModules
         /// <param name="state">The new <see cref="WorkStateEnum"/> for the conveyor group to be in</param>
         public void SetConveyorGroupState(WorkStateEnum state)
         {
-
             foreach (BuildingIOManager bIO in GetConveyorGroup())
             {
                 bIO.mc.building.SetWorkstateSilent(state); //set it silently to not trigger on workstate changed (recursion)
@@ -226,14 +248,16 @@ namespace BuildingModules
         /// <returns>A <see cref="List{T}"/> of <see cref="BuildingIOManager"></see> in the <paramref name="getInputs"/> parameter</returns>
         private void RecursiveGetConveyorGroup(List<BuildingIOManager> currentList, bool getInputs = true)
         {
-            foreach (BuildingIO io in getInputs ? inputs : outputs)
+            // TODO: Update with new code here to find the chain of belts attached
+
+            /*foreach (BuildingIO io in getInputs ? inputs : outputs)
             {
                 if (io.attachedIO && io.attachedIO.ioManager.isConveyor && !currentList.Contains(io.attachedIO.ioManager))
                 {
                     currentList.Add(io.attachedIO.ioManager);
                     io.attachedIO.ioManager.RecursiveGetConveyorGroup(currentList, getInputs);
                 }
-            }
+            }*/
         }
 
         /// <summary>
@@ -296,7 +320,7 @@ namespace BuildingModules
         /// </summary>
         public void VisualizeColliders()
         {
-            IOForEach(io => io.DrawIODetectionBox());
+            //IOForEach(io => io.DrawIODetectionBox());
         }
 
         #endregion
