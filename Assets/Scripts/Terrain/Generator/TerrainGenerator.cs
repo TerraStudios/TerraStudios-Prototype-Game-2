@@ -134,25 +134,31 @@ namespace TerrainGeneration
                     {
                         ChunkCoord next = chunkQueue.Dequeue();
 
+
                         if (!next.IsDistanceFrom(GetChunkCoord(lastPlayerPos), chunkRange)) continue;
 
                         if (!currentChunks.ContainsKey(next)) // Prevents chunks from being generated so fast they duplicate
                         {
-                            Chunk chunk = ObjectPoolManager.Instance.ReuseObject(emptyChunk, new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize), Quaternion.identity).AddComponent<Chunk>();
-                            //GameObject go = Instantiate(emptyChunk);
+                            //GameObject go = Instantiate(emptyChunk, new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize), Quaternion.identity);
+                            GameObject go = ObjectPoolManager.Instance.ReuseObject(emptyChunk, new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize), Quaternion.identity, false);
 
-                            //go.transform.parent = transform;
+                            Chunk chunk = go.GetComponent<Chunk>();
 
-                            //go.transform.position = new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize);
+                            if (chunk == null)
+                            {
+                                // Pooled object doesn't have a chunk component yet, add it
+                                chunk = go.AddComponent<Chunk>();
+                            }
 
-                            //Chunk chunk = go.GetComponent<Chunk>();
-
-                            chunk.generator = this;
                             chunk.chunkCoord = next;
 
-                            //new Chunk(this, next);
-
+                            chunks[next.x, next.z] = chunk;
                             currentChunks[next] = chunk;
+
+                            chunk.generator = this;
+
+                            // All data has been updated, now it can be reactivated
+                            go.SetActive(true);
                         }
                     }
 
@@ -204,8 +210,10 @@ namespace TerrainGeneration
 
                     if (!coord.IsDistanceFrom(playerPos, chunkRange))
                     {
+
+                        if (chunks[coord.x, coord.z] == null) return true;
                         //chunks[coord.x, coord.z].gameObject.component
-                        //Destroy(chunks[coord.x, coord.z].gameObject);
+                        //Destroy(p.Value.gameObject);
                         ObjectPoolManager.Instance.DestroyObject(chunks[coord.x, coord.z].gameObject);
                         chunks[coord.x, coord.z] = null;
 

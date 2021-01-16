@@ -16,6 +16,8 @@ using Unity.Mathematics;
 using UnityEditor;
 using System.Threading;
 using System.Threading.Tasks;
+using DebugTools;
+using static DebugTools.ExtDebug;
 
 namespace TerrainGeneration
 {
@@ -138,6 +140,12 @@ namespace TerrainGeneration
         /// </summary>
         private readonly List<Vector2> uvs = new List<Vector2>();
 
+
+        private MeshRenderer meshRenderer;
+        private MeshFilter meshFilter;
+
+
+
         // Chunk size reference is broken into its components to minimize field references (Vector3.x, Vector3.y, etc)
 
         /// <summary>
@@ -168,10 +176,18 @@ namespace TerrainGeneration
         /// </summary>
         public TerrainGenerator generator = TerrainGenerator.instance;
 
-        private bool dirty = false;
+        public bool dirty = false;
 
         public void OnEnable()
         {
+            // Call GetComponent for renderer and filter if not loaded yet
+            if (meshRenderer == null)
+            {
+                meshFilter = GetComponent<MeshFilter>();
+                meshRenderer = GetComponent<MeshRenderer>();
+            }
+
+
             // Register chunk in TerrainGenerator
             generator.chunks[chunkCoord.x, chunkCoord.z] = this;
 
@@ -182,6 +198,22 @@ namespace TerrainGeneration
 
             // Begin initial regeneration
             Regenerate();
+        }
+
+        /// <summary>
+        /// Clears all existing values in the chunk for regeneration.
+        /// </summary>
+        public void ClearChunk()
+        {
+            dirty = false;
+            generated = false;
+            vertices.Clear();
+            triangles.Clear();
+            uvs.Clear();
+
+
+
+            vIndex = 0;
         }
 
         private void Update()
@@ -202,16 +234,11 @@ namespace TerrainGeneration
 
         public void Regenerate()
         {
-
-
-            // Start chunk generation
-            generated = false;
-            threadFinished = false;
+            ClearChunk();
 
             voxelData = new byte[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
 
-            //PrepareMesh(null);
-
+            // Start terrain generation 
             new Task(() => PrepareMesh()).Start();
         }
 
@@ -227,14 +254,6 @@ namespace TerrainGeneration
                 Debug.LogException(e);
             }
         }
-
-        private void OnDestroy()
-        {
-            // Ensures the chunk has been removed when destroyed
-            if (generator != null && generator.chunks != null)
-                generator.chunks[chunkCoord.x, chunkCoord.z] = null;
-        }
-
 
         /// <summary>
         /// Fill chunk with voxel type data
@@ -395,18 +414,18 @@ namespace TerrainGeneration
             vertices.Clear();
             triangles.Clear();
             uvs.Clear();
+            vIndex = 0;
 
             // Recalculate normals of the mesh
             mesh.RecalculateNormals();
 
-            MeshFilter filter = GetComponent<MeshFilter>();
-            MeshRenderer renderer = GetComponent<MeshRenderer>();
             MeshCollider collider = GetComponent<MeshCollider>();
 
+
             // Set mesh to the GO and add the spritemap material from TerrainGenerator
-            filter.mesh = mesh;
+            meshFilter.mesh = mesh;
             collider.sharedMesh = mesh;
-            renderer.material = TerrainGenerator.material;
+            meshRenderer.material = TerrainGenerator.material;
 
 
         }
@@ -446,9 +465,6 @@ namespace TerrainGeneration
         {
             return voxelData[GetVoxelDataIndex(x, y, z)];
         }
-
-
-
     }
 
 }
