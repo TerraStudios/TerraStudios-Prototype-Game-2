@@ -124,4 +124,4 @@ visual_basic_preferred_modifier_order = Partial,Default,Private,Protected,Public
 
 # TerraStudios Preferences
 [*.{cs}]
-file_header_template =  \nDevelopped by TerraStudios.\nThis script is covered by a Mutual Non-Disclosure Agreement.\nAll of the contents of this script are Confidential. Distributing or using them for your own needs is prohibited.\nDestroy the file immediately if you are not one of the parties involved.\n
+file_header_template = \nDeveloped by TerraStudios.\nThis script is covered by a Mutual Non-Disclosure Agreement and is Confidential.\nDestroy the file immediately if you are not one of the parties involved.\n
