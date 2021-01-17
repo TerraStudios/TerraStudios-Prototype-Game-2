@@ -68,10 +68,9 @@ namespace Player
 
         public void SwitchToNormalCamera()
         {
-            cameraMode = CameraMode.Normal;
-
             // apply pos and rot from the last camera pos and rot
-            transform.position = lastPosition;
+            if (cameraMode != CameraMode.Topdown)
+                transform.position = lastPosition;
             transform.rotation = lastRotation;
 
             normalCamera.SetActive(true);
@@ -81,18 +80,17 @@ namespace Player
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
+            cameraMode = CameraMode.Normal;
             cameraMovement.enabled = true;
             photoCameraMovement.enabled = false;
         }
 
         public void SwitchToTopdownCamera()
         {
-            cameraMode = CameraMode.Topdown;
-
             // set lastRot
             // apply pos and rot from the last camera pos and rot. the rot is 0 because the camera has to look straight down
             lastRotation = transform.rotation;
-            transform.position = lastPosition;
+            //transform.position = lastPosition;
             transform.rotation = Quaternion.identity;
 
             normalCamera.SetActive(false);
@@ -102,6 +100,7 @@ namespace Player
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
+            cameraMode = CameraMode.Topdown;
             cameraMovement.enabled = true;
             photoCameraMovement.enabled = false;
         }
@@ -115,8 +114,6 @@ namespace Player
                 lastRotation = transform.rotation;
             }
 
-            cameraMode = CameraMode.Freecam;
-
             normalCamera.SetActive(false);
             topDownCamera.SetActive(false);
             freeCamera.SetActive(true);
@@ -124,6 +121,7 @@ namespace Player
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
+            cameraMode = CameraMode.Freecam;
             cameraMovement.enabled = false;
             photoCameraMovement.enabled = true;
         }
