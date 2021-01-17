@@ -41,6 +41,8 @@ namespace Player
         public bool showGizmo = true;
         public float maxX;
         public float minX;
+        public float maxY;
+        public float minY;
         public float maxZ;
         public float minZ;
 
@@ -135,7 +137,7 @@ namespace Player
         private Vector3 GetMovement(Vector3 newPos)
         {
             if (enableWorldBoundaries)
-                return new Vector3(Mathf.Clamp(newPos.x, minX, maxX), transform.position.y, Mathf.Clamp(newPos.z, minZ, maxZ));
+                return new Vector3(Mathf.Clamp(newPos.x, minX, maxX), Mathf.Clamp(newPos.y, minY, maxY), Mathf.Clamp(newPos.z, minZ, maxZ));
             else
                 return new Vector3(newPos.x, transform.position.y, newPos.z);
         }
@@ -145,7 +147,7 @@ namespace Player
             if (showGizmo)
             {
                 Gizmos.color = Color.cyan;
-                Gizmos.DrawCube(new Vector3((maxX + minX) / 2, 0, (maxZ + minZ) / 2), new Vector3(Mathf.Abs(maxX) + Mathf.Abs(minX), 100, Mathf.Abs(maxZ) + Mathf.Abs(minZ)));
+                Gizmos.DrawCube(new Vector3((maxX + minX) / 2, (maxY + minY) / 2, (maxZ + minZ) / 2), new Vector3(Mathf.Abs(maxX) + Mathf.Abs(minX), Mathf.Abs(maxY) + Mathf.Abs(minY), Mathf.Abs(maxZ) + Mathf.Abs(minZ)));
             }
         }
     }

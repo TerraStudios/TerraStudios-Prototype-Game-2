@@ -224,6 +224,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1413420034687812705, guid: 47177d67d72cf4641ac7609b5b879b77,
         type: 3}
+      propertyPath: maxY
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1413420034687812705, guid: 47177d67d72cf4641ac7609b5b879b77,
+        type: 3}
       propertyPath: maxZ
       value: 999
       objectReference: {fileID: 0}
@@ -231,6 +236,11 @@ PrefabInstance:
         type: 3}
       propertyPath: minX
       value: -999
+      objectReference: {fileID: 0}
+    - target: {fileID: 1413420034687812705, guid: 47177d67d72cf4641ac7609b5b879b77,
+        type: 3}
+      propertyPath: minY
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 1413420034687812705, guid: 47177d67d72cf4641ac7609b5b879b77,
         type: 3}
@@ -2758,7 +2768,6 @@ MonoBehaviour:
   apm2Location: Buildings/APMs/PF_APM_Prot_1I_2O
   apm3Location: Buildings/APMs/PF_APM_Prot_2I_2O
   conveyorLocation: Buildings/Belts/PF_Build_Belt_01
-  visualization: {fileID: 0}
   canPlace: 1
   debugMode: 0
 --- !u!114 &1029902784
