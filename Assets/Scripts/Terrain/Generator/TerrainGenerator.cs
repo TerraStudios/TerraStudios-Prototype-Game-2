@@ -9,7 +9,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Priority_Queue;
 using TerrainGeneration;
+using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using Utilities;
@@ -68,7 +70,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Contains a list of <see cref="ChunkCoord"/>s to be loaded
         /// </summary>
-        private Queue<ChunkCoord> chunkQueue = new Queue<ChunkCoord>();
+        private FastPriorityQueue<ChunkCoordNode> chunkQueue = new FastPriorityQueue<ChunkCoordNode>(100000);
 
         /// <summary>
         /// Represents the last chunk position the player was at
@@ -95,7 +97,13 @@ namespace TerrainGeneration
 
         private void Awake()
         {
+            NativeLeakDetection.Mode = NativeLeakDetectionMode.EnabledWithStackTrace;
             instance = this;
+        }
+
+        private class ChunkCoordNode : FastPriorityQueueNode
+        {
+            public ChunkCoord coord;
         }
 
 
@@ -104,6 +112,7 @@ namespace TerrainGeneration
         /// </summary>
         private void Start()
         {
+
             ObjectPoolManager.Instance.CreatePool(emptyChunk, 200);
 
             noise = new FastNoiseLite();
@@ -114,6 +123,38 @@ namespace TerrainGeneration
             //ObjectPoolManager.instance.CreatePool(emptyChunk, 100);
 
             material = cubeMaterial;
+
+            //for (int x = 0; x < 100; x++)
+            //{
+            //    for (int z = 0; z < 100; z++)
+            //    {
+            //        ChunkCoord next = new ChunkCoord(x, z);
+
+            //        //GameObject go = Instantiate(emptyChunk, new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize), Quaternion.identity);
+            //        GameObject go = ObjectPoolManager.Instance.ReuseObject(emptyChunk, new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize), Quaternion.identity, false);
+
+            //        Chunk chunk = go.GetComponent<Chunk>();
+
+            //        if (chunk == null)
+            //        {
+            //            // Pooled object doesn't have a chunk component yet, add it
+            //            chunk = go.AddComponent<Chunk>();
+            //        }
+
+            //        chunk.chunkCoord = next;
+
+            //        chunks[next.x, next.z] = chunk;
+            //        currentChunks[next] = chunk;
+
+            //        chunk.generator = this;
+
+            //        // All data has been updated, now it can be reactivated
+            //        go.SetActive(true);
+            //    }
+            //}
+
+
+
 
             StartCoroutine(UpdateChunks());
         }
@@ -127,11 +168,12 @@ namespace TerrainGeneration
             while (true)
             {
 
-                for (int i = 0; i < 4; i++) //loads i chunks every frame
+                for (int i = 0; i < 20; i++) //loads i chunks every frame
                 {
                     if (chunkQueue.Count != 0)
                     {
-                        ChunkCoord next = chunkQueue.Dequeue();
+                        ChunkCoordNode nextNode = chunkQueue.Dequeue();
+                        ChunkCoord next = nextNode.coord;
 
 
                         if (!next.IsDistanceFrom(GetChunkCoord(lastPlayerPos), chunkRange)) continue;
@@ -178,6 +220,18 @@ namespace TerrainGeneration
             //ChunkCoord playerPos = new ChunkCoord { x = 7, z = 4 };
             ChunkCoord playerPos = GetChunkCoord(lastPlayerPos);
 
+            foreach (ChunkCoordNode queuedChunk in chunkQueue)
+            {
+                if (!queuedChunk.coord.IsDistanceFrom(lastChunkPos, chunkRange))
+                {
+                    chunkQueue.Remove(queuedChunk);
+                }
+                else
+                {
+                    chunkQueue.UpdatePriority(queuedChunk, queuedChunk.coord.Distance(lastChunkPos));
+                }
+            }
+
             // Avoids unnecessary checks by only updating once the player has reached a new chunk
             if (playerPos != lastChunkPos)
             {
@@ -193,11 +247,13 @@ namespace TerrainGeneration
 
                         if (currentChunks.TryGetValue(coord, out Chunk c)) continue; // Chunk has already been loaded}
 
+                        ChunkCoordNode node = new ChunkCoordNode() { coord = coord };
+
+                        if (chunkQueue.Contains(node)) continue;
 
                         if (coord.x < 0 || coord.x > worldSize.x - 1 || coord.z < 0 || coord.z > worldSize.y - 1) continue; // Chunk doesn't exist
 
-
-                        chunkQueue.Enqueue(coord); // Queue chunk for loading
+                        chunkQueue.Enqueue(node, coord.Distance(lastChunkPos)); // Queue chunk for loading
 
 
                     }
@@ -250,11 +306,8 @@ namespace TerrainGeneration
         /// </summary>
         /// <param name="pos">The position of the voxel in world space</param>
         /// <returns></returns>
-        public byte GenerateVoxelType(int3 pos)
+        public static byte GenerateVoxelType(int posX, int posY, int posZ)
         {
-            int posX = pos.x;
-            int posY = pos.y;
-            int posZ = pos.z;
 
             // TERRAIN GENERATION CODE
 
@@ -299,7 +352,7 @@ namespace TerrainGeneration
 
             // Chunk hasn't been generated yet, just generate the voxel
             // NOTE: If possible avoid having to pull blocks from unloaded chunks
-            return GenerateVoxelType(new int3(pos.x, pos.y, pos.z));
+            return GenerateVoxelType(pos.x, pos.y, pos.z);
 
         }
 
@@ -318,11 +371,11 @@ namespace TerrainGeneration
     /// Represents a block's ID and transparency, as well as texturing
     /// </summary>
     [System.Serializable]
-    public class VoxelType
+    public struct VoxelType
     {
-        [Header("Block Properties")]
-        [Tooltip("The name of the block")]
-        public string id;
+        //[Header("Block Properties")]
+        //[Tooltip("The name of the block")]
+        //public string id;
         [Tooltip("Determines whether the block is air or not")]
         public bool isSolid;
     }

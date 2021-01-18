@@ -79,6 +79,17 @@ namespace TerrainGeneration
             //return ((x - other.x) * (x - other.x)) < distance * distance && ((z - other.z) * (z - other.z)) < distance * distance;
         }
 
+        /// <summary>
+        /// Finds the approximate distance between two chunks. This is used to calculate the priority a chunk should have for being loaded.
+        /// A chunk further away will have a lower priority, and a chunk closer will have a higher priority.
+        /// </summary>
+        /// <param name="other">The other <see cref="ChunkCoord"/> to compare</param>
+        /// <returns>The distance between the two chunks squared</returns>
+        public int Distance(ChunkCoord other)
+        {
+            return Math.Abs(x - other.x) + Math.Abs(z - other.z);
+        }
+
         public static bool operator ==(ChunkCoord first, ChunkCoord second)
         {
             return first.x == second.x && first.z == second.z;
@@ -107,7 +118,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Stores all of the voxel block data in the chunk
         /// </summary>
-        private byte[] voxelData;
+        public byte[] voxelData;
 
         /// <summary>
         /// The coordinate of the chunk
@@ -170,6 +181,11 @@ namespace TerrainGeneration
 
         private bool threadFinished = false;
 
+        // Job Handlers
+        ChunkBuilder.ChunkNoiseHandler noiseHandler;
+        ChunkBuilder.ChunkMeshHandler meshHandler;
+
+
         /// <summary>
         /// A reference to the <see cref="TerrainGenerator"/> <see cref="GameObject"/>, attached when created
         /// </summary>
@@ -200,6 +216,19 @@ namespace TerrainGeneration
         }
 
         /// <summary>
+        /// Equivalent to the normal <see cref="OnDestroy"/>, but disable is used because of chunks being managed by <see cref="ObjectPoolManager"/>
+        /// </summary>
+        public void OnDisable()
+        {
+            noiseHandler?.jobHandle.Complete();
+            noiseHandler?.DisposeNatives();
+            noiseHandler = null;
+            meshHandler?.jobHandle.Complete();
+            meshHandler?.DisposeNatives();
+            meshHandler = null;
+        }
+
+        /// <summary>
         /// Clears all existing values in the chunk for regeneration.
         /// </summary>
         public void ClearChunk()
@@ -226,7 +255,7 @@ namespace TerrainGeneration
 
             if (!generated && threadFinished)
             {
-                ConstructMesh();
+                //ConstructMesh();
                 generated = true;
             }
         }
@@ -238,20 +267,46 @@ namespace TerrainGeneration
             voxelData = new byte[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
 
             // Start terrain generation 
-            new Task(() => PrepareMesh()).Start();
+
+
+            StartCoroutine(GenerateChunk());
+
+
+
+
+
+            //new Task(() => PrepareMesh()).Start();
         }
 
-        private void PrepareMesh()
+        private IEnumerator GenerateChunk()
         {
-            try
-            {
-                GetBlockData();
-                CreateChunkMeshData();
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            }
+
+            noiseHandler = new ChunkBuilder.ChunkNoiseHandler(chunkSizeX, chunkSizeY, chunkSizeZ);
+            yield return noiseHandler.StartNoiseJob(voxelData);
+
+            meshHandler = new ChunkBuilder.ChunkMeshHandler(chunkSizeX, chunkSizeY, chunkSizeZ);
+            yield return meshHandler.StartMeshJob(voxelData);
+
+            Mesh mesh = meshHandler.GetMeshData();
+
+            vertices.Clear();
+            triangles.Clear();
+            uvs.Clear();
+            vIndex = 0;
+
+            mesh.RecalculateBounds();
+            // Recalculate normals of the mesh
+            mesh.RecalculateNormals();
+
+            //MeshCollider collider = GetComponent<MeshCollider>();
+
+
+            // Set mesh to the GO and add the spritemap material from TerrainGenerator
+            meshFilter.mesh = mesh;
+            //GetComponent<Collider>().sharedMesh = mesh;
+            meshRenderer.material = TerrainGenerator.material;
+
+
         }
 
         /// <summary>
@@ -274,7 +329,7 @@ namespace TerrainGeneration
 
                         int3 pos = new int3(x, y, z);
 
-                        voxelData[GetVoxelDataIndex(x, y, z)] = generator.GenerateVoxelType(pos + WorldPos);
+                        //voxelData[GetVoxelDataIndex(x, y, z)] = generator.GenerateVoxelType(pos + WorldPos);
                     }
                 }
             }
@@ -298,135 +353,6 @@ namespace TerrainGeneration
             }
 
             return generator.voxelTypes[GetVoxelData(pos.x, pos.y, pos.z)].isSolid;
-        }
-
-        /// <summary>
-        /// Adds all block data to a chunk
-        /// </summary>
-        private void CreateChunkMeshData()
-        {
-
-
-            for (int x = 0; x < chunkSizeX; x++)
-            {
-                //TerrainGenerator.threadCount++;
-
-
-                for (int y = 0; y < chunkSizeY; y++)
-                {
-                    for (int z = 0; z < chunkSizeZ; z++)
-                    {
-                        //new Vector3Int(x, y, z);
-                        //TerrainGenerator.threadCount++;
-                        AddBlockData(new int3(x, y, z));
-                    }
-                }
-            }
-
-
-            //TerrainGenerator.threadCount++;
-            // Thread is now finished, signal main thread
-            threadFinished = true;
-        }
-
-        /// <summary>
-        /// Adds all vertex, triangle, and UV data to a cube position based on certain conditions
-        /// </summary>
-        /// <param name="cubePos"></param>
-        private void AddBlockData(int3 cubePos)
-        {
-
-            // If the block isn't solid don't try rendering it
-            if (!generator.voxelTypes[GetVoxelData(cubePos.x, cubePos.y, cubePos.z)].isSolid) return;
-            //if (!CheckBlock(cubePos)) return;
-
-            // Loop through every side of the voxel
-            for (int p = 0; p < 6; p++)
-            {
-                // Checks each side whether it contains a block, used for omitting sides that don't need to be rendered
-                if (!CheckBlock(cubePos + VoxelTables.faces[p]))
-                {
-
-                    // 0, 0, 0 ; face 0 
-                    // vert 1 - (0, 0, 0)
-                    // vert 2 - (0, 1, 0)
-                    // vert 3 - (1, 0, 0)
-                    // vert 4 - (1, 1, 0)
-
-
-                    // Add 4 vertices of cube side
-
-                    int3 cPos = new int3(cubePos.x, cubePos.y, cubePos.z);
-
-                    int3 v1 = cPos + new int3(VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 0]]);
-                    int3 v2 = cPos + new int3(VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 1]]);
-                    int3 v3 = cPos + new int3(VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 2]]);
-                    int3 v4 = cPos + new int3(VoxelTables.voxelVerts[VoxelTables.voxelTris[p, 3]]);
-
-                    vertices.Add(new Vector3(v1.x, v1.y, v1.z));
-                    vertices.Add(new Vector3(v2.x, v2.y, v2.z));
-                    vertices.Add(new Vector3(v3.x, v3.y, v3.z));
-                    vertices.Add(new Vector3(v4.x, v4.y, v4.z));
-
-                    // Find x and y in relation to the texture 
-                    float y = cubePos.z / (float)chunkSizeZ; //because uvs start top left, y needs to be inverted
-                    float x = cubePos.x / (float)chunkSizeX;
-
-                    float yAmount = 1f / chunkSizeZ;
-                    float xAmount = 1f / chunkSizeX;
-
-                    uvs.Add(new Vector2(x, y)); // 0, 0 - bottom left
-                    uvs.Add(new Vector2(x, y + yAmount)); //0, 1 - top left
-                    uvs.Add(new Vector2(x + xAmount, y)); // 1, 0 - bottom right
-                    uvs.Add(new Vector2(x + xAmount, y + yAmount)); // 1, 1 - top right
-
-                    // Add triangles
-                    triangles.Add(vIndex);
-                    triangles.Add(vIndex + 1);
-                    triangles.Add(vIndex + 2);
-                    triangles.Add(vIndex + 2);
-                    triangles.Add(vIndex + 1);
-                    triangles.Add(vIndex + 3);
-
-
-                    // Increment index for next faces
-                    vIndex += 4;
-                }
-            }
-
-
-        }
-
-        /// <summary>
-        /// Constructs mesh from voxel data
-        /// </summary>
-        private void ConstructMesh()
-        {
-            // Add Mesh properties
-            Mesh mesh = new Mesh
-            {
-                vertices = vertices.ToArray(),
-                triangles = triangles.ToArray(),
-                uv = uvs.ToArray()
-            };
-
-            vertices.Clear();
-            triangles.Clear();
-            uvs.Clear();
-            vIndex = 0;
-
-            // Recalculate normals of the mesh
-            mesh.RecalculateNormals();
-
-            MeshCollider collider = GetComponent<MeshCollider>();
-
-
-            // Set mesh to the GO and add the spritemap material from TerrainGenerator
-            meshFilter.mesh = mesh;
-            collider.sharedMesh = mesh;
-            meshRenderer.material = TerrainGenerator.material;
-
-
         }
 
         /// <summary>
