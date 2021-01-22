@@ -455,17 +455,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""forward"",
-                    ""id"": ""1e91621f-fdc9-4b8b-9663-4e8d2b4a5981"",
-                    ""path"": ""<Gamepad>/rightStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Camera_Freecam_Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""backward"",
                     ""id"": ""68191f66-efcb-42ee-8be2-ec1dfb7904b5"",
                     ""path"": ""<Keyboard>/s"",
@@ -480,17 +469,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""name"": ""backward"",
                     ""id"": ""1ca77fd1-9320-4299-9cf7-ae9c0e53b983"",
                     ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Camera_Freecam_Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""backward"",
-                    ""id"": ""7977533f-4bd4-43b6-a190-e5b48d9180be"",
-                    ""path"": ""<Gamepad>/rightStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -521,17 +499,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""right"",
-                    ""id"": ""4a3b18e0-f4d8-45e3-b726-2704e9171a70"",
-                    ""path"": ""<Gamepad>/rightStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Camera_Freecam_Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""left"",
                     ""id"": ""eb81e36b-5e8c-4ea5-9eca-cb3e2f581c10"",
                     ""path"": ""<Keyboard>/leftArrow"",
@@ -546,17 +513,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""name"": ""left"",
                     ""id"": ""6dfc4c8e-1d01-4b69-8e10-02ff7477e5c2"",
                     ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Camera_Freecam_Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""25c2c3d8-5c41-497a-88c6-68e08a8c7b47"",
-                    ""path"": ""<Gamepad>/rightStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
