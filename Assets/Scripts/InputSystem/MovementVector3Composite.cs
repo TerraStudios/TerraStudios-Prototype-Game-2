@@ -1,4 +1,4 @@
-//
+﻿//
 // Developed by TerraStudios.
 // This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
 // Destroy the file immediately if you are not one of the parties involved.
@@ -26,20 +26,22 @@ namespace UnityEngine.InputSystem.Composites
 
         public override Vector3 ReadValue(ref InputBindingCompositeContext context)
         {
-            bool forwardIsPressed = context.ReadValueAsButton(forward);
-            bool backwardIsPressed = context.ReadValueAsButton(backward);
-            bool leftIsPressed = context.ReadValueAsButton(left);
-            bool rightIsPressed = context.ReadValueAsButton(right);
+            float forwardValue = context.ReadValue<float>(forward);
+            float backwardValue = context.ReadValue<float>(backward);
+            float leftValue = context.ReadValue<float>(left);
+            float rightValue = context.ReadValue<float>(right);
 
-            return Make3DVector(forwardIsPressed, backwardIsPressed, leftIsPressed, rightIsPressed);
+            Debug.Log(forwardValue + " " + backwardValue + " " + leftValue + " " + rightValue);
+
+            return Make3DVector(forwardValue, backwardValue, leftValue, rightValue);
         }
 
-        public static Vector3 Make3DVector(bool forward, bool backward, bool left, bool right)
+        public static Vector3 Make3DVector(float forward, float backward, float left, float right)
         {
-            float forwardValue = forward ? 1.0f : 0.0f;
-            float backwardValue = backward ? -1.0f : 0.0f;
-            float leftValue = left ? -1.0f : 0.0f;
-            float rightValue = right ? 1.0f : 0.0f;
+            /*//float forwardValue = forward ? 1.0f : 0.0f;
+            //float backwardValue = backward ? -1.0f : 0.0f;
+            //float leftValue = left ? -1.0f : 0.0f;
+            //float rightValue = right ? 1.0f : 0.0f;
 
             Vector3 result = new Vector3(leftValue + rightValue, 0, forwardValue + backwardValue);
 
@@ -48,8 +50,8 @@ namespace UnityEngine.InputSystem.Composites
             const float diagonal = 0.707107f;
             if (result.x != 0 && result.y != 0)
                 result = new Vector3(result.x * diagonal, 0, result.y * diagonal);
-
-            return result;
+            */
+            return Vector3.zero;
         }
 
         static MovementVector3Composite()

@@ -24,8 +24,16 @@ namespace Player
         public float panSpeed = 0.5f;
         public float zoomSpeed;
 
+        //public float maxFollowOffsetY;
+        //public float minFollowOffsetY;
+        //public AnimationCurve followOffsetCurve;
+        private float maxFOVZoom;
+        private float minFOVZoom;
+        //public AnimationCurve fovZoomCurve;
+
         private Vector3 moveDirection;
         private float rotationDirection;
+        private float upAndDownDirection;
         private bool isDragging;
         private Vector2 mouseDelta;
         private bool isPanning;
@@ -33,8 +41,6 @@ namespace Player
 
         private float mouseYawXForPanning;
         private float zoomLevel;
-        private float maxFOV;
-        private float minFOV;
 
         [Header("World Boundaries")]
         public bool enableWorldBoundaries = true;
@@ -50,14 +56,15 @@ namespace Player
         {
             mouseYawXForPanning = transform.rotation.eulerAngles.x;
             zoomLevel = cinemachineFollowZoom.m_MaxFOV;
-            maxFOV = cinemachineFollowZoom.m_MaxFOV;
-            minFOV = cinemachineFollowZoom.m_MinFOV;
+            maxFOVZoom = cinemachineFollowZoom.m_MaxFOV;
+            minFOVZoom = cinemachineFollowZoom.m_MinFOV;
         }
 
         private void Update()
         {
             ApplyMovement();
             ApplyRotation();
+            ApplyUpAndDownMovement();
             ApplyDrag();
             ApplyZoom();
         }
@@ -65,6 +72,8 @@ namespace Player
         public void Move(InputAction.CallbackContext context) => moveDirection = context.ReadValue<Vector3>();
 
         public void Rotate(InputAction.CallbackContext context) => rotationDirection = context.ReadValue<float>();
+
+        public void UpAndDown(InputAction.CallbackContext context) => upAndDownDirection = context.ReadValue<float>();
 
         public void DragState(InputAction.CallbackContext context)
         {
@@ -96,7 +105,15 @@ namespace Player
         {
             if (CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
-                transform.rotation *= Quaternion.Euler(0, rotationSpeed * rotationDirection / 200f, 0);
+                transform.rotation *= Quaternion.Euler(0, rotationSpeed * rotationDirection / 200f * Time.unscaledDeltaTime, 0);
+            }
+        }
+
+        private void ApplyUpAndDownMovement()
+        {
+            if (CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
+            {
+                transform.position = GetMovement(transform.position + (transform.TransformDirection(Vector3.up * upAndDownDirection) * movementSpeed * Time.unscaledDeltaTime));
             }
         }
 
@@ -119,12 +136,12 @@ namespace Player
         {
             if (CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
-                if (mouseScrollY > 0 && zoomLevel >= minFOV)
+                if (mouseScrollY > 0 && zoomLevel >= minFOVZoom)
                 {
                     // scroll up
                     zoomLevel -= Time.unscaledDeltaTime * zoomSpeed * 10;
                 }
-                else if (mouseScrollY < 0 && zoomLevel <= maxFOV)
+                else if (mouseScrollY < 0 && zoomLevel <= maxFOVZoom)
                 {
                     // scroll down
                     zoomLevel += Time.unscaledDeltaTime * zoomSpeed * 10;

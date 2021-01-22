@@ -51,6 +51,14 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Camera_Normal_UpAndDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""524e7aa0-ae7f-4d34-ac16-74645528b457"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Camera_Normal_DragState"",
                     ""type"": ""PassThrough"",
                     ""id"": ""db7bac09-980a-4d93-a1a1-f521ce054f29"",
@@ -317,7 +325,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""534291c2-ad6f-4275-86d8-3cc281a72af2"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -328,7 +336,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""f75231ed-e6cf-41c1-8924-6d70283620e0"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/v"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -437,8 +445,19 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""forward"",
-                    ""id"": ""1e91621f-fdc9-4b8b-9663-4e8d2b4a5981"",
+                    ""id"": ""b100a7e6-7f28-4b9f-a97c-8aa70fcc2ea3"",
                     ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Camera_Freecam_Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""forward"",
+                    ""id"": ""1e91621f-fdc9-4b8b-9663-4e8d2b4a5981"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -469,6 +488,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""backward"",
+                    ""id"": ""7977533f-4bd4-43b6-a190-e5b48d9180be"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Camera_Freecam_Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""right"",
                     ""id"": ""9f1e29f1-0226-40f7-972c-c92ca3fbc367"",
                     ""path"": ""<Keyboard>/rightArrow"",
@@ -491,6 +521,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""right"",
+                    ""id"": ""4a3b18e0-f4d8-45e3-b726-2704e9171a70"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Camera_Freecam_Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""left"",
                     ""id"": ""eb81e36b-5e8c-4ea5-9eca-cb3e2f581c10"",
                     ""path"": ""<Keyboard>/leftArrow"",
@@ -505,6 +546,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""name"": ""left"",
                     ""id"": ""6dfc4c8e-1d01-4b69-8e10-02ff7477e5c2"",
                     ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Camera_Freecam_Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""25c2c3d8-5c41-497a-88c6-68e08a8c7b47"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -698,6 +750,39 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""GridManager_RotateBuildingLeft"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""UpAndDown"",
+                    ""id"": ""7f15eb3c-c0ae-42db-b969-9aa8d587c4dd"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera_Normal_UpAndDown"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""19f9b7e0-ece2-44ca-a1c6-e5ca06507837"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Camera_Normal_UpAndDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""c06db96a-2438-4ec1-a3d2-28606d227344"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Camera_Normal_UpAndDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -754,6 +839,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Gameplay_Camera_Manager_SwitchFreecam = m_Gameplay.FindAction("Camera_Manager_SwitchFreecam", throwIfNotFound: true);
         m_Gameplay_Camera_Normal_Move = m_Gameplay.FindAction("Camera_Normal_Move", throwIfNotFound: true);
         m_Gameplay_Camera_Normal_Rotate = m_Gameplay.FindAction("Camera_Normal_Rotate", throwIfNotFound: true);
+        m_Gameplay_Camera_Normal_UpAndDown = m_Gameplay.FindAction("Camera_Normal_UpAndDown", throwIfNotFound: true);
         m_Gameplay_Camera_Normal_DragState = m_Gameplay.FindAction("Camera_Normal_DragState", throwIfNotFound: true);
         m_Gameplay_Camera_Normal_PanRotateState = m_Gameplay.FindAction("Camera_Normal_PanRotateState", throwIfNotFound: true);
         m_Gameplay_Camera_Normal_PanAndDrag = m_Gameplay.FindAction("Camera_Normal_PanAndDrag", throwIfNotFound: true);
@@ -829,6 +915,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Camera_Manager_SwitchFreecam;
     private readonly InputAction m_Gameplay_Camera_Normal_Move;
     private readonly InputAction m_Gameplay_Camera_Normal_Rotate;
+    private readonly InputAction m_Gameplay_Camera_Normal_UpAndDown;
     private readonly InputAction m_Gameplay_Camera_Normal_DragState;
     private readonly InputAction m_Gameplay_Camera_Normal_PanRotateState;
     private readonly InputAction m_Gameplay_Camera_Normal_PanAndDrag;
@@ -856,6 +943,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @Camera_Manager_SwitchFreecam => m_Wrapper.m_Gameplay_Camera_Manager_SwitchFreecam;
         public InputAction @Camera_Normal_Move => m_Wrapper.m_Gameplay_Camera_Normal_Move;
         public InputAction @Camera_Normal_Rotate => m_Wrapper.m_Gameplay_Camera_Normal_Rotate;
+        public InputAction @Camera_Normal_UpAndDown => m_Wrapper.m_Gameplay_Camera_Normal_UpAndDown;
         public InputAction @Camera_Normal_DragState => m_Wrapper.m_Gameplay_Camera_Normal_DragState;
         public InputAction @Camera_Normal_PanRotateState => m_Wrapper.m_Gameplay_Camera_Normal_PanRotateState;
         public InputAction @Camera_Normal_PanAndDrag => m_Wrapper.m_Gameplay_Camera_Normal_PanAndDrag;
@@ -896,6 +984,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Camera_Normal_Rotate.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_Rotate;
                 @Camera_Normal_Rotate.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_Rotate;
                 @Camera_Normal_Rotate.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_Rotate;
+                @Camera_Normal_UpAndDown.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_UpAndDown;
+                @Camera_Normal_UpAndDown.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_UpAndDown;
+                @Camera_Normal_UpAndDown.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_UpAndDown;
                 @Camera_Normal_DragState.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_DragState;
                 @Camera_Normal_DragState.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_DragState;
                 @Camera_Normal_DragState.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_DragState;
@@ -969,6 +1060,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Camera_Normal_Rotate.started += instance.OnCamera_Normal_Rotate;
                 @Camera_Normal_Rotate.performed += instance.OnCamera_Normal_Rotate;
                 @Camera_Normal_Rotate.canceled += instance.OnCamera_Normal_Rotate;
+                @Camera_Normal_UpAndDown.started += instance.OnCamera_Normal_UpAndDown;
+                @Camera_Normal_UpAndDown.performed += instance.OnCamera_Normal_UpAndDown;
+                @Camera_Normal_UpAndDown.canceled += instance.OnCamera_Normal_UpAndDown;
                 @Camera_Normal_DragState.started += instance.OnCamera_Normal_DragState;
                 @Camera_Normal_DragState.performed += instance.OnCamera_Normal_DragState;
                 @Camera_Normal_DragState.canceled += instance.OnCamera_Normal_DragState;
@@ -1078,6 +1172,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnCamera_Manager_SwitchFreecam(InputAction.CallbackContext context);
         void OnCamera_Normal_Move(InputAction.CallbackContext context);
         void OnCamera_Normal_Rotate(InputAction.CallbackContext context);
+        void OnCamera_Normal_UpAndDown(InputAction.CallbackContext context);
         void OnCamera_Normal_DragState(InputAction.CallbackContext context);
         void OnCamera_Normal_PanRotateState(InputAction.CallbackContext context);
         void OnCamera_Normal_PanAndDrag(InputAction.CallbackContext context);

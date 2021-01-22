@@ -72,10 +72,28 @@ MonoBehaviour:
   dragSpeed: 2
   panSpeed: 5
   zoomSpeed: 10
+  maxFollowOffsetY: 0
+  minFollowOffsetY: 14.5
+  followOffsetCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxFOVZoom: 0
+  minFOVZoom: 0
+  fovZoomCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   enableWorldBoundaries: 1
   showGizmo: 0
   maxX: 40
   minX: 0
+  maxY: 0
+  minY: 0
   maxZ: 20
   minZ: -10
 --- !u!114 &2367884800272579803
