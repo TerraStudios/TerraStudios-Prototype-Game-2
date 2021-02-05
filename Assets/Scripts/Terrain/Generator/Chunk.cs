@@ -5,18 +5,12 @@
 //
 
 using System;
-using Unity.Jobs;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using Unity.Collections;
-using Unity.Burst;
 using Unity.Mathematics;
-using UnityEditor;
-using System.Threading;
-using System.Threading.Tasks;
-using DebugTools;
-using static DebugTools.ExtDebug;
+using BuildingManagement;
+using BuildingModules;
 
 namespace TerrainGeneration
 {
@@ -239,7 +233,15 @@ namespace TerrainGeneration
             triangles.Clear();
             uvs.Clear();
 
-
+            // Unload all building mesh GameObjects in this chunk
+            if (BuildingSystem.PlacedBuildings.Count != 0)
+            {
+                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings[chunkCoord])
+                {
+                    // TODO: Use OPM, inefficient
+                    Destroy(kvp.Value);
+                }
+            }
 
             vIndex = 0;
         }
@@ -271,9 +273,19 @@ namespace TerrainGeneration
 
             StartCoroutine(GenerateChunk());
 
+            // Load all building mesh GameObjects in this chunk
+            if (BuildingSystem.PlacedBuildings.Count != 0)
+            {
+                for (int i = 0; i < BuildingSystem.PlacedBuildings[chunkCoord].Count; i++)
+                {
+                    List<KeyValuePair<Building, GameObject>> list = BuildingSystem.PlacedBuildings[chunkCoord];
 
-
-
+                    // TODO: Use OPM, inefficient
+                    Destroy(list[i].Value);
+                    MeshData mData = list[i].Key.meshData;
+                    BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(list[i].Key, Instantiate(mData.GetMeshObj(list[i].Key.scriptPrefabLocation).gameObject, mData.pos, mData.rot));
+                }
+            }
 
             //new Task(() => PrepareMesh()).Start();
         }

@@ -440,7 +440,7 @@ namespace BuildingManagement
             Transform scriptGO = Resources.Load<Transform>(resourcesLocation);
             Transform meshGO = Resources.Load<Transform>(resourcesLocation + "_Mesh");
             Building b = scriptGO.GetComponent<Building>();
-            b.prefabLocation = resourcesLocation;
+            b.scriptPrefabLocation = resourcesLocation;
             return new KeyValuePair<Building, Transform>(b, meshGO);
         }
     }

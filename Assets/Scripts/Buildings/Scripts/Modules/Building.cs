@@ -60,6 +60,27 @@ namespace BuildingModules
         [Tooltip("Determines the energy usage per hour of the machine being active")]
         public double wattsPerHourWork;
     }
+    
+    /// <summary>
+    /// Stores information about the Mesh GameObject.
+    /// Used when loading/unloading building meshes from chunks.
+    /// </summary>
+    public class MeshData
+    {
+        public Vector3 pos;
+        public Quaternion rot;
+
+        //TODO: Inefficient, replace with a cached value
+        /// <summary>
+        /// Get the corresponding Mesh Prefab of the Building.
+        /// </summary>
+        /// <param name="pathToScriptObj">Path to the Script GameObject.</param>
+        /// <returns>Returns the Prefab of the Mesh GameObject corresponding to the Script GameObject.</returns>
+        public Transform GetMeshObj(string pathToScriptObj)
+        {
+            return Resources.Load<Transform>(pathToScriptObj + "_Mesh");
+        }
+    }
 
     /// <summary>
     /// General Building class, contained on all GameObjects that function as a Building.
@@ -69,6 +90,7 @@ namespace BuildingModules
     public class Building : MonoBehaviour
     {
         public BuildingBase bBase;
+        [HideInInspector] public MeshData meshData;
         public ModuleConnector mc;
         [HideInInspector] public Transform correspondingMesh;
         [HideInInspector] public bool isSetUp;
@@ -97,7 +119,7 @@ namespace BuildingModules
 
         private int healthUpdateID;
 
-        [HideInInspector] public string prefabLocation;
+        [HideInInspector] public string scriptPrefabLocation;
 
         /// <summary>
         /// Initializes the building's properties and work state.

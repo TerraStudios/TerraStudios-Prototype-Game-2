@@ -30,11 +30,6 @@ namespace SaveSystem
         {
             return Resources.Load<Transform>(scriptPrefabPath);
         }
-
-        public Transform GetMeshObj()
-        {
-            return Resources.Load<Transform>(scriptPrefabPath + "_Mesh");
-        }
     }
 
     /// <summary>

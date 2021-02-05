@@ -38,7 +38,7 @@ namespace BuildingManagement
         /// Key - Coordinates of the chunk where the Building is placed.
         /// Value - List of KeyValuePairs (Buildings in ChunkCoord) containing the Building (Script Prefab) as a key and GameObject (Mesh Prefab) as a value.
         /// </summary>
-        public static readonly Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>> PlacedBuildings = new Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>>();
+        public static Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>> PlacedBuildings = new Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>>();
 
         private GameObject _buildingScriptParent;
 
@@ -82,10 +82,10 @@ namespace BuildingManagement
                 BuildingSave toSave = new BuildingSave()
                 {
                     chunkCoord = chunkCoord,
-                    position = meshGO.transform.position,
-                    rotation = meshGO.transform.rotation,
+                    position = b.meshData.pos,
+                    rotation = b.meshData.rot,
                     building = b.bBase,
-                    scriptPrefabPath = b.prefabLocation
+                    scriptPrefabPath = b.scriptPrefabLocation
                 };
 
                 GameSave.current.worldSaveData.placedBuildings.Add(toSave);
@@ -128,12 +128,15 @@ namespace BuildingManagement
             foreach (BuildingSave save in GameSave.current.worldSaveData.placedBuildings)
             {
                 Transform buildingGO = Instantiate(save.GetScriptObj().gameObject, Vector3.zero, Quaternion.identity).transform;
-                Transform meshGO = Instantiate(save.GetMeshObj().gameObject, save.position, save.rotation).transform;
+
+                Building building = buildingGO.GetComponent<Building>();
+
+                Transform meshGO = Instantiate(building.meshData.GetMeshObj(building.scriptPrefabLocation).gameObject, save.position, save.rotation).transform;
 
                 buildingGO.parent = buildingScriptParent.transform;
                 meshGO.parent = buildingMeshParent.transform;
 
-                Building building = buildingGO.GetComponent<Building>();
+                
                 ChunkCoord chunkCoord = save.chunkCoord;
                 building.bBase = save.building;
                 SetUpBuilding(building, meshGO, chunkCoord, false);
