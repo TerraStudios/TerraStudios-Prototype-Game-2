@@ -60,7 +60,7 @@ namespace BuildingModules
         [Tooltip("Determines the energy usage per hour of the machine being active")]
         public double wattsPerHourWork;
     }
-    
+
     /// <summary>
     /// Stores information about the Mesh GameObject.
     /// Used when loading/unloading building meshes from chunks.
