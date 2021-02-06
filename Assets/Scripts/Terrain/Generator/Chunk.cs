@@ -228,7 +228,7 @@ namespace TerrainGeneration
             uvs.Clear();
 
             // Unload all building mesh GameObjects in this chunk
-            if (BuildingSystem.PlacedBuildings.Count != 0)
+            if (BuildingSystem.PlacedBuildings.Count != 0 && BuildingSystem.PlacedBuildings.ContainsKey(chunkCoord))
             {
                 foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings[chunkCoord])
                 {
@@ -290,7 +290,7 @@ namespace TerrainGeneration
             StartCoroutine(GenerateChunk());
 
             // Load all building mesh GameObjects in this chunk
-            if (BuildingSystem.PlacedBuildings.Count != 0)
+            if (BuildingSystem.PlacedBuildings.Count != 0 && BuildingSystem.PlacedBuildings.ContainsKey(chunkCoord))
             {
                 for (int i = 0; i < BuildingSystem.PlacedBuildings[chunkCoord].Count; i++)
                 {
@@ -298,8 +298,8 @@ namespace TerrainGeneration
 
                     // TODO: Use OPM, inefficient
                     Destroy(list[i].Value);
-                    MeshData mData = list[i].Key.meshData;
-                    BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(list[i].Key, Instantiate(mData.GetMeshObj(list[i].Key.scriptPrefabLocation).gameObject, mData.pos, mData.rot));
+                    //MeshData mData = list[i].Key.meshData;
+                    //BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(list[i].Key, Instantiate(mData.GetMeshObj(list[i].Key.scriptPrefabLocation).gameObject, mData.pos, mData.rot));
                 }
             }
 
