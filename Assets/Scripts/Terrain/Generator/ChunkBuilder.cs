@@ -97,6 +97,8 @@ namespace TerrainGeneration
 
                 nativeVoxelData.CopyTo(voxelData);
 
+                DisposeNatives();
+
                 yield return null;
 
 

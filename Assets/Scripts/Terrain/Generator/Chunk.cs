@@ -298,12 +298,12 @@ namespace TerrainGeneration
             // Recalculate normals of the mesh
             mesh.RecalculateNormals();
 
-            //MeshCollider collider = GetComponent<MeshCollider>();
+            MeshCollider collider = GetComponent<MeshCollider>();
 
 
             // Set mesh to the GO and add the spritemap material from TerrainGenerator
             meshFilter.mesh = mesh;
-            //GetComponent<Collider>().sharedMesh = mesh;
+            collider.sharedMesh = mesh;
             meshRenderer.material = TerrainGenerator.material;
 
 
