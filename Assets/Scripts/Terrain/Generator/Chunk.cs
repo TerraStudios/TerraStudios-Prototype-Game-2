@@ -298,8 +298,9 @@ namespace TerrainGeneration
 
                     // TODO: Use OPM, inefficient
                     Destroy(list[i].Value);
-                    //MeshData mData = list[i].Key.meshData;
-                    //BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(list[i].Key, Instantiate(mData.GetMeshObj(list[i].Key.scriptPrefabLocation).gameObject, mData.pos, mData.rot));
+                    Building building = list[i].Key;
+                    GameObject mesh = list[i].Value;
+                    BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(building, Instantiate(building.GetMeshObj(list[i].Key.scriptPrefabLocation).gameObject, mesh.transform.position, mesh.transform.rotation));
                 }
             }
 
