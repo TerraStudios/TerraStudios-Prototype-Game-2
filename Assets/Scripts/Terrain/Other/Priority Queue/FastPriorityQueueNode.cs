@@ -15,11 +15,11 @@ namespace Priority_Queue
         /// </summary>
         public int QueueIndex { get; internal set; }
 
-#if DEBUG
-        /// <summary>
-        /// The queue this node is tied to. Used only for debug builds.
-        /// </summary>
-        public object Queue { get; internal set; }
-#endif
+        //#if DEBUG
+        //        /// <summary>
+        //        /// The queue this node is tied to. Used only for debug builds.
+        //        /// </summary>
+        //        public object Queue { get; internal set; }
+        //#endif
     }
 }

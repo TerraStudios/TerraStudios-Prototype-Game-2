@@ -210,7 +210,6 @@ namespace TerrainGeneration
                 });
 
                 jobHandle.Complete();
-                JobHandle.ScheduleBatchedJobs();
 
                 chunkMesh = new Mesh();
                 chunkMesh.SetVertices(nativeVertices, 0, counter.Count * 4);
@@ -287,14 +286,10 @@ namespace TerrainGeneration
 
             public void Execute(int i)
             {
+                int zQ = Math.DivRem(i, chunkSizeZ, out var cz);
+                int yQ = Math.DivRem(zQ, chunkSizeY, out var cy);
                 // Used for caching variables when calculating index
-                int cx;
-                int cy;
-                int cz;
-
-                int zQ = Math.DivRem(i, chunkSizeZ, out cz);
-                int yQ = Math.DivRem(zQ, chunkSizeY, out cy);
-                cx = yQ % chunkSizeX;
+                int cx = yQ % chunkSizeX;
 
                 int3 pos = new int3(cx, cy, cz);
 

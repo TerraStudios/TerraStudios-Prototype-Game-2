@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 
 namespace Priority_Queue
 {
+
+
     /// <summary>
     /// An implementation of a min-Priority Queue using a heap.  Has O(1) .Contains()!
     /// See https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp/wiki/Getting-Started for more information
@@ -80,20 +82,20 @@ namespace Priority_Queue
 #endif
         public bool Contains(T node)
         {
-#if DEBUG
-            if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
-            if (node.Queue != null && !Equals(node.Queue))
-            {
-                throw new InvalidOperationException("node.Contains was called on a node from another queue.  Please call originalQueue.ResetNode() first");
-            }
-            if (node.QueueIndex < 0 || node.QueueIndex >= _nodes.Length)
-            {
-                throw new InvalidOperationException("node.QueueIndex has been corrupted. Did you change it manually? Or add this node to another queue?");
-            }
-#endif
+            //#if DEBUG
+            //            if (node == null)
+            //            {
+            //                throw new ArgumentNullException("node");
+            //            }
+            //            if (node.Queue != null && !Equals(node.Queue))
+            //            {
+            //                throw new InvalidOperationException("node.Contains was called on a node from another queue.  Please call originalQueue.ResetNode() first");
+            //            }
+            //            if (node.QueueIndex < 0 || node.QueueIndex >= _nodes.Length)
+            //            {
+            //                throw new InvalidOperationException("node.QueueIndex has been corrupted. Did you change it manually? Or add this node to another queue?");
+            //            }
+            //#endif
 
             return (_nodes[node.QueueIndex] == node);
         }
@@ -110,25 +112,25 @@ namespace Priority_Queue
 #endif
         public void Enqueue(T node, float priority)
         {
-#if DEBUG
-            if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
-            if (_numNodes >= _nodes.Length - 1)
-            {
-                throw new InvalidOperationException("Queue is full - node cannot be added: " + node);
-            }
-            if (node.Queue != null && !Equals(node.Queue))
-            {
-                throw new InvalidOperationException("node.Enqueue was called on a node from another queue.  Please call originalQueue.ResetNode() first");
-            }
-            if (Contains(node))
-            {
-                throw new InvalidOperationException("Node is already enqueued: " + node);
-            }
-            node.Queue = this;
-#endif
+            //#if DEBUG
+            //            if (node == null)
+            //            {
+            //                throw new ArgumentNullException("node");
+            //            }
+            //            if (_numNodes >= _nodes.Length - 1)
+            //            {
+            //                throw new InvalidOperationException("Queue is full - node cannot be added: " + node);
+            //            }
+            //            if (node.Queue != null && !Equals(node.Queue))
+            //            {
+            //                throw new InvalidOperationException("node.Enqueue was called on a node from another queue.  Please call originalQueue.ResetNode() first");
+            //            }
+            //            if (Contains(node))
+            //            {
+            //                throw new InvalidOperationException("Node is already enqueued: " + node);
+            //            }
+            //            node.Queue = this;
+            //#endif
 
             node.Priority = priority;
             _numNodes++;
@@ -350,18 +352,20 @@ namespace Priority_Queue
 #endif
         public T Dequeue()
         {
-#if DEBUG
-            if (_numNodes <= 0)
-            {
-                throw new InvalidOperationException("Cannot call Dequeue() on an empty queue");
-            }
+            // TerraStudios change: remove safety check as it was a source of lag, no need if we ever do it
+            //#if DEBUG
+            //            if (_numNodes <= 0)
+            //            {
+            //                throw new InvalidOperationException("Cannot call Dequeue() on an empty queue");
+            //            }
 
-            if (!IsValidQueue())
-            {
-                throw new InvalidOperationException("Queue has been corrupted (Did you update a node priority manually instead of calling UpdatePriority()?" +
-                                                    "Or add the same node to two different queues?)");
-            }
-#endif
+            //            
+            //            if (!IsValidQueue())
+            //            {
+            //                throw new InvalidOperationException("Queue has been corrupted (Did you update a node priority manually instead of calling UpdatePriority()?" +
+            //                                                    "Or add the same node to two different queues?)");
+            //            }
+            //#endif
 
             T returnMe = _nodes[1];
             //If the node is already the last node, we can remove it immediately
@@ -391,17 +395,17 @@ namespace Priority_Queue
         /// </summary>
         public void Resize(int maxNodes)
         {
-#if DEBUG
-            if (maxNodes <= 0)
-            {
-                throw new InvalidOperationException("Queue size cannot be smaller than 1");
-            }
+            //#if DEBUG
+            //            if (maxNodes <= 0)
+            //            {
+            //                throw new InvalidOperationException("Queue size cannot be smaller than 1");
+            //            }
 
-            if (maxNodes < _numNodes)
-            {
-                throw new InvalidOperationException("Called Resize(" + maxNodes + "), but current queue contains " + _numNodes + " nodes");
-            }
-#endif
+            //            if (maxNodes < _numNodes)
+            //            {
+            //                throw new InvalidOperationException("Called Resize(" + maxNodes + "), but current queue contains " + _numNodes + " nodes");
+            //            }
+            //#endif
 
             T[] newArray = new T[maxNodes + 1];
             int highestIndexToCopy = Math.Min(maxNodes, _numNodes);
@@ -440,20 +444,20 @@ namespace Priority_Queue
 #endif
         public void UpdatePriority(T node, float priority)
         {
-#if DEBUG
-            if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
-            if (node.Queue != null && !Equals(node.Queue))
-            {
-                throw new InvalidOperationException("node.UpdatePriority was called on a node from another queue");
-            }
-            if (!Contains(node))
-            {
-                throw new InvalidOperationException("Cannot call UpdatePriority() on a node which is not enqueued: " + node);
-            }
-#endif
+            //#if DEBUG
+            //            if (node == null)
+            //            {
+            //                throw new ArgumentNullException("node");
+            //            }
+            //            if (node.Queue != null && !Equals(node.Queue))
+            //            {
+            //                throw new InvalidOperationException("node.UpdatePriority was called on a node from another queue");
+            //            }
+            //            if (!Contains(node))
+            //            {
+            //                throw new InvalidOperationException("Cannot call UpdatePriority() on a node which is not enqueued: " + node);
+            //            }
+            //#endif
 
             node.Priority = priority;
             OnNodeUpdated(node);
@@ -488,20 +492,20 @@ namespace Priority_Queue
 #endif
         public void Remove(T node)
         {
-#if DEBUG
-            if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
-            if (node.Queue != null && !Equals(node.Queue))
-            {
-                throw new InvalidOperationException("node.Remove was called on a node from another queue");
-            }
-            if (!Contains(node))
-            {
-                throw new InvalidOperationException("Cannot call Remove() on a node which is not enqueued: " + node);
-            }
-#endif
+            //#if DEBUG
+            //            if (node == null)
+            //            {
+            //                throw new ArgumentNullException("node");
+            //            }
+            //            if (node.Queue != null && !Equals(node.Queue))
+            //            {
+            //                throw new InvalidOperationException("node.Remove was called on a node from another queue");
+            //            }
+            //            if (!Contains(node))
+            //            {
+            //                throw new InvalidOperationException("Cannot call Remove() on a node which is not enqueued: " + node);
+            //            }
+            //#endif
 
             //If the node is already the last node, we can remove it immediately
             if (node.QueueIndex == _numNodes)
@@ -532,22 +536,22 @@ namespace Priority_Queue
 #endif
         public void ResetNode(T node)
         {
-#if DEBUG
-            if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
-            if (node.Queue != null && !Equals(node.Queue))
-            {
-                throw new InvalidOperationException("node.ResetNode was called on a node from another queue");
-            }
-            if (Contains(node))
-            {
-                throw new InvalidOperationException("node.ResetNode was called on a node that is still in the queue");
-            }
+            //#if DEBUG
+            //            if (node == null)
+            //            {
+            //                throw new ArgumentNullException("node");
+            //            }
+            //            if (node.Queue != null && !Equals(node.Queue))
+            //            {
+            //                throw new InvalidOperationException("node.ResetNode was called on a node from another queue");
+            //            }
+            //            if (Contains(node))
+            //            {
+            //                throw new InvalidOperationException("node.ResetNode was called on a node that is still in the queue");
+            //            }
 
-            node.Queue = null;
-#endif
+            //            node.Queue = null;
+            //#endif
 
             node.QueueIndex = 0;
         }

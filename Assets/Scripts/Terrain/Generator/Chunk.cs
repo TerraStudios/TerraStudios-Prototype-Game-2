@@ -143,8 +143,7 @@ namespace TerrainGeneration
 
         private MeshRenderer meshRenderer;
         private MeshFilter meshFilter;
-
-
+        private MeshCollider meshCollider;
 
         // Chunk size reference is broken into its components to minimize field references (Vector3.x, Vector3.y, etc)
 
@@ -187,6 +186,7 @@ namespace TerrainGeneration
             // Call GetComponent for renderer and filter if not loaded yet
             if (meshRenderer == null)
             {
+                meshCollider = GetComponent<MeshCollider>();
                 meshFilter = GetComponent<MeshFilter>();
                 meshRenderer = GetComponent<MeshRenderer>();
             }
@@ -254,6 +254,28 @@ namespace TerrainGeneration
                 //ConstructMesh();
                 generated = true;
             }
+
+            if (generated)
+            {
+                if (chunkCoord.IsDistanceFrom(TerrainGenerator.instance.lastChunkPos, 3))
+                {
+
+                    if (meshCollider.sharedMesh == null)
+                    {
+                        Debug.Log("Creating shared mesh");
+                        // If the mesh is inside of the distance and needs to be loaded, set the physics mesh
+                        meshCollider.sharedMesh = meshFilter.mesh;
+                    }
+                }
+                else
+                {
+                    if (meshCollider.sharedMesh != null)
+                    {
+                        // If the mesh is outside of the distance, no need to load its physics
+                        meshCollider.sharedMesh = null;
+                    }
+                }
+            }
         }
 
         public void Regenerate()
@@ -286,6 +308,8 @@ namespace TerrainGeneration
 
         private IEnumerator GenerateChunk()
         {
+            generated = false;
+
             noiseHandler = new ChunkBuilder.ChunkNoiseHandler(chunkSizeX, chunkSizeY, chunkSizeZ);
             yield return noiseHandler.StartNoiseJob(voxelData);
 
@@ -303,36 +327,11 @@ namespace TerrainGeneration
             // Recalculate normals of the mesh
             mesh.RecalculateNormals();
 
-            MeshCollider collider = GetComponent<MeshCollider>();
-
             // Set mesh to the GO and add the spritemap material from TerrainGenerator
             meshFilter.mesh = mesh;
-            collider.sharedMesh = mesh;
             meshRenderer.material = TerrainGenerator.material;
-        }
 
-        /// <summary>
-        /// Fill chunk with voxel type data
-        /// </summary>
-        private void GetBlockData()
-        {
-            for (int x = 0; x < chunkSizeX; x++)
-            {
-                for (int y = 0; y < chunkSizeY; y++)
-                {
-                    for (int z = 0; z < chunkSizeZ; z++)
-                    {
-                        // Calculate 3D index from 1D index
-                        //Vector3Int pos = new Vector3Int(x, y, z);
-
-                        // Set voxel data from TerrainGenerator generation
-
-                        int3 pos = new int3(x, y, z);
-
-                        //voxelData[GetVoxelDataIndex(x, y, z)] = generator.GenerateVoxelType(pos + WorldPos);
-                    }
-                }
-            }
+            generated = true;
         }
 
         /// <summary>

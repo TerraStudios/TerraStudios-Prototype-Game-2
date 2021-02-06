@@ -77,7 +77,7 @@ namespace TerrainGeneration
         /// 
         /// Used for avoiding unnecessary chunk checks for unloading
         /// </summary>
-        private ChunkCoord lastChunkPos;
+        public ChunkCoord lastChunkPos;
 
         /// <summary>
         /// List of all the voxel types in the game
