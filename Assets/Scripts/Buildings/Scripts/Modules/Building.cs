@@ -62,27 +62,6 @@ namespace BuildingModules
     }
 
     /// <summary>
-    /// Stores information about the Mesh GameObject.
-    /// Used when loading/unloading building meshes from chunks.
-    /// </summary>
-    public class MeshData
-    {
-        public Vector3 pos;
-        public Quaternion rot;
-
-        //TODO: Inefficient, replace with a cached value
-        /// <summary>
-        /// Get the corresponding Mesh Prefab of the Building.
-        /// </summary>
-        /// <param name="pathToScriptObj">Path to the Script GameObject.</param>
-        /// <returns>Returns the Prefab of the Mesh GameObject corresponding to the Script GameObject.</returns>
-        public Transform GetMeshObj(string pathToScriptObj)
-        {
-            return Resources.Load<Transform>(pathToScriptObj + "_Mesh");
-        }
-    }
-
-    /// <summary>
     /// General Building class, contained on all GameObjects that function as a Building.
     /// Handles Building Initialization, work states, building health, electricity and visualizations.
     /// </summary>
@@ -90,7 +69,6 @@ namespace BuildingModules
     public class Building : MonoBehaviour
     {
         public BuildingBase bBase;
-        [HideInInspector] public MeshData meshData;
         public ModuleConnector mc;
         [HideInInspector] public Transform correspondingMesh;
         [HideInInspector] public bool isSetUp;
@@ -349,16 +327,6 @@ namespace BuildingModules
         }
 
         /// <summary>
-        /// Retrieves the grid size of the building
-        /// </summary>
-        /// <returns>A <see cref="Vector2Int"/> representing the grid size</returns>
-        public Vector3Int GetBuildSize()
-        {
-            Vector3 e = correspondingMesh.GetComponent<MeshRenderer>().bounds.size;
-            return new Vector3Int(Mathf.RoundToInt(e.x), Mathf.RoundToInt(e.y), Mathf.RoundToInt(e.z));
-        }
-
-        /// <summary>
         /// Sets the workstate without triggering the OnWorkstateChanged event
         /// </summary>
         public void SetWorkstateSilent(WorkStateEnum newWorkState)
@@ -383,6 +351,11 @@ namespace BuildingModules
                 return;
             markedForDelete = false;
             correspondingMesh.GetComponent<MeshRenderer>().material = originalMaterial;
+        }
+
+        public Transform GetMeshObj(string pathToScriptObj)
+        {
+            return Resources.Load<Transform>(pathToScriptObj + "_Mesh");
         }
     }
 }

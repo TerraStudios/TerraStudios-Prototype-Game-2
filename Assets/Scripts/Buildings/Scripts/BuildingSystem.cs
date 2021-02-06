@@ -82,8 +82,8 @@ namespace BuildingManagement
                 BuildingSave toSave = new BuildingSave()
                 {
                     chunkCoord = chunkCoord,
-                    position = b.meshData.pos,
-                    rotation = b.meshData.rot,
+                    position = b.correspondingMesh.position,
+                    rotation = b.correspondingMesh.rotation,
                     building = b.bBase,
                     scriptPrefabPath = b.scriptPrefabLocation
                 };
@@ -131,7 +131,7 @@ namespace BuildingManagement
 
                 Building building = buildingGO.GetComponent<Building>();
 
-                Transform meshGO = Instantiate(building.meshData.GetMeshObj(building.scriptPrefabLocation).gameObject, save.position, save.rotation).transform;
+                Transform meshGO = Instantiate(building.GetMeshObj(building.scriptPrefabLocation).gameObject, save.position, save.rotation).transform;
 
                 buildingGO.parent = buildingScriptParent.transform;
                 meshGO.parent = buildingMeshParent.transform;

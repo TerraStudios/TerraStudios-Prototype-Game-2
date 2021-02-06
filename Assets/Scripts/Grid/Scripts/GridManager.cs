@@ -277,7 +277,7 @@ namespace BuildingManagement
         /// <returns>Whether the current building can be placed at this position</returns>
         private bool CanPlace(Vector3 grid)
         {
-            Vector3Int buildingSize = currentBuilding.Key.GetBuildSize();
+            Vector3Int buildingSize = GetBuildSize(currentBuilding.Value);
 
             for (int x = (int)grid.x - 1; x < grid.x + buildingSize.x - 1; x++)
             {
@@ -324,7 +324,7 @@ namespace BuildingManagement
             if (!Equals(gridSize, default(Vector2Int)))
                 buildSize = gridSize;
             else
-                buildSize = currentBuilding.Key.GetBuildSize();
+                buildSize = GetBuildSize(currentBuilding.Value);
 
             float x;
             float z;
@@ -359,6 +359,16 @@ namespace BuildingManagement
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Retrieves the grid size of the building
+        /// </summary>
+        /// <returns>A <see cref="Vector2Int"/> representing the grid size</returns>
+        public Vector3Int GetBuildSize(Transform mesh)
+        {
+            Vector3 e = mesh.GetComponent<MeshRenderer>().bounds.size;
+            return new Vector3Int(Mathf.RoundToInt(e.x), Mathf.RoundToInt(e.y), Mathf.RoundToInt(e.z));
         }
 
         #endregion Grid Utilities
