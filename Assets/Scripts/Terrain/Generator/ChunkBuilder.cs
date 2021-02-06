@@ -6,8 +6,6 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -92,7 +90,6 @@ namespace TerrainGeneration
                     return jobHandle.IsCompleted || frameCount >= 4;
                 });
 
-
                 jobHandle.Complete();
 
                 nativeVoxelData.CopyTo(voxelData);
@@ -100,9 +97,6 @@ namespace TerrainGeneration
                 DisposeNatives();
 
                 yield return null;
-
-
-
             }
         }
 
@@ -223,14 +217,8 @@ namespace TerrainGeneration
                 chunkMesh.SetUVs(0, nativeUvs, 0, counter.Count * 4);
                 chunkMesh.SetIndices(nativeTriangles, 0, counter.Count * 6, MeshTopology.Triangles, 0);
 
-
                 DisposeNatives();
-
-                yield break;
-
             }
-
-
 
             public Mesh GetMeshData()
             {
@@ -247,8 +235,6 @@ namespace TerrainGeneration
 
             [WriteOnly]
             public NativeArray<byte> voxelData;
-
-
 
             // Used for caching variables when calculating index
             // ! DivRem index lookup could possibly be a shared static method between the two jobs
@@ -299,8 +285,6 @@ namespace TerrainGeneration
             [ReadOnly] public int chunkSizeY;
             [ReadOnly] public int chunkSizeZ;
 
-
-
             public void Execute(int i)
             {
                 // Used for caching variables when calculating index
@@ -325,17 +309,13 @@ namespace TerrainGeneration
 
                     if (!CheckBlock(i, pos + VoxelTables.faces[p]))
                     {
-
                         // 0, 0, 0 ; face 0 
                         // vert 1 - (0, 0, 0)
                         // vert 2 - (0, 1, 0)
                         // vert 3 - (1, 0, 0)
                         // vert 4 - (1, 1, 0)
 
-
                         // Add 4 vertices of cube side
-
-
 
                         float3 v1 = pos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p * 4]];
                         float3 v2 = pos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p * 4 + 1]];
@@ -348,7 +328,6 @@ namespace TerrainGeneration
 
                         int vIndex = (currentCount * 4);
                         int tIndex = (currentCount * 6);
-
 
                         vertices[vIndex] = (new Vector3(v1.x, v1.y, v1.z));
                         vertices[vIndex + 1] = (new Vector3(v2.x, v2.y, v2.z));
@@ -367,7 +346,6 @@ namespace TerrainGeneration
                         uvs[vIndex + 2] = (new Vector2(x + xAmount, y)); // 1, 0 - bottom right
                         uvs[vIndex + 3] = (new Vector2(x + xAmount, y + yAmount)); // 1, 1 - top right
 
-
                         // Add triangles
                         triangles[tIndex] = (vIndex);
                         triangles[tIndex + 1] = (vIndex + 1);
@@ -379,26 +357,22 @@ namespace TerrainGeneration
 
                         // Signal another face has been created in the chunk, used for mesh data later on
 
-
                         // Increment index for next faces
                     }
                 }
             }
 
             /// <summary>
-            /// Checks whether a block is solid or not
-            /// 
+            /// Checks whether a block is solid or not.
             /// Checks adjacent chunks if the block isn't inside this one
             /// </summary>
             /// <param name="pos">The position of the cube</param>
             /// <returns>True if the block is solid, false otherwise</returns>
             private bool CheckBlock(int i, int3 pos)
             {
-
                 if (!VoxelInsideChunk(pos))
                 {
                     return false;
-
 
                     //return generator.voxelTypes[generator.GetVoxelValue(pos + WorldPos)].isSolid;
                 }
@@ -416,14 +390,5 @@ namespace TerrainGeneration
                 return !(pos.x < 0 || pos.x > chunkSizeX - 1 || pos.y < 0 || pos.y > chunkSizeY - 1 || pos.z < 0 || pos.z > chunkSizeZ - 1);
             }
         }
-
-
-
-
-
-
-
-
-
     }
 }

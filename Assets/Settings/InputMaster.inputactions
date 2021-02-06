@@ -38,6 +38,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Camera_Normal_UpAndDown",
+                    "type": "Button",
+                    "id": "524e7aa0-ae7f-4d34-ac16-74645528b457",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Camera_Normal_DragState",
                     "type": "PassThrough",
                     "id": "db7bac09-980a-4d93-a1a1-f521ce054f29",
@@ -304,7 +312,7 @@
                 {
                     "name": "positive",
                     "id": "534291c2-ad6f-4275-86d8-3cc281a72af2",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
@@ -315,7 +323,7 @@
                 {
                     "name": "negative",
                     "id": "f75231ed-e6cf-41c1-8924-6d70283620e0",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/v",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
@@ -424,7 +432,7 @@
                 },
                 {
                     "name": "forward",
-                    "id": "1e91621f-fdc9-4b8b-9663-4e8d2b4a5981",
+                    "id": "b100a7e6-7f28-4b9f-a97c-8aa70fcc2ea3",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
@@ -685,6 +693,39 @@
                     "action": "GridManager_RotateBuildingLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "UpAndDown",
+                    "id": "7f15eb3c-c0ae-42db-b969-9aa8d587c4dd",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Camera_Normal_UpAndDown",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "19f9b7e0-ece2-44ca-a1c6-e5ca06507837",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Camera_Normal_UpAndDown",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "c06db96a-2438-4ec1-a3d2-28606d227344",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Camera_Normal_UpAndDown",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

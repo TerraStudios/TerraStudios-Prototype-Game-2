@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_TerrainPrototype_SplatMapImplementation_3D
+  m_Name: M_TerrainPrototype_3D
   m_Shader: {fileID: -6465566751694194690, guid: 4fef7d6bf2eccc3428eb73ac949355fd,
     type: 3}
   m_ShaderKeywords: BOOLEAN_587994C8C4F54845826156D1646EC467_ON

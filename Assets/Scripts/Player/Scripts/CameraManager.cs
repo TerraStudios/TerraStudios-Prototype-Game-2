@@ -90,7 +90,7 @@ namespace Player
             // set lastRot
             // apply pos and rot from the last camera pos and rot. the rot is 0 because the camera has to look straight down
             lastRotation = transform.rotation;
-            //transform.position = lastPosition;
+            transform.position = lastPosition;
             transform.rotation = Quaternion.identity;
 
             normalCamera.SetActive(false);

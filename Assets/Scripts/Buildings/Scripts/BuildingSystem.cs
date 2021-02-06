@@ -38,7 +38,7 @@ namespace BuildingManagement
         /// Key - Coordinates of the chunk where the Building is placed.
         /// Value - List of KeyValuePairs (Buildings in ChunkCoord) containing the Building (Script Prefab) as a key and GameObject (Mesh Prefab) as a value.
         /// </summary>
-        public static readonly Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>> PlacedBuildings = new Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>>();
+        public static Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>> PlacedBuildings = new Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>>();
 
         private GameObject _buildingScriptParent;
 
@@ -59,6 +59,13 @@ namespace BuildingManagement
             }
         }
 
+        /// <summary>
+        /// Executes necessary logic for newly placed buildings.
+        /// </summary>
+        /// <param name="chunkCoord">The chunk coordinate where the building is placed.</param>
+        /// <param name="b">The Building script of the Building Script GO.</param>
+        /// <param name="meshGO">The Mesh GameObject of the Building Mesh GO.</param>
+        /// <param name="save">Whether the Building should be saved in the GameSave<. Make false if loading buildings from save to avoid stack overflow.</param>
         public static void RegisterBuilding(ChunkCoord chunkCoord, Building b, GameObject meshGO, bool save = true)
         {
             if (PlacedBuildings.ContainsKey(chunkCoord))
@@ -75,20 +82,23 @@ namespace BuildingManagement
                 BuildingSave toSave = new BuildingSave()
                 {
                     chunkCoord = chunkCoord,
-                    position = meshGO.transform.position,
-                    rotation = meshGO.transform.rotation,
+                    position = b.meshData.pos,
+                    rotation = b.meshData.rot,
                     building = b.bBase,
-                    scriptPrefabPath = b.prefabLocation
+                    scriptPrefabPath = b.scriptPrefabLocation
                 };
 
                 GameSave.current.worldSaveData.placedBuildings.Add(toSave);
             }
         }
 
+        /// <summary>
+        /// Executes necessary logic for unregistering placed buildings.
+        /// </summary>
+        /// <param name="b">The Building component of the building to unregister.</param>
         public static void UnRegisterBuilding(Building b)
         {
             // Remove List entry of Building b found in the KVP List in RegisteredBuildings.Values
-            
             foreach (List<KeyValuePair<Building, GameObject>> kvp in PlacedBuildings.Values)
             {
                 kvp.Remove(kvp.Find(kvp => kvp.Key == b));
@@ -97,6 +107,9 @@ namespace BuildingManagement
             GameSave.current.worldSaveData.placedBuildings.Where(bSave => bSave.building == b.bBase);
         }
 
+        /// <summary>
+        /// Clears the list of registered buildings.
+        /// </summary>
         public void ClearRegisteredBuildings() { PlacedBuildings.Clear(); }
 
         /// <summary>
@@ -107,17 +120,23 @@ namespace BuildingManagement
             OnBuildingUpdateUI();
         }
 
+        /// <summary>
+        /// Loads all BuildingSave data from the current GameSave.
+        /// </summary>
         public void LoadAllBuildingsFromSave()
         {
             foreach (BuildingSave save in GameSave.current.worldSaveData.placedBuildings)
             {
                 Transform buildingGO = Instantiate(save.GetScriptObj().gameObject, Vector3.zero, Quaternion.identity).transform;
-                Transform meshGO = Instantiate(save.GetMeshObj().gameObject, save.position, save.rotation).transform;
+
+                Building building = buildingGO.GetComponent<Building>();
+
+                Transform meshGO = Instantiate(building.meshData.GetMeshObj(building.scriptPrefabLocation).gameObject, save.position, save.rotation).transform;
 
                 buildingGO.parent = buildingScriptParent.transform;
                 meshGO.parent = buildingMeshParent.transform;
 
-                Building building = buildingGO.GetComponent<Building>();
+                
                 ChunkCoord chunkCoord = save.chunkCoord;
                 building.bBase = save.building;
                 SetUpBuilding(building, meshGO, chunkCoord, false);
@@ -125,9 +144,12 @@ namespace BuildingManagement
         }
 
         /// <summary>
-        /// Initializes all of the needed data for the building in question
+        /// Initializes all of the needed data for the building in question.
         /// </summary>
-        /// <param name="b"></param>
+        /// <param name="b">The Building script of the Building Script GO.</param>
+        /// <param name="t">The Mesh GameObject of the Building Mesh GO.</param>
+        /// <param name="coord">The chunk coordinate where the building is placed.</param>
+        /// <param name="register">Whether the Building should be initialized with Building.Init. Make false if loading buildings from save.</param>
         public void SetUpBuilding(Building b, Transform t, ChunkCoord coord, bool register = true)
         {
             b.transform.parent = buildingScriptParent.transform;

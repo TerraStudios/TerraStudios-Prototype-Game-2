@@ -5,18 +5,12 @@
 //
 
 using System;
-using Unity.Jobs;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using Unity.Collections;
-using Unity.Burst;
 using Unity.Mathematics;
-using UnityEditor;
-using System.Threading;
-using System.Threading.Tasks;
-using DebugTools;
-using static DebugTools.ExtDebug;
+using BuildingManagement;
+using BuildingModules;
 
 namespace TerrainGeneration
 {
@@ -28,17 +22,13 @@ namespace TerrainGeneration
     {
         /// <summary>
         /// The X value of the coord
-        /// 
         /// Note that this isn't WORLD space, rather a local chunk system, where the first chunk is (0, 0) and the next is (0, 1)
-        /// 
         /// </summary>
         public int x;
 
         /// <summary>
         /// The Z value of the coord
-        /// 
         /// Note that this isn't WORLD space, rather a local chunk system, where the first chunk is (0, 0) and the next is (0, 1)
-        /// 
         public int z;
 
         public ChunkCoord(int x, int z)
@@ -177,14 +167,13 @@ namespace TerrainGeneration
         /// Used for determining whether a chunk has finished its generation process. Used to avoid memory leaks and 
         /// several other bugs
         /// </summary>
-        public bool generated = false;
+        public bool generated;
 
-        private bool threadFinished = false;
+        private bool threadFinished;
 
         // Job Handlers
         ChunkBuilder.ChunkNoiseHandler noiseHandler;
         ChunkBuilder.ChunkMeshHandler meshHandler;
-
 
         /// <summary>
         /// A reference to the <see cref="TerrainGenerator"/> <see cref="GameObject"/>, attached when created
@@ -201,7 +190,6 @@ namespace TerrainGeneration
                 meshFilter = GetComponent<MeshFilter>();
                 meshRenderer = GetComponent<MeshRenderer>();
             }
-
 
             // Register chunk in TerrainGenerator
             generator.chunks[chunkCoord.x, chunkCoord.z] = this;
@@ -239,7 +227,15 @@ namespace TerrainGeneration
             triangles.Clear();
             uvs.Clear();
 
-
+            // Unload all building mesh GameObjects in this chunk
+            if (BuildingSystem.PlacedBuildings.Count != 0)
+            {
+                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings[chunkCoord])
+                {
+                    // TODO: Use OPM, inefficient
+                    Destroy(kvp.Value);
+                }
+            }
 
             vIndex = 0;
         }
@@ -271,16 +267,25 @@ namespace TerrainGeneration
 
             StartCoroutine(GenerateChunk());
 
+            // Load all building mesh GameObjects in this chunk
+            if (BuildingSystem.PlacedBuildings.Count != 0)
+            {
+                for (int i = 0; i < BuildingSystem.PlacedBuildings[chunkCoord].Count; i++)
+                {
+                    List<KeyValuePair<Building, GameObject>> list = BuildingSystem.PlacedBuildings[chunkCoord];
 
-
-
+                    // TODO: Use OPM, inefficient
+                    Destroy(list[i].Value);
+                    MeshData mData = list[i].Key.meshData;
+                    BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(list[i].Key, Instantiate(mData.GetMeshObj(list[i].Key.scriptPrefabLocation).gameObject, mData.pos, mData.rot));
+                }
+            }
 
             //new Task(() => PrepareMesh()).Start();
         }
 
         private IEnumerator GenerateChunk()
         {
-
             noiseHandler = new ChunkBuilder.ChunkNoiseHandler(chunkSizeX, chunkSizeY, chunkSizeZ);
             yield return noiseHandler.StartNoiseJob(voxelData);
 
@@ -300,13 +305,10 @@ namespace TerrainGeneration
 
             MeshCollider collider = GetComponent<MeshCollider>();
 
-
             // Set mesh to the GO and add the spritemap material from TerrainGenerator
             meshFilter.mesh = mesh;
             collider.sharedMesh = mesh;
             meshRenderer.material = TerrainGenerator.material;
-
-
         }
 
         /// <summary>
@@ -314,8 +316,6 @@ namespace TerrainGeneration
         /// </summary>
         private void GetBlockData()
         {
-
-
             for (int x = 0; x < chunkSizeX; x++)
             {
                 for (int y = 0; y < chunkSizeY; y++)
@@ -336,9 +336,8 @@ namespace TerrainGeneration
         }
 
         /// <summary>
-        /// Checks whether a block is solid or not
-        /// 
-        /// Checks adjacent chunks if the block isn't inside this one
+        /// Checks whether a block is solid or not.
+        /// Checks adjacent chunks if the block isn't inside this one.
         /// </summary>
         /// <param name="pos">The position of the cube</param>
         /// <returns>Whether the block needs to be rendered or not</returns>
@@ -377,7 +376,6 @@ namespace TerrainGeneration
             return chunkSizeX * chunkSizeY * z + chunkSizeZ * y + x;
         }
 
-
         /// <summary>
         /// Retrieves the byte voxel value of a block INSIDE the chunk. For retrieval of voxels outside 
         /// use <see cref="TerrainGenerator.GetVoxelValue(int3)"/>.
@@ -391,5 +389,4 @@ namespace TerrainGeneration
             return voxelData[GetVoxelDataIndex(x, y, z)];
         }
     }
-
 }
