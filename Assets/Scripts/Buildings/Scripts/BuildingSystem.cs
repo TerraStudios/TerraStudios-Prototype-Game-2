@@ -40,24 +40,8 @@ namespace BuildingManagement
         /// </summary>
         public static Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>> PlacedBuildings = new Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>>();
 
-        private GameObject _buildingScriptParent;
-
-        private GameObject buildingScriptParent
-        {
-            get
-            {
-                return _buildingScriptParent ? _buildingScriptParent : (_buildingScriptParent = new GameObject("Building GO Scripts"));
-            }
-        }
-
-        private GameObject _buildingMeshParent;
-        private GameObject buildingMeshParent
-        {
-            get
-            {
-                return _buildingMeshParent ? _buildingMeshParent : (_buildingMeshParent = new GameObject("Building GO Meshes"));
-            }
-        }
+        public GameObject buildingScriptParent;
+        public GameObject buildingMeshParent;
 
         /// <summary>
         /// Executes necessary logic for newly placed buildings.

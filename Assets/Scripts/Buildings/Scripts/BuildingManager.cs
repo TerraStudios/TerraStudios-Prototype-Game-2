@@ -67,6 +67,9 @@ namespace BuildingManagement
 
             ClearRegisteredBuildings();
             LoadAllBuildingsFromSave();
+
+            buildingScriptParent = buildingScriptParent ? buildingScriptParent : (buildingScriptParent = new GameObject("Building GO Scripts"));
+            buildingMeshParent = buildingMeshParent ? buildingMeshParent : (buildingMeshParent = new GameObject("Building GO Meshes"));
         }
 
         //Static because the building manager doesn't have access to BuildingManager, and it doesn't make sense to put it in BuildingIOManager (multiple instances)
