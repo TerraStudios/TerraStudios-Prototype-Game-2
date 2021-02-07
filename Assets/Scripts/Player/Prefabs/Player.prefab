@@ -66,28 +66,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinemachineFollowZoom: {fileID: 0}
-  movementSpeed: 20
+  movementSpeed: 30
   movementTime: 10
   rotationSpeed: 100
   dragSpeed: 2
   panSpeed: 5
-  zoomSpeed: 10
-  maxFollowOffsetY: 0
-  minFollowOffsetY: 14.5
-  followOffsetCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  maxFOVZoom: 0
-  minFOVZoom: 0
-  fovZoomCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  zoomSpeed: 30
   enableWorldBoundaries: 1
   showGizmo: 0
   maxX: 40
