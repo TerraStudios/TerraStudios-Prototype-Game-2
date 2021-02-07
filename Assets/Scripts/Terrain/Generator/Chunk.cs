@@ -214,6 +214,8 @@ namespace TerrainGeneration
             meshHandler?.jobHandle.Complete();
             meshHandler?.DisposeNatives();
             meshHandler = null;
+
+            ClearChunk();
         }
 
         /// <summary>
@@ -297,7 +299,6 @@ namespace TerrainGeneration
                     List<KeyValuePair<Building, GameObject>> list = BuildingSystem.PlacedBuildings[chunkCoord];
 
                     // TODO: Use OPM, inefficient
-                    Destroy(list[i].Value);
                     Building building = list[i].Key;
                     GameObject mesh = list[i].Value;
                     BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(building, Instantiate(building.GetMeshObj(list[i].Key.scriptPrefabLocation).gameObject, mesh.transform.position, mesh.transform.rotation));
