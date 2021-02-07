@@ -18,7 +18,6 @@ namespace Player
         public CinemachineFollowZoom cinemachineFollowZoom;
 
         public float movementSpeed;
-        public float movementTime;
         public float rotationSpeed = 100;
         public float dragSpeed;
         public float panSpeed = 0.5f;
