@@ -511,6 +511,22 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
+    - _NormalMapStrenght_1: 0
+    - _NormalMapStrenght_10: 0
+    - _NormalMapStrenght_11: 0
+    - _NormalMapStrenght_12: 0
+    - _NormalMapStrenght_13: 0
+    - _NormalMapStrenght_14: 0
+    - _NormalMapStrenght_15: 0
+    - _NormalMapStrenght_16: 0
+    - _NormalMapStrenght_2: 0
+    - _NormalMapStrenght_3: 0
+    - _NormalMapStrenght_4: 0
+    - _NormalMapStrenght_5: 0
+    - _NormalMapStrenght_6: 0
+    - _NormalMapStrenght_7: 0
+    - _NormalMapStrenght_8: 0
+    - _NormalMapStrenght_9: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
@@ -562,6 +578,22 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MaskMapStrenght_1: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_10: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_11: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_12: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_13: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_14: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_15: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_16: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_2: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_3: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_4: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_5: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_6: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_7: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_8: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapStrenght_9: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _TextureTiling: {r: 0.03125, g: 0.03125, b: 0, a: 0}
   m_BuildTextureStacks: []
