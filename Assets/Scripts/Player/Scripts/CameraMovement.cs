@@ -20,6 +20,7 @@ namespace Player
         public float movementSpeed;
         public float rotationSpeed = 100;
         public float dragSpeed;
+        public float topDownDragMultiplier;
         public float panSpeed = 0.5f;
         public float zoomSpeed;
 
@@ -121,6 +122,10 @@ namespace Player
             if (isDragging)
             {
                 float speed = dragSpeed * Time.unscaledDeltaTime;
+
+                if (CameraManager.Instance.cameraMode.Equals(CameraMode.Topdown))
+                    speed *= topDownDragMultiplier;
+
                 transform.position = GetMovement(transform.position - (mouseDelta.x * speed * transform.right + mouseDelta.y * speed * transform.forward));
             }
 

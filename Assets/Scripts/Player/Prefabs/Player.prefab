@@ -67,9 +67,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cinemachineFollowZoom: {fileID: 0}
   movementSpeed: 30
-  movementTime: 10
   rotationSpeed: 100
   dragSpeed: 2
+  topDownDragMultiplier: 0.75
   panSpeed: 5
   zoomSpeed: 30
   enableWorldBoundaries: 1
