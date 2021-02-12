@@ -14,6 +14,7 @@ using TerrainGeneration;
 using TimeSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Utilities;
 
 namespace BuildingManagement
 {
@@ -25,6 +26,7 @@ namespace BuildingManagement
     {
         [HideInInspector] public Building focusedBuilding;
         public LayerMask ignoreFocusLayers;
+        public int meshPoolSize;
 
         [Header("Components")]
         public TimeManager timeManager;
@@ -42,6 +44,12 @@ namespace BuildingManagement
 
         public GameObject buildingScriptParent;
         public GameObject buildingMeshParent;
+
+        //0 = apm1
+        //1 = apm2
+        //2 = apm3
+        //3 = conveyor
+        public string[] buildingLocations;
 
         /// <summary>
         /// Executes necessary logic for newly placed buildings.
@@ -120,11 +128,30 @@ namespace BuildingManagement
                 buildingGO.parent = buildingScriptParent.transform;
                 meshGO.parent = buildingMeshParent.transform;
 
-                
                 ChunkCoord chunkCoord = save.chunkCoord;
                 building.bBase = save.building;
                 SetUpBuilding(building, meshGO, chunkCoord, false);
             }
+        }
+
+        public void PoolAllBuildingMeshes()
+        {
+            for (int i = 0; i < buildingLocations.Length; i++)
+            {
+                ObjectPoolManager.Instance.CreatePool(Resources.Load<Transform>(buildingLocations[i] + "_Mesh").gameObject, meshPoolSize);
+            }
+
+            Debug.Log("Pooled all Building Meshes");
+        }
+
+        public KeyValuePair<Building, Transform> GetBuildingFromLocation(int resourcesID)
+        {
+            string resourcesLocation = buildingLocations[resourcesID];
+            Transform scriptGO = Resources.Load<Transform>(resourcesLocation);
+            Transform meshGO = Resources.Load<Transform>(resourcesLocation + "_Mesh");
+            Building b = scriptGO.GetComponent<Building>();
+            b.scriptPrefabLocation = resourcesLocation;
+            return new KeyValuePair<Building, Transform>(b, meshGO);
         }
 
         /// <summary>

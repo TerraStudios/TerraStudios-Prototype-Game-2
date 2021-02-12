@@ -66,6 +66,7 @@ namespace BuildingManagement
             ObjectPoolManager.Instance.CreatePool(fixingIndicator.gameObject, 50);
 
             ClearRegisteredBuildings();
+            PoolAllBuildingMeshes();
             LoadAllBuildingsFromSave();
 
             buildingScriptParent = buildingScriptParent ? buildingScriptParent : (buildingScriptParent = new GameObject("Building GO Scripts"));
@@ -266,11 +267,11 @@ namespace BuildingManagement
                     os.button.interactable = false;
             }
         }
-        #endregion
 
         private bool IsOutputSetupSupported()
         {
             return focusedBuilding && focusedBuilding.mc.apm && !focusedBuilding.mc.conveyor;
         }
+        #endregion
     }
 }

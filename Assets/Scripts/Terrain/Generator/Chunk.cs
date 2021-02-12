@@ -11,6 +11,7 @@ using UnityEngine;
 using Unity.Mathematics;
 using BuildingManagement;
 using BuildingModules;
+using Utilities;
 
 namespace TerrainGeneration
 {
@@ -234,8 +235,7 @@ namespace TerrainGeneration
             {
                 foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings[chunkCoord])
                 {
-                    // TODO: Use OPM, inefficient
-                    Destroy(kvp.Value);
+                    ObjectPoolManager.Instance.DestroyObject(kvp.Value);
                 }
             }
 
@@ -298,10 +298,9 @@ namespace TerrainGeneration
                 {
                     List<KeyValuePair<Building, GameObject>> list = BuildingSystem.PlacedBuildings[chunkCoord];
 
-                    // TODO: Use OPM, inefficient
                     Building building = list[i].Key;
                     GameObject mesh = list[i].Value;
-                    BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(building, Instantiate(building.GetMeshObj(list[i].Key.scriptPrefabLocation).gameObject, mesh.transform.position, mesh.transform.rotation));
+                    BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(building, ObjectPoolManager.Instance.ReuseObject(building.GetMeshObj(list[i].Key.scriptPrefabLocation).gameObject, mesh.transform.position, mesh.transform.rotation));
                 }
             }
 
