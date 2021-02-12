@@ -13,6 +13,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Utilities;
 
 namespace BuildingManagement
 {
@@ -55,10 +56,6 @@ namespace BuildingManagement
         }
 
         private KeyValuePair<Building, Transform> currentBuilding;
-        public string apm1Location;
-        public string apm2Location;
-        public string apm3Location;
-        public string conveyorLocation;
 
         private Vector3 lastVisualize;
         private Quaternion lastRotation;
@@ -213,7 +210,7 @@ namespace BuildingManagement
 
             visualization = new KeyValuePair<Building, Transform>(
                  Instantiate(currentBuilding.Key.prefab, Vector3.zero, RotationChange).GetComponent<Building>(),
-                 Instantiate(currentBuilding.Value, center, RotationChange)
+                 ObjectPoolManager.Instance.ReuseObject(currentBuilding.Value.gameObject, center, RotationChange).transform
                 );
 
             visualization.Key.correspondingMesh = visualization.Value;
@@ -232,6 +229,14 @@ namespace BuildingManagement
 
             visualization.Key.GetComponent<BuildingIOManager>().DevisualizeAll();
             Destroy(visualization.Value.gameObject);
+        }
+
+        /// <summary>
+        /// Initializes object pool for each mesh type
+        /// </summary>
+        private void LoadMeshPools()
+        {
+            
         }
 
         /// <summary>
@@ -415,18 +420,20 @@ namespace BuildingManagement
         {
             DeconstructVisualization();
 
+            int resourceID = buildingID - 1;
+
             switch (buildingID)
             {
                 case 1:
-                    currentBuilding = GetBuildingFromLocation(apm1Location);
+                    currentBuilding = BuildingManager.Instance.GetBuildingFromLocation(resourceID);
                     break;
 
                 case 2:
-                    currentBuilding = GetBuildingFromLocation(apm2Location);
+                    currentBuilding = BuildingManager.Instance.GetBuildingFromLocation(resourceID);
                     break;
 
                 case 3:
-                    currentBuilding = GetBuildingFromLocation(apm3Location);
+                    currentBuilding = BuildingManager.Instance.GetBuildingFromLocation(resourceID);
                     break;
             }
 
@@ -441,17 +448,8 @@ namespace BuildingManagement
         public void OnConveyorBuildButtonPressed()
         {
             DeconstructVisualization();
-            currentBuilding = GetBuildingFromLocation(conveyorLocation);
+            currentBuilding = BuildingManager.Instance.GetBuildingFromLocation(3);
             IsInBuildMode = true;
-        }
-
-        public KeyValuePair<Building, Transform> GetBuildingFromLocation(string resourcesLocation)
-        {
-            Transform scriptGO = Resources.Load<Transform>(resourcesLocation);
-            Transform meshGO = Resources.Load<Transform>(resourcesLocation + "_Mesh");
-            Building b = scriptGO.GetComponent<Building>();
-            b.scriptPrefabLocation = resourcesLocation;
-            return new KeyValuePair<Building, Transform>(b, meshGO);
         }
     }
 

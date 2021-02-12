@@ -2739,10 +2739,18 @@ MonoBehaviour:
   ignoreFocusLayers:
     serializedVersion: 2
     m_Bits: 13824
+  meshPoolSize: 20
   timeManager: {fileID: 1029902788}
   mainCamera: {fileID: 162863950}
   gridManager: {fileID: 1029902783}
   economyManager: {fileID: 1029902782}
+  buildingScriptParent: {fileID: 0}
+  buildingMeshParent: {fileID: 0}
+  buildingLocations:
+  - Buildings/APMs/PF_APM_Prot_1I_1O
+  - Buildings/APMs/PF_APM_Prot_1I_2O
+  - Buildings/APMs/PF_APM_Prot_2I_2O
+  - Buildings/Belts/PF_Build_Belt_01
   enableDebugSpawn: 0
   buildingInfo: {fileID: 1652763261}
   buildHealth: {fileID: 1761290723}
@@ -2809,10 +2817,6 @@ MonoBehaviour:
     m_Bits: 12800
   isInDeleteMode: 0
   forceVisualizeAll: 0
-  apm1Location: Buildings/APMs/PF_APM_Prot_1I_1O
-  apm2Location: Buildings/APMs/PF_APM_Prot_1I_2O
-  apm3Location: Buildings/APMs/PF_APM_Prot_2I_2O
-  conveyorLocation: Buildings/Belts/PF_Build_Belt_01
   canPlace: 1
   debugMode: 0
 --- !u!114 &1029902784
@@ -5533,7 +5537,7 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8853623
+      value: 0.8853624
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -5543,12 +5547,12 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000037315235
+      value: -1.595101e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00000001959414
+      value: 2.8274248e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762749, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -5583,7 +5587,7 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8853623
+      value: 0.8853624
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -5593,12 +5597,12 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000037315235
+      value: -1.595101e-15
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00000001959414
+      value: 2.8274248e-15
       objectReference: {fileID: 0}
     - target: {fileID: 612778395846576487, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -6429,6 +6433,9 @@ MonoBehaviour:
   chunkRange: 5
   cubeMaterial: {fileID: 2100000, guid: 1b46bec1ad373b5439466682dde17a59, type: 2}
   player: {fileID: 162865706}
+  lastChunkPos:
+    x: 0
+    z: 0
   voxelTypes:
   - isSolid: 0
   - isSolid: 1
