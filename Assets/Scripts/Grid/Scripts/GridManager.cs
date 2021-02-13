@@ -236,7 +236,7 @@ namespace BuildingManagement
         /// </summary>
         private void LoadMeshPools()
         {
-            
+
         }
 
         /// <summary>
@@ -373,7 +373,7 @@ namespace BuildingManagement
         public Vector3Int GetBuildSize(Transform mesh)
         {
             Vector3 e = mesh.GetComponent<MeshRenderer>().bounds.size;
-            return new Vector3Int(Mathf.RoundToInt(e.x), Mathf.RoundToInt(e.y), Mathf.RoundToInt(e.z));
+            return new Vector3Int(Mathf.CeilToInt(e.x), Mathf.CeilToInt(e.y), Mathf.CeilToInt(e.z));
         }
 
         #endregion Grid Utilities
