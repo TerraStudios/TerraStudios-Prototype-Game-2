@@ -355,7 +355,8 @@ namespace BuildingModules
 
         public Transform GetMeshObj(string pathToScriptObj)
         {
-            return Resources.Load<Transform>(pathToScriptObj + "_Mesh");
+            Debug.Log("Attempting to load at " + pathToScriptObj);
+            return Resources.Load<Transform>(pathToScriptObj).GetChild(0);
         }
     }
 }
