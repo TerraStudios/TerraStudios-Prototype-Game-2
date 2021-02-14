@@ -232,14 +232,6 @@ namespace BuildingManagement
         }
 
         /// <summary>
-        /// Initializes object pool for each mesh type
-        /// </summary>
-        private void LoadMeshPools()
-        {
-
-        }
-
-        /// <summary>
         /// Attempts to build the currently selected structure
         /// </summary>
         private void Build()

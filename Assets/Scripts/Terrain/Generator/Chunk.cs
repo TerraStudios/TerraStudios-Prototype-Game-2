@@ -230,13 +230,23 @@ namespace TerrainGeneration
             triangles.Clear();
             uvs.Clear();
 
-            // Unload all building mesh GameObjects in this chunk
+            // Unload/disable all building mesh GameObjects in this chunk
             if (BuildingSystem.PlacedBuildings.Count != 0 && BuildingSystem.PlacedBuildings.ContainsKey(chunkCoord))
             {
                 foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings[chunkCoord])
                 {
                     ObjectPoolManager.Instance.DestroyObject(kvp.Value);
                 }
+
+                Debug.Log("Destroying " + BuildingSystem.PlacedBuildings[chunkCoord].Count + " meshes!");
+
+                /*for (int i = 0; i < BuildingSystem.PlacedBuildings[chunkCoord].Count; i++)
+                {
+                    KeyValuePair<Building, GameObject> kvp = BuildingSystem.PlacedBuildings[chunkCoord][i];
+
+                    ObjectPoolManager.Instance.DestroyObject(kvp.Value);
+                    BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(kvp.Key, null);
+                }*/
             }
 
             vIndex = 0;
@@ -294,14 +304,20 @@ namespace TerrainGeneration
             // Load all building mesh GameObjects in this chunk
             if (BuildingSystem.PlacedBuildings.Count != 0 && BuildingSystem.PlacedBuildings.ContainsKey(chunkCoord))
             {
+                // Loop all placed buildings data in this chunk
                 for (int i = 0; i < BuildingSystem.PlacedBuildings[chunkCoord].Count; i++)
                 {
-                    List<KeyValuePair<Building, GameObject>> list = BuildingSystem.PlacedBuildings[chunkCoord];
+                    KeyValuePair<Building, GameObject> kvp = BuildingSystem.PlacedBuildings[chunkCoord][i];
 
-                    Building building = list[i].Key;
-                    GameObject mesh = list[i].Value;
-                    BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(building, ObjectPoolManager.Instance.ReuseObject(building.GetMeshObj(list[i].Key.scriptPrefabLocation).gameObject, mesh.transform.position, mesh.transform.rotation));
+                    Building building = kvp.Key;
+                    //GameObject mesh = list[i].Value;
+                    GameObject reused = ObjectPoolManager.Instance.ReuseObject(building.GetMeshObj(kvp.Key.scriptPrefabLocation).gameObject, building.correspondingMesh.position, building.correspondingMesh.rotation);
+                    building.correspondingMesh = reused.transform;
+                    // Overwriting the current KVP so we can save the newly reused Mesh GameObject (OPM)
+                    BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(building, reused);
                 }
+
+                Debug.Log("Enabled " + BuildingSystem.PlacedBuildings[chunkCoord].Count + " meshes!");
             }
 
             //new Task(() => PrepareMesh()).Start();

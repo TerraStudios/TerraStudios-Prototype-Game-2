@@ -75,6 +75,8 @@ namespace Utilities
         {
             string key = prefab.name;
 
+            Debug.Log(prefab.name);
+
             if (!pooledObjects.ContainsKey(key))
             {
                 //If a pool does not already exist for the GameObject, create a new one with the default pool size

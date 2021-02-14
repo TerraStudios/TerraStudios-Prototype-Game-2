@@ -140,10 +140,14 @@ namespace BuildingManagement
             {
                 ObjectPoolManager.Instance.CreatePool(Resources.Load<Transform>(buildingLocations[i] + "_Mesh").gameObject, meshPoolSize);
             }
-
             Debug.Log("Pooled all Building Meshes");
         }
 
+        /// <summary>
+        /// Retrieves Script and Mesh GameObjects for the corresponding asset location.
+        /// </summary>
+        /// <param name="resourcesID">The ID of the Resources locations available in the buildingLocations list.</param>
+        /// <returns>Script and Mesh GameObjects for the corresponding Building.</returns>
         public KeyValuePair<Building, Transform> GetBuildingFromLocation(int resourcesID)
         {
             string resourcesLocation = buildingLocations[resourcesID];
@@ -164,7 +168,7 @@ namespace BuildingManagement
         public void SetUpBuilding(Building b, Transform t, ChunkCoord coord, bool register = true)
         {
             b.transform.parent = buildingScriptParent.transform;
-            t.transform.parent = buildingMeshParent.transform;
+            //t.transform.parent = buildingMeshParent.transform;
             b.timeManager = timeManager;
             b.economyManager = economyManager;
             RegisterBuilding(coord, b, t.gameObject, register);
