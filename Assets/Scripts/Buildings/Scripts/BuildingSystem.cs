@@ -123,10 +123,16 @@ namespace BuildingManagement
 
                 Building building = buildingGO.GetComponent<Building>();
 
+                if (building == null) Debug.Log("Building null");
+                if (building.GetMeshObj(building.scriptPrefabLocation) == null) Debug.Log("Null mesh obj");
+                if (save == null) Debug.Log("Save was null");
+                if (save.position == null) Debug.Log("Save position was null");
+                if (save.rotation == null) Debug.Log("Save rotation was null");
+
                 Transform meshGO = Instantiate(building.GetMeshObj(building.scriptPrefabLocation).gameObject, save.position, save.rotation).transform;
 
-                buildingGO.parent = buildingScriptParent.transform;
-                meshGO.parent = buildingMeshParent.transform;
+                //buildingGO.parent = buildingScriptParent.transform;
+                //meshGO.parent = buildingMeshParent.transform;
 
                 ChunkCoord chunkCoord = save.chunkCoord;
                 building.bBase = save.building;
@@ -152,7 +158,10 @@ namespace BuildingManagement
         {
             string resourcesLocation = buildingLocations[resourcesID];
             Transform scriptGO = Resources.Load<Transform>(resourcesLocation);
-            Transform meshGO = Resources.Load<Transform>(resourcesLocation + "_Mesh");
+
+
+
+            Transform meshGO = scriptGO.GetChild(0);//Resources.Load<Transform>(resourcesLocation + "_Mesh");
             Building b = scriptGO.GetComponent<Building>();
             b.scriptPrefabLocation = resourcesLocation;
             return new KeyValuePair<Building, Transform>(b, meshGO);
@@ -167,7 +176,8 @@ namespace BuildingManagement
         /// <param name="register">Whether the Building should be initialized with Building.Init. Make false if loading buildings from save.</param>
         public void SetUpBuilding(Building b, Transform t, ChunkCoord coord, bool register = true)
         {
-            b.transform.parent = buildingScriptParent.transform;
+            //TODO: THESE HAVE BEEN COMMENTED OUT AS OF 2/13/2021, TO BE CHANGED?
+            //b.transform.parent = buildingScriptParent.transform;
             //t.transform.parent = buildingMeshParent.transform;
             b.timeManager = timeManager;
             b.economyManager = economyManager;
