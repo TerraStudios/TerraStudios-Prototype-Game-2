@@ -99,17 +99,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mc: {fileID: 6548164221349463959}
   inputs:
-  - localPosition: {x: 0, y: 0}
-    direction: 0
-    type: 0
-    isTrashcanOutput: 0
-  - localPosition: {x: 0, y: 0}
-    direction: 0
+  - localPosition: {x: 1, y: 0}
+    direction: 2
     type: 0
     isTrashcanOutput: 0
   outputs:
-  - localPosition: {x: 0, y: 0}
-    direction: 0
+  - localPosition: {x: 0, y: 1}
+    direction: 3
     type: 0
     isTrashcanOutput: 0
   isConveyor: 0

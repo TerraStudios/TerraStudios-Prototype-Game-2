@@ -12,6 +12,7 @@ using UnityEngine.Events;
 
 namespace BuildingModules
 {
+    [Serializable]
     public class BuildingIO
     {
         public Vector2 localPosition;
@@ -20,6 +21,9 @@ namespace BuildingModules
         public bool isTrashcanOutput;
     }
 
+    /// <summary>
+    /// The enum is used to store the direction of an IO, as items can only input or output from one face of a building.
+    /// </summary>
     public enum IODirection
     {
         Forward,
@@ -28,6 +32,36 @@ namespace BuildingModules
         Right
     }
 
+    /// <summary>
+    /// Because C# is bad, an extension method is needed to add a method for each direction. The extension retrieves the <see cref="Vector3Int"/> value for code later on.
+    /// </summary>
+    /// Usage: <code>IODirection.GetDirection();</code>
+    public static class IODirectionExtension
+    {
+        /// <summary>
+        /// Fetches the <see cref="Vector3Int"/> value of an <see cref="IODirection"/>
+        /// </summary>
+        /// <param name="direction">The <see cref="IODirection"/></param>
+        /// <returns>A normalized <see cref="Vector3Int"/> for manipulating the direction</returns>
+        public static Vector3Int GetDirection(this IODirection direction)
+        {
+            switch (direction)
+            {
+                case IODirection.Forward:
+                    return new Vector3Int(1, 0, 0);
+                case IODirection.Backward:
+                    return new Vector3Int(-1, 0, 0);
+                case IODirection.Left:
+                    return new Vector3Int(0, 0, 1);
+                case IODirection.Right:
+                    return new Vector3Int(0, 0, -1);
+                default:
+                    return Vector3Int.zero;
+            }
+        }
+    }
+
+    [Serializable]
     public enum IOType
     {
         Input,
@@ -321,6 +355,95 @@ namespace BuildingModules
         {
             //IOForEach(io => io.DrawIODetectionBox());
         }
+
+        // Gizmos should only be drawn while in the editor
+#if UNITY_EDITOR
+
+        // If using the wire grid code uncomment
+        //private Vector3Int buildingSize = Vector3Int.zero;
+
+        /// <summary>
+        /// Renders IOs for visualization when setting up
+        /// </summary>
+        private void OnDrawGizmos()
+        {
+
+
+            // Only draw if not in game
+            if (!Application.isPlaying)
+            {
+                // If using the wire grid code uncomment
+                //if (buildingSize == Vector3.zero)
+                //{
+                //    Vector3 e = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
+                //    buildingSize = new Vector3Int(Mathf.RoundToInt(e.x), Mathf.RoundToInt(e.y), Mathf.RoundToInt(e.z));
+                //}
+
+                Gizmos.color = Color.red;
+
+                // Code for drawing a wire grid of the building size
+                //for (int x = 0; x < buildingSize.x; x++)
+                //{
+                //    for (int y = 0; y < buildingSize.y; y++)
+                //    {
+                //        for (int z = 0; z < buildingSize.z; z++)
+                //        {
+                //            Gizmos.DrawWireCube(new Vector3(0.5f - x, 0.5f - y, 0.5f - z), new Vector3(1f, 1f, 1f));
+                //        }
+                //    }
+                //}
+
+                // Draw inputs
+                Gizmos.color = new Color(0, 0.47f, 1);
+                foreach (BuildingIO input in inputs)
+                {
+                    Vector3 cubePosition = new Vector3(0.5f - input.localPosition.x, 0.5f, 0.5f - input.localPosition.y);
+                    Vector3 direction = input.direction.GetDirection(); // Because the input arrow needs to be facing inwards, the arrow needs to go the opposite direction.
+
+                    DrawBuildingArrow(cubePosition, direction, true);
+                }
+
+                // Draw outputs
+                Gizmos.color = new Color(1, 0.64f, 0);
+                foreach (BuildingIO output in outputs)
+                {
+                    Vector3 cubePosition = new Vector3(0.5f - output.localPosition.x, 0.5f, 0.5f - output.localPosition.y);
+                    Vector3 direction = output.direction.GetDirection();
+
+                    DrawBuildingArrow(cubePosition, direction);
+                }
+
+                // Reset color
+                Gizmos.color = Color.white;
+            }
+        }
+
+        /// <summary>
+        /// Draws the visual arrow for a <see cref="BuildingIO"/> while <see cref="OnDrawGizmos"/> is running
+        /// </summary>
+        /// <param name="cubePosition">The position of the cube</param>
+        /// <param name="direction">The direction of the input or output</param>
+        /// <param name="reversed">If the bool is true, the arrow will be drawn in the position of the opposite direction but still FACING the same direction</param>
+        private void DrawBuildingArrow(Vector3 cubePosition, Vector3 direction, bool reversed = false)
+        {
+            Gizmos.DrawWireCube(cubePosition, new Vector3(1f, 1f, 1f));
+
+            // If the arrow is for the input, reverse the direction and shift it over to the opposite direction's position
+            if (reversed)
+            {
+                cubePosition += direction * 1.5f;
+                direction = -direction;
+            }
+
+            Gizmos.DrawRay(cubePosition + direction * 0.5f, direction * 0.5f);
+
+            Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 + 20.0f, 0) * new Vector3(0, 0, 1);
+            Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 - 20.0f, 0) * new Vector3(0, 0, 1);
+            Gizmos.DrawRay(cubePosition + direction, right * 0.15f);
+            Gizmos.DrawRay(cubePosition + direction, left * 0.15f);
+        }
+
+#endif
 
         #endregion
     }
