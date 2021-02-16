@@ -17,7 +17,7 @@ namespace BuildingModules
     {
         public Vector2 localPosition;
         public IODirection direction;
-        public IOType type;
+        private IOType type;
         public bool isTrashcanOutput;
     }
 
