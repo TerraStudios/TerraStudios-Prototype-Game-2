@@ -233,20 +233,16 @@ namespace TerrainGeneration
             // Unload/disable all building mesh GameObjects in this chunk
             if (BuildingSystem.PlacedBuildings.Count != 0 && BuildingSystem.PlacedBuildings.ContainsKey(chunkCoord))
             {
-                foreach (KeyValuePair<Building, GameObject> kvp in BuildingSystem.PlacedBuildings[chunkCoord])
-                {
-                    ObjectPoolManager.Instance.DestroyObject(kvp.Value);
-                }
-
                 Debug.Log("Destroying " + BuildingSystem.PlacedBuildings[chunkCoord].Count + " meshes!");
 
-                /*for (int i = 0; i < BuildingSystem.PlacedBuildings[chunkCoord].Count; i++)
+                for (int i = 0; i < BuildingSystem.PlacedBuildings[chunkCoord].Count; i++)
                 {
                     KeyValuePair<Building, GameObject> kvp = BuildingSystem.PlacedBuildings[chunkCoord][i];
 
                     ObjectPoolManager.Instance.DestroyObject(kvp.Value);
+                    // Make the corresponding mesh null so we don't somehow get an invalid one
                     BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(kvp.Key, null);
-                }*/
+                }
             }
 
             vIndex = 0;
@@ -311,9 +307,9 @@ namespace TerrainGeneration
 
                     Building building = kvp.Key;
                     //GameObject mesh = list[i].Value;
-                    GameObject reused = ObjectPoolManager.Instance.ReuseObject(building.GetMeshObj(kvp.Key.scriptPrefabLocation).gameObject, building.correspondingMesh.position, building.correspondingMesh.rotation);
+                    GameObject reused = ObjectPoolManager.Instance.ReuseObject(building.GetMeshObj(kvp.Key.scriptPrefabLocation).gameObject, kvp.Key.meshData.pos, kvp.Key.meshData.rot);
                     building.correspondingMesh = reused.transform;
-                    // Overwriting the current KVP so we can save the newly reused Mesh GameObject (OPM)
+                    // Overwriting the current KVP so we can Destroy it later with OPM
                     BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(building, reused);
                 }
 

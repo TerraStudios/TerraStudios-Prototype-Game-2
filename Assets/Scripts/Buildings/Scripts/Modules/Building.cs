@@ -62,6 +62,19 @@ namespace BuildingModules
     }
 
     /// <summary>
+    /// Persistent data class about the Mesh GameObject.
+    /// </summary>
+    public class MeshData
+    {
+        // We save GO here so when we reload chunks, we don't do Resources.Load
+        //public Transform go;
+
+        // Save pos and rot since there isn't any other way to persistently save them.
+        public Vector3 pos;
+        public Quaternion rot;
+    }
+
+    /// <summary>
     /// General Building class, contained on all GameObjects that function as a Building.
     /// Handles Building Initialization, work states, building health, electricity and visualizations.
     /// </summary>
@@ -69,6 +82,7 @@ namespace BuildingModules
     public class Building : MonoBehaviour
     {
         public BuildingBase bBase;
+        public MeshData meshData;
         public ModuleConnector mc;
         [HideInInspector] public Transform correspondingMesh;
         [HideInInspector] public bool isSetUp;

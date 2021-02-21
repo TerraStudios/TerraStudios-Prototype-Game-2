@@ -214,6 +214,11 @@ namespace BuildingManagement
                 );
 
             visualization.Key.correspondingMesh = visualization.Value;
+            visualization.Key.meshData = new MeshData()
+            {
+                pos = visualization.Value.position,
+                rot = visualization.Value.rotation
+            };
 
             visualization.Key.SetIndicator(BuildingManager.Instance.directionIndicator);
             tempMat = currentBuilding.Value.GetComponent<MeshRenderer>().sharedMaterial;
@@ -414,21 +419,7 @@ namespace BuildingManagement
 
             int resourceID = buildingID - 1;
 
-            switch (buildingID)
-            {
-                case 1:
-                    currentBuilding = BuildingManager.Instance.GetBuildingFromLocation(resourceID);
-                    break;
-
-                case 2:
-                    currentBuilding = BuildingManager.Instance.GetBuildingFromLocation(resourceID);
-                    break;
-
-                case 3:
-                    currentBuilding = BuildingManager.Instance.GetBuildingFromLocation(resourceID);
-                    break;
-            }
-
+            currentBuilding = BuildingManager.Instance.GetBuildingFromLocation(resourceID);
             currentBuilding.Key.correspondingMesh = currentBuilding.Value;
 
             IsInBuildMode = true;
