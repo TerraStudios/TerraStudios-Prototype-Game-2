@@ -214,11 +214,6 @@ namespace BuildingManagement
                 );
 
             visualization.Key.correspondingMesh = visualization.Value;
-            visualization.Key.meshData = new MeshData()
-            {
-                pos = visualization.Value.position,
-                rot = visualization.Value.rotation
-            };
 
             visualization.Key.SetIndicator(BuildingManager.Instance.directionIndicator);
             tempMat = currentBuilding.Value.GetComponent<MeshRenderer>().sharedMaterial;
@@ -261,6 +256,13 @@ namespace BuildingManagement
                 economyManager.Balance -= (decimal)visualization.Key.bBase.Price;
 
                 visualization.Value.GetComponent<MeshRenderer>().material = tempMat;
+
+                Debug.Log(visualization.Value.position);
+                visualization.Key.meshData = new MeshData()
+                {
+                    pos = visualization.Value.position,
+                    rot = visualization.Value.rotation
+                };
 
                 buildingManager.SetUpBuilding(visualization.Key, visualization.Value, chunkCoord);
 

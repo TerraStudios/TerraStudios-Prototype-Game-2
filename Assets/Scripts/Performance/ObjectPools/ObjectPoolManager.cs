@@ -78,6 +78,7 @@ namespace Utilities
             if (!pooledObjects.ContainsKey(key))
             {
                 //If a pool does not already exist for the GameObject, create a new one with the default pool size
+                Debug.LogWarning("Creating a new pool when ReuseObject is called! Probaby a bug!");
                 CreatePool(prefab, defaultPoolSize);
             }
 
