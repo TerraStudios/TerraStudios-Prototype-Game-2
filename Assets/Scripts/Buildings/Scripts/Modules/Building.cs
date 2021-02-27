@@ -120,9 +120,6 @@ namespace BuildingModules
         /// </summary>
         public void Init(Transform meshGO, bool newBasePresent = false)
         {
-            //TODO: Is this needed?
-            gameObject.AddComponent<BoxCollider>();
-
             correspondingMesh = meshGO;
 
             if (mc.buildingIOManager != null)

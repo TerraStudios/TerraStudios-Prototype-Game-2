@@ -130,7 +130,8 @@ namespace BuildingManagement
                 if (save.position == null) Debug.Log("Save position was null");
                 if (save.rotation == null) Debug.Log("Save rotation was null");
 
-                Transform meshGO = ObjectPoolManager.Instance.ReuseObject(save.GetMeshObj().gameObject, save.position, save.rotation).transform;
+                GameObject meshPrefab = save.GetMeshObj().gameObject;
+                Transform meshGO = ObjectPoolManager.Instance.ReuseObject(meshPrefab, save.position, save.rotation).transform;
 
                 //buildingGO.parent = buildingScriptParent.transform;
                 //meshGO.parent = buildingMeshParent.transform;
@@ -138,7 +139,7 @@ namespace BuildingManagement
                 ChunkCoord chunkCoord = save.chunkCoord;
                 building.bBase = save.building;
                 building.meshData = save.meshData;
-                SetUpBuilding(building, meshGO, save.GetMeshObj(),chunkCoord, false);
+                SetUpBuilding(building, meshGO, meshPrefab.transform, chunkCoord, false);
             }
         }
 
@@ -161,9 +162,9 @@ namespace BuildingManagement
             string resourcesLocation = buildingLocations[resourcesID];
             Transform scriptGO = Resources.Load<Transform>(resourcesLocation);
 
+            //Transform meshGO = scriptGO.GetChild(0);
+            Transform meshGO = Resources.Load<Transform>(resourcesLocation + "_Mesh");
 
-
-            Transform meshGO = scriptGO.GetChild(0);//Resources.Load<Transform>(resourcesLocation + "_Mesh");
             Building b = scriptGO.GetComponent<Building>();
             b.scriptPrefabLocation = resourcesLocation;
             return new KeyValuePair<Building, Transform>(b, meshGO);
