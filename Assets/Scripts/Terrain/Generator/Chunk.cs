@@ -256,7 +256,7 @@ namespace TerrainGeneration
 
                     if (meshCollider.sharedMesh == null)
                     {
-                        Debug.Log("Creating shared mesh");
+                        //Debug.Log("Creating shared mesh");
                         // If the mesh is inside of the distance and needs to be loaded, set the physics mesh
                         meshCollider.sharedMesh = meshFilter.mesh;
                     }

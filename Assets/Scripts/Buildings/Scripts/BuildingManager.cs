@@ -53,11 +53,11 @@ namespace BuildingManagement
 
         public static BuildingManager Instance;
 
-        private void Awake() => Instance = this;
-
         //! Probably has to be moved to BuildingSystem since this script should only handle UI
-        public void Start()
+        public void Awake()
         {
+            Instance = this;
+
             //Create pools for each indicator
             ObjectPoolManager.Instance.CreatePool(directionIndicator.gameObject, 80);
             ObjectPoolManager.Instance.CreatePool(arrowIndicator.gameObject, 8);
@@ -103,7 +103,7 @@ namespace BuildingManagement
                 return;
             focusedBuilding.mc.buildingIOManager.DevisualizeAll();
 
-            foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
+            foreach (List<KeyValuePair<Building, GameObject>> kvp in PlacedBuildings.Values)
                 foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
                 {
                     buildingKVP.Key.mc.buildingIOManager.DevisualizeAll();

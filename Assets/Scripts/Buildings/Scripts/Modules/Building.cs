@@ -64,6 +64,7 @@ namespace BuildingModules
     /// <summary>
     /// Persistent data class about the Mesh GameObject.
     /// </summary>
+    [Serializable]
     public class MeshData
     {
         // We save GO here so when we reload chunks, we don't do Resources.Load
@@ -84,6 +85,7 @@ namespace BuildingModules
         public BuildingBase bBase;
         public MeshData meshData;
         public ModuleConnector mc;
+        [HideInInspector] public GameObject correspondingMeshPrefab;
         [HideInInspector] public Transform correspondingMesh;
         [HideInInspector] public bool isSetUp;
 
@@ -365,12 +367,6 @@ namespace BuildingModules
                 return;
             markedForDelete = false;
             correspondingMesh.GetComponent<MeshRenderer>().material = originalMaterial;
-        }
-
-        public Transform GetMeshObj(string pathToScriptObj)
-        {
-            Debug.Log("Attempting to load at " + pathToScriptObj);
-            return Resources.Load<Transform>(pathToScriptObj).GetChild(0);
         }
     }
 }

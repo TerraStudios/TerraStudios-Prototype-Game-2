@@ -257,14 +257,13 @@ namespace BuildingManagement
 
                 visualization.Value.GetComponent<MeshRenderer>().material = tempMat;
 
-                Debug.Log(visualization.Value.position);
                 visualization.Key.meshData = new MeshData()
                 {
                     pos = visualization.Value.position,
                     rot = visualization.Value.rotation
                 };
 
-                buildingManager.SetUpBuilding(visualization.Key, visualization.Value, chunkCoord);
+                buildingManager.SetUpBuilding(visualization.Key, visualization.Value, currentBuilding.Value ,chunkCoord);
 
                 IsInBuildMode = continueBuilding;
             }

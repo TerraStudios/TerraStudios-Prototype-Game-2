@@ -77,6 +77,7 @@ namespace BuildingManagement
                     position = b.correspondingMesh.position,
                     rotation = b.correspondingMesh.rotation,
                     building = b.bBase,
+                    meshData = b.meshData,
                     scriptPrefabPath = b.scriptPrefabLocation
                 };
 
@@ -124,19 +125,20 @@ namespace BuildingManagement
                 Building building = buildingGO.GetComponent<Building>();
 
                 if (building == null) Debug.Log("Building null");
-                if (building.GetMeshObj(building.scriptPrefabLocation) == null) Debug.Log("Null mesh obj");
+                //if (building.GetMeshObj(building.scriptPrefabLocation) == null) Debug.Log("Null mesh obj");
                 if (save == null) Debug.Log("Save was null");
                 if (save.position == null) Debug.Log("Save position was null");
                 if (save.rotation == null) Debug.Log("Save rotation was null");
 
-                Transform meshGO = Instantiate(building.GetMeshObj(building.scriptPrefabLocation).gameObject, save.position, save.rotation).transform;
+                Transform meshGO = ObjectPoolManager.Instance.ReuseObject(save.GetMeshObj().gameObject, save.position, save.rotation).transform;
 
                 //buildingGO.parent = buildingScriptParent.transform;
                 //meshGO.parent = buildingMeshParent.transform;
 
                 ChunkCoord chunkCoord = save.chunkCoord;
                 building.bBase = save.building;
-                SetUpBuilding(building, meshGO, chunkCoord, false);
+                building.meshData = save.meshData;
+                SetUpBuilding(building, meshGO, save.GetMeshObj(),chunkCoord, false);
             }
         }
 
@@ -146,7 +148,7 @@ namespace BuildingManagement
             {
                 ObjectPoolManager.Instance.CreatePool(Resources.Load<Transform>(buildingLocations[i] + "_Mesh").gameObject, meshPoolSize);
             }
-            Debug.Log("Pooled all Building Meshes");
+            Debug.Log("Pooled all Building Meshes, in total: " + buildingLocations.Length);
         }
 
         /// <summary>
@@ -170,23 +172,24 @@ namespace BuildingManagement
         /// <summary>
         /// Initializes all of the needed data for the building in question.
         /// </summary>
-        /// <param name="b">The Building script of the Building Script GO.</param>
-        /// <param name="t">The Mesh GameObject of the Building Mesh GO.</param>
+        /// <param name="building">The Building script of the Building Script GO.</param>
+        /// <param name="mesh">The Mesh GameObject of the Building Mesh GO.</param>
         /// <param name="coord">The chunk coordinate where the building is placed.</param>
         /// <param name="register">Whether the Building should be initialized with Building.Init. Make false if loading buildings from save.</param>
-        public void SetUpBuilding(Building b, Transform t, ChunkCoord coord, bool register = true)
+        public void SetUpBuilding(Building building, Transform mesh, Transform meshPrefab, ChunkCoord coord, bool register = true)
         {
             //TODO: THESE HAVE BEEN COMMENTED OUT AS OF 2/13/2021, TO BE CHANGED?
             //b.transform.parent = buildingScriptParent.transform;
             //t.transform.parent = buildingMeshParent.transform;
-            b.timeManager = timeManager;
-            b.economyManager = economyManager;
-            RegisterBuilding(coord, b, t.gameObject, register);
-            b.Init(t, !register);
+            building.timeManager = timeManager;
+            building.economyManager = economyManager;
+            building.correspondingMeshPrefab = meshPrefab.gameObject;
+            RegisterBuilding(coord, building, mesh.gameObject, register);
+            building.Init(mesh, !register);
 
-            if (b.mc.buildingIOManager.isConveyor)
+            if (building.mc.buildingIOManager.isConveyor)
             {
-                ConveyorManager.Instance.conveyors.Add(b.GetComponent<Conveyor>());
+                ConveyorManager.Instance.conveyors.Add(building.GetComponent<Conveyor>());
             }
         }
 

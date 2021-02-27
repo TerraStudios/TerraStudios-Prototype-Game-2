@@ -20,17 +20,15 @@ public class ChunkManager
 
                 Building building = kvp.Key;
                 //GameObject mesh = list[i].Value;
-                GameObject go = building.GetMeshObj(kvp.Key.scriptPrefabLocation).gameObject;
+                GameObject go = building.correspondingMeshPrefab.gameObject;
                 Vector3 pos = kvp.Key.meshData.pos;
                 Quaternion rot = kvp.Key.meshData.rot;
 
                 GameObject reused = ObjectPoolManager.Instance.ReuseObject(go, pos, rot);
-                building.correspondingMesh = reused.transform;
+                building.correspondingMeshPrefab = reused;
                 // Overwriting the current KVP so we can Destroy it later with OPM
                 BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(building, reused);
             }
-
-            Debug.Log("Enabled " + BuildingSystem.PlacedBuildings[chunkCoord].Count + " meshes!");
         }
     }
 
@@ -39,8 +37,6 @@ public class ChunkManager
         // Unload/disable all building mesh GameObjects in this chunk
         if (BuildingSystem.PlacedBuildings.Count != 0 && BuildingSystem.PlacedBuildings.ContainsKey(chunkCoord))
         {
-            Debug.Log("Destroying " + BuildingSystem.PlacedBuildings[chunkCoord].Count + " meshes!");
-
             for (int i = 0; i < BuildingSystem.PlacedBuildings[chunkCoord].Count; i++)
             {
                 KeyValuePair<Building, GameObject> kvp = BuildingSystem.PlacedBuildings[chunkCoord][i];
