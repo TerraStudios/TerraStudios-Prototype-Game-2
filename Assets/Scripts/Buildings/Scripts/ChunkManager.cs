@@ -6,8 +6,15 @@ using TerrainGeneration;
 using UnityEngine;
 using Utilities;
 
+/// <summary>
+/// Handles events that are called when a chunk is updated (loaded/unloaded).
+/// </summary>
 public class ChunkManager
 {
+    /// <summary>
+    /// Called when a Chunk got loaded.
+    /// </summary>
+    /// <param name="chunkCoord">The ChunkCoord of the Chunk for which the action should be applied.</param>
     public void OnChunkLoaded(ChunkCoord chunkCoord)
     {
         // Load all building mesh GameObjects in this chunk
@@ -19,12 +26,8 @@ public class ChunkManager
                 KeyValuePair<Building, GameObject> kvp = BuildingSystem.PlacedBuildings[chunkCoord][i];
 
                 Building building = kvp.Key;
-                //GameObject mesh = list[i].Value;
-                GameObject go = building.correspondingMeshPrefab.gameObject;
-                Vector3 pos = kvp.Key.meshData.pos;
-                Quaternion rot = kvp.Key.meshData.rot;
 
-                GameObject reused = ObjectPoolManager.Instance.ReuseObject(go, pos, rot);
+                GameObject reused = ObjectPoolManager.Instance.ReuseObject(building.correspondingMeshPrefab.gameObject, building.meshData.pos, building.meshData.rot);
                 building.correspondingMeshPrefab = reused;
                 // Overwriting the current KVP so we can Destroy it later with OPM
                 BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(building, reused);
@@ -32,6 +35,10 @@ public class ChunkManager
         }
     }
 
+    /// <summary>
+    /// Called when a Chunk got unloaded.
+    /// </summary>
+    /// <param name="chunkCoord">The ChunkCoord of the Chunk for which the action should be applied.</param>
     public void OnChunkUnloaded(ChunkCoord chunkCoord)
     {
         // Unload/disable all building mesh GameObjects in this chunk
