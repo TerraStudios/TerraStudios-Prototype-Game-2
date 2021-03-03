@@ -74,8 +74,9 @@ MonoBehaviour:
   topDownDragMultiplier: 0.75
   panSpeed: 5
   zoomMultiplier: 4
-  maxFollowOffsetY: 1
   minFollowOffsetY: 0
+  followProgress: 0
+  maxFollowOffsetY: 1
   followOffsetCurve:
     serializedVersion: 2
     m_Curve:
@@ -100,9 +101,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  followProgress: 0
-  maxFOVZoom: 50
   minFOVZoom: 10
+  fovZoomLevel: 0
+  maxFOVZoom: 50
   fovZoomCurve:
     serializedVersion: 2
     m_Curve:
@@ -127,18 +128,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fovZoomLevel: 0
   minZoomProgress: 0
-  maxZoomProgress: 1
   zoomProgress: 1
+  maxZoomProgress: 1
   enableWorldBoundaries: 1
   showGizmo: 0
-  maxX: 40
-  minX: 0
-  maxY: 0
-  minY: 0
-  maxZ: 20
-  minZ: -10
+  boundariesMin: {x: -999, y: -50, z: -999}
+  boundariesMax: {x: 999, y: 50, z: 999}
 --- !u!114 &2367884800272579803
 MonoBehaviour:
   m_ObjectHideFlags: 0

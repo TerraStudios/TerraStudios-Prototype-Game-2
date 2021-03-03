@@ -55,12 +55,9 @@ namespace Player
         [Header("World Boundaries")]
         public bool enableWorldBoundaries = true;
         public bool showGizmo = true;
-        public float maxX;
-        public float minX;
-        public float maxY;
-        public float minY;
-        public float maxZ;
-        public float minZ;
+
+        public Vector3 boundariesMin;
+        public Vector3 boundariesMax;
 
         private void Start()
         {
@@ -176,7 +173,7 @@ namespace Player
         private Vector3 GetMovement(Vector3 newPos)
         {
             if (enableWorldBoundaries)
-                return new Vector3(Mathf.Clamp(newPos.x, minX, maxX), Mathf.Clamp(newPos.y, minY, maxY), Mathf.Clamp(newPos.z, minZ, maxZ));
+                return new Vector3(Mathf.Clamp(newPos.x, boundariesMin.x, boundariesMax.x), Mathf.Clamp(newPos.y, boundariesMin.y, boundariesMax.y), Mathf.Clamp(newPos.z, boundariesMin.z, boundariesMax.z));
             else
                 return new Vector3(newPos.x, transform.position.y, newPos.z);
         }
@@ -186,7 +183,7 @@ namespace Player
             if (showGizmo)
             {
                 Gizmos.color = Color.cyan;
-                Gizmos.DrawCube(new Vector3((maxX + minX) / 2, (maxY + minY) / 2, (maxZ + minZ) / 2), new Vector3(Mathf.Abs(maxX) + Mathf.Abs(minX), Mathf.Abs(maxY) + Mathf.Abs(minY), Mathf.Abs(maxZ) + Mathf.Abs(minZ)));
+                Gizmos.DrawCube(new Vector3((boundariesMax.x + boundariesMin.x) / 2, (boundariesMax.y + boundariesMin.y) / 2, (boundariesMax.z + boundariesMin.z) / 2), new Vector3(Mathf.Abs(boundariesMax.x) + Mathf.Abs(boundariesMin.x), Mathf.Abs(boundariesMax.y) + Mathf.Abs(boundariesMin.y), Mathf.Abs(boundariesMax.z) + Mathf.Abs(boundariesMin.z)));
             }
         }
     }
