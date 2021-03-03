@@ -27,13 +27,20 @@ namespace Player
 
         [Header("Zooming")]
         public float zoomMultiplier;
-        public float maxFollowOffsetY;
         public float minFollowOffsetY;
+        public float followProgress;
+        public float maxFollowOffsetY;
         public AnimationCurve followOffsetCurve;
-        private float followProgress;
-        private float maxFOVZoom;
-        private float minFOVZoom;
+
+        public float minFOVZoom;
+        public float fovZoomLevel;
+        public float maxFOVZoom;
         public AnimationCurve fovZoomCurve;
+
+        [Header("Zooming Experimental - You most likely shouldn't need to touch this")]
+        public float minZoomProgress;
+        public float zoomProgress = 1;
+        public float maxZoomProgress = 1;
 
         private Vector3 moveDirection;
         private float rotationDirection;
@@ -44,7 +51,6 @@ namespace Player
         private float mouseScrollY;
 
         private float mouseYawXForPanning;
-        private float fovZoomLevel;
 
         [Header("World Boundaries")]
         public bool enableWorldBoundaries = true;
@@ -61,8 +67,6 @@ namespace Player
             mouseYawXForPanning = transform.rotation.eulerAngles.x;
             fovZoomLevel = cinemachineFollowZoom.m_MaxFOV;
             followProgress = cameraOffset.m_Offset.y;
-            maxFOVZoom = cinemachineFollowZoom.m_MaxFOV;
-            minFOVZoom = cinemachineFollowZoom.m_MinFOV;
         }
 
         private void Update()
@@ -147,28 +151,24 @@ namespace Player
             {
                 if (mouseScrollY > 0) // Scroll up
                 {
-                    if (fovZoomLevel >= minFOVZoom)
-                        fovZoomLevel -= Time.unscaledDeltaTime * zoomMultiplier;
-
-                    if (followProgress >= minFollowOffsetY)
-                        followProgress -= Time.unscaledDeltaTime * zoomMultiplier;
+                    if (zoomProgress >= minZoomProgress)
+                        zoomProgress -= Time.unscaledDeltaTime * zoomMultiplier;
                 }
 
                 else if (mouseScrollY < 0) // Scroll down
                 {
-                    if (fovZoomLevel <= maxFOVZoom)
-                        fovZoomLevel += Time.unscaledDeltaTime * zoomMultiplier;
-
-                    if (followProgress <= maxFollowOffsetY)
-                        followProgress += Time.unscaledDeltaTime * zoomMultiplier;
+                    if (zoomProgress <= maxZoomProgress)
+                        zoomProgress += Time.unscaledDeltaTime * zoomMultiplier;
                 }
 
+                zoomProgress = Mathf.Clamp(zoomProgress, minZoomProgress, maxZoomProgress);
+
                 // Camera FOV
-                fovZoomLevel = Mathf.Clamp(fovZoomLevel, minFOVZoom, maxFOVZoom);
+                fovZoomLevel = Mathf.Lerp(minFOVZoom, maxFOVZoom, zoomProgress);
                 cinemachineFollowZoom.m_MaxFOV = Mathf.Lerp(minFOVZoom, maxFOVZoom, fovZoomCurve.Evaluate(fovZoomLevel / maxFOVZoom));
 
                 // Camera Offset
-                followProgress = Mathf.Clamp(followProgress, minFollowOffsetY, maxFollowOffsetY);
+                followProgress = Mathf.InverseLerp(minFollowOffsetY, maxFollowOffsetY, zoomProgress);
                 cameraOffset.m_Offset.y = Mathf.Lerp(maxFollowOffsetY, minFollowOffsetY, followOffsetCurve.Evaluate(followProgress / maxFollowOffsetY));
             }
         }
