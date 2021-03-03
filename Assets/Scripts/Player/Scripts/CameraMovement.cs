@@ -30,11 +30,13 @@ namespace Player
         public float zoomMultiplier;
         public float minFollowOffsetY;
         public float followProgress;
+        public float followProgressApplied;
         public float maxFollowOffsetY;
         public AnimationCurve followOffsetCurve;
 
         public float minFOVZoom;
         public float fovZoomLevel;
+        public float fovZoomLevelApplied;
         public float maxFOVZoom;
         public AnimationCurve fovZoomCurve;
 
@@ -163,11 +165,13 @@ namespace Player
 
                 // Camera FOV
                 fovZoomLevel = Mathf.Lerp(minFOVZoom, maxFOVZoom, zoomProgress);
-                cinemachineFollowZoom.m_MaxFOV = Mathf.Lerp(minFOVZoom, maxFOVZoom, fovZoomCurve.Evaluate(fovZoomLevel / maxFOVZoom));
+                fovZoomLevelApplied = Mathf.Lerp(minFOVZoom, maxFOVZoom, fovZoomCurve.Evaluate(fovZoomLevel / maxFOVZoom));
+                cinemachineFollowZoom.m_MaxFOV = fovZoomLevelApplied;
 
                 // Camera Offset
                 followProgress = Mathf.Lerp(maxFollowOffsetY, minFollowOffsetY, zoomProgress);
-                cameraOffset.m_Offset.y = Mathf.Lerp(maxFollowOffsetY, minFollowOffsetY, followOffsetCurve.Evaluate(followProgress / maxFollowOffsetY));
+                followProgressApplied = Mathf.Lerp(maxFollowOffsetY, minFollowOffsetY, followOffsetCurve.Evaluate(followProgress / maxFollowOffsetY));
+                cameraOffset.m_Offset.y = followProgressApplied;
             }
         }
 
