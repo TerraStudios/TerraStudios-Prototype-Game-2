@@ -39,7 +39,6 @@ namespace EconomyManagement
         {
             if (context.performed)
             {
-                Debug.Log("Filtered");
                 Balance += balanceChangeTest;
             }
         }
