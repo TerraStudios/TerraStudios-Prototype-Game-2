@@ -20,6 +20,7 @@ namespace Player
         public CinemachineFollowZoom cinemachineFollowZoom;
 
         public float movementSpeed;
+        public float upAndDownSpeed;
         public float rotationSpeed = 100;
         public float dragSpeed;
         public float topDownDragMultiplier;
@@ -119,7 +120,7 @@ namespace Player
         {
             if (CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
-                transform.position = GetMovement(transform.position + (transform.TransformDirection(Vector3.up * upAndDownDirection) * movementSpeed * Time.unscaledDeltaTime));
+                transform.position = GetMovement(transform.position + (transform.TransformDirection(Vector3.up * upAndDownDirection) * upAndDownSpeed * Time.unscaledDeltaTime));
             }
         }
 

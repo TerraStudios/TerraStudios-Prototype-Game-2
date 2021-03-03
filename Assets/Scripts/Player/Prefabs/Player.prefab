@@ -69,6 +69,7 @@ MonoBehaviour:
   cinemachineVCamBase: {fileID: 0}
   cinemachineFollowZoom: {fileID: 0}
   movementSpeed: 30
+  upAndDownSpeed: 15
   rotationSpeed: 100
   dragSpeed: 2
   topDownDragMultiplier: 0.75
