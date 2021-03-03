@@ -166,7 +166,7 @@ namespace Player
                 cinemachineFollowZoom.m_MaxFOV = Mathf.Lerp(minFOVZoom, maxFOVZoom, fovZoomCurve.Evaluate(fovZoomLevel / maxFOVZoom));
 
                 // Camera Offset
-                followProgress = Mathf.InverseLerp(minFollowOffsetY, maxFollowOffsetY, zoomProgress);
+                followProgress = Mathf.Lerp(maxFollowOffsetY, minFollowOffsetY, zoomProgress);
                 cameraOffset.m_Offset.y = Mathf.Lerp(maxFollowOffsetY, minFollowOffsetY, followOffsetCurve.Evaluate(followProgress / maxFollowOffsetY));
             }
         }
