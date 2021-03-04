@@ -15,9 +15,8 @@ namespace Player
     /// </summary>
     public class CameraMovement : MonoBehaviour
     {
-        public CinemachineCameraOffset cameraOffset;
-        public CinemachineVirtualCameraBase cinemachineVCamBase;
-        public CinemachineFollowZoom cinemachineFollowZoom;
+        public CinemachineVirtualCamera cinemachineVCam;
+        private CinemachineTransposer cinemachineTransposer;
 
         public float movementSpeed;
         public float upAndDownSpeed;
@@ -65,8 +64,9 @@ namespace Player
         private void Start()
         {
             mouseYawXForPanning = transform.rotation.eulerAngles.x;
-            fovZoomLevel = cinemachineFollowZoom.m_MaxFOV;
-            followProgress = cameraOffset.m_Offset.y;
+            fovZoomLevel = cinemachineVCam.m_Lens.FieldOfView;
+            cinemachineTransposer = cinemachineVCam.GetCinemachineComponent<CinemachineTransposer>();
+            followProgress = cinemachineTransposer.m_FollowOffset.y;
         }
 
         private void Update()
@@ -166,12 +166,12 @@ namespace Player
                 // Camera FOV
                 fovZoomLevel = Mathf.Lerp(minFOVZoom, maxFOVZoom, zoomProgress);
                 fovZoomLevelApplied = Mathf.Lerp(minFOVZoom, maxFOVZoom, fovZoomCurve.Evaluate(fovZoomLevel / maxFOVZoom));
-                cinemachineFollowZoom.m_MaxFOV = fovZoomLevelApplied;
+                cinemachineVCam.m_Lens.FieldOfView = fovZoomLevelApplied;
 
                 // Camera Offset
-                followProgress = Mathf.Lerp(maxFollowOffsetY, minFollowOffsetY, zoomProgress);
-                followProgressApplied = Mathf.Lerp(maxFollowOffsetY, minFollowOffsetY, followOffsetCurve.Evaluate(followProgress / maxFollowOffsetY));
-                cameraOffset.m_Offset.y = followProgressApplied;
+                followProgress = Mathf.Lerp(minFollowOffsetY, maxFollowOffsetY, zoomProgress);
+                followProgressApplied = Mathf.Lerp(minFollowOffsetY, maxFollowOffsetY, followOffsetCurve.Evaluate(followProgress / maxFollowOffsetY));
+                cinemachineTransposer.m_FollowOffset.y = followProgressApplied;
             }
         }
 
