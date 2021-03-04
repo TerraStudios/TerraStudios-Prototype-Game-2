@@ -73,7 +73,7 @@ MonoBehaviour:
   topDownDragMultiplier: 0.75
   panSpeed: 5
   zoomMultiplier: 4
-  zoomSmoothnessMultiplier: 10
+  zoomSmoothnessMultiplier: 8
   zoomUseMoveTowards: 0
   zoomUseLerp: 1
   minFollowOffsetY: 5
