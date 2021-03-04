@@ -27,14 +27,17 @@ namespace Player
 
         [Header("Zooming")]
         public float zoomMultiplier;
+        public float zoomSmoothnessMultiplier;
+        public bool zoomUseMoveTowards;
+        public bool zoomUseLerp;
         public float minFollowOffsetY;
-        public float followProgress;
+        //public float followProgress;
         public float followProgressApplied;
         public float maxFollowOffsetY;
         public AnimationCurve followOffsetCurve;
 
         public float minFOVZoom;
-        public float fovZoomLevel;
+        //public float fovZoomLevel;
         public float fovZoomLevelApplied;
         public float maxFOVZoom;
         public AnimationCurve fovZoomCurve;
@@ -64,9 +67,9 @@ namespace Player
         private void Start()
         {
             mouseYawXForPanning = transform.rotation.eulerAngles.x;
-            fovZoomLevel = cinemachineVCam.m_Lens.FieldOfView;
+            //fovZoomLevel = cinemachineVCam.m_Lens.FieldOfView;
             cinemachineTransposer = cinemachineVCam.GetCinemachineComponent<CinemachineTransposer>();
-            followProgress = cinemachineTransposer.m_FollowOffset.y;
+            //followProgress = cinemachineTransposer.m_FollowOffset.y;
         }
 
         private void Update()
@@ -164,14 +167,20 @@ namespace Player
                 zoomProgress = Mathf.Clamp(zoomProgress, minZoomProgress, maxZoomProgress);
 
                 // Camera FOV
-                fovZoomLevel = Mathf.Lerp(minFOVZoom, maxFOVZoom, zoomProgress);
-                fovZoomLevelApplied = Mathf.Lerp(minFOVZoom, maxFOVZoom, fovZoomCurve.Evaluate(fovZoomLevel / maxFOVZoom));
-                cinemachineVCam.m_Lens.FieldOfView = fovZoomLevelApplied;
+                //fovZoomLevel = Mathf.Lerp(minFOVZoom, maxFOVZoom, zoomProgress);
+                fovZoomLevelApplied = Mathf.Lerp(minFOVZoom, maxFOVZoom, fovZoomCurve.Evaluate(zoomProgress));
+                if (zoomUseMoveTowards)
+                    cinemachineVCam.m_Lens.FieldOfView = Mathf.MoveTowards(cinemachineVCam.m_Lens.FieldOfView, fovZoomLevelApplied, Time.unscaledDeltaTime * zoomSmoothnessMultiplier);
+                if (zoomUseLerp)
+                    cinemachineVCam.m_Lens.FieldOfView = Mathf.Lerp(cinemachineVCam.m_Lens.FieldOfView, fovZoomLevelApplied, Time.unscaledDeltaTime * zoomSmoothnessMultiplier);
 
                 // Camera Offset
-                followProgress = Mathf.Lerp(minFollowOffsetY, maxFollowOffsetY, zoomProgress);
-                followProgressApplied = Mathf.Lerp(minFollowOffsetY, maxFollowOffsetY, followOffsetCurve.Evaluate(followProgress / maxFollowOffsetY));
-                cinemachineTransposer.m_FollowOffset.y = followProgressApplied;
+                //followProgress = Mathf.Lerp(minFollowOffsetY, maxFollowOffsetY, zoomProgress);
+                followProgressApplied = Mathf.Lerp(minFollowOffsetY, maxFollowOffsetY, followOffsetCurve.Evaluate(zoomProgress));
+                if (zoomUseMoveTowards)
+                    cinemachineTransposer.m_FollowOffset.y = Mathf.MoveTowards(cinemachineTransposer.m_FollowOffset.y, followProgressApplied, Time.unscaledDeltaTime * zoomSmoothnessMultiplier);
+                if (zoomUseLerp)
+                    cinemachineTransposer.m_FollowOffset.y = Mathf.Lerp(cinemachineTransposer.m_FollowOffset.y, followProgressApplied, Time.unscaledDeltaTime * zoomSmoothnessMultiplier);
             }
         }
 

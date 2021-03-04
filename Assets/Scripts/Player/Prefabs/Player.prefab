@@ -73,8 +73,10 @@ MonoBehaviour:
   topDownDragMultiplier: 0.75
   panSpeed: 5
   zoomMultiplier: 4
+  zoomSmoothnessMultiplier: 10
+  zoomUseMoveTowards: 0
+  zoomUseLerp: 1
   minFollowOffsetY: 5
-  followProgress: 0
   followProgressApplied: 0
   maxFollowOffsetY: 25
   followOffsetCurve:
@@ -102,7 +104,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   minFOVZoom: 15
-  fovZoomLevel: 0
   fovZoomLevelApplied: 0
   maxFOVZoom: 40
   fovZoomCurve:
