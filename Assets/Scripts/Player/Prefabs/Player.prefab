@@ -74,8 +74,6 @@ MonoBehaviour:
   panSpeed: 5
   zoomMultiplier: 4
   zoomSmoothnessMultiplier: 8
-  zoomUseMoveTowards: 0
-  zoomUseLerp: 1
   minFollowOffsetY: 5
   followProgressApplied: 0
   maxFollowOffsetY: 25

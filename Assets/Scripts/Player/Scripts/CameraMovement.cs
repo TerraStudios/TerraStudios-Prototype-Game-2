@@ -28,8 +28,6 @@ namespace Player
         [Header("Zooming")]
         public float zoomMultiplier;
         public float zoomSmoothnessMultiplier;
-        public bool zoomUseMoveTowards;
-        public bool zoomUseLerp;
         public float minFollowOffsetY;
         //public float followProgress;
         public float followProgressApplied;
@@ -169,18 +167,12 @@ namespace Player
                 // Camera FOV
                 //fovZoomLevel = Mathf.Lerp(minFOVZoom, maxFOVZoom, zoomProgress);
                 fovZoomLevelApplied = Mathf.Lerp(minFOVZoom, maxFOVZoom, fovZoomCurve.Evaluate(zoomProgress));
-                if (zoomUseMoveTowards)
-                    cinemachineVCam.m_Lens.FieldOfView = Mathf.MoveTowards(cinemachineVCam.m_Lens.FieldOfView, fovZoomLevelApplied, Time.unscaledDeltaTime * zoomSmoothnessMultiplier);
-                if (zoomUseLerp)
-                    cinemachineVCam.m_Lens.FieldOfView = Mathf.Lerp(cinemachineVCam.m_Lens.FieldOfView, fovZoomLevelApplied, Time.unscaledDeltaTime * zoomSmoothnessMultiplier);
+                cinemachineVCam.m_Lens.FieldOfView = Mathf.Lerp(cinemachineVCam.m_Lens.FieldOfView, fovZoomLevelApplied, Time.unscaledDeltaTime * zoomSmoothnessMultiplier);
 
                 // Camera Offset
                 //followProgress = Mathf.Lerp(minFollowOffsetY, maxFollowOffsetY, zoomProgress);
                 followProgressApplied = Mathf.Lerp(minFollowOffsetY, maxFollowOffsetY, followOffsetCurve.Evaluate(zoomProgress));
-                if (zoomUseMoveTowards)
-                    cinemachineTransposer.m_FollowOffset.y = Mathf.MoveTowards(cinemachineTransposer.m_FollowOffset.y, followProgressApplied, Time.unscaledDeltaTime * zoomSmoothnessMultiplier);
-                if (zoomUseLerp)
-                    cinemachineTransposer.m_FollowOffset.y = Mathf.Lerp(cinemachineTransposer.m_FollowOffset.y, followProgressApplied, Time.unscaledDeltaTime * zoomSmoothnessMultiplier);
+                cinemachineTransposer.m_FollowOffset.y = Mathf.Lerp(cinemachineTransposer.m_FollowOffset.y, followProgressApplied, Time.unscaledDeltaTime * zoomSmoothnessMultiplier);
             }
         }
 
