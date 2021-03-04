@@ -65,7 +65,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602a9844e3e542f4aad03fe49d826fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cinemachineTransposer: {fileID: 0}
   cinemachineVCam: {fileID: 0}
   movementSpeed: 30
   upAndDownSpeed: 15
@@ -74,10 +73,10 @@ MonoBehaviour:
   topDownDragMultiplier: 0.75
   panSpeed: 5
   zoomMultiplier: 4
-  minFollowOffsetY: 10
+  minFollowOffsetY: 5
   followProgress: 0
   followProgressApplied: 0
-  maxFollowOffsetY: 14.5
+  maxFollowOffsetY: 25
   followOffsetCurve:
     serializedVersion: 2
     m_Curve:
@@ -102,10 +101,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minFOVZoom: 10
+  minFOVZoom: 15
   fovZoomLevel: 0
   fovZoomLevelApplied: 0
-  maxFOVZoom: 60
+  maxFOVZoom: 40
   fovZoomCurve:
     serializedVersion: 2
     m_Curve:
