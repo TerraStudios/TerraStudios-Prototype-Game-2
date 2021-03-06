@@ -33,6 +33,7 @@ namespace Player
         public GameObject normalCamera;
         public GameObject topDownCamera;
         public GameObject freeCamera;
+        public GameObject dynamicPointers;
 
         public CameraMovement cameraMovement;
         public PhotoCameraMovement photoCameraMovement;
@@ -83,6 +84,7 @@ namespace Player
             cameraMode = CameraMode.Normal;
             cameraMovement.enabled = true;
             photoCameraMovement.enabled = false;
+            dynamicPointers.SetActive(true);
         }
 
         public void SwitchToTopdownCamera()
@@ -103,6 +105,7 @@ namespace Player
             cameraMode = CameraMode.Topdown;
             cameraMovement.enabled = true;
             photoCameraMovement.enabled = false;
+            dynamicPointers.SetActive(false);
         }
 
         public void SwitchToFreecam()
@@ -124,6 +127,7 @@ namespace Player
             cameraMode = CameraMode.Freecam;
             cameraMovement.enabled = false;
             photoCameraMovement.enabled = true;
+            dynamicPointers.SetActive(false);
         }
     }
 }
