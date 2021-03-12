@@ -80,6 +80,7 @@ namespace BuildingModules
     /// Handles Building Initialization, work states, building health, electricity and visualizations.
     /// </summary>
     [RequireComponent(typeof(ModuleConnector))]
+    [RequireComponent(typeof(BuildingIO))]
     public class Building : MonoBehaviour
     {
         public BuildingBase bBase;
