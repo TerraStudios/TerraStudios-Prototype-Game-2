@@ -4,6 +4,7 @@ public class PointerController : MonoBehaviour
 {
     public bool enableGroundPointer;
     public Transform pointerStatic;
+    public Transform pointerStaticFake;
     public Transform pointerGround;
     public Transform pointerLine;
     public LayerMask voxelLayer;
@@ -12,15 +13,22 @@ public class PointerController : MonoBehaviour
     {
         if (enableGroundPointer)
         {
+            ApplyStaticPointer();
             ApplyGroundPointer();
             ApplyPointerLine();
         }
     }
 
+    private void ApplyStaticPointer()
+    {
+        pointerStatic.transform.position = pointerStaticFake.transform.position;
+        pointerStatic.transform.rotation = pointerStaticFake.transform.rotation;
+    }
+
     /// <summary>
     /// Changes Pointer Ground's position depending on the Voxel impact point.
     /// </summary>
-    private void ApplyGroundPointer() 
+    private void ApplyGroundPointer()
     {
         Vector3 hitPosDown = GetVoxelImpact(Vector3.down);
         pointerGround.transform.position = hitPosDown;
@@ -31,11 +39,15 @@ public class PointerController : MonoBehaviour
     /// </summary>
     private void ApplyPointerLine()
     {
+        // Scale is incorrect, it doesn't stretch all the way to both points
         pointerLine.localScale = new Vector3(0.5f, 0.5f, Vector3.Distance(pointerStatic.position, pointerGround.position));
         pointerLine.position = new Vector3(pointerGround.position.x - pointerLine.localScale.x / 2, pointerGround.position.y, pointerGround.position.z);
 
         Vector3 rotationDirection = (pointerGround.position - pointerStatic.position); //Change Rotation
         pointerLine.rotation = Quaternion.LookRotation(-rotationDirection);
+        // Billboard pointer line not working, rotates around side and not center
+        // The 
+        pointerLine.Rotate(pointerLine.localRotation.x, pointerLine.localRotation.y, Camera.main.transform.rotation.eulerAngles.y);
     }
 
     /// <summary>
