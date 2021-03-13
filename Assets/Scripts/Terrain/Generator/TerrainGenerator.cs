@@ -45,6 +45,7 @@ namespace TerrainGeneration
 
         [Header("Determines how many chunks around the player should be loaded at any given time")]
         public int chunkRange = 3;
+        [HideInInspector] public bool forceChunkCheck;
 
         [Tooltip("The tileset to be used for the terrain")]
         public Material cubeMaterial;
@@ -233,8 +234,9 @@ namespace TerrainGeneration
             }
 
             // Avoids unnecessary checks by only updating once the player has reached a new chunk
-            if (playerPos != lastChunkPos)
+            if (playerPos != lastChunkPos || forceChunkCheck)
             {
+                forceChunkCheck = false;
 
                 // Loop through every chunk around player
                 for (int x = playerPos.x - chunkRange; x < playerPos.x + chunkRange; x++)
