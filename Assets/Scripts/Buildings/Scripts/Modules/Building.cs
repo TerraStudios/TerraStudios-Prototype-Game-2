@@ -35,7 +35,7 @@ namespace BuildingModules
         [Header("Work States")]
         public WorkStateEnum workState;
 
-        public Dictionary<WorkStateEnum, Guid> workStateTimes = new Dictionary<WorkStateEnum, Guid>();
+        public Dictionary<WorkStateEnum, int> workStateTimes = new Dictionary<WorkStateEnum, int>();
 
         [Tooltip("The minimum TimeSpan the machine will last in months")]
         public int monthsLifespanMin;
@@ -226,7 +226,7 @@ namespace BuildingModules
             foreach (WorkStateEnum ws in (WorkStateEnum[])Enum.GetValues(typeof(WorkStateEnum)))
             {
                 TimeCountEvent ev = timeManager.StartTimeCounter();
-                bBase.workStateTimes.Add(ws, ev.hash);
+                bBase.workStateTimes.Add(ws, timeManager.timeCounters.IndexOf(ev));
             }
 
             WorkState = WorkStateEnum.On;
@@ -252,7 +252,7 @@ namespace BuildingModules
             for (int i = 0; i < bBase.workStateTimes.Count; i++)
             {
                 WorkStateEnum key = bBase.workStateTimes.Keys.ElementAt(i);
-                Guid value = bBase.workStateTimes[key];
+                int value = bBase.workStateTimes[key];
 
                 if (key != newValue)
                 {
