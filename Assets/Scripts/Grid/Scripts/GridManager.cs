@@ -214,6 +214,7 @@ namespace BuildingManagement
                 );
 
             visualization.Key.correspondingMesh = visualization.Value;
+            Destroy(visualization.Key.transform.GetChild(0).gameObject);
 
             visualization.Key.SetIndicator(BuildingManager.Instance.directionIndicator);
             tempMat = currentBuilding.Value.GetComponent<MeshRenderer>().sharedMaterial;
