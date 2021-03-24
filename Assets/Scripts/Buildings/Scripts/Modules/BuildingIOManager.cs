@@ -4,9 +4,13 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
+using DebugTools;
 using ItemManagement;
 using System;
 using System.Collections.Generic;
+using TerrainGeneration;
+using TerrainTypes;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,8 +21,13 @@ namespace BuildingModules
     {
         public Vector2 localPosition;
         public IODirection direction;
+
+        //TODO: Remove this?
         private IOType type;
         public bool isTrashcanOutput;
+
+        [HideInInspector]
+        public BuildingIO linkedIO; // The IO this BuildingIO is connected to, e.g. an input BuildingIO to an output
     }
 
     /// <summary>
@@ -157,13 +166,59 @@ namespace BuildingModules
             //IOForEach(io => io.OnVisualizationMoved());
         }
 
+        private int3 getIOPosition(BuildingIO io)
+        {
+            Vector3 prefabPosition = mc.building.meshData.pos;
+            Vector3 direction = io.direction.GetDirection() * -1;
+
+            // Prefab position - position of IO relative to prefab - value retrieved from face of IO (see 'direction' variable above)
+            //TODO: Move localPosition to Vector2Int to avoid casting
+            return prefabPosition.FloorToInt3() - new int3((int)io.localPosition.x, 0, (int)io.localPosition.y) - direction.FloorToInt3();
+
+
+        }
+
+        private void AttemptLink(BuildingIO io, bool input = true)
+        {
+            // Retrieves the OPPOSITE voxel (normal vector with a magnitude of 1 block)
+            int3 linkVoxelPos = getIOPosition(io);
+            Block targetBlock = TerrainGenerator.instance.GetVoxel(linkVoxelPos);
+
+            if (targetBlock is MachineSlaveBlock block)
+            {
+                BuildingIOManager targetBuilding = block.controller.mc.buildingIOManager;
+
+                // Loop through opposite of io's type
+                foreach (BuildingIO targetIO in input ? targetBuilding.outputs : targetBuilding.inputs)
+                {
+                    // Get the position of the voxel perpendicular to the target IO, and check if it equals the desired linkVoxelPos
+                    if ((targetBuilding.mc.building.meshData.pos.FloorToInt3() - new int3((int)targetIO.localPosition.x, 0, (int)targetIO.localPosition.y)).Equals(linkVoxelPos))
+                    {
+                        // Found successful link, set linkedIO for both
+                        targetIO.linkedIO = io;
+                        io.linkedIO = targetIO;
+
+                        Debug.Log("Successfully linked");
+                    }
+                }
+            }
+
+        }
+
         /// <summary>
         /// Signals every <see cref="BuildingIO"/> in the building to attempt a link with any other attached <see cref="BuildingIO"/>s.
         /// </summary>
         public void LinkAll()
         {
-            // TODO: Update with new code here
-            //IOForEach(io => io.MakeLink());
+            foreach (BuildingIO output in outputs)
+            {
+                AttemptLink(output, false);
+            }
+
+            foreach (BuildingIO input in inputs)
+            {
+                AttemptLink(input);
+            }
         }
 
         public void UnlinkAll()
@@ -368,9 +423,14 @@ namespace BuildingModules
         private void OnDrawGizmos()
         {
 
+            if (Application.isPlaying)
+            {
+
+            }
+
 
             // Only draw if not in game
-            if (!Application.isPlaying)
+            if (Application.isPlaying)
             {
                 // If using the wire grid code uncomment
                 //if (buildingSize == Vector3.zero)
@@ -393,11 +453,16 @@ namespace BuildingModules
                 //    }
                 //}
 
+
+
                 // Draw inputs
                 Gizmos.color = new Color(0, 0.47f, 1);
                 foreach (BuildingIO input in inputs)
                 {
                     Vector3 cubePosition = new Vector3(0.5f - input.localPosition.x, 0.5f, 0.5f - input.localPosition.y);
+
+                    if (Application.isPlaying) cubePosition += mc.building.meshData.pos;
+
                     Vector3 direction = input.direction.GetDirection(); // Because the input arrow needs to be facing inwards, the arrow needs to go the opposite direction.
 
                     DrawBuildingArrow(cubePosition, direction, true);
@@ -409,6 +474,8 @@ namespace BuildingModules
                 {
                     Vector3 cubePosition = new Vector3(0.5f - output.localPosition.x, 0.5f, 0.5f - output.localPosition.y);
                     Vector3 direction = output.direction.GetDirection();
+
+                    if (Application.isPlaying) cubePosition += mc.building.meshData.pos;
 
                     DrawBuildingArrow(cubePosition, direction);
                 }

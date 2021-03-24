@@ -251,7 +251,10 @@ namespace TerrainGeneration
                 // NOISE CODE
                 // Note: This will be replaced by a better noise system in the future.
 
-                voxelData[i] = 1;//TerrainGenerator.GenerateVoxelType(x, y, z); // Calculate noise
+                byte o = 1;
+
+                if (y > 16) o = 0;
+                voxelData[i] = o;//TerrainGenerator.GenerateVoxelType(x, y, z); // Calculate noise
             }
         }
 
@@ -302,7 +305,7 @@ namespace TerrainGeneration
                 {
                     // Checks each side whether it contains a block, used for omitting sides that don't need to be rendered
 
-                    if (!CheckBlock(i, pos + VoxelTables.faces[p]))
+                    if (!CheckBlock(pos + VoxelTables.faces[p]))
                     {
                         // 0, 0, 0 ; face 0 
                         // vert 1 - (0, 0, 0)
@@ -363,8 +366,9 @@ namespace TerrainGeneration
             /// </summary>
             /// <param name="pos">The position of the cube</param>
             /// <returns>True if the block is solid, false otherwise</returns>
-            private bool CheckBlock(int i, int3 pos)
+            private bool CheckBlock(int3 pos)
             {
+
                 if (!VoxelInsideChunk(pos))
                 {
                     return false;
@@ -372,7 +376,9 @@ namespace TerrainGeneration
                     //return generator.voxelTypes[generator.GetVoxelValue(pos + WorldPos)].isSolid;
                 }
 
-                return voxelTypes[voxelData[i]].isSolid;
+
+
+                return voxelTypes[voxelData[(pos.z * chunkSizeX * chunkSizeY) + (pos.y * chunkSizeX) + pos.x]].isSolid;
             }
 
             /// <summary>

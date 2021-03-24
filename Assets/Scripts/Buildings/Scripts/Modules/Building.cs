@@ -126,7 +126,7 @@ namespace BuildingModules
             if (mc.buildingIOManager != null)
             {
                 mc.buildingIOManager.Init();
-                mc.buildingIOManager.UpdateIOPhysics();
+                //mc.buildingIOManager.UpdateIOPhysics();
                 mc.buildingIOManager.LinkAll();
             }
             else

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading;
 using Priority_Queue;
 using TerrainGeneration;
+using TerrainTypes;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
@@ -182,7 +183,18 @@ namespace TerrainGeneration
                         if (!currentChunks.ContainsKey(next)) // Prevents chunks from being generated so fast they duplicate
                         {
                             //GameObject go = Instantiate(emptyChunk, new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize), Quaternion.identity);
-                            GameObject go = ObjectPoolManager.Instance.ReuseObject(emptyChunk, new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize), Quaternion.identity, false);
+
+                            GameObject go;
+                            if (chunks[next.x, next.z] != null)
+                            {
+                                go = chunks[next.x, next.z].gameObject;
+                                go.SetActive(true);
+                            }
+                            else
+                            {
+                                go = ObjectPoolManager.Instance.ReuseObject(emptyChunk, new Vector3(next.x * chunkXSize, 0, next.z * chunkZSize), Quaternion.identity, false);
+                            }
+
 
                             Chunk chunk = go.GetComponent<Chunk>();
 
@@ -241,13 +253,11 @@ namespace TerrainGeneration
                 // Loop through every chunk around player
                 for (int x = playerPos.x - chunkRange; x < playerPos.x + chunkRange; x++)
                 {
-
-
                     for (int z = playerPos.z - chunkRange; z < playerPos.z + chunkRange; z++)
                     {
                         ChunkCoord coord = new ChunkCoord { x = x, z = z };
 
-                        if (currentChunks.TryGetValue(coord, out Chunk c)) continue; // Chunk has already been loaded}
+                        if (currentChunks.TryGetValue(coord, out Chunk c)) continue; // Chunk has already been loaded
 
                         ChunkCoordNode node = new ChunkCoordNode() { coord = coord };
 
@@ -271,8 +281,9 @@ namespace TerrainGeneration
                         if (chunks[coord.x, coord.z] == null) return true;
                         //chunks[coord.x, coord.z].gameObject.component
                         //Destroy(p.Value.gameObject);
-                        ObjectPoolManager.Instance.DestroyObject(chunks[coord.x, coord.z].gameObject);
-                        chunks[coord.x, coord.z] = null;
+                        //ObjectPoolManager.Instance.DestroyObject(currentChunks[coord].gameObject);
+                        currentChunks[coord].gameObject.SetActive(false);
+                        //chunks[coord.x, coord.z] = null;
 
                         //chunks[coord.x, coord.z].chunkGO.SetActive(false)
                         return true;
@@ -292,13 +303,23 @@ namespace TerrainGeneration
         }
 
         /// <summary>
+        /// Retrieves a chunk coord based off of a position
+        /// </summary>
+        /// <param name="pos">The location to be converted</param>
+        /// <returns>A chunk coord based on the <see cref="chunkXSize"/> and <see cref="chunkZSize"/></returns>
+        public ChunkCoord GetChunkCoord(float x, float y, float z)
+        {
+            return new ChunkCoord { x = Mathf.FloorToInt(x / chunkXSize), z = Mathf.FloorToInt(z / chunkZSize) };
+        }
+
+        /// <summary>
         /// Retrieves a chunk coord based off of a <see cref="float3"/> position
         /// </summary>
         /// <param name="pos">The location to be converted</param>
         /// <returns>A chunk coord based on the <see cref="chunkXSize"/> and <see cref="chunkZSize"/></returns>
         public ChunkCoord GetChunkCoord(float3 pos)
         {
-            return new ChunkCoord { x = Mathf.FloorToInt(pos.x / chunkXSize), z = Mathf.FloorToInt(pos.z / chunkZSize) };
+            return GetChunkCoord(pos.x, pos.y, pos.z);
         }
 
         /// <summary>
@@ -323,21 +344,14 @@ namespace TerrainGeneration
             return val;
         }
 
-
-        /// <summary>
-        /// Retrieves the current voxel type byte value of a position
-        /// </summary>
-        /// <param name="pos">The position of the voxel</param>
-        /// <returns></returns>
-        public byte GetVoxelValue(int3 pos)
+        public Block GetVoxel(int3 pos)
         {
-
             int posX = pos.x;
             int posY = pos.y;
             int posZ = pos.z;
 
             if (posX < 0 || posX > worldSize.x * chunkXSize - 1 || posY < 0 || posY > chunkYSize - 1 || posZ < 0 || posZ > worldSize.y * chunkZSize - 1)
-                return 0;
+                return null;
 
             //return GenerateVoxelType(new int3(posX, posY, posZ));
 
@@ -349,13 +363,33 @@ namespace TerrainGeneration
             // Chunk is already loaded
             if (foundChunk != null && foundChunk.generated)
             {
-                return foundChunk.GetVoxelData(posX - (coord.x * chunkXSize), posY, posZ - (coord.z * chunkZSize)); // Return the byte value in the chunk to avoid extra noise call
+                // TODO: Convert relative chunk lookup to new method made GetRelativeChunkPosition(int, int, int)
+                return foundChunk.GetVoxel(posX - (coord.x * chunkXSize), posY, posZ - (coord.z * chunkZSize)); // Return the byte value in the chunk to avoid extra noise call
             }
 
-            // Chunk hasn't been generated yet, just generate the voxel
-            // NOTE: If possible avoid having to pull blocks from unloaded chunks
-            return GenerateVoxelType(pos.x, pos.y, pos.z);
+            // Chunk hasn't been generated yet, return null
+            return null;
+        }
 
+
+        /// <summary>
+        /// Retrieves the current voxel type byte value of a position
+        /// </summary>
+        /// <param name="pos">The position of the voxel</param>
+        /// <returns></returns>
+        public byte GetVoxelValue(int3 pos)
+        {
+            Block block = GetVoxel(pos);
+
+            // Check if no block was found
+            if (block == null)
+            {
+                // Chunk hasn't been generated yet, just generate the voxel
+                // NOTE: If possible avoid having to pull blocks from unloaded chunks
+                return GenerateVoxelType(pos.x, pos.y, pos.z);
+            }
+
+            return block.value;
         }
 
         /// <summary>
@@ -366,6 +400,18 @@ namespace TerrainGeneration
         public VoxelType GetVoxelType(int3 pos)
         {
             return voxelTypes[GetVoxelValue(pos)];
+        }
+
+        /// <summary>
+        /// Converts a world space position into a local chunk position
+        /// </summary>
+        /// <param name="x">A world space x coordinate</param>
+        /// <param name="y">A world space y coordinate</param>
+        /// <param name="z">A world space z coordinate</param>
+        /// <returns></returns>
+        public int3 GetRelativeChunkPosition(int x, int y, int z)
+        {
+            return new int3(x % chunkXSize, y, z % chunkZSize);
         }
     }
 

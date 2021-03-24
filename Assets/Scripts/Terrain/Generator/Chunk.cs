@@ -12,6 +12,7 @@ using Unity.Mathematics;
 using BuildingManagement;
 using BuildingModules;
 using Utilities;
+using TerrainTypes;
 
 namespace TerrainGeneration
 {
@@ -92,6 +93,17 @@ namespace TerrainGeneration
         }
 
         /// <summary>
+        /// Offsets a <see cref="ChunkCoord"/> from an existing position
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="z"></param>
+        /// <returns>A new <see cref="ChunkCoord"/> representing the transform</returns>
+        public ChunkCoord add(int x, int z)
+        {
+            return new ChunkCoord(this.x + x, this.z + z);
+        }
+
+        /// <summary>
         /// Converts from the chunk coordinate system to world space using the terrain chunk size.
         /// </summary>
         /// <returns>The world space location in the form of a <see cref="Vector3"/></returns>
@@ -109,7 +121,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Stores all of the voxel block data in the chunk
         /// </summary>
-        public byte[] voxelData;
+        public Block[] voxelData;
 
         /// <summary>
         /// The coordinate of the chunk
@@ -120,11 +132,6 @@ namespace TerrainGeneration
         /// The world space position of the chunk as a Vector3
         /// </summary>
         private int3 WorldPos => new int3(chunkCoord.x * chunkSizeX, 0, chunkCoord.z * chunkSizeZ);
-
-        /// <summary>
-        /// The current vertex index, used for forming quads in mesh generation
-        /// </summary>
-        private int vIndex;
 
         /// <summary>
         /// A list of the vertices in the mesh
@@ -169,8 +176,6 @@ namespace TerrainGeneration
         /// </summary>
         public bool generated;
 
-        private bool threadFinished;
-
         // Job Handlers
         ChunkBuilder.ChunkNoiseHandler noiseHandler;
         ChunkBuilder.ChunkMeshHandler meshHandler;
@@ -192,8 +197,7 @@ namespace TerrainGeneration
                 meshRenderer = GetComponent<MeshRenderer>();
             }
 
-            // Register chunk in TerrainGenerator
-            generator.chunks[chunkCoord.x, chunkCoord.z] = this;
+
 
             // Set chunkSizes, split into components to maximize speed
             chunkSizeX = generator.chunkXSize;
@@ -202,6 +206,8 @@ namespace TerrainGeneration
 
             // Begin initial regeneration
             Regenerate();
+
+
         }
 
         /// <summary>
@@ -229,7 +235,6 @@ namespace TerrainGeneration
             vertices.Clear();
             triangles.Clear();
             uvs.Clear();
-            vIndex = 0;
 
             chunkManager.OnChunkUnloaded(chunkCoord);
         }
@@ -239,14 +244,9 @@ namespace TerrainGeneration
             // Chunk is marked for regeneration, start the process
             if (dirty)
             {
+                Debug.Log("Regenerating...");
                 Regenerate();
                 dirty = false;
-            }
-
-            if (!generated && threadFinished)
-            {
-                //ConstructMesh();
-                generated = true;
             }
 
             if (generated)
@@ -276,7 +276,7 @@ namespace TerrainGeneration
         {
             ClearChunk();
 
-            voxelData = new byte[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
+
 
             // Start terrain generation 
             StartCoroutine(GenerateChunk());
@@ -291,17 +291,49 @@ namespace TerrainGeneration
             generated = false;
 
             noiseHandler = new ChunkBuilder.ChunkNoiseHandler(chunkSizeX, chunkSizeY, chunkSizeZ);
-            yield return noiseHandler.StartNoiseJob(voxelData);
+
+            byte[] byteData = new byte[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
+
+            Chunk chunk = generator.chunks[chunkCoord.x, chunkCoord.z];
+
+            if (chunk == null || chunk.voxelData == null)
+            {
+                // No voxel data has been generated, start the noise job
+                voxelData = new Block[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
+
+                yield return noiseHandler.StartNoiseJob(byteData);
+
+                for (int i = 0; i < byteData.Length; i++)
+                {
+                    voxelData[i] = new Block(byteData[i], generator.voxelTypes[byteData[i]]);
+                }
+
+            }
+            else
+            {
+
+                Debug.Log("Already found data!");
+                // Already has chunk data, just set the data instead
+                // TODO: Possibly find a better way of structuring the data?
+                for (int i = 0; i < generator.chunks[chunkCoord.x, chunkCoord.z].voxelData.Length; i++)
+                {
+                    if (voxelData[i] is MachineSlaveBlock)
+                        byteData[i] = 0;
+                    else
+                        byteData[i] = voxelData[i].value;
+                }
+            }
 
             meshHandler = new ChunkBuilder.ChunkMeshHandler(chunkSizeX, chunkSizeY, chunkSizeZ);
-            yield return meshHandler.StartMeshJob(voxelData);
+            yield return meshHandler.StartMeshJob(byteData);
+
+
 
             Mesh mesh = meshHandler.GetMeshData();
 
             vertices.Clear();
             triangles.Clear();
             uvs.Clear();
-            vIndex = 0;
 
             mesh.RecalculateBounds();
             // Recalculate normals of the mesh
@@ -312,6 +344,9 @@ namespace TerrainGeneration
             meshRenderer.material = TerrainGenerator.material;
 
             generated = true;
+
+            // Register chunk in TerrainGenerator
+            generator.chunks[chunkCoord.x, chunkCoord.z] = this;
         }
 
         /// <summary>
@@ -320,7 +355,7 @@ namespace TerrainGeneration
         /// </summary>
         /// <param name="pos">The position of the cube</param>
         /// <returns>Whether the block needs to be rendered or not</returns>
-        private bool CheckBlock(int3 pos)
+        bool CheckBlock(int3 pos)
         {
             if (!VoxelInsideChunk(pos))
             {
@@ -340,7 +375,17 @@ namespace TerrainGeneration
         /// <returns></returns>
         public bool VoxelInsideChunk(int3 pos)
         {
-            return !(pos.x < 0 || pos.x > chunkSizeX - 1 || pos.y < 0 || pos.y > chunkSizeY - 1 || pos.z < 0 || pos.z > chunkSizeZ - 1);
+            return VoxelInsideChunk(pos.x, pos.y, pos.z);
+        }
+
+        /// <summary>
+        /// Return whether a given voxel position is within the chunk
+        /// </summary>
+        /// <param name="pos">The position of the chunk</param>
+        /// <returns></returns>
+        public bool VoxelInsideChunk(int x, int y, int z)
+        {
+            return !(x < 0 || x > chunkSizeX - 1 || y < 0 || y > chunkSizeY - 1 || z < 0 || z > chunkSizeZ - 1);
         }
 
         /// <summary>
@@ -352,11 +397,24 @@ namespace TerrainGeneration
         /// <returns>A 1D index to be used for <see cref="voxelData"/> primarily</returns>
         private int GetVoxelDataIndex(int x, int y, int z)
         {
-            return chunkSizeX * chunkSizeY * z + chunkSizeZ * y + x;
+            return (z * chunkSizeX * chunkSizeY) + (y * chunkSizeX) + x;
         }
 
         /// <summary>
-        /// Retrieves the byte voxel value of a block INSIDE the chunk. For retrieval of voxels outside 
+        /// Retrieves the <see cref="Block"/> INSIDE the chunk. For retrieval of voxels outside 
+        /// use <see cref="TerrainGenerator.GetVoxelValue(int3)"/>.
+        /// </summary>
+        /// <param name="x">The local x coordinate of the voxel</param>
+        /// <param name="y">The local y coordinate of the voxel</param>
+        /// <param name="z">The local z coordinate of the voxel</param>
+        /// <returns>The corresponding material type for the voxel</returns>
+        public Block GetVoxel(int x, int y, int z)
+        {
+            return voxelData[GetVoxelDataIndex(x, y, z)];
+        }
+
+        /// <summary>
+        /// Retrieves the int voxel value of a block INSIDE the chunk. For retrieval of voxels outside 
         /// use <see cref="TerrainGenerator.GetVoxelValue(int3)"/>.
         /// </summary>
         /// <param name="x">The local x coordinate of the voxel</param>
@@ -365,7 +423,46 @@ namespace TerrainGeneration
         /// <returns>The corresponding material type for the voxel</returns>
         public byte GetVoxelData(int x, int y, int z)
         {
-            return voxelData[GetVoxelDataIndex(x, y, z)];
+            return voxelData[GetVoxelDataIndex(x, y, z)].value;
+        }
+
+        public void SetVoxelData(int x, int y, int z, Block newBlock)
+        {
+            voxelData[GetVoxelDataIndex(x, y, z)] = newBlock;
+        }
+
+        public void OnDrawGizmos()
+        {
+            //Drawing voxels
+            //Gizmos.color = Color.blue;
+
+            //if (generated)
+            //{
+            //    for (int x = 0; x < chunkSizeX; x++)
+            //    {
+            //        for (int y = 0; y < chunkSizeY; y++)
+            //        {
+            //            for (int z = 0; z < chunkSizeZ; z++)
+            //            {
+
+            //                Gizmos.color = Color.green;
+
+            //                Block b = voxelData[GetVoxelDataIndex(x, y, z)];
+
+            //                if (b is MachineSlaveBlock) Gizmos.color = Color.red;
+
+            //                if (generator.voxelTypes[b.value].isSolid)
+            //                {
+            //                    Gizmos.DrawWireCube(new Vector3(x + 0.5f + chunkCoord.x * chunkSizeX, y + 0.5f, chunkCoord.z * chunkSizeZ + z + 0.5f), Vector3.one);
+            //                }
+
+
+            //            }
+            //        }
+            //    }
+            //}
+
+
         }
     }
 }

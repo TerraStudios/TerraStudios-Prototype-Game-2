@@ -4,6 +4,7 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace DebugTools
@@ -39,6 +40,16 @@ namespace DebugTools
 
             DrawBox(bottomBox, color);
             DrawBox(topBox, color);
+        }
+
+        public static void DrawVoxel(int3 location, Color color)
+        {
+            DrawBox(new Vector3(location.x, location.y, location.z) + Vector3.one / 2f, Vector3.one / 2f, Quaternion.identity, color);
+        }
+
+        public static void DrawVoxel(Vector3 location, Color color)
+        {
+            DrawBox(location, Vector3.one / 2f, Quaternion.identity, color);
         }
 
         public static void DrawBox(Vector3 origin, Vector3 halfExtents, Quaternion orientation, Color color)

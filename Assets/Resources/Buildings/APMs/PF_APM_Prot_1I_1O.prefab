@@ -77,7 +77,11 @@ MonoBehaviour:
     isFixRunning: 0
     wattsPerHourIdle: 20
     wattsPerHourWork: 500
+  meshData:
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
   mc: {fileID: 6548164221349463959}
+  correspondingMeshPrefab: {fileID: 0}
   correspondingMesh: {fileID: 0}
   isSetUp: 0
   prefab: {fileID: 2941611580773582538}
@@ -101,12 +105,10 @@ MonoBehaviour:
   inputs:
   - localPosition: {x: 1, y: 0}
     direction: 2
-    type: 0
     isTrashcanOutput: 0
   outputs:
   - localPosition: {x: 0, y: 1}
     direction: 3
-    type: 0
     isTrashcanOutput: 0
   isConveyor: 0
 --- !u!114 &481111163924646872

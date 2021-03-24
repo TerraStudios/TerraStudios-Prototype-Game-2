@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TerrainGeneration;
 using TimeSystem;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Utilities;
@@ -131,12 +132,17 @@ namespace BuildingManagement
                 if (save.rotation == null) Debug.Log("Save rotation was null");
 
                 GameObject meshPrefab = save.GetMeshObj().gameObject;
+
+
+
+
                 Transform meshGO = ObjectPoolManager.Instance.ReuseObject(meshPrefab, save.position, save.rotation).transform;
 
                 //buildingGO.parent = buildingScriptParent.transform;
                 //meshGO.parent = buildingMeshParent.transform;
 
                 ChunkCoord chunkCoord = save.chunkCoord;
+
                 building.bBase = save.building;
                 building.meshData = save.meshData;
                 SetUpBuilding(building, meshGO, meshPrefab.transform, chunkCoord, false);
