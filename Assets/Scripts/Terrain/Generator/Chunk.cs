@@ -323,7 +323,7 @@ namespace TerrainGeneration
             {
                 Voxel[] newVoxelData = chunk.voxelData;
 
-                Debug.Log("Already found data!");
+                //Debug.Log("Already found data!");
                 // Already has chunk data, just set the data instead
                 // TODO: Possibly find a better way of structuring the data?
                 for (int i = 0; i < newVoxelData.Length; i++)

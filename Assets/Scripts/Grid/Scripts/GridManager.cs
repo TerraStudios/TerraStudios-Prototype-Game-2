@@ -216,7 +216,11 @@ namespace BuildingManagement
                 );
 
             visualization.Key.correspondingMesh = visualization.Value;
-            Destroy(visualization.Key.transform.GetChild(0).gameObject);
+
+            if (visualization.Key.transform.childCount != 0)
+                Destroy(visualization.Key.transform.GetChild(0).gameObject);
+            else
+                Debug.LogWarning("Building script GO doesn't have a mesh!");
 
             visualization.Key.SetIndicator(BuildingManager.Instance.directionIndicator);
             tempMat = currentBuilding.Value.GetComponent<MeshRenderer>().sharedMaterial;
@@ -395,7 +399,7 @@ namespace BuildingManagement
         public Vector3 GetGridPosition(Vector3 pos, Vector3Int gridSize = default) // when argument is supplied - use it instead of GetBuildSize
         {
             Vector3Int buildSize;
-            if (!Equals(gridSize, default(Vector2Int)))
+            if (!Equals(gridSize, default(Vector3Int)))
                 buildSize = gridSize;
             else
                 buildSize = GetBuildSize(currentBuilding.Value);

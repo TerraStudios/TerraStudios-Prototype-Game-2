@@ -166,7 +166,7 @@ namespace BuildingModules
             //IOForEach(io => io.OnVisualizationMoved());
         }
 
-        private int3 getIOPosition(BuildingIO io)
+        private int3 GetIOPosition(BuildingIO io)
         {
             Vector3 prefabPosition = mc.building.meshData.pos;
             Vector3 direction = io.direction.GetDirection() * -1;
@@ -181,7 +181,7 @@ namespace BuildingModules
         private void AttemptLink(BuildingIO io, bool input = true)
         {
             // Retrieves the OPPOSITE voxel (normal vector with a magnitude of 1 voxel)
-            int3 linkVoxelPos = getIOPosition(io);
+            int3 linkVoxelPos = GetIOPosition(io);
             Voxel targetvoxel = TerrainGenerator.instance.GetVoxel(linkVoxelPos);
 
             if (targetvoxel is MachineSlaveVoxel voxel)
