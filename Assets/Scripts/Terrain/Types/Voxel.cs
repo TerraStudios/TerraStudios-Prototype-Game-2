@@ -5,21 +5,16 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TerrainGeneration;
 
-namespace TerrainTypes
+namespace TerrainGeneration
 {
     [Serializable]
-    public class Block
+    public class Voxel
     {
         public readonly byte value;
         public readonly VoxelType type;
 
-        public Block(byte value, VoxelType type)
+        public Voxel(byte value, VoxelType type)
         {
             this.value = value;
             this.type = type;

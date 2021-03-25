@@ -323,7 +323,7 @@ namespace TerrainGeneration
         }
 
         /// <summary>
-        /// Uses noise functions to generate the block type for a voxel
+        /// Uses noise functions to generate the Voxel type for a voxel
         /// 
         /// This is used primarily for the <see cref="Chunk"/> generation C# jobs.
         /// </summary>
@@ -344,7 +344,12 @@ namespace TerrainGeneration
             return val;
         }
 
-        public Block GetVoxel(int3 pos)
+        /// <summary>
+        /// Retrieves the <see cref="Voxel"/> at a given world space location.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns>A <see cref="Voxel"/> at a given point. If the voxel is out of the world bounds, the method will return null.</returns>
+        public Voxel GetVoxel(int3 pos)
         {
             int posX = pos.x;
             int posY = pos.y;
@@ -379,17 +384,17 @@ namespace TerrainGeneration
         /// <returns></returns>
         public byte GetVoxelValue(int3 pos)
         {
-            Block block = GetVoxel(pos);
+            Voxel voxel = GetVoxel(pos);
 
-            // Check if no block was found
-            if (block == null)
+            // Check if no Voxel was found
+            if (voxel == null)
             {
                 // Chunk hasn't been generated yet, just generate the voxel
-                // NOTE: If possible avoid having to pull blocks from unloaded chunks
+                // NOTE: If possible avoid having to pull Voxels from unloaded chunks
                 return GenerateVoxelType(pos.x, pos.y, pos.z);
             }
 
-            return block.value;
+            return voxel.value;
         }
 
         /// <summary>
@@ -416,15 +421,15 @@ namespace TerrainGeneration
     }
 
     /// <summary>
-    /// Represents a block's ID and transparency, as well as texturing
+    /// Represents a Voxel's ID and transparency, as well as texturing
     /// </summary>
     [System.Serializable]
     public struct VoxelType
     {
-        //[Header("Block Properties")]
-        //[Tooltip("The name of the block")]
+        //[Header("Voxel Properties")]
+        //[Tooltip("The name of the Voxel")]
         //public string id;
-        [Tooltip("Determines whether the block is air or not")]
+        [Tooltip("Determines whether the Voxel is air or not")]
         public bool isSolid;
     }
 }

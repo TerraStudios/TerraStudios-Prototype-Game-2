@@ -180,13 +180,13 @@ namespace BuildingModules
 
         private void AttemptLink(BuildingIO io, bool input = true)
         {
-            // Retrieves the OPPOSITE voxel (normal vector with a magnitude of 1 block)
+            // Retrieves the OPPOSITE voxel (normal vector with a magnitude of 1 voxel)
             int3 linkVoxelPos = getIOPosition(io);
-            Block targetBlock = TerrainGenerator.instance.GetVoxel(linkVoxelPos);
+            Voxel targetvoxel = TerrainGenerator.instance.GetVoxel(linkVoxelPos);
 
-            if (targetBlock is MachineSlaveBlock block)
+            if (targetvoxel is MachineSlaveVoxel voxel)
             {
-                BuildingIOManager targetBuilding = block.controller.mc.buildingIOManager;
+                BuildingIOManager targetBuilding = voxel.controller.mc.buildingIOManager;
 
                 // Loop through opposite of io's type
                 foreach (BuildingIO targetIO in input ? targetBuilding.outputs : targetBuilding.inputs)
@@ -221,8 +221,22 @@ namespace BuildingModules
             }
         }
 
+        /// <summary>
+        /// Signals every <see cref="BuildingIO"/> in the building to attempt to unlink with any other attached <see cref="BuildingIO"/>s.
+        /// 
+        /// If the <see cref="BuildingIO"/> has no link, no operation will be executed.
+        /// </summary>
         public void UnlinkAll()
         {
+            IOForEach(io =>
+            {
+                if (io.linkedIO != null)
+                {
+                    io.linkedIO.linkedIO = null;
+                    io.linkedIO = null;
+                }
+
+            });
             // TODO: Update with new code here
             //IOForEach(io => io.Unlink());
         }
@@ -422,13 +436,6 @@ namespace BuildingModules
         /// </summary>
         private void OnDrawGizmos()
         {
-
-            if (Application.isPlaying)
-            {
-
-            }
-
-
             // Only draw if not in game
             if (Application.isPlaying)
             {

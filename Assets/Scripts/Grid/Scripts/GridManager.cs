@@ -277,7 +277,7 @@ namespace BuildingManagement
 
                 // TODO: Move this to an enum
                 VoxelType type = new VoxelType { isSolid = true };
-                MachineSlaveBlock slaveBlock = new MachineSlaveBlock(type, visualization.Key);
+                MachineSlaveVoxel slaveBlock = new MachineSlaveVoxel(type, visualization.Key);
                 //int3 localVoxelPos = generator.GetRelativeChunkPosition(voxelPos.x, voxelPos.y, voxelPos.z);
 
                 //placedChunk.SetVoxelData(localVoxelPos.x, localVoxelPos.y, localVoxelPos.z, slaveBlock);

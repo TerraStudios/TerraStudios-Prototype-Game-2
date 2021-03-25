@@ -121,7 +121,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Stores all of the voxel block data in the chunk
         /// </summary>
-        public Block[] voxelData;
+        public Voxel[] voxelData;
 
         /// <summary>
         /// The coordinate of the chunk
@@ -185,6 +185,7 @@ namespace TerrainGeneration
         /// </summary>
         public TerrainGenerator generator = TerrainGenerator.instance;
 
+        // Used for determining whether a chunk needs to be regenerated or not. If the chunk is marked as dirty, the method GenerateChunk will be called the next frame.
         public bool dirty = false;
 
         public void OnEnable()
@@ -272,6 +273,9 @@ namespace TerrainGeneration
             }
         }
 
+        /// <summary>
+        /// Regenerates the mesh, first clearing the values and then starting the <see cref="Coroutine"/> <see cref="GenerateChunk"/>.
+        /// </summary>
         public void Regenerate()
         {
             ClearChunk();
@@ -286,6 +290,11 @@ namespace TerrainGeneration
             //new Task(() => PrepareMesh()).Start();
         }
 
+        /// <summary>
+        /// Attempts to generate the mesh of the chunk.
+        /// 
+        /// If the noise data has been cached in the <see cref="TerrainGenerator.chunks"/> array, the <see cref="ChunkBuilder.ChunkNoiseJob"/> will be skipped.
+        /// </summary>
         private IEnumerator GenerateChunk()
         {
             generated = false;
@@ -299,13 +308,13 @@ namespace TerrainGeneration
             if (chunk == null || chunk.voxelData == null)
             {
                 // No voxel data has been generated, start the noise job
-                voxelData = new Block[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
+                voxelData = new Voxel[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
 
                 yield return noiseHandler.StartNoiseJob(byteData);
 
                 for (int i = 0; i < byteData.Length; i++)
                 {
-                    voxelData[i] = new Block(byteData[i], generator.voxelTypes[byteData[i]]);
+                    voxelData[i] = new Voxel(byteData[i], generator.voxelTypes[byteData[i]]);
                 }
 
             }
@@ -317,7 +326,7 @@ namespace TerrainGeneration
                 // TODO: Possibly find a better way of structuring the data?
                 for (int i = 0; i < generator.chunks[chunkCoord.x, chunkCoord.z].voxelData.Length; i++)
                 {
-                    if (voxelData[i] is MachineSlaveBlock)
+                    if (voxelData[i] is MachineSlaveVoxel)
                         byteData[i] = 0;
                     else
                         byteData[i] = voxelData[i].value;
@@ -408,7 +417,7 @@ namespace TerrainGeneration
         /// <param name="y">The local y coordinate of the voxel</param>
         /// <param name="z">The local z coordinate of the voxel</param>
         /// <returns>The corresponding material type for the voxel</returns>
-        public Block GetVoxel(int x, int y, int z)
+        public Voxel GetVoxel(int x, int y, int z)
         {
             return voxelData[GetVoxelDataIndex(x, y, z)];
         }
@@ -426,13 +435,21 @@ namespace TerrainGeneration
             return voxelData[GetVoxelDataIndex(x, y, z)].value;
         }
 
-        public void SetVoxelData(int x, int y, int z, Block newBlock)
+        /// <summary>
+        /// Sets the <see cref="Voxel"/> at a given local space coordinate.
+        /// </summary>
+        /// <param name="x">The local x coordinate of the voxel</param>
+        /// <param name="y">The local y coordinate of the voxel</param>
+        /// <param name="z">The local z coordinate of the voxel</param>
+        /// <param name="newVoxel"></param>
+        public void SetVoxelData(int x, int y, int z, Voxel newVoxel)
         {
-            voxelData[GetVoxelDataIndex(x, y, z)] = newBlock;
+            voxelData[GetVoxelDataIndex(x, y, z)] = newVoxel;
         }
 
         public void OnDrawGizmos()
         {
+            //TODO: Move to a debug button?
             //Drawing voxels
             //Gizmos.color = Color.blue;
 

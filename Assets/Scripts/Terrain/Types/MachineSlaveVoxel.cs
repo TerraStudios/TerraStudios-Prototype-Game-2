@@ -14,11 +14,11 @@ using TerrainGeneration;
 
 namespace TerrainTypes
 {
-    class MachineSlaveBlock : Block
+    class MachineSlaveVoxel : Voxel
     {
         public readonly Building controller;
 
-        public MachineSlaveBlock(VoxelType solid, Building controller) : base(1, solid)
+        public MachineSlaveVoxel(VoxelType solid, Building controller) : base(1, solid)
         {
             this.controller = controller;
         }
