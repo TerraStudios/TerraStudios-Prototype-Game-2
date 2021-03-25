@@ -13,6 +13,7 @@ using BuildingManagement;
 using BuildingModules;
 using Utilities;
 using TerrainTypes;
+using System.Linq;
 
 namespace TerrainGeneration
 {
@@ -305,7 +306,7 @@ namespace TerrainGeneration
 
             Chunk chunk = generator.chunks[chunkCoord.x, chunkCoord.z];
 
-            if (chunk == null || chunk.voxelData == null)
+            if (chunk == null || chunk.voxelData == null || byteData == null || chunk.voxelData[0] == null)
             {
                 // No voxel data has been generated, start the noise job
                 voxelData = new Voxel[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
@@ -320,16 +321,21 @@ namespace TerrainGeneration
             }
             else
             {
+                Voxel[] newVoxelData = chunk.voxelData;
 
                 Debug.Log("Already found data!");
                 // Already has chunk data, just set the data instead
                 // TODO: Possibly find a better way of structuring the data?
-                for (int i = 0; i < generator.chunks[chunkCoord.x, chunkCoord.z].voxelData.Length; i++)
+                for (int i = 0; i < newVoxelData.Length; i++)
                 {
                     if (voxelData[i] is MachineSlaveVoxel)
+                    {
                         byteData[i] = 0;
+                    }
                     else
-                        byteData[i] = voxelData[i].value;
+                    {
+                        byteData[i] = newVoxelData[i].value;
+                    }
                 }
             }
 
