@@ -9,6 +9,7 @@ using SaveSystem;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using UnityEngine;
 
 namespace TimeSystem
@@ -24,7 +25,6 @@ namespace TimeSystem
     [Serializable]
     public class TimeCountEvent
     {
-        public Guid hash;
         public bool isPaused;
         public TimeSpan timePassed;
     }
@@ -87,49 +87,44 @@ namespace TimeSystem
 
         public TimeCountEvent StartTimeCounter()
         {
-            TimeCountEvent waitEvent = new TimeCountEvent()
-            {
-                hash = Guid.NewGuid(),
-            };
+            TimeCountEvent waitEvent = new TimeCountEvent();
             timeCounters.Add(waitEvent);
 
             return waitEvent;
         }
 
-        public TimeSpan ContinueTimeCounter(Guid hash)
+        public TimeSpan ContinueTimeCounter(int id)
         {
-            TimeCountEvent ev = GetTCEFromGUID(hash);
+            TimeCountEvent ev = GetTCEFromGUID(id);
             ev.isPaused = false;
             return ev.timePassed;
         }
 
-        public TimeSpan GetTCETimeSpan(Guid hash)
+        public TimeSpan GetTCETimeSpan(int id)
         {
-            TimeCountEvent ev = GetTCEFromGUID(hash);
+            TimeCountEvent ev = GetTCEFromGUID(id);
             return ev.timePassed;
         }
 
-        public TimeSpan PauseTimeCounter(Guid hash)
+        public TimeSpan PauseTimeCounter(int id)
         {
-            TimeCountEvent ev = GetTCEFromGUID(hash);
+            TimeCountEvent ev = GetTCEFromGUID(id);
             ev.isPaused = true;
             return ev.timePassed;
         }
 
-        public TimeSpan StopTimeCounter(Guid hash)
+        public TimeSpan StopTimeCounter(int id)
         {
-            TimeCountEvent ev = GetTCEFromGUID(hash);
+            TimeCountEvent ev = GetTCEFromGUID(id);
             timeCounters.Remove(ev);
             return ev.timePassed;
         }
 
-        private TimeCountEvent GetTCEFromGUID(Guid hash)
+        private TimeCountEvent GetTCEFromGUID(int id)
         {
-            foreach (TimeCountEvent ev in timeCounters)
-            {
-                if (ev.hash == hash)
-                    return ev;
-            }
+            if (!timeCounters.ElementAtOrDefault(id).Equals(null))
+                return timeCounters[id];
+
             return null;
         }
 

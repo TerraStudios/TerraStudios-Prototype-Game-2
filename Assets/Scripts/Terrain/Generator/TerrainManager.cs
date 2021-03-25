@@ -11,6 +11,7 @@ public class TerrainManager : MonoBehaviour
     public LayerMask voxelLayer;
 
     [Header("Chunk Range Customization")]
+    public bool enableChunkRangeOverride = true;
     public float minYVoxelDistance;
     public float maxYVoxelDistance;
 
@@ -24,19 +25,22 @@ public class TerrainManager : MonoBehaviour
 
     private void Update()
     {
-        float distance = GetCameraTerrainDistance();
+        if (enableChunkRangeOverride)
+        {
+            float distance = GetCameraTerrainDistance();
 
-        if (distance == 0) // Make sure to ignore the middle section where we're neither above or below the terrain (inside of it).
-            return;
+            if (distance == 0) // Make sure to ignore the middle section where we're neither above or below the terrain (inside of it).
+                return;
 
-        currentYVoxelDistance = Mathf.Clamp(distance, minYVoxelDistance, maxYVoxelDistance);
-        currentChunkRange = Mathf.Lerp(minChunkRange, maxChunkRange, currentYVoxelDistance / maxYVoxelDistance);
-        appliedChunkRange = Mathf.FloorToInt(currentChunkRange);
-        int previousRange = terrainGen.chunkRange;
-        terrainGen.chunkRange = appliedChunkRange;
+            currentYVoxelDistance = Mathf.Clamp(distance, minYVoxelDistance, maxYVoxelDistance);
+            currentChunkRange = Mathf.Lerp(minChunkRange, maxChunkRange, currentYVoxelDistance / maxYVoxelDistance);
+            appliedChunkRange = Mathf.FloorToInt(currentChunkRange);
+            int previousRange = terrainGen.chunkRange;
+            terrainGen.chunkRange = appliedChunkRange;
 
-        if (previousRange != terrainGen.chunkRange) // Only force reload when the value is actually changed.
-            terrainGen.forceChunkCheck = true;
+            if (previousRange != terrainGen.chunkRange) // Only force reload when the value is actually changed.
+                terrainGen.forceChunkCheck = true;
+        }
     }
 
     /// <summary>
