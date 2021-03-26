@@ -437,8 +437,8 @@ namespace BuildingModules
         private void OnDrawGizmos()
         {
             // Only draw if not in game
-            if (Application.isPlaying)
-            {
+            //if (Application.isPlaying)
+            //{
                 // If using the wire grid code uncomment
                 //if (buildingSize == Vector3.zero)
                 //{
@@ -489,7 +489,7 @@ namespace BuildingModules
 
                 // Reset color
                 Gizmos.color = Color.white;
-            }
+            //}
         }
 
         /// <summary>
