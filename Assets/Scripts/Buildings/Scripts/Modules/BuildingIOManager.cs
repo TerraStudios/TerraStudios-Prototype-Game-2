@@ -4,6 +4,7 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
+using BuildingManagement;
 using DebugTools;
 using ItemManagement;
 using System;
@@ -431,6 +432,8 @@ namespace BuildingModules
         // If using the wire grid code uncomment
         //private Vector3Int buildingSize = Vector3Int.zero;
 
+        private Vector3 buildingOffset = Vector3.zero;
+
         /// <summary>
         /// Renders IOs for visualization when setting up
         /// </summary>
@@ -439,56 +442,75 @@ namespace BuildingModules
             // Only draw if not in game
             //if (Application.isPlaying)
             //{
-                // If using the wire grid code uncomment
-                //if (buildingSize == Vector3.zero)
-                //{
-                //    Vector3 e = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
-                //    buildingSize = new Vector3Int(Mathf.RoundToInt(e.x), Mathf.RoundToInt(e.y), Mathf.RoundToInt(e.z));
-                //}
+            // If using the wire grid code uncomment
+            //if (buildingSize == Vector3.zero)
+            //{
+            //    Vector3 e = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
+            //    buildingSize = new Vector3Int(Mathf.RoundToInt(e.x), Mathf.RoundToInt(e.y), Mathf.RoundToInt(e.z));
+            //}
 
-                Gizmos.color = Color.red;
+            if (buildingOffset == Vector3.zero)
+            {
+                buildingOffset = new Vector3();
 
-                // Code for drawing a wire grid of the building size
-                //for (int x = 0; x < buildingSize.x; x++)
-                //{
-                //    for (int y = 0; y < buildingSize.y; y++)
-                //    {
-                //        for (int z = 0; z < buildingSize.z; z++)
-                //        {
-                //            Gizmos.DrawWireCube(new Vector3(0.5f - x, 0.5f - y, 0.5f - z), new Vector3(1f, 1f, 1f));
-                //        }
-                //    }
-                //}
+                Vector3 e = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
+                Vector3Int size = new Vector3Int(Mathf.CeilToInt(Mathf.Round(e.x * 10f) / 10f), Mathf.CeilToInt(Mathf.Round(e.y * 10f) / 10f), Mathf.CeilToInt(Mathf.Round(e.z * 10f) / 10f));
+
+                buildingOffset.x = size.x % 2 != 0 ? -0.5f : 0;
+                buildingOffset.z = size.z % 2 != 0 ? -0.5f : 0;
+            }
+
+            Gizmos.color = Color.red;
+
+            // Code for drawing a wire grid of the building size
+            //for (int x = 0; x < buildingSize.x; x++)
+            //{
+            //    for (int y = 0; y < buildingSize.y; y++)
+            //    {
+            //        for (int z = 0; z < buildingSize.z; z++)
+            //        {
+            //            Gizmos.DrawWireCube(new Vector3(0.5f - x, 0.5f - y, 0.5f - z), new Vector3(1f, 1f, 1f));
+            //        }
+            //    }
+            //}
 
 
 
-                // Draw inputs
-                Gizmos.color = new Color(0, 0.47f, 1);
-                foreach (BuildingIO input in inputs)
-                {
-                    Vector3 cubePosition = new Vector3(0.5f - input.localPosition.x, 0.5f, 0.5f - input.localPosition.y);
+            // Draw inputs
+            Gizmos.color = new Color(0, 0.47f, 1);
+            foreach (BuildingIO input in inputs)
+            {
+                Vector3 cubePosition = new Vector3(0.5f - input.localPosition.x, 0.5f, 0.5f - input.localPosition.y);
 
-                    if (Application.isPlaying) cubePosition += mc.building.meshData.pos;
+                // Add building offset
+                cubePosition += buildingOffset;
 
-                    Vector3 direction = input.direction.GetDirection(); // Because the input arrow needs to be facing inwards, the arrow needs to go the opposite direction.
+                if (Application.isPlaying) cubePosition += mc.building.meshData.pos;
 
-                    DrawBuildingArrow(cubePosition, direction, true);
-                }
+                Vector3 direction = input.direction.GetDirection(); // Because the input arrow needs to be facing inwards, the arrow needs to go the opposite direction.
 
-                // Draw outputs
-                Gizmos.color = new Color(1, 0.64f, 0);
-                foreach (BuildingIO output in outputs)
-                {
-                    Vector3 cubePosition = new Vector3(0.5f - output.localPosition.x, 0.5f, 0.5f - output.localPosition.y);
-                    Vector3 direction = output.direction.GetDirection();
+                DrawBuildingArrow(cubePosition, direction, true);
+            }
 
-                    if (Application.isPlaying) cubePosition += mc.building.meshData.pos;
+            // Draw outputs
+            Gizmos.color = new Color(1, 0.64f, 0);
+            foreach (BuildingIO output in outputs)
+            {
+                Vector3 cubePosition = new Vector3(0.5f - output.localPosition.x, 0.5f, 0.5f - output.localPosition.y);
 
-                    DrawBuildingArrow(cubePosition, direction);
-                }
+                Debug.Log("Building offset: " + buildingOffset);
 
-                // Reset color
-                Gizmos.color = Color.white;
+                cubePosition += buildingOffset;
+
+                Vector3 direction = output.direction.GetDirection();
+
+                if (Application.isPlaying) cubePosition += mc.building.meshData.pos;
+
+                DrawBuildingArrow(cubePosition, direction);
+            }
+
+            // Reset color
+            Gizmos.color = Color.white;
             //}
         }
 
