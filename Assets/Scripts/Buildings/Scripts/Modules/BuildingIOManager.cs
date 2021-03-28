@@ -453,8 +453,24 @@ namespace BuildingModules
             {
                 buildingOffset = new Vector3();
 
-                Vector3 e = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
-                Vector3Int size = new Vector3Int(Mathf.CeilToInt(Mathf.Round(e.x * 10f) / 10f), Mathf.CeilToInt(Mathf.Round(e.y * 10f) / 10f), Mathf.CeilToInt(Mathf.Round(e.z * 10f) / 10f));
+                Vector3 buildingSize;
+
+                if (!Application.isPlaying)
+                {
+                    buildingSize = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
+                }
+                else
+                {
+                    buildingSize = mc.building.correspondingMesh.GetComponent<MeshRenderer>().bounds.size;
+                }
+
+
+                Vector3Int size = new Vector3Int(
+                    Mathf.CeilToInt(Mathf.Round(buildingSize.x * 10f) / 10f),
+                    Mathf.CeilToInt(Mathf.Round(buildingSize.y * 10f) / 10f),
+                    Mathf.CeilToInt(Mathf.Round(buildingSize.z * 10f) / 10f));
+
+                Debug.Log("Size was " + size);
 
                 buildingOffset.x = size.x % 2 != 0 ? -0.5f : 0;
                 buildingOffset.z = size.z % 2 != 0 ? -0.5f : 0;
@@ -484,6 +500,7 @@ namespace BuildingModules
 
                 // Add building offset
                 cubePosition += buildingOffset;
+
 
                 if (Application.isPlaying) cubePosition += mc.building.meshData.pos;
 
