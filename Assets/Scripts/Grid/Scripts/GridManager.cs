@@ -264,12 +264,6 @@ namespace BuildingManagement
 
                 visualization.Value.GetComponent<MeshRenderer>().material = tempMat;
 
-                visualization.Key.meshData = new MeshData()
-                {
-                    pos = visualization.Value.position,
-                    rot = visualization.Value.rotation
-                };
-
                 TerrainGenerator generator = TerrainGenerator.instance;
 
                 // Set position in the chunk it was placed in
@@ -305,6 +299,13 @@ namespace BuildingManagement
                         }
                     }
                 }
+
+                visualization.Key.meshData = new MeshData()
+                {
+                    pos = visualization.Value.position,
+                    rot = visualization.Value.rotation,
+                    size = buildingSize
+                };
 
                 buildingManager.SetUpBuilding(visualization.Key, visualization.Value, currentBuilding.Value, chunkCoord);
 

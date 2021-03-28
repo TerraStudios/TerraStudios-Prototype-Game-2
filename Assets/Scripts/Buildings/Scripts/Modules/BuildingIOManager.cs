@@ -167,6 +167,11 @@ namespace BuildingModules
             //IOForEach(io => io.OnVisualizationMoved());
         }
 
+        /// <summary>
+        /// Retrives the position of the IO to connect to.
+        /// </summary>
+        /// <param name="io"></param>
+        /// <returns>The IO that should be connect.</returns>
         private int3 GetIOPosition(BuildingIO io)
         {
             Vector3 prefabPosition = mc.building.meshData.pos;
@@ -179,6 +184,11 @@ namespace BuildingModules
 
         }
 
+        /// <summary>
+        /// Attempts to make a "link" between two BuildingIOs
+        /// </summary>
+        /// <param name="io">The input to attempt to connect to (current building).</param>
+        /// <param name="input">Whether the IO is input or output true = input, false = output.</param>
         private void AttemptLink(BuildingIO io, bool input = true)
         {
             // Retrieves the OPPOSITE voxel (normal vector with a magnitude of 1 voxel)
