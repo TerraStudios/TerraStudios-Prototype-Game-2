@@ -81,6 +81,7 @@ MonoBehaviour:
   meshData:
     pos: {x: 0, y: 0, z: 0}
     rot: {x: 0, y: 0, z: 0, w: 0}
+    size: {x: 0, y: 0, z: 0}
   mc: {fileID: 3838661984072794563}
   correspondingMeshPrefab: {fileID: 0}
   correspondingMesh: {fileID: 0}
@@ -104,11 +105,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mc: {fileID: 3838661984072794563}
   inputs:
-  - localPosition: {x: 0, y: 0}
+  - localPosition: {x: 0, y: 1}
     direction: 3
     isTrashcanOutput: 0
   outputs:
-  - localPosition: {x: 0, y: 0}
+  - localPosition: {x: 0, y: -0.5}
     direction: 2
     isTrashcanOutput: 0
   isConveyor: 1
