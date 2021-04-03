@@ -159,6 +159,14 @@ namespace BuildingModules
             });*/
         }
 
+        private void Update()
+        {
+            IOForEach(io =>
+            {
+                ExtDebug.DrawVoxel(GetTargetIOPosition(io), Color.green);
+            });
+        }
+
         /// <summary>
         /// Updates all of the Physics related information for a visualization (<see cref="Physics.OverlapBox"/> being one of them)
         /// </summary>
@@ -167,23 +175,29 @@ namespace BuildingModules
             //IOForEach(io => io.OnVisualizationMoved());
         }
 
-        private int3 GetIOPosition(BuildingIO io)
+        private Vector3 GetIOPosition(BuildingIO io)
         {
             Vector3 prefabPosition = mc.building.meshData.pos;
-            Vector3 direction = io.direction.GetDirection() * -1;
+
 
             // Prefab position - position of IO relative to prefab - value retrieved from face of IO (see 'direction' variable above)
             //TODO: Move localPosition to Vector2Int to avoid casting
-            return prefabPosition.FloorToInt3() - new int3((int)io.localPosition.x, 0, (int)io.localPosition.y) - direction.FloorToInt3();
 
+            return prefabPosition - new Vector3(io.localPosition.x, 0, io.localPosition.y) + new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset;
+        }
 
+        private Vector3 GetTargetIOPosition(BuildingIO io)
+        {
+            Vector3 direction = io.direction.GetDirection() * -1;
+
+            return GetIOPosition(io) - direction;
         }
 
         private void AttemptLink(BuildingIO io, bool input = true)
         {
             // Retrieves the OPPOSITE voxel (normal vector with a magnitude of 1 voxel)
-            int3 linkVoxelPos = GetIOPosition(io);
-            Voxel targetvoxel = TerrainGenerator.instance.GetVoxel(linkVoxelPos);
+            Vector3 linkVoxelPos = GetTargetIOPosition(io);
+            Voxel targetvoxel = TerrainGenerator.instance.GetVoxel(linkVoxelPos.FloorToInt3());
 
             if (targetvoxel is MachineSlaveVoxel voxel)
             {
@@ -193,13 +207,12 @@ namespace BuildingModules
                 foreach (BuildingIO targetIO in input ? targetBuilding.outputs : targetBuilding.inputs)
                 {
                     // Get the position of the voxel perpendicular to the target IO, and check if it equals the desired linkVoxelPos
-                    if ((targetBuilding.mc.building.meshData.pos.FloorToInt3() - new int3((int)targetIO.localPosition.x, 0, (int)targetIO.localPosition.y)).Equals(linkVoxelPos))
+                    if (targetBuilding.GetIOPosition(targetIO) == linkVoxelPos)
                     {
+
                         // Found successful link, set linkedIO for both
                         targetIO.linkedIO = io;
                         io.linkedIO = targetIO;
-
-                        Debug.Log("Successfully linked");
                     }
                 }
             }
@@ -439,6 +452,12 @@ namespace BuildingModules
         /// </summary>
         private void OnDrawGizmos()
         {
+            IOForEach(io =>
+            {
+                Gizmos.color = Color.red;
+                Vector3 ioPos = GetTargetIOPosition(io);
+                Gizmos.DrawWireCube(ioPos, new Vector3(1f, 1f, 1f));
+            });
             // Only draw if not in game
             //if (Application.isPlaying)
             //{
@@ -469,8 +488,6 @@ namespace BuildingModules
                     Mathf.CeilToInt(Mathf.Round(buildingSize.x * 10f) / 10f),
                     Mathf.CeilToInt(Mathf.Round(buildingSize.y * 10f) / 10f),
                     Mathf.CeilToInt(Mathf.Round(buildingSize.z * 10f) / 10f));
-
-                Debug.Log("Size was " + size);
 
                 buildingOffset.x = size.x % 2 != 0 ? -0.5f : 0;
                 buildingOffset.z = size.z % 2 != 0 ? -0.5f : 0;
@@ -514,8 +531,6 @@ namespace BuildingModules
             foreach (BuildingIO output in outputs)
             {
                 Vector3 cubePosition = new Vector3(0.5f - output.localPosition.x, 0.5f, 0.5f - output.localPosition.y);
-
-                Debug.Log("Building offset: " + buildingOffset);
 
                 cubePosition += buildingOffset;
 

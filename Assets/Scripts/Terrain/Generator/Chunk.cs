@@ -470,11 +470,11 @@ namespace TerrainGeneration
 
             //                Gizmos.color = Color.green;
 
-            //                Block b = voxelData[GetVoxelDataIndex(x, y, z)];
+            //                Voxel b = voxelData[GetVoxelDataIndex(x, y, z)];
 
-            //                if (b is MachineSlaveBlock) Gizmos.color = Color.red;
+            //                if (b is Voxel) Gizmos.color = Color.red;
 
-            //                if (generator.voxelTypes[b.value].isSolid)
+            //                if (b is MachineSlaveVoxel)
             //                {
             //                    Gizmos.DrawWireCube(new Vector3(x + 0.5f + chunkCoord.x * chunkSizeX, y + 0.5f, chunkCoord.z * chunkSizeZ + z + 0.5f), Vector3.one);
             //                }

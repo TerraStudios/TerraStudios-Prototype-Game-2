@@ -274,7 +274,7 @@ namespace BuildingManagement
 
                 // Set position in the chunk it was placed in
 
-                int3 voxelPos = visualization.Value.position.CeilToInt3();
+                int3 voxelPos = visualization.Value.position.FloorToInt3();
                 Vector3Int buildingSize = GetBuildSize(currentBuilding.Value);
 
                 Chunk placedChunk = generator.currentChunks[chunkCoord];
