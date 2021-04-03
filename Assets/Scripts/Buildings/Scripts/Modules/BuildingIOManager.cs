@@ -175,6 +175,11 @@ namespace BuildingModules
             //IOForEach(io => io.OnVisualizationMoved());
         }
 
+        /// <summary>
+        /// Retrives the position of the IO to connect to.
+        /// </summary>
+        /// <param name="io">The IO to be used</param>
+        /// <returns>The position of the IO.</returns>
         private Vector3 GetIOPosition(BuildingIO io)
         {
             Vector3 prefabPosition = mc.building.meshData.pos;
@@ -186,6 +191,11 @@ namespace BuildingModules
             return prefabPosition - new Vector3(io.localPosition.x, 0, io.localPosition.y) + new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset;
         }
 
+        /// <summary>
+        /// Retrieves the perpendicular adjacent IO position to the target IO
+        /// </summary>
+        /// <param name="io">The IO to be used</param>
+        /// <returns>The target position of the IO.</returns>
         private Vector3 GetTargetIOPosition(BuildingIO io)
         {
             Vector3 direction = io.direction.GetDirection() * -1;
@@ -193,6 +203,11 @@ namespace BuildingModules
             return GetIOPosition(io) - direction;
         }
 
+        /// <summary>
+        /// Attempts to make a "link" between two BuildingIOs
+        /// </summary>
+        /// <param name="io">The input to attempt to connect to (current building).</param>
+        /// <param name="input">Whether the IO is input or output true = input, false = output.</param>
         private void AttemptLink(BuildingIO io, bool input = true)
         {
             // Retrieves the OPPOSITE voxel (normal vector with a magnitude of 1 voxel)

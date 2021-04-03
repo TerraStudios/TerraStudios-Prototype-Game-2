@@ -73,6 +73,7 @@ namespace BuildingModules
         // Save pos and rot since there isn't any other way to persistently save them.
         public Vector3 pos;
         public Quaternion rot;
+        public Vector3Int size;
     }
 
     /// <summary>
