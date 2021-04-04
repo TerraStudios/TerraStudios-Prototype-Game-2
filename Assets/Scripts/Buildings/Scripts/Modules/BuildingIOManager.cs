@@ -138,6 +138,28 @@ namespace BuildingModules
                 outputs[i].ID = i;
             */
 
+            buildingOffset = new Vector3();
+
+            Vector3 buildingSize;
+
+            if (!Application.isPlaying)
+            {
+                buildingSize = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
+            }
+            else
+            {
+                buildingSize = mc.building.correspondingMesh.GetComponent<MeshRenderer>().bounds.size;
+            }
+
+
+            Vector3Int size = new Vector3Int(
+                Mathf.CeilToInt(Mathf.Round(buildingSize.x * 10f) / 10f),
+                Mathf.CeilToInt(Mathf.Round(buildingSize.y * 10f) / 10f),
+                Mathf.CeilToInt(Mathf.Round(buildingSize.z * 10f) / 10f));
+
+            buildingOffset.x = size.x % 2 != 0 ? -0.5f : 0;
+            buildingOffset.z = size.z % 2 != 0 ? -0.5f : 0;
+
             OnItemEnterInput = new OnItemEnterEvent();
         }
 
@@ -221,13 +243,16 @@ namespace BuildingModules
                 // Loop through opposite of io's type
                 foreach (BuildingIO targetIO in input ? targetBuilding.outputs : targetBuilding.inputs)
                 {
-                    // Get the position of the voxel perpendicular to the target IO, and check if it equals the desired linkVoxelPos
-                    if (targetBuilding.GetIOPosition(targetIO) == linkVoxelPos)
+                    // 1st Check: Get the position of the voxel perpendicular to the target IO, and check if it equals the desired linkVoxelPos
+                    // 2nd Check: Make sure the directions are actually perpendicular
+                    if (targetBuilding.GetIOPosition(targetIO) == linkVoxelPos && io.direction.GetDirection() + targetIO.direction.GetDirection() == Vector3Int.zero)
                     {
 
                         // Found successful link, set linkedIO for both
                         targetIO.linkedIO = io;
                         io.linkedIO = targetIO;
+
+                        Debug.Log("Successfully linked");
                     }
                 }
             }
@@ -467,12 +492,6 @@ namespace BuildingModules
         /// </summary>
         private void OnDrawGizmos()
         {
-            IOForEach(io =>
-            {
-                Gizmos.color = Color.red;
-                Vector3 ioPos = GetTargetIOPosition(io);
-                Gizmos.DrawWireCube(ioPos, new Vector3(1f, 1f, 1f));
-            });
             // Only draw if not in game
             //if (Application.isPlaying)
             //{
@@ -482,31 +501,6 @@ namespace BuildingModules
             //    Vector3 e = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
             //    buildingSize = new Vector3Int(Mathf.RoundToInt(e.x), Mathf.RoundToInt(e.y), Mathf.RoundToInt(e.z));
             //}
-
-            if (buildingOffset == Vector3.zero)
-            {
-                buildingOffset = new Vector3();
-
-                Vector3 buildingSize;
-
-                if (!Application.isPlaying)
-                {
-                    buildingSize = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
-                }
-                else
-                {
-                    buildingSize = mc.building.correspondingMesh.GetComponent<MeshRenderer>().bounds.size;
-                }
-
-
-                Vector3Int size = new Vector3Int(
-                    Mathf.CeilToInt(Mathf.Round(buildingSize.x * 10f) / 10f),
-                    Mathf.CeilToInt(Mathf.Round(buildingSize.y * 10f) / 10f),
-                    Mathf.CeilToInt(Mathf.Round(buildingSize.z * 10f) / 10f));
-
-                buildingOffset.x = size.x % 2 != 0 ? -0.5f : 0;
-                buildingOffset.z = size.z % 2 != 0 ? -0.5f : 0;
-            }
 
             Gizmos.color = Color.red;
 
@@ -521,6 +515,23 @@ namespace BuildingModules
             //        }
             //    }
             //}
+
+            if (!Application.isPlaying && buildingOffset == Vector3.zero)
+            {
+                buildingOffset = new Vector3();
+
+                Vector3 buildingSize = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
+
+
+
+                Vector3Int size = new Vector3Int(
+                    Mathf.CeilToInt(Mathf.Round(buildingSize.x * 10f) / 10f),
+                    Mathf.CeilToInt(Mathf.Round(buildingSize.y * 10f) / 10f),
+                    Mathf.CeilToInt(Mathf.Round(buildingSize.z * 10f) / 10f));
+
+                buildingOffset.x = size.x % 2 != 0 ? -0.5f : 0;
+                buildingOffset.z = size.z % 2 != 0 ? -0.5f : 0;
+            }
 
 
 
