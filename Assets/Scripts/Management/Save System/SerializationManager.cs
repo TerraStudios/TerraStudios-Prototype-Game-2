@@ -82,12 +82,14 @@ namespace SaveSystem
 
             SurrogateSelector selector = new SurrogateSelector();
 
+            Vector3IntSerializationSurrogate vector3IntSurrogate = new Vector3IntSerializationSurrogate();
             Vector3SerializationSurrogate vector3Surrogate = new Vector3SerializationSurrogate();
             Vector2IntSerializationSurrogate vectorInt2Surrogate = new Vector2IntSerializationSurrogate();
             Vector2SerializationSurrogate vector2Surrogate = new Vector2SerializationSurrogate();
             QuaternionSerializationSurrogate quaternionSurrogate = new QuaternionSerializationSurrogate();
             ColorSerializationSurrogate colorSurrogate = new ColorSerializationSurrogate();
 
+            selector.AddSurrogate(typeof(Vector3Int), new StreamingContext(StreamingContextStates.All), vector3IntSurrogate);
             selector.AddSurrogate(typeof(Vector3), new StreamingContext(StreamingContextStates.All), vector3Surrogate);
             selector.AddSurrogate(typeof(Vector2Int), new StreamingContext(StreamingContextStates.All), vectorInt2Surrogate);
             selector.AddSurrogate(typeof(Vector2), new StreamingContext(StreamingContextStates.All), vector2Surrogate);

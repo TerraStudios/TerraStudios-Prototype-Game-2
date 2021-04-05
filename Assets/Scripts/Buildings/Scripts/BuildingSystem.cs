@@ -133,9 +133,6 @@ namespace BuildingManagement
 
                 GameObject meshPrefab = save.GetMeshObj().gameObject;
 
-
-
-
                 Transform meshGO = ObjectPoolManager.Instance.ReuseObject(meshPrefab, save.position, save.rotation).transform;
 
                 //buildingGO.parent = buildingScriptParent.transform;
