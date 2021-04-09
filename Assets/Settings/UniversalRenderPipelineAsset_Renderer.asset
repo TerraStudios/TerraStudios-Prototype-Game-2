@@ -22,7 +22,7 @@ MonoBehaviour:
         serializedVersion: 2
         m_Bits: 65536
       PassNames: []
-    overrideMaterial: {fileID: 2100000, guid: 0bd9ae22f42c2824a9cd3eb75ce5960d, type: 2}
+    overrideMaterial: {fileID: 2100000, guid: d9169e08e1aab56409ab17177305cb25, type: 2}
     overrideMaterialPassIndex: 0
     overrideDepthState: 1
     depthCompareFunction: 5
@@ -61,7 +61,7 @@ MonoBehaviour:
         serializedVersion: 2
         m_Bits: 32768
       PassNames: []
-    overrideMaterial: {fileID: 2100000, guid: 3e96abfd68f668342b2e2764218307a4, type: 2}
+    overrideMaterial: {fileID: 2100000, guid: 82ee136ef956c804094d787b11a8cfdd, type: 2}
     overrideMaterialPassIndex: 0
     overrideDepthState: 1
     depthCompareFunction: 5
