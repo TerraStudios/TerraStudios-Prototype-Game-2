@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Priority_Queue;
+using SaveSystem;
 using TerrainGeneration;
 using TerrainTypes;
 using Unity.Collections;
@@ -27,7 +28,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Singleton instance accessor for <see cref="TerrainGenerator"/>
         /// </summary>
-        public static TerrainGenerator instance;
+        public static TerrainGenerator Instance;
 
         [Tooltip("A prefab for caching chunks")]
         public GameObject emptyChunk;
@@ -100,7 +101,7 @@ namespace TerrainGeneration
         private void Awake()
         {
             NativeLeakDetection.Mode = NativeLeakDetectionMode.EnabledWithStackTrace;
-            instance = this;
+            Instance = this;
         }
 
         private class ChunkCoordNode : FastPriorityQueueNode
@@ -155,8 +156,16 @@ namespace TerrainGeneration
             //    }
             //}
 
+            // Populate worldSaveData.voxelData so it has all ChunkCoords that can be used.
+            if (GameSave.current.worldSaveData.voxelData.Count == 0)
+            {
+                Debug.Log("Populating WorldSaveData.voxelData");
 
-
+                foreach (ChunkCoord coord in GetAllChunkCoords())
+                {
+                    GameSave.current.worldSaveData.voxelData.Add(coord, null);
+                }
+            }
 
             StartCoroutine(UpdateChunks());
         }
@@ -320,6 +329,21 @@ namespace TerrainGeneration
         public ChunkCoord GetChunkCoord(float3 pos)
         {
             return GetChunkCoord(pos.x, pos.y, pos.z);
+        }
+
+        public List<ChunkCoord> GetAllChunkCoords()
+        {
+            List<ChunkCoord> result = new List<ChunkCoord>();
+
+            for (int x = 0; x < chunkXSize; x++)
+            {
+                for (int y = 0; y < chunkXSize; y++)
+                {
+                    result.Add(new ChunkCoord(x, y));
+                }
+            }
+
+            return result;
         }
 
         /// <summary>

@@ -248,7 +248,7 @@ namespace BuildingManagement
 
             Vector3 center = GetGridPosition(hit.Value.point);
 
-            ChunkCoord chunkCoord = new ChunkCoord { x = Mathf.FloorToInt(center.x) / TerrainGenerator.instance.chunkXSize, z = Mathf.FloorToInt(center.z) / TerrainGenerator.instance.chunkZSize }; //! Figure out this somehow
+            ChunkCoord chunkCoord = new ChunkCoord { x = Mathf.FloorToInt(center.x) / TerrainGenerator.Instance.chunkXSize, z = Mathf.FloorToInt(center.z) / TerrainGenerator.Instance.chunkZSize }; //! Figure out this somehow
 
             if (center == Vector3.zero)
                 return;
@@ -264,41 +264,7 @@ namespace BuildingManagement
 
                 visualization.Value.GetComponent<MeshRenderer>().material = tempMat;
 
-                TerrainGenerator generator = TerrainGenerator.instance;
-
-                // Set position in the chunk it was placed in
-
-                int3 voxelPos = visualization.Value.position.FloorToInt3();
                 Vector3Int buildingSize = GetBuildSize(currentBuilding.Value);
-
-                Chunk placedChunk = generator.currentChunks[chunkCoord];
-
-                // TODO: Move this to an enum
-                VoxelType type = new VoxelType { isSolid = true };
-                MachineSlaveVoxel slaveBlock = new MachineSlaveVoxel(type, visualization.Key);
-                //int3 localVoxelPos = generator.GetRelativeChunkPosition(voxelPos.x, voxelPos.y, voxelPos.z);
-
-                //placedChunk.SetVoxelData(localVoxelPos.x, localVoxelPos.y, localVoxelPos.z, slaveBlock);
-
-                for (int x = voxelPos.x - buildingSize.x + 1; x <= voxelPos.x; x++)
-                {
-                    for (int y = voxelPos.y; y < voxelPos.y + buildingSize.y; y++)
-                    {
-                        for (int z = voxelPos.z - buildingSize.z + 1; z <= voxelPos.z; z++)
-                        {
-                            if (!placedChunk.VoxelInsideChunk(x, y, z))
-                            {
-                                int3 localPos = generator.GetRelativeChunkPosition(x, y, z);
-                                generator.currentChunks[generator.GetChunkCoord(x, y, z)].SetVoxelData(localPos.x, localPos.y, localPos.z, slaveBlock);
-                            }
-                            else
-                            {
-                                placedChunk.SetVoxelData(x, y, z, slaveBlock);
-                            }
-
-                        }
-                    }
-                }
 
                 visualization.Key.meshData = new MeshData()
                 {
@@ -307,7 +273,15 @@ namespace BuildingManagement
                     size = buildingSize
                 };
 
-                buildingManager.SetUpBuilding(visualization.Key, visualization.Value, currentBuilding.Value, chunkCoord);
+                RegisterBuildingData data = new RegisterBuildingData()
+                {
+                    building = visualization.Key,
+                    buildingMesh = visualization.Value,
+                    buildingMeshPrefab = currentBuilding.Value,
+                    chunkCoord = chunkCoord
+                };
+
+                buildingManager.SetUpBuilding(data);
 
                 IsInBuildMode = continueBuilding;
             }
@@ -374,14 +348,14 @@ namespace BuildingManagement
                         // Check if the floor below IS all solid
                         if (y == (int)grid.y)
                         {
-                            if (!TerrainGenerator.instance.voxelTypes[TerrainGenerator.instance.GetVoxelValue(new int3(x, y - 1, z))].isSolid)
+                            if (!TerrainGenerator.Instance.voxelTypes[TerrainGenerator.Instance.GetVoxelValue(new int3(x, y - 1, z))].isSolid)
                             {
                                 return false;
                             }
                         }
 
                         // Check if the entire space the building will occupy IS NOT solid
-                        if (TerrainGenerator.instance.voxelTypes[TerrainGenerator.instance.GetVoxelValue(new int3(x, y, z))].isSolid)
+                        if (TerrainGenerator.Instance.voxelTypes[TerrainGenerator.Instance.GetVoxelValue(new int3(x, y, z))].isSolid)
                         {
                             return false;
                         }

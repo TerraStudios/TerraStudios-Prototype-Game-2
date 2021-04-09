@@ -234,11 +234,11 @@ namespace BuildingModules
         {
             // Retrieves the OPPOSITE voxel (normal vector with a magnitude of 1 voxel)
             Vector3 linkVoxelPos = GetTargetIOPosition(io);
-            Voxel targetvoxel = TerrainGenerator.instance.GetVoxel(linkVoxelPos.FloorToInt3());
+            Voxel targetvoxel = TerrainGenerator.Instance.GetVoxel(linkVoxelPos.FloorToInt3());
 
             if (targetvoxel is MachineSlaveVoxel voxel)
             {
-                BuildingIOManager targetBuilding = voxel.controller.mc.buildingIOManager;
+                BuildingIOManager targetBuilding = voxel.GetBuilding().mc.buildingIOManager;
 
                 // Loop through opposite of io's type
                 foreach (BuildingIO targetIO in input ? targetBuilding.outputs : targetBuilding.inputs)

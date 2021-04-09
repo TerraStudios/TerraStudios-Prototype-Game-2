@@ -14,6 +14,7 @@ using BuildingModules;
 using Utilities;
 using TerrainTypes;
 using System.Linq;
+using SaveSystem;
 
 namespace TerrainGeneration
 {
@@ -110,7 +111,7 @@ namespace TerrainGeneration
         /// <returns>The world space location in the form of a <see cref="Vector3"/></returns>
         public Vector3 ToWorldSpace()
         {
-            return new Vector3(x * TerrainGenerator.instance.chunkXSize, 0, z * TerrainGenerator.instance.chunkZSize);
+            return new Vector3(x * TerrainGenerator.Instance.chunkXSize, 0, z * TerrainGenerator.Instance.chunkZSize);
         }
     }
 
@@ -122,7 +123,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Stores all of the voxel block data in the chunk
         /// </summary>
-        public Voxel[] voxelData;
+        private Voxel[] voxelData;
 
         /// <summary>
         /// The coordinate of the chunk
@@ -133,6 +134,9 @@ namespace TerrainGeneration
         /// The world space position of the chunk as a Vector3
         /// </summary>
         private int3 WorldPos => new int3(chunkCoord.x * chunkSizeX, 0, chunkCoord.z * chunkSizeZ);
+
+        // Use the fields in WSD to save/retrieve data so it can be saved at any time w/o excessive code
+        public Voxel[] VoxelData { get => GameSave.current.worldSaveData.voxelData[chunkCoord]; set => GameSave.current.worldSaveData.voxelData[chunkCoord] = value; }
 
         /// <summary>
         /// A list of the vertices in the mesh
@@ -184,7 +188,7 @@ namespace TerrainGeneration
         /// <summary>
         /// A reference to the <see cref="TerrainGenerator"/> <see cref="GameObject"/>, attached when created
         /// </summary>
-        public TerrainGenerator generator = TerrainGenerator.instance;
+        public TerrainGenerator generator = TerrainGenerator.Instance;
 
         // Used for determining whether a chunk needs to be regenerated or not. If the chunk is marked as dirty, the method GenerateChunk will be called the next frame.
         public bool dirty = false;
@@ -253,7 +257,7 @@ namespace TerrainGeneration
 
             if (generated)
             {
-                if (chunkCoord.IsDistanceFrom(TerrainGenerator.instance.lastChunkPos, 3))
+                if (chunkCoord.IsDistanceFrom(TerrainGenerator.Instance.lastChunkPos, 3))
                 {
 
                     if (meshCollider.sharedMesh == null)
@@ -306,29 +310,29 @@ namespace TerrainGeneration
 
             Chunk chunk = generator.chunks[chunkCoord.x, chunkCoord.z];
 
-            if (chunk == null || chunk.voxelData == null || byteData == null || chunk.voxelData[0] == null)
+            if (chunk == null || chunk.VoxelData == null || byteData == null || chunk.VoxelData[0] == null)
             {
                 // No voxel data has been generated, start the noise job
-                voxelData = new Voxel[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
+                VoxelData = new Voxel[generator.chunkXSize * generator.chunkYSize * generator.chunkZSize];
 
                 yield return noiseHandler.StartNoiseJob(byteData);
 
                 for (int i = 0; i < byteData.Length; i++)
                 {
-                    voxelData[i] = new Voxel(byteData[i], generator.voxelTypes[byteData[i]]);
+                    VoxelData[i] = new Voxel(byteData[i], generator.voxelTypes[byteData[i]]);
                 }
 
             }
             else
             {
-                Voxel[] newVoxelData = chunk.voxelData;
+                Voxel[] newVoxelData = chunk.VoxelData;
 
                 //Debug.Log("Already found data!");
                 // Already has chunk data, just set the data instead
                 // TODO: Possibly find a better way of structuring the data?
                 for (int i = 0; i < newVoxelData.Length; i++)
                 {
-                    if (voxelData[i] is MachineSlaveVoxel)
+                    if (VoxelData[i] is MachineSlaveVoxel)
                     {
                         byteData[i] = 0;
                     }
@@ -409,7 +413,7 @@ namespace TerrainGeneration
         /// <param name="x">The local x coordinate of the voxel</param>
         /// <param name="y">The local y coordinate of the voxel</param>
         /// <param name="z">The local z coordinate of the voxel</param>
-        /// <returns>A 1D index to be used for <see cref="voxelData"/> primarily</returns>
+        /// <returns>A 1D index to be used for <see cref="VoxelData"/> primarily</returns>
         private int GetVoxelDataIndex(int x, int y, int z)
         {
             return (z * chunkSizeX * chunkSizeY) + (y * chunkSizeX) + x;
@@ -425,7 +429,7 @@ namespace TerrainGeneration
         /// <returns>The corresponding material type for the voxel</returns>
         public Voxel GetVoxel(int x, int y, int z)
         {
-            return voxelData[GetVoxelDataIndex(x, y, z)];
+            return VoxelData[GetVoxelDataIndex(x, y, z)];
         }
 
         /// <summary>
@@ -438,7 +442,7 @@ namespace TerrainGeneration
         /// <returns>The corresponding material type for the voxel</returns>
         public byte GetVoxelData(int x, int y, int z)
         {
-            return voxelData[GetVoxelDataIndex(x, y, z)].value;
+            return VoxelData[GetVoxelDataIndex(x, y, z)].value;
         }
 
         /// <summary>
@@ -450,7 +454,7 @@ namespace TerrainGeneration
         /// <param name="newVoxel"></param>
         public void SetVoxelData(int x, int y, int z, Voxel newVoxel)
         {
-            voxelData[GetVoxelDataIndex(x, y, z)] = newVoxel;
+            VoxelData[GetVoxelDataIndex(x, y, z)] = newVoxel;
         }
 
         public void OnDrawGizmos()

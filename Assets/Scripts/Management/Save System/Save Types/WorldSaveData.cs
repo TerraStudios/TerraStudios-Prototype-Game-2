@@ -18,6 +18,20 @@ namespace SaveSystem
     [Serializable]
     public class BuildingSave
     {
+        /// <summary>
+        /// Used for specifying the index of the key with which the Building should be registered in PlacedBuildings. 
+        /// Used for recreating the original PlacedBuildings Dictionary.
+        /// -1 to ignore (default)
+        /// </summary>
+        public int keyID = -1;
+
+        /// <summary>
+        /// Used for specifying the index of the value with which the Building should be registered in PlacedBuildings. 
+        /// Used for recreating the original PlacedBuildings Dictionary.
+        /// -1 to ignore (default)
+        /// </summary>
+        public int valueListID = -1;
+
         public ChunkCoord chunkCoord;
 #pragma warning disable CA2235 // Uses serialization surrogate
         public Vector3 position;
@@ -44,6 +58,7 @@ namespace SaveSystem
     [Serializable]
     public class WorldSaveData
     {
+        public Dictionary<ChunkCoord, Voxel[]> voxelData = new Dictionary<ChunkCoord, Voxel[]>();
         public List<BuildingSave> placedBuildings = new List<BuildingSave>();
     }
 }

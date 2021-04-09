@@ -67,6 +67,7 @@ namespace BuildingManagement
 
             ClearRegisteredBuildings();
             PoolAllBuildingMeshes();
+            PrePopulatePlacedBuildings();
             LoadAllBuildingsFromSave();
 
             buildingScriptParent = buildingScriptParent ? buildingScriptParent : (buildingScriptParent = new GameObject("Building GO Scripts"));
