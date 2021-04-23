@@ -5,28 +5,22 @@
 //
 
 using System;
-using BuildingManagement;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using BuildingModules;
 using TerrainGeneration;
-using System.Linq;
 
 namespace TerrainTypes
 {
-    [Serializable]
     class MachineSlaveVoxel : Voxel
     {
-        public readonly int keylistID;
-        public readonly int valueListID;
+        public readonly Building controller;
 
-        public MachineSlaveVoxel(VoxelType solid, int buildingListID, int buildingID) : base(1, solid)
+        public MachineSlaveVoxel(VoxelType solid, Building controller) : base(1, solid)
         {
-            keylistID = buildingListID;
-            valueListID = buildingID;
-        }
-
-        public Building GetBuilding()
-        {
-            return BuildingSystem.PlacedBuildings.Values.ElementAt(keylistID)[valueListID].Key;
+            this.controller = controller;
         }
     }
 }

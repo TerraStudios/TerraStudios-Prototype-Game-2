@@ -175,7 +175,7 @@ namespace TerrainGeneration
                 int voxelCount = chunkXSize * chunkYSize * chunkZSize;
 
                 nativeVoxelData = new NativeArray<byte>(voxelCount, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
-                nativeVoxelTypes = new NativeArray<VoxelType>(TerrainGenerator.Instance.voxelTypes.Length, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
+                nativeVoxelTypes = new NativeArray<VoxelType>(TerrainGenerator.instance.voxelTypes.Length, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
                 counter = new NativeCounter(Allocator.TempJob);
 
                 nativeVertices = new NativeArray<Vector3>(voxelCount * 12, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
@@ -183,7 +183,7 @@ namespace TerrainGeneration
                 nativeTriangles = new NativeArray<int>(voxelCount * 18, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
 
                 nativeVoxelData.CopyFrom(voxelData);
-                nativeVoxelTypes.CopyFrom(TerrainGenerator.Instance.voxelTypes);
+                nativeVoxelTypes.CopyFrom(TerrainGenerator.instance.voxelTypes);
 
                 ChunkMeshJob chunkNoiseJob = new ChunkMeshJob
                 {

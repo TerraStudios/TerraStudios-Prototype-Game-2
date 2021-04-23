@@ -11,7 +11,6 @@ using SaveSystem;
 using System.Collections.Generic;
 using System.Linq;
 using TerrainGeneration;
-using TerrainTypes;
 using TimeSystem;
 using Unity.Mathematics;
 using UnityEngine;
@@ -20,51 +19,6 @@ using Utilities;
 
 namespace BuildingManagement
 {
-    /// <summary>
-    /// Class that contains all necessary data for registering a Building.
-    /// </summary>
-    public class RegisterBuildingData
-    {
-        /// <summary>
-        /// The Building script of the Building Script GO.
-        /// </summary>
-        public Building building;
-
-        /// <summary>
-        /// The Mesh GameObject of the Building Mesh GO.
-        /// </summary>
-        public Transform buildingMesh;
-
-        /// <summary>
-        /// The Mesh Prefab of the Building.
-        /// </summary>
-        public Transform buildingMeshPrefab;
-
-        /// <summary>
-        /// The chunk coordinate where the building is placed.
-        /// </summary>
-        public ChunkCoord chunkCoord;
-
-        /// <summary>
-        /// Whether the Building should be initialized with Building.Init. Make false if loading buildings from save.
-        /// </summary>
-        public bool register = true;
-
-        /// <summary>
-        /// Used for specifying the index of the key with which the Building should be registered in PlacedBuildings. 
-        /// Used for recreating the original PlacedBuildings Dictionary.
-        /// -1 to ignore (default)
-        /// </summary>
-        public int keyID = -1;
-
-        /// <summary>
-        /// Used for specifying the index of the value with which the Building should be registered in PlacedBuildings. 
-        /// Used for recreating the original PlacedBuildings Dictionary.
-        /// -1 to ignore (default)
-        /// </summary>
-        public int valueListID = -1;
-    }
-
     /// <summary>
     /// This class acts like a layer between the <c>GridManager</c> and the <c>BuildingSystem</c>.
     /// Handles registering buildings as well as loading and setting them up.
@@ -101,68 +55,34 @@ namespace BuildingManagement
         /// <summary>
         /// Executes necessary logic for newly placed buildings.
         /// </summary>
-        /// <param name="data">Special data class needed for setting up a building.</param>
-        public static void RegisterBuilding(RegisterBuildingData data)
+        /// <param name="chunkCoord">The chunk coordinate where the building is placed.</param>
+        /// <param name="b">The Building script of the Building Script GO.</param>
+        /// <param name="meshGO">The Mesh GameObject of the Building Mesh GO.</param>
+        /// <param name="save">Whether the Building should be saved in the GameSave<. Make false if loading buildings from save to avoid stack overflow.</param>
+        public static void RegisterBuilding(ChunkCoord chunkCoord, Building b, GameObject meshGO, bool save = true)
         {
-            KeyValuePair<Building, GameObject> toRegister = new KeyValuePair<Building, GameObject>(data.building, data.buildingMesh.gameObject);
-
-            if (data.valueListID == -1)
-                PlacedBuildings[data.chunkCoord].Add(toRegister);
+            if (PlacedBuildings.ContainsKey(chunkCoord))
+            {
+                PlacedBuildings[chunkCoord].Add(new KeyValuePair<Building, GameObject>(b, meshGO));
+            }
             else
-                PlacedBuildings[data.chunkCoord].Insert(data.valueListID, toRegister);
+            {
+                PlacedBuildings.Add(chunkCoord, new List<KeyValuePair<Building, GameObject>> { new KeyValuePair<Building, GameObject>(b, meshGO) });
+            }
 
-            int keyListID = PlacedBuildings.Keys.ToList().IndexOf(data.chunkCoord);
-            int valueListID = PlacedBuildings[data.chunkCoord].IndexOf(toRegister);
-
-            if (data.register)
+            if (save)
             {
                 BuildingSave toSave = new BuildingSave()
                 {
-                    //keyID = key,
-                    valueListID = valueListID,
-                    chunkCoord = data.chunkCoord,
-                    position = data.building.correspondingMesh.position,
-                    rotation = data.building.correspondingMesh.rotation,
-                    building = data.building.bBase,
-                    meshData = data.building.meshData,
-                    scriptPrefabPath = data.building.scriptPrefabLocation
+                    chunkCoord = chunkCoord,
+                    position = b.correspondingMesh.position,
+                    rotation = b.correspondingMesh.rotation,
+                    building = b.bBase,
+                    meshData = b.meshData,
+                    scriptPrefabPath = b.scriptPrefabLocation
                 };
 
                 GameSave.current.worldSaveData.placedBuildings.Add(toSave);
-            }
-
-            TerrainGenerator generator = TerrainGenerator.Instance;
-
-            // Set position in the chunk it was placed in
-
-            int3 voxelPos = data.buildingMesh.position.FloorToInt3();
-            Chunk placedChunk = generator.currentChunks[data.chunkCoord];
-            Vector3Int buildingSize = data.building.meshData.size;
-
-            // TODO: Move this to an enum
-            VoxelType type = new VoxelType { isSolid = true };
-            MachineSlaveVoxel slaveBlock = new MachineSlaveVoxel(type, keyListID, valueListID);
-            //int3 localVoxelPos = generator.GetRelativeChunkPosition(voxelPos.x, voxelPos.y, voxelPos.z);
-
-            //placedChunk.SetVoxelData(localVoxelPos.x, localVoxelPos.y, localVoxelPos.z, slaveBlock);
-
-            for (int x = voxelPos.x - buildingSize.x + 1; x <= voxelPos.x; x++)
-            {
-                for (int y = voxelPos.y; y < voxelPos.y + buildingSize.y; y++)
-                {
-                    for (int z = voxelPos.z - buildingSize.z + 1; z <= voxelPos.z; z++)
-                    {
-                        if (!placedChunk.VoxelInsideChunk(x, y, z))
-                        {
-                            int3 localPos = generator.GetRelativeChunkPosition(x, y, z);
-                            generator.currentChunks[generator.GetChunkCoord(x, y, z)].SetVoxelData(localPos.x, localPos.y, localPos.z, slaveBlock);
-                        }
-                        else
-                        {
-                            placedChunk.SetVoxelData(x, y, z, slaveBlock);
-                        }
-                    }
-                }
             }
         }
 
@@ -195,18 +115,6 @@ namespace BuildingManagement
         }
 
         /// <summary>
-        /// Fills the PlacedBuilding dictionary with all ChunkCoords available.
-        /// </summary>
-        public void PrePopulatePlacedBuildings()
-        {
-            // It's safe to prepopulate here since it's executed before buildings are loaded from the save.
-            foreach (ChunkCoord coord in TerrainGenerator.Instance.GetAllChunkCoords())
-            {
-                PlacedBuildings.Add(coord, new List<KeyValuePair<Building, GameObject>>());
-            }
-        }
-
-        /// <summary>
         /// Loads all BuildingSave data from the current GameSave.
         /// </summary>
         public void LoadAllBuildingsFromSave()
@@ -234,19 +142,7 @@ namespace BuildingManagement
 
                 building.bBase = save.building;
                 building.meshData = save.meshData;
-
-                RegisterBuildingData data = new RegisterBuildingData()
-                {
-                    keyID = save.keyID,
-                    valueListID = save.valueListID,
-                    building = building,
-                    buildingMesh = meshGO,
-                    buildingMeshPrefab = meshPrefab.transform,
-                    chunkCoord = chunkCoord,
-                    register = false
-                };
-
-                SetUpBuilding(data);
+                SetUpBuilding(building, meshGO, meshPrefab.transform, chunkCoord, false);
             }
         }
 
@@ -280,21 +176,24 @@ namespace BuildingManagement
         /// <summary>
         /// Initializes all of the needed data for the building in question.
         /// </summary>
-        /// <param name="data">Special data class needed for setting up a building.</param>
-        public void SetUpBuilding(RegisterBuildingData data)
+        /// <param name="building">The Building script of the Building Script GO.</param>
+        /// <param name="mesh">The Mesh GameObject of the Building Mesh GO.</param>
+        /// <param name="coord">The chunk coordinate where the building is placed.</param>
+        /// <param name="register">Whether the Building should be initialized with Building.Init. Make false if loading buildings from save.</param>
+        public void SetUpBuilding(Building building, Transform mesh, Transform meshPrefab, ChunkCoord coord, bool register = true)
         {
             //TODO: THESE HAVE BEEN COMMENTED OUT AS OF 2/13/2021, TO BE CHANGED?
             //b.transform.parent = buildingScriptParent.transform;
             //t.transform.parent = buildingMeshParent.transform;
-            data.building.timeManager = timeManager;
-            data.building.economyManager = economyManager;
-            data.building.correspondingMeshPrefab = data.buildingMeshPrefab.gameObject;
-            RegisterBuilding(data);
-            data.building.Init(data.buildingMesh, !data.register);
+            building.timeManager = timeManager;
+            building.economyManager = economyManager;
+            building.correspondingMeshPrefab = meshPrefab.gameObject;
+            RegisterBuilding(coord, building, mesh.gameObject, register);
+            building.Init(mesh, !register);
 
-            if (data.building.mc.buildingIOManager.isConveyor)
+            if (building.mc.buildingIOManager.isConveyor)
             {
-                ConveyorManager.Instance.conveyors.Add(data.building.GetComponent<Conveyor>());
+                ConveyorManager.Instance.conveyors.Add(building.GetComponent<Conveyor>());
             }
         }
 
