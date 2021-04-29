@@ -110,7 +110,7 @@ namespace TerrainGeneration
         /// <returns>The world space location in the form of a <see cref="Vector3"/></returns>
         public Vector3 ToWorldSpace()
         {
-            return new Vector3(x * TerrainGenerator.instance.chunkXSize, 0, z * TerrainGenerator.instance.chunkZSize);
+            return new Vector3(x * TerrainGenerator.Instance.chunkXSize, 0, z * TerrainGenerator.Instance.chunkZSize);
         }
     }
 
@@ -184,7 +184,7 @@ namespace TerrainGeneration
         /// <summary>
         /// A reference to the <see cref="TerrainGenerator"/> <see cref="GameObject"/>, attached when created
         /// </summary>
-        public TerrainGenerator generator = TerrainGenerator.instance;
+        public TerrainGenerator generator = TerrainGenerator.Instance;
 
         // Used for determining whether a chunk needs to be regenerated or not. If the chunk is marked as dirty, the method GenerateChunk will be called the next frame.
         public bool dirty = false;
@@ -253,7 +253,7 @@ namespace TerrainGeneration
 
             if (generated)
             {
-                if (chunkCoord.IsDistanceFrom(TerrainGenerator.instance.lastChunkPos, 3))
+                if (chunkCoord.IsDistanceFrom(TerrainGenerator.Instance.lastChunkPos, 3))
                 {
 
                     if (meshCollider.sharedMesh == null)
@@ -286,7 +286,7 @@ namespace TerrainGeneration
             // Start terrain generation 
             StartCoroutine(GenerateChunk());
 
-            chunkManager.OnChunkLoaded(chunkCoord);
+            chunkManager.OnChunkLoaded(this);
 
             //new Task(() => PrepareMesh()).Start();
         }

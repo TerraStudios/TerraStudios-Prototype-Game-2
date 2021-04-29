@@ -248,7 +248,7 @@ namespace BuildingManagement
 
             Vector3 center = GetGridPosition(hit.Value.point);
 
-            ChunkCoord chunkCoord = new ChunkCoord { x = Mathf.FloorToInt(center.x) / TerrainGenerator.instance.chunkXSize, z = Mathf.FloorToInt(center.z) / TerrainGenerator.instance.chunkZSize }; //! Figure out this somehow
+            ChunkCoord chunkCoord = new ChunkCoord { x = Mathf.FloorToInt(center.x) / TerrainGenerator.Instance.chunkXSize, z = Mathf.FloorToInt(center.z) / TerrainGenerator.Instance.chunkZSize }; //! Figure out this somehow
 
             if (center == Vector3.zero)
                 return;
@@ -264,7 +264,7 @@ namespace BuildingManagement
 
                 visualization.Value.GetComponent<MeshRenderer>().material = tempMat;
 
-                TerrainGenerator generator = TerrainGenerator.instance;
+                TerrainGenerator generator = TerrainGenerator.Instance;
 
                 // Set position in the chunk it was placed in
 
@@ -307,7 +307,15 @@ namespace BuildingManagement
                     size = buildingSize
                 };
 
-                buildingManager.SetUpBuilding(visualization.Key, visualization.Value, currentBuilding.Value, chunkCoord);
+                RegisterBuildingData data = new RegisterBuildingData()
+                {
+                    building = visualization.Key,
+                    buildingMesh = visualization.Value,
+                    buildingMeshPrefab = currentBuilding.Value,
+                    chunkCoord = chunkCoord
+                };
+
+                buildingManager.SetUpBuilding(data);
 
                 IsInBuildMode = continueBuilding;
             }
@@ -374,14 +382,14 @@ namespace BuildingManagement
                         // Check if the floor below IS all solid
                         if (y == (int)grid.y)
                         {
-                            if (!TerrainGenerator.instance.voxelTypes[TerrainGenerator.instance.GetVoxelValue(new int3(x, y - 1, z))].isSolid)
+                            if (!TerrainGenerator.Instance.voxelTypes[TerrainGenerator.Instance.GetVoxelValue(new int3(x, y - 1, z))].isSolid)
                             {
                                 return false;
                             }
                         }
 
                         // Check if the entire space the building will occupy IS NOT solid
-                        if (TerrainGenerator.instance.voxelTypes[TerrainGenerator.instance.GetVoxelValue(new int3(x, y, z))].isSolid)
+                        if (TerrainGenerator.Instance.voxelTypes[TerrainGenerator.Instance.GetVoxelValue(new int3(x, y, z))].isSolid)
                         {
                             return false;
                         }

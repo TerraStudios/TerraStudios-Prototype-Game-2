@@ -27,7 +27,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Singleton instance accessor for <see cref="TerrainGenerator"/>
         /// </summary>
-        public static TerrainGenerator instance;
+        public static TerrainGenerator Instance;
 
         [Tooltip("A prefab for caching chunks")]
         public GameObject emptyChunk;
@@ -100,7 +100,7 @@ namespace TerrainGeneration
         private void Awake()
         {
             NativeLeakDetection.Mode = NativeLeakDetectionMode.EnabledWithStackTrace;
-            instance = this;
+            Instance = this;
         }
 
         private class ChunkCoordNode : FastPriorityQueueNode
@@ -309,7 +309,8 @@ namespace TerrainGeneration
         /// <returns>A chunk coord based on the <see cref="chunkXSize"/> and <see cref="chunkZSize"/></returns>
         public ChunkCoord GetChunkCoord(float x, float y, float z)
         {
-            return new ChunkCoord { x = Mathf.FloorToInt(x / chunkXSize), z = Mathf.FloorToInt(z / chunkZSize) };
+            ChunkCoord coord = new ChunkCoord { x = Mathf.FloorToInt(x / chunkXSize), z = Mathf.FloorToInt(z / chunkZSize) };
+            return coord;
         }
 
         /// <summary>

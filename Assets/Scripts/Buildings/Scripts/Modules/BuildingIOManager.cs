@@ -234,7 +234,7 @@ namespace BuildingModules
         {
             // Retrieves the OPPOSITE voxel (normal vector with a magnitude of 1 voxel)
             Vector3 linkVoxelPos = GetTargetIOPosition(io);
-            Voxel targetvoxel = TerrainGenerator.instance.GetVoxel(linkVoxelPos.FloorToInt3());
+            Voxel targetvoxel = TerrainGenerator.Instance.GetVoxel(linkVoxelPos.FloorToInt3());
 
             if (targetvoxel is MachineSlaveVoxel voxel)
             {
