@@ -367,7 +367,8 @@ namespace TerrainGeneration
             Chunk foundChunk = chunks[coord.x, coord.z];
 
             // Chunk is already loaded
-            if (foundChunk != null && foundChunk.generated)
+            //if (foundChunk != null && foundChunk.generated) // original version
+            if (foundChunk != null) // changed to this otherwise IOs wouldn't connect
             {
                 // TODO: Convert relative chunk lookup to new method made GetRelativeChunkPosition(int, int, int)
                 return foundChunk.GetVoxel(posX - (coord.x * chunkXSize), posY, posZ - (coord.z * chunkZSize)); // Return the byte value in the chunk to avoid extra noise call
