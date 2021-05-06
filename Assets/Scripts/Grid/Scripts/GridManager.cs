@@ -171,8 +171,6 @@ namespace BuildingManagement
 
                 visualization.Value.transform.position = center;
                 visualization.Value.transform.rotation = RotationChange;
-
-                visualization.Key.mc.buildingIOManager.UpdateIOPhysics();
                 visualization.Key.mc.buildingIOManager.UpdateArrows();
             }
 

@@ -4,16 +4,11 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
-using BuildingManagement;
 using DebugTools;
-using ItemManagement;
-using System;
 using System.Collections.Generic;
 using TerrainGeneration;
 using TerrainTypes;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace BuildingModules
 {
@@ -22,27 +17,7 @@ namespace BuildingModules
     /// </summary>
     public class BuildingIOManager : BuildingIOSystem
     {
-        [Tooltip("The ModuleConnector attached to the Building")]
-        public ModuleConnector mc;
-
-        // Key is item
-        // Value is quantity
-        [Tooltip("A list of all the items inside of the building")]
-        public Dictionary<ItemData, int> itemsInside = new Dictionary<ItemData, int>();
-
-        [Header("IOs")]
-        [Tooltip("A list of all the BuildingIO inputs for the building")]
-        public BuildingIO[] inputs;
-        [Tooltip("A list of all the BuildingIO outputs for the building")]
-        public BuildingIO[] outputs;
-
-        [Header("Conveyor Properties")]
-        [Tooltip("Determines whether the building is a conveyor or not. Soon to be removed in the new conveyor system.")]
-        public bool isConveyor;
-
-        [Header("Events")]
-        public OnItemEnterEvent OnItemEnterInput;
-
+        #region Initializers
         /// <summary>
         /// Initializes all of the <see cref="Building">'s <see cref="BuildingIO"/>s and calls the <see cref="OnItemEnterEvent"/> event. 
         /// </summary>
@@ -82,24 +57,6 @@ namespace BuildingModules
             OnItemEnterInput = new OnItemEnterEvent();
         }
 
-        /// <summary>
-        /// Updates the position of the arrow <see cref="GameObject"/> to the current IO's position. 
-        /// Currently used for updating the position of any arrows on the visualization (which can be moved).
-        /// </summary>
-        public void UpdateArrows()
-        {
-            // TODO: Update with new code here
-
-            /*IOForEach(io =>
-            {
-                if (io.arrow)
-                {
-                    io.arrow.position = io.transform.position + new Vector3(0, 1, 0);
-                    io.arrow.rotation = io.transform.rotation;
-                }
-            });*/
-        }
-
         private void Update()
         {
             IOForEach(io =>
@@ -108,52 +65,43 @@ namespace BuildingModules
             });
         }
 
+        #endregion
+
+        #region IO Linking
+
         /// <summary>
-        /// Updates all of the Physics related information for a visualization (<see cref="Physics.OverlapBox"/> being one of them)
+        /// Signals every <see cref="BuildingIO"/> in the building to attempt a link with any other attached <see cref="BuildingIO"/>s.
         /// </summary>
-        public void UpdateIOPhysics()
+        public void LinkAll()
         {
-            //IOForEach(io => io.OnVisualizationMoved());
+            foreach (BuildingIO output in outputs)
+            {
+                AttemptLink(output, false);
+            }
+
+            foreach (BuildingIO input in inputs)
+            {
+                AttemptLink(input);
+            }
         }
 
         /// <summary>
-        /// Retrives the position of the IO to connect to.
+        /// Signals every <see cref="BuildingIO"/> in the building to attempt to unlink with any other attached <see cref="BuildingIO"/>s.
+        /// If the <see cref="BuildingIO"/> has no link, no operation will be executed.
         /// </summary>
-        /// <param name="io">The IO to be used</param>
-        /// <returns>The position of the IO.</returns>
-        private Vector3 GetIOPosition(BuildingIO io)
+        public void UnlinkAll()
         {
-            Vector3 prefabPosition = mc.building.meshData.pos;
+            IOForEach(io =>
+            {
+                if (io.linkedIO != null)
+                {
+                    io.linkedIO.linkedIO = null;
+                    io.linkedIO = null;
+                }
 
-
-            // Prefab position - position of IO relative to prefab - value retrieved from face of IO (see 'direction' variable above)
-            //TODO: Move localPosition to Vector2Int to avoid casting
-
-            return prefabPosition - new Vector3(io.localPosition.x, 0, io.localPosition.y) + new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset;
-        }
-
-        /// <summary>
-        /// Retrieves the perpendicular adjacent IO position to the target IO
-        /// </summary>
-        /// <param name="io">The IO to be used</param>
-        /// <returns>The target position of the IO.</returns>
-        private Vector3 GetTargetIOPosition(BuildingIO io)
-        {
-            Vector3 direction = io.direction.GetDirection() * -1;
-
-            return GetIOPosition(io) - direction;
-        }
-
-        /// <summary>
-        /// Checks whether an item is inside the building
-        /// </summary>
-        /// <returns>Whether an item is inside the building</returns>
-        public bool HasItemInside()
-        {
-            if (mc.buildingIOManager.itemsInside != null)
-                return true;
-            else
-                return false;
+            });
+            // TODO: Update with new code here
+            //IOForEach(io => io.Unlink());
         }
 
         /// <summary>
@@ -178,7 +126,6 @@ namespace BuildingModules
                     // 2nd Check: Make sure the directions are actually perpendicular
                     if (targetBuilding.GetIOPosition(targetIO) == linkVoxelPos && io.direction.GetDirection() + targetIO.direction.GetDirection() == Vector3Int.zero)
                     {
-
                         // Found successful link, set linkedIO for both
                         targetIO.linkedIO = io;
                         io.linkedIO = targetIO;
@@ -190,43 +137,11 @@ namespace BuildingModules
 
         }
 
-        /// <summary>
-        /// Signals every <see cref="BuildingIO"/> in the building to attempt a link with any other attached <see cref="BuildingIO"/>s.
-        /// </summary>
-        public void LinkAll()
-        {
-            foreach (BuildingIO output in outputs)
-            {
-                AttemptLink(output, false);
-            }
+        #endregion
 
-            foreach (BuildingIO input in inputs)
-            {
-                AttemptLink(input);
-            }
-        }
+        #region Item Handlers (legacy)
 
-        /// <summary>
-        /// Signals every <see cref="BuildingIO"/> in the building to attempt to unlink with any other attached <see cref="BuildingIO"/>s.
-        /// 
-        /// If the <see cref="BuildingIO"/> has no link, no operation will be executed.
-        /// </summary>
-        public void UnlinkAll()
-        {
-            IOForEach(io =>
-            {
-                if (io.linkedIO != null)
-                {
-                    io.linkedIO.linkedIO = null;
-                    io.linkedIO = null;
-                }
-
-            });
-            // TODO: Update with new code here
-            //IOForEach(io => io.Unlink());
-        }
-
-        public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
+        /*public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
         {
             Dictionary<ItemData, int> proposed = new Dictionary<ItemData, int>(itemsInside);
 
@@ -264,6 +179,38 @@ namespace BuildingModules
             // TODO: Update with new code here. Instantiate item in the output
 
             //trashOutput.AddToSpawnQueue(item);
+        }*/
+
+        #endregion
+
+        #region Visualization Handlers (to rewrite)
+
+        /// <summary>
+        /// Updates the position of the arrow <see cref="GameObject"/> to the current IO's position. 
+        /// Currently used for updating the position of any arrows on the visualization (which can be moved).
+        /// </summary>
+        public void UpdateArrows()
+        {
+            // TODO: Update with new code here
+
+            /*IOForEach(io =>
+            {
+                if (io.arrow)
+                {
+                    io.arrow.position = io.transform.position + new Vector3(0, 1, 0);
+                    io.arrow.rotation = io.transform.rotation;
+                }
+            });*/
+        }
+
+        /// <summary>
+        /// Visualizes the colliders each IO uses for other IO detection (seen in Scene view)
+        /// </summary>
+        public void VisualizeColliders()
+        {
+            // NOTE (by Kosio): If this is going to be low-level code, move to BuildingIOSystem.cs
+            // TODO: Update with new code here
+            //IOForEach(io => io.DrawIODetectionBox());
         }
 
         /// <summary>
@@ -271,6 +218,7 @@ namespace BuildingModules
         /// </summary>
         public void VisualizeAll()
         {
+            // NOTE (by Kosio): If this is going to be low-level code, move to BuildingIOSystem.cs
             // TODO: Update with new code here
             //IOForEach(io => io.VisualizeArrow());
         }
@@ -280,23 +228,14 @@ namespace BuildingModules
         /// </summary>
         public void DevisualizeAll()
         {
+            // NOTE (by Kosio): If this is going to be low-level code, move to BuildingIOSystem.cs
             // TODO: Update with new code here
             //IOForEach(io => io.Devisualize());
         }
 
-        /// <summary>
-        /// Retrieves the <see cref="BuildingIO"/> marked with <see cref="BuildingIO.isTrashcanOutput"/> 
-        /// </summary>
-        /// <returns>The found <see cref="BuildingIO"/>, or null if no trash output is found</returns>
-        public BuildingIO GetTrashOutput()
-        {
-            foreach (BuildingIO output in outputs)
-            {
-                if (output.isTrashcanOutput)
-                    return output;
-            }
-            return null;
-        }
+        #endregion
+
+        #region Conveyor
 
         /// <summary>
         /// Modifies the conveyor group belonging to a <see cref="Building"/> and sets each one to a given state
@@ -309,23 +248,6 @@ namespace BuildingModules
                 bIO.mc.building.SetWorkstateSilent(state); //set it silently to not trigger on workstate changed (recursion)
             }
         }
-
-        /// <summary>
-        /// Retrieves the conveyor group of any building ID.
-        /// </summary>
-        /// <returns>A <see cref="List{T}"/> of <see cref="BuildingIOManager"/>s</returns>
-        private List<BuildingIOManager> GetConveyorGroup()
-        {
-            List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
-            RecursiveGetConveyorGroup(toReturn, true);
-            //Debug.Log(isConveyor);
-            if (isConveyor) RecursiveGetConveyorGroup(toReturn, false);
-
-            //Log.LogConsole($"Found {toReturn.Count} conveyors");
-
-            return toReturn;
-        }
-
 
         /// <summary>
         /// Recursive method for retrieving the conveyor group of any Building ID. Works by adding all of the attached IOs of a building and its attached IOs as well (until a non conveyor is found or there isn't another attached IO)
@@ -348,6 +270,22 @@ namespace BuildingModules
         }
 
         /// <summary>
+        /// Retrieves the conveyor group of any building ID.
+        /// </summary>
+        /// <returns>A <see cref="List{T}"/> of <see cref="BuildingIOManager"/>s</returns>
+        private List<BuildingIOManager> GetConveyorGroup()
+        {
+            List<BuildingIOManager> toReturn = new List<BuildingIOManager>();
+            RecursiveGetConveyorGroup(toReturn, true);
+            //Debug.Log(isConveyor);
+            if (isConveyor) RecursiveGetConveyorGroup(toReturn, false);
+
+            //Log.LogConsole($"Found {toReturn.Count} conveyors");
+
+            return toReturn;
+        }
+
+        /// <summary>
         /// Changes the state of a <see cref="Conveyor"/>
         /// </summary>
         /// <param name="state">The new state for the <see cref="Conveyor"/></param>
@@ -365,170 +303,6 @@ namespace BuildingModules
 
             mc.conveyor.speed = newSpeed;
         }
-
-        /// <summary>
-        /// Utility method for looping through both the inputs and outputs
-        /// </summary>
-        /// <param name="action">Delegate for the action taken in each IO</param>
-        public void IOForEach(Action<BuildingIO> action)
-        {
-            foreach (BuildingIO io in inputs)
-            {
-                action(io);
-            }
-
-            foreach (BuildingIO io in outputs)
-            {
-                action(io);
-            }
-        }
-
-        #region Misc
-
-        /// <summary>
-        /// Determines whether a <see cref="BuildingIOManager"/> contains a <see cref="BuildingIO"/>
-        /// </summary>
-        /// <param name="io">The <see cref="BuildingIO"/> the <see cref="BuildingIOManager"/> might contain</param>
-        /// <returns>Whether the <see cref="BuildingIOManager"/> contains the <see cref="BuildingIO"/></returns>
-        public bool ContainsIO(BuildingIO io)
-        {
-            bool contains = false;
-
-            IOForEach(managerIO =>
-            {
-                if (managerIO.Equals(io)) contains = true;
-            });
-
-            return contains;
-        }
-
-        /// <summary>
-        /// Visualizes the colliders each IO uses for other IO detection (seen in Scene view)
-        /// </summary>
-        public void VisualizeColliders()
-        {
-            //IOForEach(io => io.DrawIODetectionBox());
-        }
-
-        // Gizmos should only be drawn while in the editor
-#if UNITY_EDITOR
-
-        // If using the wire grid code uncomment
-        //private Vector3Int buildingSize = Vector3Int.zero;
-
-        private Vector3 buildingOffset = Vector3.zero;
-
-        /// <summary>
-        /// Renders IOs for visualization when setting up
-        /// </summary>
-        private void OnDrawGizmos()
-        {
-            // Only draw if not in game
-            //if (Application.isPlaying)
-            //{
-            // If using the wire grid code uncomment
-            //if (buildingSize == Vector3.zero)
-            //{
-            //    Vector3 e = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
-            //    buildingSize = new Vector3Int(Mathf.RoundToInt(e.x), Mathf.RoundToInt(e.y), Mathf.RoundToInt(e.z));
-            //}
-
-            Gizmos.color = Color.red;
-
-            // Code for drawing a wire grid of the building size
-            //for (int x = 0; x < buildingSize.x; x++)
-            //{
-            //    for (int y = 0; y < buildingSize.y; y++)
-            //    {
-            //        for (int z = 0; z < buildingSize.z; z++)
-            //        {
-            //            Gizmos.DrawWireCube(new Vector3(0.5f - x, 0.5f - y, 0.5f - z), new Vector3(1f, 1f, 1f));
-            //        }
-            //    }
-            //}
-
-            if (!Application.isPlaying && buildingOffset == Vector3.zero)
-            {
-                buildingOffset = new Vector3();
-
-                Vector3 buildingSize = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
-
-
-
-                Vector3Int size = new Vector3Int(
-                    Mathf.CeilToInt(Mathf.Round(buildingSize.x * 10f) / 10f),
-                    Mathf.CeilToInt(Mathf.Round(buildingSize.y * 10f) / 10f),
-                    Mathf.CeilToInt(Mathf.Round(buildingSize.z * 10f) / 10f));
-
-                buildingOffset.x = size.x % 2 != 0 ? -0.5f : 0;
-                buildingOffset.z = size.z % 2 != 0 ? -0.5f : 0;
-            }
-
-
-
-            // Draw inputs
-            Gizmos.color = new Color(0, 0.47f, 1);
-            foreach (BuildingIO input in inputs)
-            {
-                Vector3 cubePosition = new Vector3(0.5f - input.localPosition.x, 0.5f, 0.5f - input.localPosition.y);
-
-                // Add building offset
-                cubePosition += buildingOffset;
-
-
-                if (Application.isPlaying) cubePosition += mc.building.meshData.pos;
-
-                Vector3 direction = input.direction.GetDirection(); // Because the input arrow needs to be facing inwards, the arrow needs to go the opposite direction.
-
-                DrawBuildingArrow(cubePosition, direction, true);
-            }
-
-            // Draw outputs
-            Gizmos.color = new Color(1, 0.64f, 0);
-            foreach (BuildingIO output in outputs)
-            {
-                Vector3 cubePosition = new Vector3(0.5f - output.localPosition.x, 0.5f, 0.5f - output.localPosition.y);
-
-                cubePosition += buildingOffset;
-
-                Vector3 direction = output.direction.GetDirection();
-
-                if (Application.isPlaying) cubePosition += mc.building.meshData.pos;
-
-                DrawBuildingArrow(cubePosition, direction);
-            }
-
-            // Reset color
-            Gizmos.color = Color.white;
-            //}
-        }
-
-        /// <summary>
-        /// Draws the visual arrow for a <see cref="BuildingIO"/> while <see cref="OnDrawGizmos"/> is running
-        /// </summary>
-        /// <param name="cubePosition">The position of the cube</param>
-        /// <param name="direction">The direction of the input or output</param>
-        /// <param name="reversed">If the bool is true, the arrow will be drawn in the position of the opposite direction but still FACING the same direction</param>
-        private void DrawBuildingArrow(Vector3 cubePosition, Vector3 direction, bool reversed = false)
-        {
-            Gizmos.DrawWireCube(cubePosition, new Vector3(1f, 1f, 1f));
-
-            // If the arrow is for the input, reverse the direction and shift it over to the opposite direction's position
-            if (reversed)
-            {
-                cubePosition += direction * 1.5f;
-                direction = -direction;
-            }
-
-            Gizmos.DrawRay(cubePosition + direction * 0.5f, direction * 0.5f);
-
-            Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 + 20.0f, 0) * new Vector3(0, 0, 1);
-            Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 - 20.0f, 0) * new Vector3(0, 0, 1);
-            Gizmos.DrawRay(cubePosition + direction, right * 0.15f);
-            Gizmos.DrawRay(cubePosition + direction, left * 0.15f);
-        }
-
-#endif
 
         #endregion
     }
