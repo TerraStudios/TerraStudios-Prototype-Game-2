@@ -17,91 +17,10 @@ using UnityEngine.Events;
 
 namespace BuildingModules
 {
-    [Serializable]
-    public class BuildingIO
-    {
-        public Vector2 localPosition;
-        public IODirection direction;
-
-        //TODO: Remove this?
-        private IOType type;
-        public bool isTrashcanOutput;
-
-        [HideInInspector]
-        public BuildingIO linkedIO; // The IO this BuildingIO is connected to, e.g. an input BuildingIO to an output
-    }
-
-    /// <summary>
-    /// The enum is used to store the direction of an IO, as items can only input or output from one face of a building.
-    /// </summary>
-    public enum IODirection
-    {
-        Forward,
-        Backward,
-        Left,
-        Right
-    }
-
-    /// <summary>
-    /// Because C# is bad, an extension method is needed to add a method for each direction. The extension retrieves the <see cref="Vector3Int"/> value for code later on.
-    /// </summary>
-    /// Usage: <code>IODirection.GetDirection();</code>
-    public static class IODirectionExtension
-    {
-        /// <summary>
-        /// Fetches the <see cref="Vector3Int"/> value of an <see cref="IODirection"/>
-        /// </summary>
-        /// <param name="direction">The <see cref="IODirection"/></param>
-        /// <returns>A normalized <see cref="Vector3Int"/> for manipulating the direction</returns>
-        public static Vector3Int GetDirection(this IODirection direction)
-        {
-            switch (direction)
-            {
-                case IODirection.Forward:
-                    return new Vector3Int(1, 0, 0);
-                case IODirection.Backward:
-                    return new Vector3Int(-1, 0, 0);
-                case IODirection.Left:
-                    return new Vector3Int(0, 0, 1);
-                case IODirection.Right:
-                    return new Vector3Int(0, 0, -1);
-                default:
-                    return Vector3Int.zero;
-            }
-        }
-    }
-
-    [Serializable]
-    public enum IOType
-    {
-        Input,
-        Output
-    }
-
-    /// <summary>
-    /// Properties for the event when an item attempts to 'enter' a Building.
-    /// </summary>
-    public class OnItemEnterEvent : UnityEvent<OnItemEnterEvent>
-    {
-        public int inputID;
-        public ItemData item;
-        public GameObject sceneInstance;
-        public Dictionary<ItemData, int> proposedItems;
-    }
-
-    /// <summary>
-    /// Properties of an item that is present 'inside' the Building.
-    /// </summary>
-    public class ItemInsideData
-    {
-        public int quantity;
-        public ItemData item;
-    }
-
     /// <summary>
     /// Manages the Building IO system.
     /// </summary>
-    public class BuildingIOManager : MonoBehaviour
+    public class BuildingIOManager : BuildingIOSystem
     {
         [Tooltip("The ModuleConnector attached to the Building")]
         public ModuleConnector mc;
@@ -129,14 +48,14 @@ namespace BuildingModules
         /// </summary>
         public void Init()
         {
-            /*IOForEach(io => io.Init());
+            IOForEach(io =>
+            {
+                for (int i = 0; i < inputs.Length; i++)
+                    inputs[i].manager = this;
 
-            for (int i = 0; i < inputs.Length; i++)
-                inputs[i].ID = i;
-
-            for (int i = 0; i < outputs.Length; i++)
-                outputs[i].ID = i;
-            */
+                for (int i = 0; i < outputs.Length; i++)
+                    outputs[i].manager = this;
+            });
 
             buildingOffset = new Vector3();
 
@@ -223,6 +142,18 @@ namespace BuildingModules
             Vector3 direction = io.direction.GetDirection() * -1;
 
             return GetIOPosition(io) - direction;
+        }
+
+        /// <summary>
+        /// Checks whether an item is inside the building
+        /// </summary>
+        /// <returns>Whether an item is inside the building</returns>
+        public bool HasItemInside()
+        {
+            if (mc.buildingIOManager.itemsInside != null)
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
