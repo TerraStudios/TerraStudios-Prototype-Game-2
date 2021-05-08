@@ -21,6 +21,7 @@ namespace BuildingModules
 
         private void Awake()
         {
+            // TODO: Uncomment
             //mc.buildingIOManager.OnItemEnterInput.AddListener(OnItemEnterBelt);
         }
 

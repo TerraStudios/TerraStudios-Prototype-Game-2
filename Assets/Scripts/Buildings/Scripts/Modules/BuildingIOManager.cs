@@ -5,6 +5,8 @@
 //
 
 using DebugTools;
+using ItemManagement;
+using System.Collections;
 using System.Collections.Generic;
 using TerrainGeneration;
 using TerrainTypes;
@@ -23,14 +25,17 @@ namespace BuildingModules
         /// </summary>
         public void Init()
         {
-            IOForEach(io =>
+            for (int i = 0; i < inputs.Length; i++)
             {
-                for (int i = 0; i < inputs.Length; i++)
-                    inputs[i].manager = this;
+                inputs[i].manager = this;
+                inputs[i].id = i;
+            }
 
-                for (int i = 0; i < outputs.Length; i++)
-                    outputs[i].manager = this;
-            });
+            for (int i = 0; i < outputs.Length; i++)
+            {
+                outputs[i].manager = this;
+                outputs[i].id = i;
+            }   
 
             buildingOffset = new Vector3();
 
@@ -180,6 +185,134 @@ namespace BuildingModules
 
             //trashOutput.AddToSpawnQueue(item);
         }*/
+
+        #endregion
+
+        #region Item Handling (new)
+
+        /// <summary>
+        /// Called when an <see cref="ItemData"/> attempts to enter a <see cref="BuildingIO"/>.
+        /// </summary>
+        /// <param name="data">The Item that attempts to enter.</param>
+        /// <param name="inputID">The input ID from which it attempts to enter.</param>
+        public void AttemptItemEnter(ItemData data, int inputID)
+        {
+            Debug.Log("[Item Enter] Item attempts to enter! Item is " + data.name);
+
+            OnItemEnterEvent args = new OnItemEnterEvent()
+            {
+                inputID = inputID,
+                item = data
+            };
+
+            OnItemEnterInput.Invoke(args);  
+        }
+
+        public void AddItem(ItemData data)
+        {
+            if (itemsInside.ContainsKey(data))
+            {
+                itemsInside[data]++;
+            }
+            else
+            {
+                // This probably won't work lol.
+                itemsInside[data] = 1;
+            }
+
+            Debug.Log("Item " + data.name + " stored inside building!");
+        }
+
+        /// <summary>
+        /// Called when an <see cref="ItemData"/> is ejected/dropped out of a Building
+        /// </summary>
+        /// <param name="data"></param>
+        public void EjectItem(ItemData data, int outputID, bool removeFromItems = true, float timeToSpawn = 1) 
+        {
+            // maybe add an event in the future
+
+            // check if item exists inside
+            // if it does, remove it from the items inside. if not - drop a log
+            // invoke some kind of an event
+
+            if (removeFromItems)
+            {
+                if (itemsInside.ContainsKey(data))
+                {
+                    RemoveItem(data);
+                }
+                else
+                {
+                    Debug.LogError("Attempting to remove an item when ejecting, though" +
+                        "the item doesn't exist inside the building!");
+                }
+            }
+
+            // queue goes here
+
+            ItemQueueData spawnData = new ItemQueueData()
+            {
+                outputID = outputID,
+                item = data,
+                timeToSpawn = timeToSpawn
+            };
+
+            itemsToSpawn.Enqueue(spawnData);
+
+            if (itemsToSpawn.Count == 1)
+                ExecuteSpawn(spawnData);
+
+            Debug.Log("Item " + data.name + " added to the ejection queue of the building!");
+        }
+
+        private void ExecuteSpawn(ItemQueueData queueData)
+        {
+            StartCoroutine(ProcessSpawn(queueData));
+        }
+
+        private IEnumerator ProcessSpawn(ItemQueueData queueData)
+        {
+            //yield return new WaitUntil(() => !itemInside); // legacy code used for checking if output slot is occupied
+            yield return new WaitForSeconds(queueData.timeToSpawn);
+            //yield return new WaitUntil(() => !itemInside);
+
+            outputs[queueData.outputID].linkedIO.AttemptIOEnter(queueData.item);
+            
+            /* // Legacy code, rethink whether it is needed
+             * 
+             * //An item has been instantiated, attempt to allow APM (if present) to insert an item
+            if (ioManager.mc.apm)
+            {
+                IOForEach(io =>
+                {
+                    if (io.isInput && io.itemInside)
+                    {
+                        ProceedItemEnter(io.itemInside.gameObject, io.itemInside.data, io.ID);
+                    }
+                });
+            }*/
+
+            FinishSpawn();
+        }
+
+        private void FinishSpawn()
+        {
+            itemsToSpawn.Dequeue();
+
+            if (itemsToSpawn.Count != 0)
+            {
+                ItemQueueData next = itemsToSpawn.Peek();
+                ExecuteSpawn(next);
+            }
+        }
+
+        public void RemoveItem(ItemData data)
+        {
+            // maybe add an event in the future
+
+            itemsInside.Remove(data);
+            Debug.Log("Item " + data.name + " removed from the building!");
+        }
 
         #endregion
 

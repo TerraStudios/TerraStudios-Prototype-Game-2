@@ -392,7 +392,7 @@ namespace BuildingModules
             CraftingData data = currentlyCrafting.Peek();
             foreach (MachineRecipe.InputData toRemove in data.currentRecipe.inputs[data.inputID].inputs)
             {
-                mc.buildingIOManager.itemsInside.Remove(toRemove.item);
+                mc.buildingIOManager.RemoveItem(toRemove.item);
             }
 
             StartCoroutine(RunCraftingTimer());
@@ -416,8 +416,7 @@ namespace BuildingModules
 
                 for (int t = 0; t < kvp.Key.amount; t++)
                 {
-                    // TODO: Update with new code here
-                    //mc.buildingIOManager.outputs[kvp.Value - 1].AddToSpawnQueue(kvp.Key.item);
+                    mc.buildingIOManager.EjectItem(kvp.Key.item, kvp.Value - 1, false);
                 }
             }
 
@@ -435,11 +434,13 @@ namespace BuildingModules
 
         private void AcceptItemInside(OnItemEnterEvent ItemEnterInfo)
         {
-            if (ItemEnterInfo.sceneInstance)
+            /*if (ItemEnterInfo.sceneInstance)
             {
                 ObjectPoolManager.Instance.DestroyObject(ItemEnterInfo.sceneInstance);
                 mc.buildingIOManager.itemsInside = ItemEnterInfo.proposedItems;
-            }
+            }*/
+
+            mc.buildingIOManager.AddItem(ItemEnterInfo.item);
         }
 
         #endregion

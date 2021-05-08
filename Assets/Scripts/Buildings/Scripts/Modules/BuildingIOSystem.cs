@@ -5,6 +5,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using ItemManagement;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace BuildingModules
         // Value is quantity
         [Tooltip("A list of all the items inside of the building")]
         public Dictionary<ItemData, int> itemsInside = new Dictionary<ItemData, int>();
+        public Queue<ItemQueueData> itemsToSpawn = new Queue<ItemQueueData>();
 
         [Header("IOs")]
         [Tooltip("A list of all the BuildingIO inputs for the building")]
@@ -209,7 +211,9 @@ namespace BuildingModules
     [Serializable]
     public class BuildingIO
     {
-        [NonSerialized] [HideInInspector] public BuildingIOManager manager; // Needed for accessing data on the building via the IO
+        // These two variables are assigned when initializing the BuildingIOManager
+        [NonSerialized] [HideInInspector] public BuildingIOManager manager = null; // Needed for accessing data on the building via the IO
+        [HideInInspector] public int id;
 
         public Vector2 localPosition;
         public IODirection direction;
@@ -220,6 +224,21 @@ namespace BuildingModules
 
         [HideInInspector]
         public BuildingIO linkedIO; // The IO this BuildingIO is connected to, e.g. an input BuildingIO to an output
+
+        /// <summary>
+        /// Called when an <see cref="ItemData"/> attempts to enter this IO.
+        /// </summary>
+        /// <param name="data"></param>
+        public void AttemptIOEnter(ItemData data)
+        {
+            if (!manager)
+            {
+                Debug.LogWarning("Can't proceed item enter. No manager for BuildingIO!");
+                return;
+            }
+
+            manager.AttemptItemEnter(data, id);
+        }
     }
 
     /// <summary>
@@ -247,17 +266,16 @@ namespace BuildingModules
     {
         public int inputID;
         public ItemData item;
-        public GameObject sceneInstance;
-        public Dictionary<ItemData, int> proposedItems;
     }
 
     /// <summary>
-    /// Properties of an item that is present 'inside' the Building.
+    /// Properties needed for the item ejection system
     /// </summary>
-    public class ItemInsideData
+    public class ItemQueueData
     {
-        public int quantity;
+        public int outputID;
         public ItemData item;
+        public float timeToSpawn;
     }
 
     #endregion

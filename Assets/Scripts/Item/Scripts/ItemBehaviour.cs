@@ -44,29 +44,6 @@ namespace ItemManagement
             GetComponent<MeshRenderer>().material = originalMaterial;
         }
 
-        /*private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.layer.Equals(12))
-            {
-                insideIO = other.transform.parent.GetComponent<BuildingIO>();
-                insideIO.itemInside = this;
-                if (insideIO.isInput && !insideIO.ioManager.isConveyor)
-                    insideIO.OnItemEnter(this);
-            }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.layer.Equals(12))
-            {
-                BuildingIO bIO = other.transform.parent.GetComponent<BuildingIO>();
-                bIO.itemInside = null;
-                if (bIO.isInput && !bIO.ioManager.isConveyor)
-                    bIO.OnItemExit(this);
-                insideIO = null;
-            }
-        }*/
-
         private void OnDisable()
         {
             //if (insideIO)

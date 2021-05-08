@@ -57,8 +57,6 @@ namespace Tests
             //Initialize APM, which listens in to the OnItemEnterEvent
             apm.Init();
 
-            GameObject sceneInstance = new GameObject("Fake scene instance");
-
             Dictionary<ItemData, int> proposedItems = new Dictionary<ItemData, int>();
 
             ItemData toInput = GetFakeItemData(input1);
@@ -70,8 +68,6 @@ namespace Tests
             {
                 inputID = 0,
                 item = toInput,
-                sceneInstance = sceneInstance,
-                proposedItems = proposedItems
             };
 
             //

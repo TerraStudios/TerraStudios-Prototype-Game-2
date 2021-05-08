@@ -20,7 +20,7 @@ namespace ItemManagement
         [Tooltip("Determines the initial pool size for each item")]
         public int initialPoolSize = 100;
 
-        [HideInInspector] public static List<ItemData> db = new List<ItemData>();
+        public static List<ItemData> db = new List<ItemData>();
 
         private void Awake()
         {
