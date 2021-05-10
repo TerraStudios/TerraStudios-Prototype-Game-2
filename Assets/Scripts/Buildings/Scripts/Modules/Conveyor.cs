@@ -5,11 +5,19 @@
 //
 
 using System.Collections;
+using System.Collections.Generic;
 using BuildingManagement;
+using ItemManagement;
 using UnityEngine;
 
 namespace BuildingModules
 {
+    public class ConveyorItemData
+    {
+        public ItemData data;
+        public float progress;
+    }
+
     /// <summary>
     /// This class handles the conveyor behaviour and is placed on each conveyor.
     /// </summary>
@@ -17,12 +25,12 @@ namespace BuildingModules
     {
         public ModuleConnector mc;
         public float speed = 1;
-        public float progress;
 
-        private void Awake()
+        public List<ConveyorItemData> itemsOnTop = new List<ConveyorItemData>();
+
+        public void Init()
         {
-            // TODO: Uncomment
-            //mc.buildingIOManager.OnItemEnterInput.AddListener(OnItemEnterBelt);
+            mc.buildingIOManager.OnItemEnterInput.AddListener(OnItemEnterBelt);
         }
 
         private void OnItemEnterBelt(OnItemEnterEvent itemEnterInfo)
@@ -42,13 +50,18 @@ namespace BuildingModules
             }
         }
 
-        private IEnumerator ProcessItem() 
-        {
-            yield return null;
-        }
-
+        /// <summary>
+        /// Method for efficiently updating conveyors. Same as MonoBehaviour.Update() but more efficient.
+        /// </summary>
         public void UpdateConveyor()
         {
+            // Apply progress
+            for (int i = 0; i < itemsOnTop.Count; i++)
+            {
+                itemsOnTop[i].progress += speed * Time.unscaledDeltaTime;
+            }
+
+            // Visualize Progress
 
         }
     }

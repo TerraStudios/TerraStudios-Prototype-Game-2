@@ -276,7 +276,9 @@ namespace BuildingModules
             yield return new WaitForSeconds(queueData.timeToSpawn);
             //yield return new WaitUntil(() => !itemInside);
 
-            outputs[queueData.outputID].linkedIO.AttemptIOEnter(queueData.item);
+            BuildingIO target = outputs[queueData.outputID];
+            if (target.linkedIO != null)
+                target.AttemptIOEnter(queueData.item);
             
             /* // Legacy code, rethink whether it is needed
              * 

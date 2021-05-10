@@ -11,6 +11,7 @@ using SaveSystem;
 using System.Collections.Generic;
 using System.Linq;
 using TerrainGeneration;
+using TerrainTypes;
 using TimeSystem;
 using Unity.Mathematics;
 using UnityEngine;
@@ -57,7 +58,7 @@ namespace BuildingManagement
     public class BuildingSystem : MonoBehaviour
     {
         [HideInInspector] public Building focusedBuilding;
-        public LayerMask ignoreFocusLayers;
+        public LayerMask buildingFocusLayer;
         public int meshPoolSize;
 
         [Header("Components")]
@@ -242,26 +243,17 @@ namespace BuildingManagement
 
             Ray ray = mainCamera.ScreenPointToRay(mousePos);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ~ignoreFocusLayers))
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, buildingFocusLayer))
             {
-                Building b = hit.transform.GetComponent<Building>();
-                if (b)
+                Building b = (TerrainGenerator.Instance.GetVoxel(hit.transform.position.FloorToInt3()) as MachineSlaveVoxel).controller;
+
+                if (b.isSetUp)
                 {
-                    if (b.isSetUp)
-                    {
-                        if (focusedBuilding && !(b.Equals(focusedBuilding)))
-                        {
-                            OnBuildingDeselected();
-                        }
-                        OnBuildingSelected(b);
-                    }
-                }
-                else
-                {
-                    if (focusedBuilding)
+                    if (focusedBuilding && !(b.Equals(focusedBuilding)))
                     {
                         OnBuildingDeselected();
                     }
+                    OnBuildingSelected(b);
                 }
             }
             else

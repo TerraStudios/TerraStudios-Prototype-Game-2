@@ -113,14 +113,19 @@ MonoBehaviour:
     isFixRunning: 0
     wattsPerHourIdle: 55
     wattsPerHourWork: 100
+  meshData:
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+    size: {x: 0, y: 0, z: 0}
   mc: {fileID: 6986921564417253470}
+  correspondingMeshPrefab: {fileID: 0}
   correspondingMesh: {fileID: 0}
   isSetUp: 0
   prefab: {fileID: 6834069572817059416}
   showDirectionOnVisualize: 1
   timeManager: {fileID: 0}
   economyManager: {fileID: 0}
-  prefabLocation: 
+  scriptPrefabLocation: 
 --- !u!114 &1987835161396914966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +139,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mc: {fileID: 6986921564417253470}
+  inputs: []
+  outputs: []
   isConveyor: 1
+  buildingOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &7124501148384470905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb2d1973a315474b9003a7dc458f76f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 703060175222841754}
+  mc: {fileID: 6986921564417253470}
   speed: 1
 --- !u!54 &703060175222841754
 Rigidbody:

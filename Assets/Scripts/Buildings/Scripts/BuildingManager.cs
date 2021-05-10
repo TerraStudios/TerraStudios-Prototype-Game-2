@@ -89,9 +89,8 @@ namespace BuildingManagement
             RefreshRecipeList();
             RefreshIOUI();
 
-            // TODO: Update with new code here
-            //if (b.mc.buildingIOManager.isConveyor && enableDebugSpawn)
-                //b.mc.buildingIOManager.outputs[0].AddToSpawnQueue(testItemToSpawn, 0);
+            if (b.mc.buildingIOManager.isConveyor && enableDebugSpawn)
+                b.mc.buildingIOManager.EjectItem(testItemToSpawn, 0, false, 0);
         }
 
         /// <summary>

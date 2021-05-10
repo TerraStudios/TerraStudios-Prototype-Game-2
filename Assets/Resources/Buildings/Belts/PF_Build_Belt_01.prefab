@@ -105,14 +105,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mc: {fileID: 3838661984072794563}
   inputs:
-  - localPosition: {x: 0, y: 0}
+  - id: 0
+    localPosition: {x: 0, y: 0}
     direction: 2
     isTrashcanOutput: 0
   outputs:
-  - localPosition: {x: 0, y: 0}
+  - id: 0
+    localPosition: {x: 0, y: 0}
     direction: 3
     isTrashcanOutput: 0
   isConveyor: 1
+  buildingOffset: {x: -0.5, y: 0, z: -0.5}
 --- !u!54 &4291032845966266648
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -141,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb2d1973a315474b9003a7dc458f76f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 4291032845966266648}
+  mc: {fileID: 3838661984072794563}
   speed: 1
 --- !u!1 &8797215435474944558
 GameObject:

@@ -108,7 +108,7 @@ namespace BuildingManagement
                 UpdateVisualization();
         }
 
-        #endregion Unity Events
+        #endregion
 
         #region Rotation
 
@@ -124,7 +124,7 @@ namespace BuildingManagement
                 RotationChange *= Quaternion.Euler(0, 90, 0);
         }
 
-        #endregion Rotation
+        #endregion
 
         #region Visualization
 
@@ -178,7 +178,7 @@ namespace BuildingManagement
             lastVisualize = center;
         }
 
-        #endregion Visualization
+        #endregion
 
         #region Building
 
@@ -319,7 +319,7 @@ namespace BuildingManagement
             }
         }
 
-        #endregion Building
+        #endregion
 
         #region Grid Utilities
 
@@ -436,7 +436,7 @@ namespace BuildingManagement
         /// <returns>The RayCastHit of the floor, or null if nothing is found.</returns>
         public RaycastHit? FindGridHit()
         {
-            if (Physics.Raycast(mainCamera.ScreenPointToRay(mousePos), out RaycastHit hit, 300000f))
+            if (Physics.Raycast(mainCamera.ScreenPointToRay(mousePos), out RaycastHit hit, 300000f, ~canPlaceIgnoreLayers))
             {
                 return hit;
             }
@@ -456,7 +456,7 @@ namespace BuildingManagement
             return new Vector3Int(Mathf.CeilToInt(Mathf.Round(e.x * 10f) / 10f), Mathf.CeilToInt(Mathf.Round(e.y * 10f) / 10f), Mathf.CeilToInt(Mathf.Round(e.z * 10f) / 10f));
         }
 
-        #endregion Grid Utilities
+        #endregion
 
         #region Events
 
@@ -521,5 +521,5 @@ namespace BuildingManagement
 
     }
 
-    #endregion Events
+    #endregion
 }

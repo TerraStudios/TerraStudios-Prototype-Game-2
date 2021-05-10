@@ -20,7 +20,7 @@ namespace BuildingModules
     public enum WorkStateEnum { On, Idle, Off }
 
     /// <summary>
-    /// This class contains properties for class <c>Building</c> that can be changed
+    /// This class contains properties for class <see cref="Building"/> that can be changed
     /// in runtime by the Save and Load System.
     /// </summary>
     [Serializable]
@@ -136,6 +136,9 @@ namespace BuildingModules
             if (mc.apm != null)
                 mc.apm.Init();
 
+            if (mc.conveyor != null)
+                mc.conveyor.Init();
+
             isSetUp = true;
 
             healthUpdateID = CallbackHandler.Instance.RegisterCallback(OnHealthTimeUpdate);
@@ -148,6 +151,9 @@ namespace BuildingModules
 
             originalMaterial = correspondingMesh.GetComponent<MeshRenderer>().sharedMaterial;
             RemoveIndicator();
+
+            // Add collider to the mesh so the Building can be selected
+            correspondingMesh.gameObject.AddComponent<BoxCollider>();
         }
 
         #region Health Submodule
