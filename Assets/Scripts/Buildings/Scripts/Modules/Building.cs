@@ -153,7 +153,8 @@ namespace BuildingModules
             RemoveIndicator();
 
             // Add collider to the mesh so the Building can be selected
-            correspondingMesh.gameObject.AddComponent<BoxCollider>();
+            BoxCollider collider = correspondingMesh.gameObject.AddComponent<BoxCollider>();
+            collider.isTrigger = true;
         }
 
         #region Health Submodule

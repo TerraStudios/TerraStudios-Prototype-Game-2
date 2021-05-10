@@ -2907,9 +2907,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focusedBuilding: {fileID: 0}
-  ignoreFocusLayers:
+  buildingFocusLayer:
     serializedVersion: 2
-    m_Bits: 13824
+    m_Bits: 16384
   meshPoolSize: 20
   timeManager: {fileID: 1029902788}
   mainCamera: {fileID: 162863950}
@@ -2985,7 +2985,7 @@ MonoBehaviour:
   tileSize: 1
   canPlaceIgnoreLayers:
     serializedVersion: 2
-    m_Bits: 12800
+    m_Bits: 29184
   isInDeleteMode: 0
   forceVisualizeAll: 0
   canPlace: 1
@@ -5793,7 +5793,7 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8853624
+      value: 0.8853623
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -5803,12 +5803,12 @@ PrefabInstance:
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1.595101e-15
+      value: -0.000000037315235
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762746, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -2.8274248e-15
+      value: 0.000000019594141
       objectReference: {fileID: 0}
     - target: {fileID: 199152019875762749, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -5858,7 +5858,7 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8853624
+      value: 0.8853623
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -5868,12 +5868,12 @@ PrefabInstance:
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1.595101e-15
+      value: -0.000000037315235
       objectReference: {fileID: 0}
     - target: {fileID: 199152019970637595, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -2.8274248e-15
+      value: 0.000000019594141
       objectReference: {fileID: 0}
     - target: {fileID: 612778395846576487, guid: 2c3b687b3d9def64994b24f28e9b9bd2,
         type: 3}
@@ -6184,7 +6184,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-3116
+  m_Name: pb_Mesh-3118
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
