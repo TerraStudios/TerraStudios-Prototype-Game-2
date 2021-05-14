@@ -75,10 +75,9 @@ namespace BuildingModules
                 // Add building offset
                 cubePosition += buildingOffset;
 
+                Vector3 direction = input.direction.GetDirection(); // Because the input arrow needs to be facing inwards, the arrow needs to go the opposite direction.
 
                 if (Application.isPlaying) cubePosition += mc.building.meshData.pos;
-
-                Vector3 direction = input.direction.GetDirection(); // Because the input arrow needs to be facing inwards, the arrow needs to go the opposite direction.
 
                 DrawBuildingArrow(cubePosition, direction, true);
             }

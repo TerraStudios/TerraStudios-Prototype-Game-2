@@ -28,9 +28,25 @@ namespace BuildingModules
 
         public List<ConveyorItemData> itemsOnTop = new List<ConveyorItemData>();
 
+        private Vector3 startMovePos;
+        private Vector3 endMovePos;
+
         public void Init()
         {
             mc.buildingIOManager.OnItemEnterInput.AddListener(OnItemEnterBelt);
+
+            BuildingIO input = mc.buildingIOManager.inputs[0];
+            BuildingIO output = mc.buildingIOManager.outputs[0];
+
+            startMovePos = mc.buildingIOManager.GetIOPosition(input);
+            endMovePos = mc.buildingIOManager.GetIOPosition(output);
+
+            GameObject sphereInput = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            sphereInput.transform.position = startMovePos;
+            sphereInput.transform.localScale /= 2;
+            GameObject sphereOutput = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            sphereOutput.transform.position = endMovePos;
+            sphereOutput.transform.localScale /= 2;
         }
 
         private void OnItemEnterBelt(OnItemEnterEvent itemEnterInfo)
@@ -63,6 +79,13 @@ namespace BuildingModules
 
             // Visualize Progress
 
+            // Posibility 1
+            // Update progress in regular special Conveyor Update (fast)
+            // Update visualization by running a job - gets progress and shows it visually
+            // if progress == 1, move item to next belt
+
+            // Posibility 2
+            // Make a task that handles all position updates, including time and speed for one item.
         }
     }
 }
