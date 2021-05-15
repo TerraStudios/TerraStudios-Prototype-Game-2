@@ -93,7 +93,7 @@ namespace BuildingModules
         /// <param name="reversed">Determines whether the arrow should be flipped in the IO visualization</param>
         private void DrawIO(BuildingIO io, Color drawColor, bool reversed = false)
         {
-            if (io.manager == null) return;
+            if (Application.isPlaying && io.manager == null) return;
 
             Vector3 direction = io.direction.GetDirection(io.manager == null ? Quaternion.identity : io.manager.mc.building.meshData.rot);
 
@@ -162,7 +162,7 @@ namespace BuildingModules
 
             double yEuRot = mc.building.meshData.rot.eulerAngles.y;
 
-            int convOffset = (!io.manager.mc.buildingIOManager.isConveyor ? 1 : 0); // Added if the building isn't a 1x1 structure
+            int convOffset = Application.isPlaying ? (!io.manager.mc.buildingIOManager.isConveyor ? 1 : 0) : 0; // Added if the building isn't a 1x1 structure, ignore if in scene view
 
             // Rotate IO around euler angles
             Vector3 ioPos = yEuRot switch
