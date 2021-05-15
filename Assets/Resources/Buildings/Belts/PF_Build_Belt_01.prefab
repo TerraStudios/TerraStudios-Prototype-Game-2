@@ -107,12 +107,12 @@ MonoBehaviour:
   inputs:
   - id: 0
     localPosition: {x: 0, y: 0}
-    direction: 2
+    direction: 3
     isTrashcanOutput: 0
   outputs:
   - id: 0
     localPosition: {x: 0, y: 0}
-    direction: 3
+    direction: 2
     isTrashcanOutput: 0
   isConveyor: 1
   buildingOffset: {x: -0.5, y: 0, z: -0.5}
