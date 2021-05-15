@@ -93,6 +93,8 @@ namespace BuildingModules
         /// <param name="reversed">Determines whether the arrow should be flipped in the IO visualization</param>
         private void DrawIO(BuildingIO io, Color drawColor, bool reversed = false)
         {
+            if (io.manager == null) return;
+
             Vector3 direction = io.direction.GetDirection(io.manager == null ? Quaternion.identity : io.manager.mc.building.meshData.rot);
 
             Gizmos.color = drawColor;
@@ -160,12 +162,14 @@ namespace BuildingModules
 
             double yEuRot = mc.building.meshData.rot.eulerAngles.y;
 
+            int convOffset = (!io.manager.mc.buildingIOManager.isConveyor ? 1 : 0); // Added if the building isn't a 1x1 structure
+
             // Rotate IO around euler angles
             Vector3 ioPos = yEuRot switch
             {
-                90 => -new Vector3(io.localPosition.y, 0, -io.localPosition.x + 1),
-                180 => -new Vector3(-io.localPosition.x + 1, 0, -io.localPosition.y + 1),
-                270 => -new Vector3(-io.localPosition.y + 1, 0, io.localPosition.x),
+                90 => -new Vector3(io.localPosition.y, 0, -io.localPosition.x + convOffset),
+                180 => -new Vector3(-io.localPosition.x + convOffset, 0, -io.localPosition.y + convOffset),
+                270 => -new Vector3(-io.localPosition.y + convOffset, 0, io.localPosition.x),
                 _ => -new Vector3(io.localPosition.x, 0, io.localPosition.y)
             };
 
