@@ -18,20 +18,36 @@ public static class IODirectionExtension
     /// </summary>
     /// <param name="direction">The <see cref="IODirection"/></param>
     /// <returns>A normalized <see cref="Vector3Int"/> for manipulating the direction</returns>
-    public static Vector3Int GetDirection(this IODirection direction)
+    public static Vector3Int GetDirection(this IODirection direction, Quaternion currentIORotation)
     {
-        switch (direction)
+
+        Vector3Int loc = direction switch
         {
-            case IODirection.Forward:
-                return new Vector3Int(1, 0, 0);
-            case IODirection.Backward:
-                return new Vector3Int(-1, 0, 0);
-            case IODirection.Left:
-                return new Vector3Int(0, 0, 1);
-            case IODirection.Right:
-                return new Vector3Int(0, 0, -1);
-            default:
-                return Vector3Int.zero;
-        }
+            IODirection.Forward => Vector3Int.right,
+            IODirection.Backward => Vector3Int.left,
+            IODirection.Left => Vector3Int.forward,
+            IODirection.Right => Vector3Int.back,
+            _ => Vector3Int.zero
+        };
+
+        /*
+         *                 90 => prefabPosition - new Vector3(io.localPosition.y, 0, -io.localPosition.x + 1) + new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset,
+                180 => prefabPosition - new Vector3(-io.localPosition.x + 1, 0, -io.localPosition.y + 1) + new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset,
+                270 => prefabPosition - new Vector3(-io.localPosition.y + 1, 0, io.localPosition.x) + new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset,
+
+        */
+
+        // Switch according to rotation 
+        loc = currentIORotation.eulerAngles.y switch
+        {
+            90 => new Vector3Int(loc.z, loc.y, -loc.x),
+            180 => new Vector3Int(-loc.x, loc.y, -loc.z),
+            270 => new Vector3Int(-loc.z, loc.y, loc.x),
+            _ => loc,
+        };
+
+
+
+        return loc;
     }
 }

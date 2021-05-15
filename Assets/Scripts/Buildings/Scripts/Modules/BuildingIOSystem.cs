@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DebugTools;
 using ItemManagement;
 using UnityEngine;
 using UnityEngine.Events;
@@ -67,38 +68,38 @@ namespace BuildingModules
             }
 
             // Draw inputs
-            Gizmos.color = new Color(0, 0.47f, 1);
+            Color inputColor = new Color(0, 0.47f, 1);
             foreach (BuildingIO input in inputs) // TODO: Combine the two loops
             {
-                Vector3 cubePosition = new Vector3(0.5f - input.localPosition.x, 0.5f, 0.5f - input.localPosition.y);
-
-                // Add building offset
-                cubePosition += buildingOffset;
-
-                Vector3 direction = input.direction.GetDirection(); // Because the input arrow needs to be facing inwards, the arrow needs to go the opposite direction.
-
-                if (Application.isPlaying) cubePosition += mc.building.meshData.pos;
-
-                DrawBuildingArrow(cubePosition, direction, true);
+                DrawIO(input, inputColor, true);
             }
 
             // Draw outputs
-            Gizmos.color = new Color(1, 0.64f, 0);
+            Color outputColor = new Color(1, 0.64f, 0);
             foreach (BuildingIO output in outputs)
             {
-                Vector3 cubePosition = new Vector3(0.5f - output.localPosition.x, 0.5f, 0.5f - output.localPosition.y);
-
-                cubePosition += buildingOffset;
-
-                Vector3 direction = output.direction.GetDirection();
-
-                if (Application.isPlaying) cubePosition += mc.building.meshData.pos;
-
-                DrawBuildingArrow(cubePosition, direction);
+                DrawIO(output, outputColor);
             }
 
             // Reset color
             Gizmos.color = Color.white;
+        }
+
+        /// <summary>
+        /// Draws a <see cref="BuildingIO"/> given a <see cref="Color"/>.
+        /// </summary>
+        /// <param name="io">The <see cref="BuildingIO"/> to build the visualization around</param>
+        /// <param name="drawColor">The color of the voxel box and arrow</param>
+        /// <param name="reversed">Determines whether the arrow should be flipped in the IO visualization</param>
+        private void DrawIO(BuildingIO io, Color drawColor, bool reversed = false)
+        {
+            Vector3 direction = io.direction.GetDirection(io.manager == null ? Quaternion.identity : io.manager.mc.building.meshData.rot);
+
+            Gizmos.color = drawColor;
+
+            ExtDebug.DrawVoxel(GetIOPosition(io), drawColor);
+
+            DrawBuildingArrow(GetIOPosition(io), direction, reversed);
         }
 
         /// <summary>
@@ -109,7 +110,8 @@ namespace BuildingModules
         /// <param name="reversed">If the bool is true, the arrow will be drawn in the position of the opposite direction but still FACING the same direction</param>
         private void DrawBuildingArrow(Vector3 cubePosition, Vector3 direction, bool reversed = false)
         {
-            Gizmos.DrawWireCube(cubePosition, new Vector3(1f, 1f, 1f));
+            if (!Application.isPlaying)
+                Gizmos.DrawWireCube(cubePosition, new Vector3(1f, 1f, 1f));
 
             // If the arrow is for the input, reverse the direction and shift it over to the opposite direction's position
             if (reversed)
@@ -156,10 +158,21 @@ namespace BuildingModules
         {
             Vector3 prefabPosition = mc.building.meshData.pos;
 
-            // Prefab position - position of IO relative to prefab - value retrieved from face of IO (see 'direction' variable above)
-            //TODO: Move localPosition to Vector2Int to avoid casting
+            double yEuRot = mc.building.meshData.rot.eulerAngles.y;
 
-            return prefabPosition - new Vector3(io.localPosition.x, 0, io.localPosition.y) + new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset;
+            // Rotate IO around euler angles
+            Vector3 ioPos = yEuRot switch
+            {
+                90 => -new Vector3(io.localPosition.y, 0, -io.localPosition.x + 1),
+                180 => -new Vector3(-io.localPosition.x + 1, 0, -io.localPosition.y + 1),
+                270 => -new Vector3(-io.localPosition.y + 1, 0, io.localPosition.x),
+                _ => -new Vector3(io.localPosition.x, 0, io.localPosition.y)
+            };
+
+            ioPos += new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset + prefabPosition;
+
+            // Prefab position - position of IO relative to prefab - value retrieved from face of IO (see 'direction' variable above)
+            return ioPos;
         }
 
         /// <summary>
@@ -169,7 +182,9 @@ namespace BuildingModules
         /// <returns>The target position of the IO.</returns>
         public Vector3 GetTargetIOPosition(BuildingIO io)
         {
-            Vector3 direction = io.direction.GetDirection() * -1;
+
+            // If the building hasn't been initialzied, just use Quaternion.identity
+            Vector3 direction = io.direction.GetDirection(io.manager == null ? Quaternion.identity : io.manager.mc.building.meshData.rot) * -1;
 
             return GetIOPosition(io) - direction;
         }
@@ -205,7 +220,7 @@ namespace BuildingModules
     }
 
     #region IO System classes and values
-    
+
     // Bellow are classes and enums necessary for the IO System.
     [Serializable]
     public class BuildingIO

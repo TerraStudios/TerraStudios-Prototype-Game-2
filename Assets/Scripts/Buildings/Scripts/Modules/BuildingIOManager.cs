@@ -35,7 +35,7 @@ namespace BuildingModules
             {
                 outputs[i].manager = this;
                 outputs[i].id = i;
-            }   
+            }
 
             buildingOffset = new Vector3();
 
@@ -120,16 +120,20 @@ namespace BuildingModules
             Vector3 linkVoxelPos = GetTargetIOPosition(io);
             Voxel targetvoxel = TerrainGenerator.Instance.GetVoxel(linkVoxelPos.FloorToInt3());
 
+            Quaternion buildingRot = io.manager.mc.building.meshData.rot;
+
             if (targetvoxel is MachineSlaveVoxel voxel)
             {
                 BuildingIOManager targetBuilding = voxel.controller.mc.buildingIOManager;
+
+                Quaternion targetBuildingRot = io.manager.mc.building.meshData.rot;
 
                 // Loop through opposite of io's type
                 foreach (BuildingIO targetIO in input ? targetBuilding.outputs : targetBuilding.inputs)
                 {
                     // 1st Check: Get the position of the voxel perpendicular to the target IO, and check if it equals the desired linkVoxelPos
                     // 2nd Check: Make sure the directions are actually perpendicular
-                    if (targetBuilding.GetIOPosition(targetIO) == linkVoxelPos && io.direction.GetDirection() + targetIO.direction.GetDirection() == Vector3Int.zero)
+                    if (targetBuilding.GetIOPosition(targetIO) == linkVoxelPos && io.direction.GetDirection(buildingRot) + targetIO.direction.GetDirection(targetBuildingRot) == Vector3Int.zero)
                     {
                         // Found successful link, set linkedIO for both
                         targetIO.linkedIO = io;
@@ -205,7 +209,7 @@ namespace BuildingModules
                 item = data
             };
 
-            OnItemEnterInput.Invoke(args);  
+            OnItemEnterInput.Invoke(args);
         }
 
         public void AddItem(ItemData data)
@@ -227,7 +231,7 @@ namespace BuildingModules
         /// Called when an <see cref="ItemData"/> is ejected/dropped out of a Building
         /// </summary>
         /// <param name="data"></param>
-        public void EjectItem(ItemData data, int outputID, bool removeFromItems = true, float timeToSpawn = 1) 
+        public void EjectItem(ItemData data, int outputID, bool removeFromItems = true, float timeToSpawn = 1)
         {
             // maybe add an event in the future
 
@@ -279,7 +283,7 @@ namespace BuildingModules
             BuildingIO target = outputs[queueData.outputID];
             if (target.linkedIO != null)
                 target.AttemptIOEnter(queueData.item);
-            
+
             /* // Legacy code, rethink whether it is needed
              * 
              * //An item has been instantiated, attempt to allow APM (if present) to insert an item
