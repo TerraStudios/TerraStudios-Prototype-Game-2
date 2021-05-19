@@ -12,6 +12,7 @@ namespace BuildingManagement
     public interface IConveyorBase
     {
         void UpdateConveyor();
+        void LateUpdateConveyor();
     }
 
     /// <summary>
@@ -28,9 +29,14 @@ namespace BuildingManagement
             Instance = this;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             conveyors.ForEach(conveyor => conveyor.UpdateConveyor());
+        }
+
+        private void LateUpdate()
+        {
+            conveyors.ForEach(conveyor => conveyor.LateUpdateConveyor());
         }
     }
 }

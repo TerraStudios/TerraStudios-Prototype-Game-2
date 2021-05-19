@@ -219,6 +219,17 @@ namespace BuildingModules
             return null;
         }
 
+        public BuildingIO GetAttachedBelt()
+        {
+            foreach (BuildingIO output in outputs)
+            {
+                if (output.linkedIO != null && output.linkedIO.manager.isConveyor)
+                    return output;
+            }
+
+            return null;
+        }
+
         #endregion
 
     }
@@ -284,6 +295,7 @@ namespace BuildingModules
     {
         public int inputID;
         public ItemData item;
+        public GameObject sceneInstance;
     }
 
     /// <summary>

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using TerrainGeneration;
 using TerrainTypes;
 using UnityEngine;
+using Utilities;
 
 namespace BuildingModules
 {
@@ -269,6 +270,49 @@ namespace BuildingModules
                 ExecuteSpawn(spawnData);
 
             Debug.Log("Item " + data.name + " added to the ejection queue of the building!");
+        }
+
+        /// <summary>
+        /// Called when an item finishes moving in a belt.
+        /// </summary>
+        /// <param name="conveyorItemData">Special conveyor move data.</param>
+        /// <returns>Whether the item moves to the next belt.</returns>
+        public bool ConveyorMoveNext(ConveyorItemData conveyorItemData)
+        {
+            BuildingIO attachedBelt = GetAttachedBelt();
+            if (attachedBelt == null)
+            {
+                // No attached output...?
+                Debug.Log("Nothing is attached. Stop item move");
+                return false;
+            }
+            else
+            {
+                BuildingIO nextIO = outputs[0].linkedIO;
+                if (nextIO.manager.isConveyor)
+                {
+                    Debug.Log("Next IO is conveyor, moving item to it!");
+
+                    // need to pass scene instance
+                    OnItemEnterEvent args = new OnItemEnterEvent()
+                    {
+                        inputID = 0, // replace with actual corresponding input
+                        item = conveyorItemData.data,
+                        sceneInstance = conveyorItemData.sceneInstance.gameObject
+                    };
+
+                    nextIO.manager.OnItemEnterInput.Invoke(args);
+
+                    return true;
+                }
+                else
+                {
+                    //Debug.Log("Next IO is not a conveyor, attempting item enter!");
+                    ObjectPoolManager.Instance.DestroyObject(conveyorItemData.sceneInstance.gameObject);
+                    nextIO.AttemptIOEnter(conveyorItemData.data);
+                    return true;
+                }
+            }
         }
 
         private void ExecuteSpawn(ItemQueueData queueData)
