@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using BuildingManagement;
 using DebugTools;
 using ItemManagement;
 using UnityEngine;
@@ -40,32 +41,37 @@ namespace BuildingModules
 
         #region IO Visualization
 
+        [HideInInspector] public Vector3 buildingOffset = Vector3.zero;
+
         // Gizmos should only be drawn while in the editor
 #if UNITY_EDITOR
-
-        [HideInInspector] public Vector3 buildingOffset = Vector3.zero;
 
         /// <summary>
         /// Renders IOs for visualization when setting up
         /// </summary>
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.red;
-
-            if (!Application.isPlaying && buildingOffset == Vector3.zero)
+            if (!Application.isPlaying)
             {
-                buildingOffset = new Vector3();
+                if (buildingOffset == Vector3.zero)
+                {
+                    buildingOffset = new Vector3();
 
-                Vector3 buildingSize = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
+                    Vector3 buildingSize = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
 
-                Vector3Int size = new Vector3Int(
-                    Mathf.CeilToInt(Mathf.Round(buildingSize.x * 10f) / 10f),
-                    Mathf.CeilToInt(Mathf.Round(buildingSize.y * 10f) / 10f),
-                    Mathf.CeilToInt(Mathf.Round(buildingSize.z * 10f) / 10f));
+                    Vector3Int size = new Vector3Int(
+                        Mathf.CeilToInt(Mathf.Round(buildingSize.x * 10f) / 10f),
+                        Mathf.CeilToInt(Mathf.Round(buildingSize.y * 10f) / 10f),
+                        Mathf.CeilToInt(Mathf.Round(buildingSize.z * 10f) / 10f));
 
-                buildingOffset.x = size.x % 2 != 0 ? -0.5f : 0;
-                buildingOffset.z = size.z % 2 != 0 ? -0.5f : 0;
+                    buildingOffset.x = size.x % 2 != 0 ? -0.5f : 0;
+                    buildingOffset.z = size.z % 2 != 0 ? -0.5f : 0;
+                }
             }
+            else if (!GridManager.Instance.debugMode)
+                return;
+
+            Gizmos.color = Color.red;
 
             // Draw inputs
             Color inputColor = new Color(0, 0.47f, 1);

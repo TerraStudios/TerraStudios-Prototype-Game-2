@@ -4,6 +4,7 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
+using BuildingManagement;
 using DebugTools;
 using ItemManagement;
 using System.Collections;
@@ -65,12 +66,15 @@ namespace BuildingModules
 
         private void Update()
         {
-            IOForEach(io =>
+            if (GridManager.Instance.debugMode)
             {
-                if (io.manager == null) return;
+                IOForEach(io =>
+                {
+                    if (io.manager == null) return;
 
-                ExtDebug.DrawVoxel(GetTargetIOPosition(io), Color.green);
-            });
+                    ExtDebug.DrawVoxel(GetTargetIOPosition(io), Color.green);
+                });
+            }
         }
 
         #endregion
@@ -283,7 +287,7 @@ namespace BuildingModules
             if (attachedBelt == null)
             {
                 // No attached output...?
-                Debug.Log("Nothing is attached. Stop item move");
+                //Debug.Log("Nothing is attached. Stop item move");
                 return false;
             }
             else
@@ -291,7 +295,7 @@ namespace BuildingModules
                 BuildingIO nextIO = outputs[0].linkedIO;
                 if (nextIO.manager.isConveyor)
                 {
-                    Debug.Log("Next IO is conveyor, moving item to it!");
+                    //Debug.Log("Next IO is conveyor, moving item to it!");
 
                     // need to pass scene instance
                     OnItemEnterEvent args = new OnItemEnterEvent()

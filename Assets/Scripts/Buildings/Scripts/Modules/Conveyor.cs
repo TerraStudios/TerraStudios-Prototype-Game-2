@@ -6,10 +6,12 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using BuildingManagement;
 using ItemManagement;
 using Unity.Burst;
 using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
@@ -25,7 +27,7 @@ namespace BuildingModules
         public bool reachedEnd;
     }
 
-    [BurstCompile(FloatMode = FloatMode.Fast, FloatPrecision = FloatPrecision.Low)]
+    [BurstCompile(FloatMode = FloatMode.Fast, FloatPrecision = FloatPrecision.Low, DisableSafetyChecks = true)]
     public struct ItemMovementJob : IJobParallelForTransform
     {
         public float speed;
@@ -99,17 +101,16 @@ namespace BuildingModules
 
         private void OnItemEnterBelt(OnItemEnterEvent itemEnterInfo)
         {
-            Debug.Log("Processing belt enter!");
             BuildingIO io = mc.buildingIOManager.outputs[0];
             if (io.linkedIO != null)
             {
                 if (!io.linkedIO.manager.mc.conveyor.IsBusy())
                 {
-                    Debug.Log("No item inside next belt, continuing...");
+                    //Debug.Log("No item inside next belt, continuing...");
                 }
                 else
                 {
-                    Debug.Log("Item inside next belt detected, stopping");
+                    //Debug.Log("Item inside next belt detected, stopping");
                     return;
                 }
             }
@@ -148,6 +149,9 @@ namespace BuildingModules
         /// </summary>
         public void UpdateConveyor()
         {
+            if (itemsOnTop.Count == 0)
+                return;
+
             accessArray = new TransformAccessArray(itemsOnTop.Count);
             reachedEndArray = new NativeList<int>(itemsOnTop.Count, Allocator.TempJob);
 
@@ -172,29 +176,37 @@ namespace BuildingModules
         /// </summary>
         public void LateUpdateConveyor()
         {
-            movementJobHandle.Complete();
-
-            foreach(int i in reachedEndArray)
+            if (reachedEndArray.IsCreated)
             {
-                ConveyorItemData data = itemsOnTop[i];
-                data.reachedEnd = true; // mark that the item reached the end so we can later process it
-
-                if (mc.buildingIOManager.ConveyorMoveNext(data)) // check and move item to the next belt
+                movementJobHandle.Complete();
+                if (!reachedEndArray.IsEmpty)
                 {
-                    itemsOnTop.Remove(data); // item successfully passed, removed it from itemsOnTop
-                }
-            }
+                    foreach (int i in reachedEndArray)
+                    {
+                        ConveyorItemData data = itemsOnTop[i]; // this probably has to be checked
+                        data.reachedEnd = true; // mark that the item reached the end so we can later process it
 
-            accessArray.Dispose();
-            reachedEndArray.Dispose();
+                        if (mc.buildingIOManager.ConveyorMoveNext(data)) // check and move item to the next belt
+                        {
+                            itemsOnTop.Remove(data); // item successfully passed, removed it from itemsOnTop
+                        }
+                    }
+                }
+
+                accessArray.Dispose();
+                reachedEndArray.Dispose();
+            }
         }
 
         public bool IsBusy() 
         {
-            if (itemsOnTop.Count > 0)
+            // TODO: Redesign according to GDD
+            /*if (itemsOnTop.Count > 0) // HERE: check why when this is true, after this it doesn't continue accepting items
                 return true;
             else
                 return false;
+            */
+            return false;
         }
     }
 }
