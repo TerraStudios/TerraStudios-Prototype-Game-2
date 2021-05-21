@@ -108,6 +108,14 @@ MonoBehaviour:
     localPosition: {x: 0, y: 0}
     direction: 3
     isTrashcanOutput: 0
+  - id: 0
+    localPosition: {x: 0, y: 0}
+    direction: 0
+    isTrashcanOutput: 0
+  - id: 0
+    localPosition: {x: 0, y: 0}
+    direction: 1
+    isTrashcanOutput: 0
   outputs:
   - id: 0
     localPosition: {x: 0, y: 0}

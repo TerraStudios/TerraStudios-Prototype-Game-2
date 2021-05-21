@@ -183,7 +183,13 @@ namespace BuildingModules
                 {
                     foreach (int i in reachedEndArray)
                     {
-                        ConveyorItemData data = itemsOnTop[i]; // this probably has to be checked
+                        ConveyorItemData data = itemsOnTop.ElementAtOrDefault(i);
+
+                        // TODO: This eliminates memory leak when itemsOnTop is begin accessed without thi IF and the Editor freezes
+                        // This most probably has to be reworked
+                        if (data == null)
+                            continue;
+
                         data.reachedEnd = true; // mark that the item reached the end so we can later process it
 
                         if (mc.buildingIOManager.ConveyorMoveNext(data)) // check and move item to the next belt

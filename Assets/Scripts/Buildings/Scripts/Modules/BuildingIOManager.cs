@@ -139,15 +139,29 @@ namespace BuildingModules
                 foreach (BuildingIO targetIO in input ? targetBuilding.outputs : targetBuilding.inputs)
                 {
                     // 1st Check: Get the position of the voxel perpendicular to the target IO, and check if it equals the desired linkVoxelPos
-                    // 2nd Check: Make sure the directions are actually perpendicular
-                    if (targetBuilding.GetIOPosition(targetIO) == linkVoxelPos && io.direction.GetDirection(buildingRot) + targetIO.direction.GetDirection(targetBuildingRot) == Vector3Int.zero)
+                    if(targetBuilding.GetIOPosition(targetIO) == linkVoxelPos)
+                    {
+                        // 2nd Check: Make sure the directions are actually perpendicular (belt connections are excluded)
+                        if (isConveyor && io.manager.isConveyor || io.direction.GetDirection(buildingRot) + targetIO.direction.GetDirection(targetBuildingRot) == Vector3Int.zero)
+                        {
+                            // Found successful link, set linkedIO for both
+                            targetIO.linkedIO = io;
+                            io.linkedIO = targetIO;
+
+                            Debug.Log("Successfully linked");
+                        }
+                    }
+
+                    // Original unmodified
+
+                    /*if (targetBuilding.GetIOPosition(targetIO) == linkVoxelPos && io.direction.GetDirection(buildingRot) + targetIO.direction.GetDirection(targetBuildingRot) == Vector3Int.zero)
                     {
                         // Found successful link, set linkedIO for both
                         targetIO.linkedIO = io;
                         io.linkedIO = targetIO;
 
                         Debug.Log("Successfully linked");
-                    }
+                    }*/
                 }
             }
 
