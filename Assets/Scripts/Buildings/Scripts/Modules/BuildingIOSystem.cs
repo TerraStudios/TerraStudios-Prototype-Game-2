@@ -51,26 +51,23 @@ namespace BuildingModules
         /// </summary>
         private void OnDrawGizmos()
         {
-            if (!Application.isPlaying)
+            if (!Application.isPlaying && buildingOffset == Vector3.zero)
             {
-                if (buildingOffset == Vector3.zero)
-                {
-                    buildingOffset = new Vector3();
+                buildingOffset = new Vector3();
 
-                    Vector3 buildingSize = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
+                Vector3 buildingSize = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size;
 
-                    Vector3Int size = new Vector3Int(
-                        Mathf.CeilToInt(Mathf.Round(buildingSize.x * 10f) / 10f),
-                        Mathf.CeilToInt(Mathf.Round(buildingSize.y * 10f) / 10f),
-                        Mathf.CeilToInt(Mathf.Round(buildingSize.z * 10f) / 10f));
+                Vector3Int size = new Vector3Int(
+                    Mathf.CeilToInt(Mathf.Round(buildingSize.x * 10f) / 10f),
+                    Mathf.CeilToInt(Mathf.Round(buildingSize.y * 10f) / 10f),
+                    Mathf.CeilToInt(Mathf.Round(buildingSize.z * 10f) / 10f));
 
-                    buildingOffset.x = size.x % 2 != 0 ? -0.5f : 0;
-                    buildingOffset.z = size.z % 2 != 0 ? -0.5f : 0;
-                }
+                buildingOffset.x = size.x % 2 != 0 ? -0.5f : 0;
+                buildingOffset.z = size.z % 2 != 0 ? -0.5f : 0;
             }
-            else if (!GridManager.Instance.debugMode)
+            else if (Application.isPlaying && !GridManager.Instance.debugMode)
                 return;
-
+            Debug.Log("Render");
             Gizmos.color = Color.red;
 
             // Draw inputs
