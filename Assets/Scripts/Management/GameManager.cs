@@ -63,6 +63,9 @@ namespace CoreManagement
             }
         }
 
+        [Header("Editor - Performance")]
+        public NativeLeakDetectionMode leakDetectionMode = NativeLeakDetectionMode.Enabled;
+
         private void Awake()
         {
             if (Instance)
@@ -84,6 +87,12 @@ namespace CoreManagement
             GenerateCultures();
 
             Log.DEBUG_MODE = DebugMode; //Set the debug mode for logging
+        }
+
+        private void Update()
+        {
+            if (Application.isEditor)
+                NativeLeakDetection.Mode = leakDetectionMode;
         }
 
         private void GenerateCultures()
