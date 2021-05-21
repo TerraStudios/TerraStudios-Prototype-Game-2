@@ -67,7 +67,7 @@ namespace BuildingModules
             }
             else if (Application.isPlaying && !GridManager.Instance.debugMode)
                 return;
-            Debug.Log("Render");
+
             Gizmos.color = Color.red;
 
             // Draw inputs
