@@ -93,6 +93,7 @@ namespace BuildingModules
 
             foreach (BuildingIO input in inputs)
             {
+                Debug.Log("Attempting input link");
                 AttemptLink(input);
             }
         }
@@ -133,35 +134,21 @@ namespace BuildingModules
             {
                 BuildingIOManager targetBuilding = voxel.controller.mc.buildingIOManager;
 
-                Quaternion targetBuildingRot = io.manager.mc.building.meshData.rot;
+                Quaternion targetBuildingRot = targetBuilding.mc.building.meshData.rot;
 
                 // Loop through opposite of io's type
                 foreach (BuildingIO targetIO in input ? targetBuilding.outputs : targetBuilding.inputs)
                 {
                     // 1st Check: Get the position of the voxel perpendicular to the target IO, and check if it equals the desired linkVoxelPos
-                    if(targetBuilding.GetIOPosition(targetIO) == linkVoxelPos)
-                    {
-                        // 2nd Check: Make sure the directions are actually perpendicular (belt connections are excluded)
-                        if (isConveyor && io.manager.isConveyor || io.direction.GetDirection(buildingRot) + targetIO.direction.GetDirection(targetBuildingRot) == Vector3Int.zero)
-                        {
-                            // Found successful link, set linkedIO for both
-                            targetIO.linkedIO = io;
-                            io.linkedIO = targetIO;
-
-                            Debug.Log("Successfully linked");
-                        }
-                    }
-
-                    // Original unmodified
-
-                    /*if (targetBuilding.GetIOPosition(targetIO) == linkVoxelPos && io.direction.GetDirection(buildingRot) + targetIO.direction.GetDirection(targetBuildingRot) == Vector3Int.zero)
+                    // 2nd Check: Make sure the directions are opposite by making sure the two direction vectors equal zero
+                    if (targetBuilding.GetIOPosition(targetIO) == linkVoxelPos && io.direction.GetDirection(buildingRot) + (targetIO.direction.GetDirection(targetBuildingRot)) == Vector3Int.zero)
                     {
                         // Found successful link, set linkedIO for both
                         targetIO.linkedIO = io;
                         io.linkedIO = targetIO;
 
                         Debug.Log("Successfully linked");
-                    }*/
+                    }
                 }
             }
 
