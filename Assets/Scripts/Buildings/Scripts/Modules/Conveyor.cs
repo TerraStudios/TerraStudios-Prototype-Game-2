@@ -133,7 +133,7 @@ namespace BuildingModules
                     sceneInstance = itemEnterInfo.sceneInstance.transform
                 };
             }
-            
+
 
             itemsOnTop.Add(data);
             Debug.Log("Added item to itemsOnTop");
@@ -159,10 +159,10 @@ namespace BuildingModules
             {
                 speed = speed,
                 endPos = endMovePos,
-                deltaTime = Time.unscaledDeltaTime,
+                deltaTime = Time.deltaTime,
                 reachedEnd = reachedEndArray
             };
-            
+
             for (int i = 0; i < itemsOnTop.Count; i++)
             {
                 accessArray.Add(itemsOnTop[i].sceneInstance);
@@ -204,7 +204,7 @@ namespace BuildingModules
             }
         }
 
-        public bool IsBusy() 
+        public bool IsBusy()
         {
             // TODO: Redesign according to GDD
             /*if (itemsOnTop.Count > 0) // HERE: check why when this is true, after this it doesn't continue accepting items
