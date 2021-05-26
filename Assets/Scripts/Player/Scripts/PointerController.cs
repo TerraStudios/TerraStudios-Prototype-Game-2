@@ -51,9 +51,8 @@ public class PointerController : MonoBehaviour
 
         Vector3 rotationDirection = (pointerGround.position - pointerStatic.position); //Change Rotation
         pointerLine.rotation = Quaternion.LookRotation(-rotationDirection);
-        // Billboard pointer line not working, rotates around side and not center
-        // The 
-        pointerLine.Rotate(pointerLine.localRotation.x, pointerLine.localRotation.y, Camera.main.transform.rotation.eulerAngles.y);
+
+        pointerLine.RotateAround(pointerGround.transform.position, Vector3.up, Camera.main.transform.rotation.eulerAngles.y);
     }
 
     /// <summary>
