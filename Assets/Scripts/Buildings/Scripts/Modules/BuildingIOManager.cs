@@ -285,11 +285,18 @@ namespace BuildingModules
         public bool ConveyorMoveNext(ConveyorItemData conveyorItemData)
         {
             BuildingIO attachedIO = GetAttachedToBelt();
+
+            if (attachedIO == null)
+                return false;
+
             if (attachedIO.manager.isConveyor)
             {
                 // Attached IO is a belt
 
-                //Debug.Log("Next IO is building, moving item to it!");
+                if (attachedIO.manager.mc.conveyor.IsBusy())
+                    return false;
+
+                //Debug.Log("Next IO is conveyor, moving item to it!");
                 OnItemEnterEvent args = new OnItemEnterEvent()
                 {
                     inputID = 0, // not sure if it's good to hard code this...
@@ -305,7 +312,7 @@ namespace BuildingModules
             {
                 // Attached IO is a building
 
-                //Debug.Log("Next IO is a conveyor, attempting item enter!");
+                //Debug.Log("Next IO is a building, attempting item enter!");
                 //ObjectPoolManager.Instance.DestroyObject(conveyorItemData.sceneInstance.gameObject);
                 attachedIO.AttemptIOEnter(conveyorItemData.data);
                 return true;

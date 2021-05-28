@@ -76,6 +76,7 @@ namespace BuildingModules
         private Vector3 startMovePos;
         private Vector3 endMovePos;
 
+        GameObject statusSphere;
         public void Init()
         {
             mc.buildingIOManager.OnItemEnterInput.AddListener(OnItemEnterBelt);
@@ -97,24 +98,14 @@ namespace BuildingModules
             sphereOutput.transform.position = endMovePos;
             sphereOutput.transform.localScale /= 2;
             sphereOutput.GetComponent<Renderer>().material.color = Color.red;*/
+
+            statusSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            statusSphere.transform.position = mc.building.meshData.pos + Vector3.up * 0.5f;
+            statusSphere.transform.localScale /= 2;
         }
 
         private void OnItemEnterBelt(OnItemEnterEvent itemEnterInfo)
         {
-            BuildingIO io = mc.buildingIOManager.outputs[0];
-            if (io.linkedIO != null)
-            {
-                if (!io.linkedIO.manager.mc.conveyor.IsBusy())
-                {
-                    //Debug.Log("No item inside next belt, continuing...");
-                }
-                else
-                {
-                    //Debug.Log("Item inside next belt detected, stopping");
-                    return;
-                }
-            }
-
             ConveyorItemData data;
 
             if (!itemEnterInfo.sceneInstance)
@@ -149,6 +140,11 @@ namespace BuildingModules
         /// </summary>
         public void UpdateConveyor()
         {
+            if (IsBusy())
+                statusSphere.GetComponent<Renderer>().material.color = Color.red;
+            else
+                statusSphere.GetComponent<Renderer>().material.color = Color.green;
+
             if (itemsOnTop.Count == 0)
                 return;
 
@@ -185,7 +181,6 @@ namespace BuildingModules
                     {
                         ConveyorItemData data = itemsOnTop.ElementAtOrDefault(i);
 
-                        // TODO: This eliminates memory leak when itemsOnTop is begin accessed without thi IF and the Editor freezes
                         // This most probably has to be reworked
                         if (data == null)
                             continue;
@@ -206,13 +201,10 @@ namespace BuildingModules
 
         public bool IsBusy()
         {
-            // TODO: Redesign according to GDD
-            /*if (itemsOnTop.Count > 0) // HERE: check why when this is true, after this it doesn't continue accepting items
+            if (itemsOnTop.Count > 0)
                 return true;
             else
                 return false;
-            */
-            return false;
         }
     }
 }
