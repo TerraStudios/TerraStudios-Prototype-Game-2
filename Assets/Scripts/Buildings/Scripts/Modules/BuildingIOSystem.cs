@@ -222,12 +222,12 @@ namespace BuildingModules
             return null;
         }
 
-        public BuildingIO GetAttachedBelt()
+        public BuildingIO GetAttachedToBelt()
         {
             foreach (BuildingIO output in outputs)
             {
-                if (output.linkedIO != null && output.linkedIO.manager.isConveyor)
-                    return output;
+                if (output.linkedIO != null)
+                    return output.linkedIO;
             }
 
             return null;

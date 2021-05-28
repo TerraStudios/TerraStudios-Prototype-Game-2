@@ -434,20 +434,20 @@ namespace BuildingModules
 
         private void AcceptItemInside(OnItemEnterEvent ItemEnterInfo)
         {
-            /*if (ItemEnterInfo.sceneInstance)
-            {
+            if (ItemEnterInfo.sceneInstance)
                 ObjectPoolManager.Instance.DestroyObject(ItemEnterInfo.sceneInstance);
-                mc.buildingIOManager.itemsInside = ItemEnterInfo.proposedItems;
-            }*/
 
             mc.buildingIOManager.AddItem(ItemEnterInfo.item);
         }
 
         #endregion
 
-        private void ItemLog(string itemName, string message, UnityEngine.Object highlight = null)
+        private void ItemLog(string itemName, string message, Object highlight = null)
         {
-            Debug.Log($"[Recipe: {CurrentRecipe.name}] [Item: {itemName}] {message}", highlight);
+            if (CurrentRecipe)
+                Debug.Log($"[Recipe: {CurrentRecipe.name}] [Item: {itemName}] {message}", highlight);
+            else
+                Debug.Log($"[Recipe: None] [Item: {itemName}] {message}", highlight);
         }
     }
 }

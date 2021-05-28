@@ -284,39 +284,31 @@ namespace BuildingModules
         /// <returns>Whether the item moves to the next belt.</returns>
         public bool ConveyorMoveNext(ConveyorItemData conveyorItemData)
         {
-            BuildingIO attachedBelt = GetAttachedBelt();
-            if (attachedBelt == null)
+            BuildingIO attachedIO = GetAttachedToBelt();
+            if (attachedIO.manager.isConveyor)
             {
-                // No attached output...?
-                //Debug.Log("Nothing is attached. Stop item move");
-                return false;
+                // Attached IO is a belt
+
+                //Debug.Log("Next IO is building, moving item to it!");
+                OnItemEnterEvent args = new OnItemEnterEvent()
+                {
+                    inputID = 0, // not sure if it's good to hard code this...
+                    item = conveyorItemData.data,
+                    sceneInstance = conveyorItemData.sceneInstance.gameObject
+                };
+
+                attachedIO.manager.OnItemEnterInput.Invoke(args);
+
+                return true;
             }
             else
             {
-                BuildingIO nextIO = outputs[0].linkedIO;
-                if (nextIO.manager.isConveyor)
-                {
-                    //Debug.Log("Next IO is conveyor, moving item to it!");
+                // Attached IO is a building
 
-                    // need to pass scene instance
-                    OnItemEnterEvent args = new OnItemEnterEvent()
-                    {
-                        inputID = 0, // replace with actual corresponding input
-                        item = conveyorItemData.data,
-                        sceneInstance = conveyorItemData.sceneInstance.gameObject
-                    };
-
-                    nextIO.manager.OnItemEnterInput.Invoke(args);
-
-                    return true;
-                }
-                else
-                {
-                    //Debug.Log("Next IO is not a conveyor, attempting item enter!");
-                    ObjectPoolManager.Instance.DestroyObject(conveyorItemData.sceneInstance.gameObject);
-                    nextIO.AttemptIOEnter(conveyorItemData.data);
-                    return true;
-                }
+                //Debug.Log("Next IO is a conveyor, attempting item enter!");
+                //ObjectPoolManager.Instance.DestroyObject(conveyorItemData.sceneInstance.gameObject);
+                attachedIO.AttemptIOEnter(conveyorItemData.data);
+                return true;
             }
         }
 
