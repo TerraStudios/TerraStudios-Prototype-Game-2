@@ -76,7 +76,8 @@ namespace BuildingModules
         private Vector3 startMovePos;
         private Vector3 endMovePos;
 
-        GameObject statusSphere;
+        private GameObject statusSphere;
+
         public void Init()
         {
             mc.buildingIOManager.OnItemEnterInput.AddListener(OnItemEnterBelt);
