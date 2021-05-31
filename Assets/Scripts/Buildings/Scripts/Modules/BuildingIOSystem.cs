@@ -261,7 +261,7 @@ namespace BuildingModules
         /// Called when an <see cref="ItemData"/> attempts to enter this IO.
         /// </summary>
         /// <param name="data"></param>
-        public void AttemptIOEnter(ItemData data)
+        public void AttemptIOEnter(ItemData data, GameObject sceneInstance)
         {
             if (!manager)
             {
@@ -269,7 +269,7 @@ namespace BuildingModules
                 return;
             }
 
-            manager.AttemptItemEnter(data, id);
+            manager.AttemptItemEnter(data, id, sceneInstance);
         }
     }
 
@@ -309,6 +309,7 @@ namespace BuildingModules
         public int outputID;
         public ItemData item;
         public float timeToSpawn;
+        public GameObject sceneInstance;
     }
 
     #endregion

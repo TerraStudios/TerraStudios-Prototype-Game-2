@@ -93,7 +93,6 @@ namespace BuildingModules
 
             foreach (BuildingIO input in inputs)
             {
-                Debug.Log("Attempting input link");
                 AttemptLink(input);
             }
         }
@@ -207,14 +206,15 @@ namespace BuildingModules
         /// </summary>
         /// <param name="data">The Item that attempts to enter.</param>
         /// <param name="inputID">The input ID from which it attempts to enter.</param>
-        public void AttemptItemEnter(ItemData data, int inputID)
+        public void AttemptItemEnter(ItemData data, int inputID, GameObject sceneInstance)
         {
             Debug.Log("[Item Enter] Item attempts to enter! Item is " + data.name);
 
             OnItemEnterEvent args = new OnItemEnterEvent()
             {
                 inputID = inputID,
-                item = data
+                item = data,
+                sceneInstance = sceneInstance
             };
 
             OnItemEnterInput.Invoke(args);
@@ -314,7 +314,7 @@ namespace BuildingModules
 
                 //Debug.Log("Next IO is a building, attempting item enter!");
                 //ObjectPoolManager.Instance.DestroyObject(conveyorItemData.sceneInstance.gameObject);
-                attachedIO.AttemptIOEnter(conveyorItemData.data);
+                attachedIO.AttemptIOEnter(conveyorItemData.data, conveyorItemData.sceneInstance.gameObject);
                 return true;
             }
         }
@@ -326,13 +326,17 @@ namespace BuildingModules
 
         private IEnumerator ProcessSpawn(ItemQueueData queueData)
         {
-            //yield return new WaitUntil(() => !itemInside); // legacy code used for checking if output slot is occupied
             yield return new WaitForSeconds(queueData.timeToSpawn);
-            //yield return new WaitUntil(() => !itemInside);
+            yield return new WaitWhile(GetAttachedToBelt().manager.mc.conveyor.IsBusy);
 
-            BuildingIO target = outputs[queueData.outputID];
-            if (target.linkedIO != null)
-                target.AttemptIOEnter(queueData.item);
+            BuildingIO target = outputs[queueData.outputID].linkedIO;
+            if (target != null)
+            {
+                if (queueData.sceneInstance)
+                    target.AttemptIOEnter(queueData.item, queueData.sceneInstance);
+                else
+                    target.AttemptIOEnter(queueData.item, null);
+            }
 
             /* // Legacy code, rethink whether it is needed
              * 

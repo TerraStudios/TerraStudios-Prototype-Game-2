@@ -126,9 +126,7 @@ namespace BuildingModules
                 };
             }
 
-
             itemsOnTop.Add(data);
-            Debug.Log("Added item to itemsOnTop");
         }
 
         ItemMovementJob job;

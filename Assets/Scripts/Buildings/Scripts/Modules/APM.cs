@@ -129,12 +129,6 @@ namespace BuildingModules
                 CurrentStatus = APMStatus.Blocked;
 
             allowedRecipes = RecipeManager.GetRecipes(recipeFilter).allowed;
-
-            // TODO: Update with new code here.
-            /*foreach (BuildingIO io in mc.buildingIOManager.outputs)
-            {
-                //io.outputMaxQueueSize = outputSpace;
-            }*/
         }
 
         private void InitIOData()
@@ -281,14 +275,13 @@ namespace BuildingModules
             // check if the outputs' queues have enough space to fit the output items
             foreach (KeyValuePair<MachineRecipe.OutputData, int> kvp in outputData)
             {
-                BuildingIO io = mc.buildingIOManager.outputs[kvp.Value - 1];
-                // TODO: Update with new code here
-                /*if (io.itemsToSpawn.Count + kvp.Key.amount > io.outputMaxQueueSize)
+                //BuildingIO io = mc.buildingIOManager.outputs[kvp.Value - 1];
+                if (mc.buildingIOManager.itemsToSpawn.Count + kvp.Key.amount > outputSpace)
                 {
                     ItemLog(ItemEnterInfo.item.name, "Not enough space to one or more of the output/s", this);
                     mc.building.SetIndicator(BuildingManager.Instance.errorIndicator);
                     return (false, inputID, outputID);
-                }*/
+                }
             }
 
             mc.building.RemoveIndicator();
@@ -349,9 +342,8 @@ namespace BuildingModules
         {
             foreach (BuildingIO output in mc.buildingIOManager.outputs)
             {
-                // TODO: Update with new code here
-                //if (output.itemsToSpawn.Count >= outputSpace)
-                //    return false;
+                if (output.manager.itemsToSpawn.Count >= outputSpace)
+                    return false;
             }
 
             return true;
@@ -401,7 +393,7 @@ namespace BuildingModules
         private IEnumerator RunCraftingTimer()
         {
             yield return new WaitForSeconds(currentlyCrafting.Peek().currentRecipe.baseTime * baseTimeMultiplier * GameManager.Instance.CurrentGameProfile.globalBaseTimeMultiplier);
-            while (!IsOutputStorageSufficient()) ;
+            yield return new WaitUntil(IsOutputStorageSufficient);
             ExecuteCrafting();
         }
 
