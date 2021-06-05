@@ -90,6 +90,7 @@ namespace BuildingModules
         [HideInInspector] public GameObject correspondingMeshPrefab;
         [HideInInspector] public Transform correspondingMesh;
         [HideInInspector] public bool isSetUp;
+        [HideInInspector] public bool isVisible = true;
 
         [Header("Grid Building Properties")]
         public Transform prefab;
@@ -184,6 +185,20 @@ namespace BuildingModules
         private void DepleteHealthEvent()
         {
             bBase.healthWaitEvents.Add(timeManager.RegisterTimeWaiter(bBase.timeToDrainHealth, healthUpdateID));
+        }
+
+        public void OnBuildingShow()
+        {
+            isVisible = true;
+            if (mc.buildingIOManager.isConveyor)
+                mc.conveyor.LoadItemMeshes();
+        }
+
+        public void OnBuildingHide()
+        {
+            isVisible = false;
+            if (mc.buildingIOManager.isConveyor)
+                mc.conveyor.UnloadItemMeshes();
         }
 
         public virtual void OnBuildingBreak()

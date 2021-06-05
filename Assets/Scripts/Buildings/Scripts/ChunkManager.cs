@@ -78,6 +78,7 @@ public class ChunkManager
                 }
 
                 building.mc.buildingIOManager.LinkAll(); // figure out why they don't link. Voxel found it null.
+                building.OnBuildingShow(); // consider moving bits of code from this function into Building.OnBuildingShow
             }
         }
     }
@@ -100,6 +101,8 @@ public class ChunkManager
                     ObjectPoolManager.Instance.DestroyObject(kvp.Value);
                     // Make the corresponding mesh null so we don't somehow get an invalid one
                     BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(kvp.Key, null);
+
+                    kvp.Key.OnBuildingHide(); // consider moving bits of code from this function into Building.OnBuildingHide
                 }
             }
         }

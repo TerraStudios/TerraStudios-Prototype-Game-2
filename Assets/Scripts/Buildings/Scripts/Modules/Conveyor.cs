@@ -99,7 +99,7 @@ namespace BuildingModules
             }
         }
 
-        private GameObject statusSphere;
+        //private GameObject statusSphere;
 
         public void Init()
         {
@@ -123,9 +123,9 @@ namespace BuildingModules
             sphereOutput.transform.localScale /= 2;
             sphereOutput.GetComponent<Renderer>().material.color = Color.red;*/
 
-            statusSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            statusSphere.transform.position = mc.building.meshData.pos + Vector3.up * 0.5f;
-            statusSphere.transform.localScale /= 2;
+            //statusSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            //statusSphere.transform.position = mc.building.meshData.pos + Vector3.up * 0.5f;
+            //statusSphere.transform.localScale /= 2;
         }
 
         private void OnItemEnterBelt(OnItemEnterEvent itemEnterInfo)
@@ -162,10 +162,10 @@ namespace BuildingModules
         /// </summary>
         public void UpdateConveyor()
         {
-            if (IsBusy())
+            /*if (IsBusy())
                 statusSphere.GetComponent<Renderer>().material.color = Color.red;
             else
-                statusSphere.GetComponent<Renderer>().material.color = Color.green;
+                statusSphere.GetComponent<Renderer>().material.color = Color.green;*/
 
             if (itemsOnTop.Count == 0)
                 return;
@@ -183,7 +183,9 @@ namespace BuildingModules
 
             for (int i = 0; i < itemsOnTop.Count; i++)
             {
-                accessArray.Add(itemsOnTop[i].sceneInstance);
+                Transform tr = itemsOnTop[i].sceneInstance;
+                accessArray.Add(tr);
+                tr.gameObject.SetActive(mc.building.isVisible);
             }
 
             movementJobHandle = job.Schedule(accessArray);
@@ -218,6 +220,26 @@ namespace BuildingModules
 
                 accessArray.Dispose();
                 reachedEndArray.Dispose();
+            }
+        }
+
+        public void LoadItemMeshes()
+        {
+            for (int i = 0; i < itemsOnTop.Count; i++)
+            {
+                Transform sceneInstance = itemsOnTop[i].sceneInstance;
+
+                sceneInstance.gameObject.SetActive(true);
+            }
+        }
+
+        public void UnloadItemMeshes()
+        {
+            for (int i = 0; i < itemsOnTop.Count; i++)
+            {
+                Transform sceneInstance = itemsOnTop[i].sceneInstance;
+
+                sceneInstance.gameObject.SetActive(false);
             }
         }
 
