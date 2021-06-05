@@ -206,7 +206,7 @@ namespace BuildingModules
         /// </summary>
         /// <param name="data">The Item that attempts to enter.</param>
         /// <param name="inputID">The input ID from which it attempts to enter.</param>
-        public void AttemptItemEnter(ItemData data, int inputID, GameObject sceneInstance)
+        public void AttemptItemEnter(ItemData data, int inputID, GameObject sceneInstance, BuildingIOManager caller)
         {
             Debug.Log("[Item Enter] Item attempts to enter! Item is " + data.name);
 
@@ -214,7 +214,8 @@ namespace BuildingModules
             {
                 inputID = inputID,
                 item = data,
-                sceneInstance = sceneInstance
+                sceneInstance = sceneInstance,
+                caller = caller
             };
 
             OnItemEnterInput.Invoke(args);
@@ -299,6 +300,7 @@ namespace BuildingModules
                 //Debug.Log("Next IO is conveyor, moving item to it!");
                 OnItemEnterEvent args = new OnItemEnterEvent()
                 {
+                    caller = this,
                     inputID = 0, // not sure if it's good to hard code this...
                     item = conveyorItemData.data,
                     sceneInstance = conveyorItemData.sceneInstance.gameObject
@@ -314,8 +316,8 @@ namespace BuildingModules
 
                 //Debug.Log("Next IO is a building, attempting item enter!");
                 //ObjectPoolManager.Instance.DestroyObject(conveyorItemData.sceneInstance.gameObject);
-                attachedIO.AttemptIOEnter(conveyorItemData.data, conveyorItemData.sceneInstance.gameObject);
-                return true;
+                attachedIO.AttemptIOEnter(conveyorItemData.data, conveyorItemData.sceneInstance.gameObject, this);
+                return false;
             }
         }
 
@@ -333,9 +335,9 @@ namespace BuildingModules
             if (target != null)
             {
                 if (queueData.sceneInstance)
-                    target.AttemptIOEnter(queueData.item, queueData.sceneInstance);
+                    target.AttemptIOEnter(queueData.item, queueData.sceneInstance, this);
                 else
-                    target.AttemptIOEnter(queueData.item, null);
+                    target.AttemptIOEnter(queueData.item, null, this);
             }
 
             /* // Legacy code, rethink whether it is needed

@@ -74,7 +74,30 @@ namespace BuildingModules
         public List<ConveyorItemData> itemsOnTop = new List<ConveyorItemData>();
 
         private Vector3 startMovePos;
-        private Vector3 endMovePos;
+        private Vector3 endOfBeltPos;
+
+        public Vector3 EndOfBeltPos 
+        {
+            get
+            {
+                BuildingIO firstAttached = mc.buildingIOManager.GetFirstAttachedOutput();
+                if (firstAttached != null)
+                {
+                    if (firstAttached.manager.isConveyor)
+                        return math.lerp(startMovePos, endOfBeltPos, 0.75f);
+                    else
+                        return math.lerp(startMovePos, endOfBeltPos, 0.5f);
+                }
+                    
+                else
+                    return math.lerp(startMovePos, endOfBeltPos, 0.5f);
+            }
+
+            set
+            {
+                endOfBeltPos = value;
+            }
+        }
 
         private GameObject statusSphere;
 
@@ -89,7 +112,7 @@ namespace BuildingModules
             BuildingIO output = mc.buildingIOManager.outputs[0];
 
             startMovePos = mc.buildingIOManager.GetTargetIOPosition(input);
-            endMovePos = mc.buildingIOManager.GetTargetIOPosition(output);
+            EndOfBeltPos = mc.buildingIOManager.GetTargetIOPosition(output);
 
             /*GameObject sphereInput = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             sphereInput.transform.position = startMovePos;
@@ -153,7 +176,7 @@ namespace BuildingModules
             job = new ItemMovementJob()
             {
                 speed = speed,
-                endPos = endMovePos,
+                endPos = EndOfBeltPos,
                 deltaTime = Time.deltaTime,
                 reachedEnd = reachedEndArray
             };
@@ -196,6 +219,11 @@ namespace BuildingModules
                 accessArray.Dispose();
                 reachedEndArray.Dispose();
             }
+        }
+
+        public void RemoveItemFromBelt(GameObject sceneInstance)
+        {
+            itemsOnTop.Remove(itemsOnTop.Single(i => i.sceneInstance == sceneInstance.transform));
         }
 
         public bool IsBusy()

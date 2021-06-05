@@ -90,7 +90,7 @@ namespace BuildingManagement
             RefreshIOUI();
 
             if (b.mc.buildingIOManager.isConveyor && enableDebugSpawn)
-                b.mc.buildingIOManager.AttemptItemEnter(testItemToSpawn, 0, null);
+                b.mc.buildingIOManager.AttemptItemEnter(testItemToSpawn, 0, null, null);
         }
 
         /// <summary>

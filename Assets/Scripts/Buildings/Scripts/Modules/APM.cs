@@ -429,6 +429,9 @@ namespace BuildingModules
             if (ItemEnterInfo.sceneInstance)
                 ObjectPoolManager.Instance.DestroyObject(ItemEnterInfo.sceneInstance);
 
+            if (ItemEnterInfo.caller.mc.conveyor)
+                ItemEnterInfo.caller.mc.conveyor.RemoveItemFromBelt(ItemEnterInfo.sceneInstance);
+
             mc.buildingIOManager.AddItem(ItemEnterInfo.item);
         }
 

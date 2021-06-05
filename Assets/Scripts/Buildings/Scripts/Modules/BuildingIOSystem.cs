@@ -155,6 +155,22 @@ namespace BuildingModules
         }
 
         /// <summary>
+        /// Gets and returns the first attached output to this building. 
+        /// Useful for knowing what is attached to a belt.
+        /// </summary>
+        /// <returns>The linked input of that output.</returns>
+        public BuildingIO GetFirstAttachedOutput()
+        {
+            foreach (BuildingIO output in outputs)
+            {
+                if (output.linkedIO != null)
+                    return output.linkedIO;
+            }
+            
+            return null;
+        }
+
+        /// <summary>
         /// Retrives the position of the IO to connect to.
         /// </summary>
         /// <param name="io">The IO to be used</param>
@@ -261,7 +277,7 @@ namespace BuildingModules
         /// Called when an <see cref="ItemData"/> attempts to enter this IO.
         /// </summary>
         /// <param name="data"></param>
-        public void AttemptIOEnter(ItemData data, GameObject sceneInstance)
+        public void AttemptIOEnter(ItemData data, GameObject sceneInstance, BuildingIOManager caller)
         {
             if (!manager)
             {
@@ -269,7 +285,7 @@ namespace BuildingModules
                 return;
             }
 
-            manager.AttemptItemEnter(data, id, sceneInstance);
+            manager.AttemptItemEnter(data, id, sceneInstance, caller);
         }
     }
 
@@ -296,6 +312,7 @@ namespace BuildingModules
     /// </summary>
     public class OnItemEnterEvent : UnityEvent<OnItemEnterEvent>
     {
+        public BuildingIOManager caller;
         public int inputID;
         public ItemData item;
         public GameObject sceneInstance;
