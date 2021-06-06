@@ -14,6 +14,7 @@ using BuildingModules;
 using Utilities;
 using TerrainTypes;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace TerrainGeneration
 {
@@ -111,6 +112,11 @@ namespace TerrainGeneration
         public Vector3 ToWorldSpace()
         {
             return new Vector3(x * TerrainGenerator.Instance.chunkXSize, 0, z * TerrainGenerator.Instance.chunkZSize);
+        }
+
+        public override string ToString()
+        {
+            return $"({x}, {z})";
         }
     }
 
@@ -362,6 +368,8 @@ namespace TerrainGeneration
 
             // Register chunk in TerrainGenerator
             generator.chunks[chunkCoord.x, chunkCoord.z] = this;
+
+
         }
 
         /// <summary>
@@ -451,41 +459,43 @@ namespace TerrainGeneration
         public void SetVoxelData(int x, int y, int z, Voxel newVoxel)
         {
             voxelData[GetVoxelDataIndex(x, y, z)] = newVoxel;
+
+            Debug.Log($"voxel at {x}, {y}, {z} is now {(newVoxel is MachineSlaveVoxel)}");
         }
 
-        public void OnDrawGizmos()
-        {
-            //TODO: Move to a debug button?
-            //Drawing voxels
-            //Gizmos.color = Color.blue;
+        //public void OnDrawGizmos()
+        //{
+        //    //TODO: Move to a debug button?
+        //    //Drawing voxels
+        //    Gizmos.color = Color.blue;
 
-            //if (generated)
-            //{
-            //    for (int x = 0; x < chunkSizeX; x++)
-            //    {
-            //        for (int y = 0; y < chunkSizeY; y++)
-            //        {
-            //            for (int z = 0; z < chunkSizeZ; z++)
-            //            {
+        //    if (generated)
+        //    {
+        //        for (int x = 0; x < chunkSizeX; x++)
+        //        {
+        //            for (int y = 0; y < chunkSizeY; y++)
+        //            {
+        //                for (int z = 0; z < chunkSizeZ; z++)
+        //                {
 
-            //                Gizmos.color = Color.green;
+        //                    Gizmos.color = Color.green;
 
-            //                Voxel b = voxelData[GetVoxelDataIndex(x, y, z)];
+        //                    Voxel b = voxelData[GetVoxelDataIndex(x, y, z)];
 
-            //                if (b is Voxel) Gizmos.color = Color.red;
+        //                    if (b is Voxel) Gizmos.color = Color.red;
 
-            //                if (b is MachineSlaveVoxel)
-            //                {
-            //                    Gizmos.DrawWireCube(new Vector3(x + 0.5f + chunkCoord.x * chunkSizeX, y + 0.5f, chunkCoord.z * chunkSizeZ + z + 0.5f), Vector3.one);
-            //                }
-
-
-            //            }
-            //        }
-            //    }
-            //}
+        //                    if (b is MachineSlaveVoxel)
+        //                    {
+        //                        Gizmos.DrawWireCube(new Vector3(x + 0.5f + chunkCoord.x * chunkSizeX, y + 0.5f, chunkCoord.z * chunkSizeZ + z + 0.5f), Vector3.one);
+        //                    }
 
 
-        }
+        //                }
+        //            }
+        //        }
+        //    }
+
+
+        //}
     }
 }
