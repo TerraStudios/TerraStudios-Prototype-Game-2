@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using Unity.Collections;
+using Unity.Jobs.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace CoreManagement
@@ -66,6 +67,12 @@ namespace CoreManagement
         [Header("Editor - Performance")]
         public NativeLeakDetectionMode leakDetectionMode = NativeLeakDetectionMode.Enabled;
 
+        [Header("Job System - Performance")]
+        [Tooltip("Worker threads available to the Job Queue. Recommended: Job Worker Count = number of available CPU cores - 1")]
+        public int jobWorkerCount = 5;
+        [Tooltip("Desired Job Count used for scheduling a conveyor item movement job.")]
+        public int conveyorDesiredJobCount = -1;
+
         private void Awake()
         {
             if (Instance)
@@ -87,6 +94,8 @@ namespace CoreManagement
             GenerateCultures();
 
             Log.DEBUG_MODE = DebugMode; //Set the debug mode for logging
+
+            JobsUtility.JobWorkerCount = jobWorkerCount;
         }
 
         private void Update()

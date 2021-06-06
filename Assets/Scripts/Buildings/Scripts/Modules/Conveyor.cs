@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BuildingManagement;
+using CoreManagement;
 using ItemManagement;
 using Unity.Burst;
 using Unity.Collections;
@@ -170,7 +171,7 @@ namespace BuildingModules
             if (itemsOnTop.Count == 0)
                 return;
 
-            accessArray = new TransformAccessArray(itemsOnTop.Count);
+            accessArray = new TransformAccessArray(itemsOnTop.Count, GameManager.Instance.conveyorDesiredJobCount);
             reachedEndArray = new NativeList<int>(itemsOnTop.Count, Allocator.TempJob);
 
             job = new ItemMovementJob()
