@@ -64,6 +64,7 @@ namespace BuildingModules
             OnItemEnterInput = new OnItemEnterEvent();
         }
 
+#if UNITY_EDITOR
         private void Update()
         {
             if (GridManager.Instance.debugMode)
@@ -76,8 +77,9 @@ namespace BuildingModules
                 });
             }
         }
+#endif
 
-        #endregion
+#endregion
 
         #region IO Linking
 
