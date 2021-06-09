@@ -15,8 +15,6 @@ namespace ItemManagement
     /// </summary>
     [Serializable]
     [ExecuteInEditMode]
-    [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(BoxCollider))]
     [CreateAssetMenu(fileName = "New Item Data", menuName = "Item/Item")]
     public class ItemData : ScriptableObject
     {

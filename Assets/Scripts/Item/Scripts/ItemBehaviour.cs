@@ -4,6 +4,7 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
+using System;
 using BuildingManagement;
 using BuildingModules;
 using UnityEngine;
@@ -14,13 +15,14 @@ namespace ItemManagement
     /// This script is placed on each Item GameObjects.
     /// Its purpose is to hold properties of Items as well as handling physics events.
     /// </summary>
+    [SerializeField]
     [ExecuteInEditMode]
     public class ItemBehaviour : MonoBehaviour
     {
         public ItemData data;
         //private BuildingIO insideIO;
 
-        private Material originalMaterial;
+        [NonSerialized] private Material originalMaterial;
         private bool markedForDelete;
 
         private void Awake()
