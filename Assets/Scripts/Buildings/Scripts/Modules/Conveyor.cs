@@ -81,16 +81,6 @@ namespace BuildingModules
         {
             get
             {
-                BuildingIO firstAttached = mc.buildingIOManager.GetFirstAttachedOutput();
-                if (firstAttached != null)
-                {
-                    if (firstAttached.manager.isConveyor)
-                        return math.lerp(startMovePos, endOfBeltPos, 0.75f);
-                    else
-                        return math.lerp(startMovePos, endOfBeltPos, 0.5f);
-                }
-                    
-                else
                     return math.lerp(startMovePos, endOfBeltPos, 0.5f);
             }
 
