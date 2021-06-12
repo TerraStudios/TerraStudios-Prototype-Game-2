@@ -19,10 +19,8 @@ namespace SaveSystem
     public class BuildingSave
     {
         public ChunkCoord chunkCoord;
-#pragma warning disable CA2235 // Uses serialization surrogate
         public Vector3 position;
         public Quaternion rotation;
-#pragma warning restore CA2235 // End serialization surrogate usage
         public BuildingBase building;
         public MeshData meshData;
         public string scriptPrefabPath;
