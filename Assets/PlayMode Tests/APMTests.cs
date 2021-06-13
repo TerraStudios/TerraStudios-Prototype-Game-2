@@ -1,6 +1,7 @@
 ﻿using BuildingModules;
 using ItemManagement;
 using NUnit.Framework;
+using RecipeManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,32 +28,44 @@ namespace Tests
             ItemData input1 = GetFakeItem();
 
             // Create fake recipe for testing
-            /*MachineRecipe recipe = ScriptableObject.CreateInstance<MachineRecipe>();
+            MachineRecipe recipe = ScriptableObject.CreateInstance<MachineRecipe>();
+            RecipeFilter filter = ScriptableObject.CreateInstance<RecipeFilter>();
 
-            recipe.inputs = new List<MachineRecipe.InputsData>
+            recipe.inputs = new List<MachineRecipe.InputBatch>
                 {
-                    new MachineRecipe.InputsData
+                    new MachineRecipe.InputBatch
                     {
-                        new MachineRecipe.InputData
+                        inputs = new MachineRecipe.InputData[]
                         {
-                            item = input1, amount = 1, inputID = 0
+                            new MachineRecipe.InputData { item = input1, amount = 1, inputID = 0 }
                         }
                     }
                 };
-            recipe.outputs = new List<MachineRecipe.OutputsData>
+
+            recipe.outputs = new List<MachineRecipe.OutputBatch>
                 {
-                     new MachineRecipe.OutputsData
-                     {
-                         new MachineRecipe.OutputData
-                         {
-                             item = GetFakeItemData(), amount = random.Next(1, 3)
-                         }
-                     }
-                };*/
-            //recipe.baseTime = random.Next(1, 10);
+                    new MachineRecipe.OutputBatch
+                    {
+                        outputs = new MachineRecipe.OutputData[]
+                        {
+                            new MachineRecipe.OutputData { item = GetFakeItemData(), amount = random.Next(1, 3) }
+                        }
+                    }
+                };
+
+            // Set name so it doesn't look weird
+            recipe.name = "Random Test Recipe";
+
+            // Set random time for executing the recipe.
+            recipe.baseTime = random.Next(1, 10);
 
             //Set current recipe for apm
-            //apm.CurrentRecipe = recipe;
+            apm.CurrentRecipe = recipe;
+
+            //Set current recipe filter for apm
+            apm.recipeFilter = filter;
+
+            apm.inputSpace = 1;
 
             //Initialize APM, which listens in to the OnItemEnterEvent
             apm.Init();
@@ -83,6 +96,7 @@ namespace Tests
         private GameObject CreateAPM()
         {
             GameObject apmObject = new GameObject("APM_GO");
+            Building building = apmObject.AddComponent<Building>();
             BuildingIOManager manager = apmObject.AddComponent<BuildingIOManager>();
             //Add APM Component
             APM apm = apmObject.AddComponent<APM>();
@@ -91,6 +105,7 @@ namespace Tests
 
             // Attach modules
             mc.apm = apm;
+            mc.building = building;
             mc.buildingIOManager = manager;
 
             //Add ModuleConnector

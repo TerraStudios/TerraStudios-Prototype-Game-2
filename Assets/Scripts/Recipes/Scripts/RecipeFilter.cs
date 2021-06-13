@@ -35,6 +35,6 @@ namespace RecipeManagement
         public RecipeType type;
 
         [Header("Manual List")]
-        public List<ManualRecipeList> manualList;
+        public List<ManualRecipeList> manualList = new List<ManualRecipeList>();
     }
 }
