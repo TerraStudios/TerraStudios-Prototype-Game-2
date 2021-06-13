@@ -8,6 +8,7 @@ using BuildingModules;
 using EconomyManagement;
 using Player;
 using SaveSystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TerrainGeneration;
@@ -209,6 +210,22 @@ namespace BuildingManagement
             Building b = scriptGO.GetComponent<Building>();
             b.scriptPrefabLocation = resourcesLocation;
             return new KeyValuePair<Building, Transform>(b, meshGO);
+        }
+
+        /// <summary>
+        /// Retrives a list of Script and Mesh GameObjects for all asset locations.
+        /// </summary>
+        /// <returns>A list of all Script and Mesh GameObjects available.</returns>
+        public List<KeyValuePair<Building, Transform>> GetAllBuildings()
+        {
+            List<KeyValuePair<Building, Transform>> toReturn = new List<KeyValuePair<Building, Transform>>();
+
+            for (int i = 0; i < buildingLocations.Length; i++)
+            {
+                toReturn.Add(GetBuildingFromLocation(i));
+            }
+
+            return toReturn;
         }
 
         /// <summary>

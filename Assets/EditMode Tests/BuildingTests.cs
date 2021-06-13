@@ -21,8 +21,12 @@ namespace Assets.Tests
 
                 if (building)
                 {
-                    Assert.IsFalse(go.GetComponent<MeshRenderer>().receiveShadows, $"Receive Shadows needs to be disabled on GameObject {go.name}");
-                    Assert.IsTrue(go.GetComponent<MeshRenderer>().shadowCastingMode == UnityEngine.Rendering.ShadowCastingMode.Off, $"Cast Shadows needs to be disabled on GameObject {go.name}");
+                    MeshRenderer renderer = go.GetComponent<MeshRenderer>();
+                    if (!renderer)
+                        continue;
+
+                    Assert.IsFalse(renderer.receiveShadows, $"Receive Shadows needs to be disabled on GameObject {go.name}");
+                    Assert.IsTrue(renderer.shadowCastingMode == UnityEngine.Rendering.ShadowCastingMode.Off, $"Cast Shadows needs to be disabled on GameObject {go.name}");
                 }
             }
         }
