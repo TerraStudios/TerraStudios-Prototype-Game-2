@@ -12,6 +12,9 @@ Server Console/Server Console/bin
 Server Console/Server Console/obj
 AssetLogs/
 
+# Github Actions artifacts folder to prevent dirty branch creation
+artifacts/
+
 # Visual Studio 2015 cache directory
 /.vs/
 /.vscode/
