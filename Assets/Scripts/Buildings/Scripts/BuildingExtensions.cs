@@ -31,10 +31,9 @@ public static class IODirectionExtension
         };
 
         /*
-         *                 90 => prefabPosition - new Vector3(io.localPosition.y, 0, -io.localPosition.x + 1) + new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset,
+                90 => prefabPosition - new Vector3(io.localPosition.y, 0, -io.localPosition.x + 1) + new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset,
                 180 => prefabPosition - new Vector3(-io.localPosition.x + 1, 0, -io.localPosition.y + 1) + new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset,
                 270 => prefabPosition - new Vector3(-io.localPosition.y + 1, 0, io.localPosition.x) + new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset,
-
         */
 
         // Switch according to rotation 
