@@ -6,11 +6,11 @@ jobs:
     name: Request manual activation file 
     runs-on: ubuntu-latest
     steps:
-      - name: Request manual activation file
+      - name: MASTER - Request manual activation file
         id: getManualLicenseFile
-        uses: webbertakken/unity-request-manual-activation-file@v1.1
+        uses: webbertakken/unity-request-manual-activation-file@v2
         with:
-          unityVersion: 2020.1.6f1 
+          unityVersion: 2020.3.10f1 
       - name: Expose as artifact
         uses: actions/upload-artifact@v2
         with:
