@@ -1,59 +1,42 @@
 name: PBAG Actions
-on:
-  pull_request: {}
-  push: { branches: [master] }
 
-env:
-  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+on: [push, pull_request]
 
 jobs:
-  buildAndTestForSomePlatforms:
-    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+  build:
+    name: Build 🔨
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        unityVersion:
-          - 2020.1.6f1
-        targetPlatform:
-          #- StandaloneOSX # Build a macOS standalone (Intel 64-bit).
-          - StandaloneWindows64 # Build a Windows 64-bit standalone.
-          #- StandaloneLinux64 # Build a Linux 64-bit standalone.
-          #- iOS # Build an iOS player.
-          #- WebGL # WebGL.
-        testMode:
-          - playmode
-          - editmode
     steps:
-      - uses: actions/checkout@v2.3.2
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
         with:
           lfs: true
-      - uses: actions/cache@v2.1.1
+
+      # Cache
+      - uses: actions/cache@v2
         with:
           path: Library
-          key: Library-${{ matrix.targetPlatform }}
-      - uses: webbertakken/unity-test-runner@v1.6
-        id: testRunner
+          key: Library
+
+      # Test
+      - name: Run tests
+        uses: game-ci/unity-test-runner@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          unityVersion: ${{ matrix.unityVersion }}
-          testMode: ${{ matrix.testMode }}
-          artifactsPath: ${{ matrix.testMode }}-artifacts
-          customParameters: |
-            -enableCodeCoverage
-            -coverageResultsPath ${{ matrix.testMode }}-artifacts
-            -nographics
-      - uses: actions/upload-artifact@v1
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          name: Test results (all modes)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
-#       - uses: webbertakken/unity-builder@v1.2
-#         with:
-#           unityVersion: ${{ matrix.unityVersion }}
-#           targetPlatform: ${{ matrix.targetPlatform }}
-#           versioning: Semantic 
-#           customParameters: |
-#              -allowDirtyBuild
-#       - uses: actions/upload-artifact@v1
-#         with:
-#           name: Build
-#           path: build
+          targetPlatform: WebGL
+
+      # Output
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: build
