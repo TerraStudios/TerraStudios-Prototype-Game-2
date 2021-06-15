@@ -4,7 +4,6 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BuildingManagement;
@@ -12,7 +11,6 @@ using CoreManagement;
 using ItemManagement;
 using Unity.Burst;
 using Unity.Collections;
-using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
@@ -21,6 +19,9 @@ using Utilities;
 
 namespace BuildingModules
 {
+    /// <summary>
+    /// Class that contains all needed variables for an item to be processed for item movement.
+    /// </summary>
     public class ConveyorItemData
     {
         public ItemData data;
@@ -28,7 +29,7 @@ namespace BuildingModules
         public bool reachedEnd;
     }
 
-    [BurstCompile(FloatMode = FloatMode.Fast, FloatPrecision = FloatPrecision.Low, DisableSafetyChecks = true)]
+    [BurstCompile(FloatMode = FloatMode.Fast, FloatPrecision = FloatPrecision.Low)]
     public struct ItemMovementJob : IJobParallelForTransform
     {
         public float speed;
@@ -37,6 +38,11 @@ namespace BuildingModules
 
         [NativeDisableParallelForRestriction] public NativeList<int> reachedEnd;
 
+        /// <summary>
+        /// Called when a job is being executed.
+        /// </summary>
+        /// <param name="index">Defines which itteration is currently being done. Defined by <c>itemsOnTop.Count</c> when scheduling the job.</param>
+        /// <param name="transform">Transform of that item to move.</param>
         public void Execute(int index, TransformAccess transform)
         {
             float3 toPos = MoveTowards(transform.position, endPos, deltaTime * speed);
@@ -46,6 +52,13 @@ namespace BuildingModules
                 transform.position = new Vector3(toPos.x, toPos.y, toPos.z);
         }
 
+        /// <summary>
+        /// Burst-ready version of Vector3.MoveTowards. Much faster.
+        /// </summary>
+        /// <param name="current">Current position</param>
+        /// <param name="target">Target position</param>
+        /// <param name="maxDistanceDelta">Time Delta</param>
+        /// <returns>New position to move to.</returns>
         public float3 MoveTowards(float3 current, float3 target, float maxDistanceDelta)
         {
             float deltaX = target.x - current.x;
@@ -77,11 +90,11 @@ namespace BuildingModules
         private Vector3 startMovePos;
         private Vector3 endOfBeltPos;
 
-        public Vector3 EndOfBeltPos 
+        public Vector3 EndOfBeltPos
         {
             get
             {
-                    return math.lerp(startMovePos, endOfBeltPos, 0.5f);
+                return math.lerp(startMovePos, endOfBeltPos, 0.5f);
             }
 
             set
@@ -92,6 +105,9 @@ namespace BuildingModules
 
         //private GameObject statusSphere;
 
+        /// <summary>
+        /// Called when the building begins to be initialized.
+        /// </summary>
         public void Init()
         {
             mc.buildingIOManager.OnItemEnterInput.AddListener(OnItemEnterBelt);
@@ -119,6 +135,10 @@ namespace BuildingModules
             //statusSphere.transform.localScale /= 2;
         }
 
+        /// <summary>
+        /// Called when an item enters the belt.
+        /// </summary>
+        /// <param name="itemEnterInfo"></param>
         private void OnItemEnterBelt(OnItemEnterEvent itemEnterInfo)
         {
             ConveyorItemData data;
@@ -143,6 +163,7 @@ namespace BuildingModules
             itemsOnTop.Add(data);
         }
 
+        // Conveyor Item Movement job variables
         ItemMovementJob job;
         JobHandle movementJobHandle;
         TransformAccessArray accessArray;
@@ -187,10 +208,12 @@ namespace BuildingModules
         /// </summary>
         public void LateUpdateConveyor()
         {
-            if (reachedEndArray.IsCreated)
+            if (reachedEndArray.IsCreated) // Avoid NRE if the belt has not performed a job yet.
             {
+                // Complete the job now. This way the movement is smooth and happens in only one frame.
                 movementJobHandle.Complete();
-                if (!reachedEndArray.IsEmpty)
+
+                if (!reachedEndArray.IsEmpty) // Check if anything needs to be processed
                 {
                     foreach (int i in reachedEndArray)
                     {
@@ -200,20 +223,24 @@ namespace BuildingModules
                         if (data == null)
                             continue;
 
-                        data.reachedEnd = true; // mark that the item reached the end so we can later process it
+                        data.reachedEnd = true; // Mark the item that it reached the end so we can process it later 
 
-                        if (mc.buildingIOManager.ConveyorMoveNext(data)) // check and move item to the next belt
+                        if (mc.buildingIOManager.ConveyorMoveNext(data)) // Check and move item to the next belt
                         {
-                            itemsOnTop.Remove(data); // item successfully passed, removed it from itemsOnTop
+                            itemsOnTop.Remove(data); // Item successfully passed, removed it from itemsOnTop
                         }
                     }
                 }
 
+                // Dispose the NativeArrays after finishing the job.
                 accessArray.Dispose();
                 reachedEndArray.Dispose();
             }
         }
 
+        /// <summary>
+        /// Shows the items that are current flowing in this <c>Conveyor</c>.
+        /// </summary>
         public void LoadItemMeshes()
         {
             for (int i = 0; i < itemsOnTop.Count; i++)
@@ -224,6 +251,9 @@ namespace BuildingModules
             }
         }
 
+        /// <summary>
+        /// Hides the items that are current flowing in this <c>Conveyor</c>
+        /// </summary>
         public void UnloadItemMeshes()
         {
             for (int i = 0; i < itemsOnTop.Count; i++)
@@ -234,11 +264,18 @@ namespace BuildingModules
             }
         }
 
+        /// <summary>
+        /// Removes an item from <c>itemsOnTop</c> when an item successfully moves to the next conveyor.
+        /// </summary>
+        /// <param name="sceneInstance">Scene Instance GameObject of that item.</param>
         public void RemoveItemFromBelt(GameObject sceneInstance)
         {
             itemsOnTop.Remove(itemsOnTop.Single(i => i.sceneInstance == sceneInstance.transform));
         }
 
+        /// <summary>
+        /// Returns whether the belt is busy.
+        /// </summary>
         public bool IsBusy()
         {
             if (itemsOnTop.Count > 0)
