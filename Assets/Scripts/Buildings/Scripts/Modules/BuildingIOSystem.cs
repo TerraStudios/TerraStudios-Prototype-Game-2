@@ -266,12 +266,12 @@ namespace BuildingModules
         public Vector2 localPosition;
         public IODirection direction;
 
-        //TODO: Remove this?
-        private IOType type;
+        public IOType type;
         public bool isTrashcanOutput;
 
-        [HideInInspector]
-        public BuildingIO linkedIO; // The IO this BuildingIO is connected to, e.g. an input BuildingIO to an output
+        public IOLinkStatus linkStatus = IOLinkStatus.Unconnected;
+        [HideInInspector] public BuildingIO linkedIO; // The IO this BuildingIO is connected to, e.g. an input BuildingIO to an output
+        [NonSerialized] public Transform arrow;
 
         /// <summary>
         /// Called when an <see cref="ItemData"/> attempts to enter this IO.
@@ -305,6 +305,11 @@ namespace BuildingModules
     {
         Input,
         Output
+    }
+
+    public enum IOLinkStatus
+    {
+        Unconnected, InvalidConnection, SuccessfulConnection
     }
 
     /// <summary>

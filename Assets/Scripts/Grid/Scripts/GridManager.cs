@@ -171,6 +171,12 @@ namespace BuildingManagement
 
                 visualization.Value.transform.position = center;
                 visualization.Value.transform.rotation = RotationChange;
+                visualization.Key.meshData = new MeshData()
+                {
+                    pos = visualization.Value.position,
+                    rot = visualization.Value.rotation,
+                };
+                visualization.Key.mc.buildingIOManager.LinkAll(true);
                 visualization.Key.mc.buildingIOManager.UpdateArrows();
             }
 
@@ -233,6 +239,7 @@ namespace BuildingManagement
                 return;
 
             visualization.Key.GetComponent<BuildingIOManager>().DevisualizeAll();
+            visualization.Key.meshData = null;
             Destroy(visualization.Value.gameObject);
         }
 

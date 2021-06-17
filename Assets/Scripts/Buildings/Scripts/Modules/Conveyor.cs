@@ -118,8 +118,8 @@ namespace BuildingModules
             BuildingIO input = mc.buildingIOManager.inputs[0];
             BuildingIO output = mc.buildingIOManager.outputs[0];
 
-            startMovePos = mc.buildingIOManager.GetTargetIOPosition(input);
-            EndOfBeltPos = mc.buildingIOManager.GetTargetIOPosition(output);
+            startMovePos = mc.buildingIOManager.GetTargetIOPosition(input) + Vector3.down * 0.25f;
+            EndOfBeltPos = mc.buildingIOManager.GetTargetIOPosition(output) + Vector3.down * 0.25f;
 
             /*GameObject sphereInput = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             sphereInput.transform.position = startMovePos;

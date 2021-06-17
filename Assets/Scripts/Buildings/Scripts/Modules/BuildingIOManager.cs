@@ -4,11 +4,11 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
+using System.Collections;
+using System.Collections.Generic;
 using BuildingManagement;
 using DebugTools;
 using ItemManagement;
-using System.Collections;
-using System.Collections.Generic;
 using TerrainGeneration;
 using TerrainTypes;
 using UnityEngine;
@@ -22,23 +22,28 @@ namespace BuildingModules
     public class BuildingIOManager : BuildingIOSystem
     {
         #region Initializers
-        /// <summary>
-        /// Initializes all of the <see cref="Building">'s <see cref="BuildingIO"/>s and calls the <see cref="OnItemEnterEvent"/> event. 
-        /// </summary>
-        public void Init()
+        private void Awake()
         {
             for (int i = 0; i < inputs.Length; i++)
             {
                 inputs[i].manager = this;
                 inputs[i].id = i;
+                inputs[i].type = IOType.Input;
             }
 
             for (int i = 0; i < outputs.Length; i++)
             {
                 outputs[i].manager = this;
                 outputs[i].id = i;
+                inputs[i].type = IOType.Output;
             }
+        }
 
+        /// <summary>
+        /// Initializes all of the <see cref="Building">'s <see cref="BuildingIO"/>s. 
+        /// </summary>
+        public void Init()
+        {
             buildingOffset = new Vector3();
 
             Vector3 buildingSize;
@@ -79,23 +84,24 @@ namespace BuildingModules
         }
 #endif
 
-#endregion
+        #endregion
 
         #region IO Linking
 
         /// <summary>
         /// Signals every <see cref="BuildingIO"/> in the building to attempt a link with any other attached <see cref="BuildingIO"/>s.
+        /// <param name = "visualizeOnly" > Whether only linkStatus of the IOs should be changed</param>
         /// </summary>
-        public void LinkAll()
+        public void LinkAll(bool visualizeOnly = false)
         {
             foreach (BuildingIO output in outputs)
             {
-                AttemptLink(output, false);
+                AttemptLink(output, visualizeOnly);
             }
 
             foreach (BuildingIO input in inputs)
             {
-                AttemptLink(input);
+                AttemptLink(input, visualizeOnly);
             }
         }
 
@@ -123,85 +129,59 @@ namespace BuildingModules
         /// </summary>
         /// <param name="io">The input to attempt to connect to (current building).</param>
         /// <param name="input">Whether the IO is input or output true = input, false = output.</param>
-        private void AttemptLink(BuildingIO io, bool input = true)
+        /// <param name="visualizeOnly">Whether only linkStatus of the IOs should be changed</param>
+        private void AttemptLink(BuildingIO io, bool visualizeOnly = false)
         {
+            io.linkStatus = IOLinkStatus.Unconnected;
+
             // Retrieves the OPPOSITE voxel (normal vector with a magnitude of 1 voxel)
             Vector3 linkVoxelPos = GetTargetIOPosition(io);
-            Voxel targetvoxel = TerrainGenerator.Instance.GetVoxel(linkVoxelPos.FloorToInt3());
+            Voxel targetVoxel = TerrainGenerator.Instance.GetVoxel(linkVoxelPos.FloorToInt3());
 
             Quaternion buildingRot = io.manager.mc.building.meshData.rot;
 
-            if (targetvoxel is MachineSlaveVoxel voxel)
+            if (targetVoxel is MachineSlaveVoxel voxel)
             {
                 BuildingIOManager targetBuilding = voxel.controller.mc.buildingIOManager;
 
                 Quaternion targetBuildingRot = targetBuilding.mc.building.meshData.rot;
 
                 // Loop through opposite of io's type
-                foreach (BuildingIO targetIO in input ? targetBuilding.outputs : targetBuilding.inputs)
+                targetBuilding.IOForEach(targetIO =>
                 {
                     // 1st Check: Get the position of the voxel perpendicular to the target IO, and check if it equals the desired linkVoxelPos
                     // 2nd Check: Make sure the directions are opposite by making sure the two direction vectors equal zero
-                    if (targetBuilding.GetIOPosition(targetIO) == linkVoxelPos && io.direction.GetDirection(buildingRot) + (targetIO.direction.GetDirection(targetBuildingRot)) == Vector3Int.zero)
+                    if (targetBuilding.GetIOPosition(targetIO) != linkVoxelPos ||
+                        io.direction.GetDirection(buildingRot) + (targetIO.direction.GetDirection(targetBuildingRot)) != Vector3Int.zero)
                     {
-                        // Found successful link, set linkedIO for both
+                        return;
+                    }
+
+                    if (targetIO.type != io.type.GetOppositeType())
+                    {
+                        io.linkStatus = IOLinkStatus.InvalidConnection;
+                        return;
+                    }
+
+                    // Found successful link, set linkedIO for both
+                    if (!visualizeOnly)
+                    {
                         targetIO.linkedIO = io;
                         io.linkedIO = targetIO;
-
                         Debug.Log("Successfully linked");
                     }
-                }
+
+                    Debug.Log("Set to good!");
+                    io.linkStatus = IOLinkStatus.SuccessfulConnection;
+                    targetIO.linkStatus = IOLinkStatus.SuccessfulConnection;
+                });
             }
 
         }
 
         #endregion
 
-        #region Item Handlers (legacy)
-
-        /*public void ProceedItemEnter(GameObject sceneInstance, ItemData item, int inputID)
-        {
-            Dictionary<ItemData, int> proposed = new Dictionary<ItemData, int>(itemsInside);
-
-            if (proposed.ContainsKey(item))
-            {
-                proposed[item]++;
-            }
-            else
-            {
-                proposed[item] = 1;
-            }
-
-            OnItemEnterEvent args = new OnItemEnterEvent()
-            {
-                inputID = inputID,
-                item = item,
-                sceneInstance = sceneInstance,
-                proposedItems = proposed
-            };
-            OnItemEnterInput.Invoke(args);
-
-            Debug.Log("Item fully in me! Item is " + item.name);
-        }
-
-        public void AcceptItemEnter(OnItemEnterEvent args)
-        {
-
-        }
-
-        public void TrashItem(GameObject sceneInstance, ItemData item)
-        {
-            Destroy(sceneInstance, 1f);
-            BuildingIO trashOutput = GetTrashOutput();
-
-            // TODO: Update with new code here. Instantiate item in the output
-
-            //trashOutput.AddToSpawnQueue(item);
-        }*/
-
-        #endregion
-
-        #region Item Handling (new)
+        #region Item Handling
 
         /// <summary>
         /// Called when an <see cref="ItemData"/> attempts to enter a <see cref="BuildingIO"/>.
@@ -380,7 +360,7 @@ namespace BuildingModules
 
         #endregion
 
-        #region Visualization Handlers (to rewrite)
+        #region Visualization Handlers
 
         /// <summary>
         /// Updates the position of the arrow <see cref="GameObject"/> to the current IO's position. 
@@ -390,14 +370,44 @@ namespace BuildingModules
         {
             // TODO: Update with new code here
 
-            /*IOForEach(io =>
+            IOForEach(io =>
             {
-                if (io.arrow)
+                Debug.Log("Show!");
+                Material arrowMaterial = null;
+
+                switch (io.linkStatus)
                 {
-                    io.arrow.position = io.transform.position + new Vector3(0, 1, 0);
-                    io.arrow.rotation = io.transform.rotation;
+                    case IOLinkStatus.Unconnected:
+                        arrowMaterial = BuildingManager.Instance.blueArrow;
+                        break;
+
+                    case IOLinkStatus.InvalidConnection:
+                        arrowMaterial = BuildingManager.Instance.redArrow;
+                        break;
+
+                    case IOLinkStatus.SuccessfulConnection:
+                        arrowMaterial = BuildingManager.Instance.greenArrow;
+                        break;
                 }
-            });*/
+
+                Vector3 pos = GetTargetIOPosition(io);
+                Vector3 direction = io.direction.GetDirection(io.manager == null ? Quaternion.identity : io.manager.mc.building.meshData.rot);
+
+                //pos += Vector3.up * 0.5f;
+
+                if (io.arrow != null)
+                {
+                    io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
+                    io.arrow.position = pos;
+                }
+                else
+                {
+                    io.arrow = ObjectPoolManager.Instance.ReuseObject(BuildingManager.Instance.arrowIndicator.gameObject, pos, Quaternion.LookRotation(direction)).transform;
+                    io.arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+                    io.arrow.transform.position += new Vector3(0, 1, 0);
+                    io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
+                }
+            });
         }
 
         /// <summary>
@@ -417,7 +427,38 @@ namespace BuildingModules
         {
             // NOTE (by Kosio): If this is going to be low-level code, move to BuildingIOSystem.cs
             // TODO: Update with new code here
-            //IOForEach(io => io.VisualizeArrow());
+            IOForEach(io =>
+            {
+                Material arrowMaterial = null;
+
+                switch (io.linkStatus)
+                {
+                    case IOLinkStatus.Unconnected:
+                        arrowMaterial = BuildingManager.Instance.blueArrow;
+                        break;
+
+                    case IOLinkStatus.InvalidConnection:
+                        arrowMaterial = BuildingManager.Instance.redArrow;
+                        break;
+
+                    case IOLinkStatus.SuccessfulConnection:
+                        arrowMaterial = BuildingManager.Instance.greenArrow;
+                        break;
+                }
+
+                if (io.arrow != null)
+                {
+                    io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
+                }
+                else
+                {
+                    Vector3 pos = GetIOPosition(io);
+                    io.arrow = ObjectPoolManager.Instance.ReuseObject(BuildingManager.Instance.arrowIndicator.gameObject, pos, mc.building.meshData.rot).transform;
+                    io.arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+                    io.arrow.transform.position += new Vector3(0, 1, 0);
+                    io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
+                }
+            });
         }
 
         /// <summary>
@@ -427,7 +468,10 @@ namespace BuildingModules
         {
             // NOTE (by Kosio): If this is going to be low-level code, move to BuildingIOSystem.cs
             // TODO: Update with new code here
-            //IOForEach(io => io.Devisualize());
+            IOForEach(io =>
+            {
+                ObjectPoolManager.Instance.DestroyObject(io.arrow.gameObject);
+            });
         }
 
         #endregion

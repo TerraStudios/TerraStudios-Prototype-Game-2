@@ -20,7 +20,6 @@ public static class IODirectionExtension
     /// <returns>A normalized <see cref="Vector3Int"/> for manipulating the direction</returns>
     public static Vector3Int GetDirection(this IODirection direction, Quaternion currentIORotation)
     {
-
         Vector3Int loc = direction switch
         {
             IODirection.Forward => Vector3Int.right,
@@ -39,8 +38,18 @@ public static class IODirectionExtension
             _ => loc,
         };
 
-
-
         return loc;
+    }
+}
+public static class IOTypeExtension
+{
+    /// <summary>
+    /// Retrieves the opposite <see cref="IOType"/> for an <see cref="IOType"/>
+    /// </summary>
+    /// <param name="type">The <see cref="IOType"/> to be inverted</param>
+    /// <returns>The opposite <see cref="IOType"/></returns>
+    public static IOType GetOppositeType(this IOType type)
+    {
+        return type == IOType.Input ? IOType.Output : IOType.Input;
     }
 }
