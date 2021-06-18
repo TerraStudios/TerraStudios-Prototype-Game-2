@@ -76,9 +76,10 @@ namespace BuildingModules
             {
                 IOForEach(io =>
                 {
+                    UpdateArrows();
                     if (io.manager == null) return;
 
-                    ExtDebug.DrawVoxel(GetTargetIOPosition(io), Color.green);
+                    //ExtDebug.DrawVoxel(GetTargetIOPosition(io), Color.green);
                 });
             }
         }
@@ -370,50 +371,52 @@ namespace BuildingModules
         {
             // TODO: Update with new code here
 
-            IOForEach(io =>
+            foreach (var io in inputs)
             {
-                Debug.Log("Show!");
-                Material arrowMaterial = null;
+                DrawArrow(io, true);
+            }
 
-                switch (io.linkStatus)
-                {
-                    case IOLinkStatus.Unconnected:
-                        arrowMaterial = BuildingManager.Instance.blueArrow;
-                        break;
+            foreach (var io in outputs)
+            {
+                DrawArrow(io, false);
+            }
+        }
 
-                    case IOLinkStatus.InvalidConnection:
-                        arrowMaterial = BuildingManager.Instance.redArrow;
-                        break;
+        private void DrawArrow(BuildingIO io, bool input)
+        {
+            Material arrowMaterial = io.linkStatus switch
+            {
+                IOLinkStatus.Unconnected => BuildingManager.Instance.blueArrow,
+                IOLinkStatus.InvalidConnection => BuildingManager.Instance.redArrow,
+                IOLinkStatus.SuccessfulConnection => BuildingManager.Instance.greenArrow,
+                _ => null
+            };
 
-                    case IOLinkStatus.SuccessfulConnection:
-                        arrowMaterial = BuildingManager.Instance.greenArrow;
-                        break;
-                }
+            Vector3 pos = GetTargetIOPosition(io);
+            Vector3 direction = -io.direction.GetDirection(mc.building.meshData.rot);
+            if (input) direction *= -1;
 
-                Vector3 pos = GetTargetIOPosition(io);
-                Vector3 direction = -io.direction.GetDirection(mc.building.meshData.rot);
-                if (io.type == IOType.Input) direction *= -1;
+            ExtDebug.DrawVoxel(pos, input ? Color.blue : Color.red);
 
-                //pos += Vector3.up * 0.5f;
+            //pos += Vector3.up * 0.5f;
 
-                if (io.arrow != null)
-                {
-                    io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
-                    io.arrow.position = pos;
-                }
-                else
-                {
-                    io.arrow = ObjectPoolManager.Instance.ReuseObject(
-                        BuildingManager.Instance.arrowIndicator.gameObject, 
-                        pos, 
-                        Quaternion.LookRotation(direction)
-                        ).transform;
+            if (io.arrow != null)
+            {
+                io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
+                io.arrow.position = pos;
+            }
+            else
+            {
+                io.arrow = ObjectPoolManager.Instance.ReuseObject(
+                    BuildingManager.Instance.arrowIndicator.gameObject,
+                    pos,
+                    Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180, 0)
+                ).transform;
 
-                    io.arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-                    io.arrow.transform.position += new Vector3(0, 1, 0);
-                    io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
-                }
-            });
+                io.arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+                io.arrow.transform.position += new Vector3(0, 1, 0);
+                io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
+            }
         }
 
         /// <summary>
