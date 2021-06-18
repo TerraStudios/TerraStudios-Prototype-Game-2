@@ -35,8 +35,10 @@ namespace BuildingModules
             {
                 outputs[i].manager = this;
                 outputs[i].id = i;
-                inputs[i].type = IOType.Output;
+                outputs[i].type = IOType.Output;
             }
+
+            UpdateArrows();
         }
 
         /// <summary>
@@ -44,6 +46,8 @@ namespace BuildingModules
         /// </summary>
         public void Init()
         {
+            DestroyArrows();
+
             buildingOffset = new Vector3();
 
             Vector3 buildingSize;
@@ -371,12 +375,12 @@ namespace BuildingModules
         {
             // TODO: Update with new code here
 
-            foreach (var io in inputs)
+            foreach (BuildingIO io in inputs)
             {
                 DrawArrow(io, true);
             }
 
-            foreach (var io in outputs)
+            foreach (BuildingIO io in outputs)
             {
                 DrawArrow(io, false);
             }
@@ -430,56 +434,18 @@ namespace BuildingModules
         }
 
         /// <summary>
-        /// Signals every <see cref="BuildingIO"> in the building to create a blue arrow <see cref="GameObject"/> visualization above it.
-        /// </summary>
-        public void VisualizeAll()
-        {
-            // NOTE (by Kosio): If this is going to be low-level code, move to BuildingIOSystem.cs
-            // TODO: Update with new code here
-            IOForEach(io =>
-            {
-                Material arrowMaterial = null;
-
-                switch (io.linkStatus)
-                {
-                    case IOLinkStatus.Unconnected:
-                        arrowMaterial = BuildingManager.Instance.blueArrow;
-                        break;
-
-                    case IOLinkStatus.InvalidConnection:
-                        arrowMaterial = BuildingManager.Instance.redArrow;
-                        break;
-
-                    case IOLinkStatus.SuccessfulConnection:
-                        arrowMaterial = BuildingManager.Instance.greenArrow;
-                        break;
-                }
-
-                if (io.arrow != null)
-                {
-                    io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
-                }
-                else
-                {
-                    Vector3 pos = GetIOPosition(io);
-                    io.arrow = ObjectPoolManager.Instance.ReuseObject(BuildingManager.Instance.arrowIndicator.gameObject, pos, mc.building.meshData.rot).transform;
-                    io.arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-                    io.arrow.transform.position += new Vector3(0, 1, 0);
-                    io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
-                }
-            });
-        }
-
-        /// <summary>
         /// Signals every <see cref="BuildingIO"> in the building to stop visualizing.
         /// </summary>
-        public void DevisualizeAll()
+        public void DestroyArrows()
         {
             // NOTE (by Kosio): If this is going to be low-level code, move to BuildingIOSystem.cs
             // TODO: Update with new code here
             IOForEach(io =>
             {
-                ObjectPoolManager.Instance.DestroyObject(io.arrow.gameObject);
+                if (io.arrow)
+                    ObjectPoolManager.Instance.DestroyObject(io.arrow.gameObject);
+
+                io.arrow = null;
             });
         }
 

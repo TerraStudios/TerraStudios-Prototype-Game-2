@@ -228,6 +228,7 @@ namespace BuildingManagement
 
             visualization.Key.SetIndicator(BuildingManager.Instance.directionIndicator);
             tempMat = currentBuilding.Value.GetComponent<MeshRenderer>().sharedMaterial;
+            visualization.Key.mc.buildingIOManager.UpdateArrows();
         }
 
         /// <summary>
@@ -238,7 +239,7 @@ namespace BuildingManagement
             if (!visualization.Value)
                 return;
 
-            visualization.Key.GetComponent<BuildingIOManager>().DevisualizeAll();
+            visualization.Key.mc.buildingIOManager.DestroyArrows();
             visualization.Key.meshData = null;
             Destroy(visualization.Value.gameObject);
         }
@@ -493,7 +494,7 @@ namespace BuildingManagement
                         {
                             if (buildingKVP.Key.mc.buildingIOManager)
                             {
-                                buildingKVP.Key.mc.buildingIOManager.DevisualizeAll();
+                                buildingKVP.Key.mc.buildingIOManager.DestroyArrows();
                             }
                         }
                 }

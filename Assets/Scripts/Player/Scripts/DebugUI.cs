@@ -86,7 +86,7 @@ namespace Player
                 GridManager.Instance.forceVisualizeAll = true;
                 foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
                     foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
-                        buildingKVP.Key.mc.buildingIOManager.VisualizeAll();
+                        buildingKVP.Key.mc.buildingIOManager.UpdateArrows();
             }
             else
             {
@@ -94,7 +94,7 @@ namespace Player
                 GridManager.Instance.forceVisualizeAll = false;
                 foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
                     foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
-                        buildingKVP.Key.mc.buildingIOManager.DevisualizeAll();
+                        buildingKVP.Key.mc.buildingIOManager.DestroyArrows();
             }
         }
 

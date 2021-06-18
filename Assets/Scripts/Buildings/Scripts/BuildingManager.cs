@@ -82,7 +82,7 @@ namespace BuildingManagement
         {
             base.OnBuildingSelected(b);
 
-            b.mc.buildingIOManager.VisualizeAll();
+            b.mc.buildingIOManager.UpdateArrows();
 
             buildingInfo.SetActive(true);
 
@@ -100,12 +100,12 @@ namespace BuildingManagement
         {
             if (!focusedBuilding)
                 return;
-            focusedBuilding.mc.buildingIOManager.DevisualizeAll();
+            focusedBuilding.mc.buildingIOManager.DestroyArrows();
 
             foreach (List<KeyValuePair<Building, GameObject>> kvp in PlacedBuildings.Values)
                 foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
                 {
-                    buildingKVP.Key.mc.buildingIOManager.DevisualizeAll();
+                    buildingKVP.Key.mc.buildingIOManager.DestroyArrows();
                 }
 
             base.OnBuildingDeselected();

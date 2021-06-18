@@ -168,7 +168,7 @@ namespace Player
             decimal change = (decimal)((float)b.bBase.healthPercent / 100 * b.bBase.Price - (b.bBase.Price * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier));
             EconomyManager.Instance.Balance += change;
 
-            b.mc.buildingIOManager.DevisualizeAll();
+            b.mc.buildingIOManager.DestroyArrows();
             b.mc.buildingIOManager.UnlinkAll();
 
             if (b.mc.buildingIOManager.isConveyor)
