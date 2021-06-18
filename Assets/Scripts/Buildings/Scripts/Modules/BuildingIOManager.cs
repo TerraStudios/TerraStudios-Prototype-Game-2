@@ -76,7 +76,7 @@ namespace BuildingModules
             {
                 IOForEach(io =>
                 {
-                    UpdateArrows();
+                    //UpdateArrows();
                     if (io.manager == null) return;
 
                     //ExtDebug.DrawVoxel(GetTargetIOPosition(io), Color.green);

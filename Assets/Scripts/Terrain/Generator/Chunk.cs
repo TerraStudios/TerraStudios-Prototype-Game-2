@@ -459,8 +459,8 @@ namespace TerrainGeneration
         public void SetVoxelData(int x, int y, int z, Voxel newVoxel)
         {
             voxelData[GetVoxelDataIndex(x, y, z)] = newVoxel;
-
-            Debug.Log($"voxel at {x}, {y}, {z} is now {(newVoxel is MachineSlaveVoxel)}");
+/*
+            Debug.Log($"voxel at {x}, {y}, {z} is now {(newVoxel is MachineSlaveVoxel)}");*/
         }
 
         //public void OnDrawGizmos()

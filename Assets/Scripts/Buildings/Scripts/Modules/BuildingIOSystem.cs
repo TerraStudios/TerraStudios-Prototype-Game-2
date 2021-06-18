@@ -266,7 +266,7 @@ namespace BuildingModules
         public Vector2 localPosition;
         public IODirection direction;
 
-        public IOType type;
+        [HideInInspector] public IOType type;
         public bool isTrashcanOutput;
 
         public IOLinkStatus linkStatus = IOLinkStatus.Unconnected;
