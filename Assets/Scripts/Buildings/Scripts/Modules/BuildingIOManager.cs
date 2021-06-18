@@ -391,7 +391,8 @@ namespace BuildingModules
                 }
 
                 Vector3 pos = GetTargetIOPosition(io);
-                Vector3 direction = io.direction.GetDirection(io.manager == null ? Quaternion.identity : io.manager.mc.building.meshData.rot);
+                Vector3 direction = -io.direction.GetDirection(mc.building.meshData.rot);
+                if (io.type == IOType.Input) direction *= -1;
 
                 //pos += Vector3.up * 0.5f;
 
@@ -402,7 +403,12 @@ namespace BuildingModules
                 }
                 else
                 {
-                    io.arrow = ObjectPoolManager.Instance.ReuseObject(BuildingManager.Instance.arrowIndicator.gameObject, pos, Quaternion.LookRotation(direction)).transform;
+                    io.arrow = ObjectPoolManager.Instance.ReuseObject(
+                        BuildingManager.Instance.arrowIndicator.gameObject, 
+                        pos, 
+                        Quaternion.LookRotation(direction)
+                        ).transform;
+
                     io.arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
                     io.arrow.transform.position += new Vector3(0, 1, 0);
                     io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
