@@ -229,7 +229,14 @@ namespace BuildingManagement
 
             visualization.Key.SetIndicator(BuildingManager.Instance.directionIndicator);
             tempMat = currentBuilding.Value.GetComponent<MeshRenderer>().sharedMaterial;
-            //visualization.Key.mc.buildingIOManager.UpdateArrows();
+
+            visualization.Key.meshData = new MeshData()
+            {
+                pos = center,
+                rot = RotationChange,
+            };
+
+            visualization.Key.mc.buildingIOManager.UpdateArrows();
         }
 
         /// <summary>
