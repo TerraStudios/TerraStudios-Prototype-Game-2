@@ -171,13 +171,11 @@ namespace BuildingManagement
 
                 visualization.Value.transform.position = center;
                 visualization.Value.transform.rotation = RotationChange;
-                Debug.LogWarning("Set pos and rot");
                 visualization.Key.meshData = new MeshData()
                 {
                     pos = visualization.Value.position,
                     rot = visualization.Value.rotation,
                 };
-                Debug.LogWarning("Get pos and rot");
                 visualization.Key.mc.buildingIOManager.LinkAll(true);
                 visualization.Key.mc.buildingIOManager.UpdateArrows();
             }
@@ -231,7 +229,7 @@ namespace BuildingManagement
 
             visualization.Key.SetIndicator(BuildingManager.Instance.directionIndicator);
             tempMat = currentBuilding.Value.GetComponent<MeshRenderer>().sharedMaterial;
-            visualization.Key.mc.buildingIOManager.UpdateArrows();
+            //visualization.Key.mc.buildingIOManager.UpdateArrows();
         }
 
         /// <summary>
@@ -244,7 +242,7 @@ namespace BuildingManagement
 
             visualization.Key.mc.buildingIOManager.DestroyArrows();
             visualization.Key.meshData = null;
-            Destroy(visualization.Value.gameObject);
+            ObjectPoolManager.Instance.DestroyObject(visualization.Value.gameObject);
         }
 
         /// <summary>

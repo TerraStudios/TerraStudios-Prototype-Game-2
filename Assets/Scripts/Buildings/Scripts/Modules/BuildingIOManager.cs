@@ -407,13 +407,13 @@ namespace BuildingModules
 
             if (io.arrow != null)
             {
-                Debug.Log("Drawing arrow by changing material!");
+                //Debug.Log("Drawing arrow by changing material!");
                 io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
                 io.arrow.position = pos;
             }
             else
             {
-                Debug.Log("Drawing arrow by spawning a new arrow at ! " + pos);
+                //Debug.Log("Drawing arrow by spawning a new arrow at ! " + pos);
                 io.arrow = ObjectPoolManager.Instance.ReuseObject(
                     BuildingManager.Instance.arrowIndicator.gameObject,
                     pos,
@@ -428,14 +428,13 @@ namespace BuildingModules
 
         private void DrawDirectionArrow()
         {
-            Debug.LogWarning("Get 2 pos and rot");
-            Vector3 pos = mc.building.meshData.pos + Vector3.up * 0.5f;
+            Vector3 pos = mc.building.meshData.pos + Vector3.up;
             if (!directionArrow)
             {
                 directionArrow = ObjectPoolManager.Instance.ReuseObject(
                                     BuildingManager.Instance.directionIndicator.gameObject,
                                     pos,
-                                    mc.building.meshData.rot
+                                    Quaternion.Inverse(mc.building.meshData.rot)
                                 );
             } 
             else
