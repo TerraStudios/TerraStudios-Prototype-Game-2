@@ -61,7 +61,6 @@ namespace BuildingModules
                 buildingSize = mc.building.correspondingMesh.GetComponent<MeshRenderer>().bounds.size;
             }
 
-
             Vector3Int size = new Vector3Int(
                 Mathf.CeilToInt(Mathf.Round(buildingSize.x * 10f) / 10f),
                 Mathf.CeilToInt(Mathf.Round(buildingSize.y * 10f) / 10f),
@@ -429,17 +428,19 @@ namespace BuildingModules
         private void DrawDirectionArrow()
         {
             Vector3 pos = mc.building.meshData.pos + Vector3.up;
+            Quaternion rot = mc.building.meshData.rot * new Quaternion(0, 180, 0, 1);
+
             if (!directionArrow)
             {
                 directionArrow = ObjectPoolManager.Instance.ReuseObject(
                                     BuildingManager.Instance.directionIndicator.gameObject,
                                     pos,
-                                    Quaternion.Inverse(mc.building.meshData.rot)
+                                    rot
                                 );
-            } 
+            }
             else
             {
-                directionArrow.transform.position = pos;
+                directionArrow.transform.SetPositionAndRotation(pos, rot);
             }
         }
 
@@ -467,9 +468,6 @@ namespace BuildingModules
         /// </summary>
         public void DestroyArrows()
         {
-            Debug.Log("Destroying arrows!");
-            // NOTE (by Kosio): If this is going to be low-level code, move to BuildingIOSystem.cs
-            // TODO: Update with new code here
             IOForEach(io =>
             {
                 if (io.arrow)

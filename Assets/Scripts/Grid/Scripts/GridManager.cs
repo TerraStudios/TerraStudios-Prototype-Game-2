@@ -4,18 +4,16 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
+using System.Collections.Generic;
 using BuildingModules;
 using CoreManagement;
-using DebugTools;
 using EconomyManagement;
 using TerrainGeneration;
+using TerrainTypes;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using Utilities;
-using TerrainTypes;
-using System.Collections;
 
 namespace BuildingManagement
 {
@@ -232,8 +230,8 @@ namespace BuildingManagement
 
             visualization.Key.meshData = new MeshData()
             {
-                pos = center,
-                rot = RotationChange,
+                pos = visualization.Value.position,
+                rot = visualization.Value.rotation,
             };
 
             visualization.Key.mc.buildingIOManager.UpdateArrows();
@@ -247,6 +245,7 @@ namespace BuildingManagement
             if (!visualization.Value)
                 return;
 
+            visualization.Key.correspondingMesh = null;
             visualization.Key.mc.buildingIOManager.DestroyArrows();
             visualization.Key.meshData = null;
             ObjectPoolManager.Instance.DestroyObject(visualization.Value.gameObject);
