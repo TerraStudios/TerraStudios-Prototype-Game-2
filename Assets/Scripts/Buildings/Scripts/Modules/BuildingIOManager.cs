@@ -4,6 +4,7 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using BuildingManagement;
@@ -79,7 +80,6 @@ namespace BuildingModules
             {
                 IOForEach(io =>
                 {
-                    //UpdateArrows();
                     if (io.manager == null) return;
 
                     //ExtDebug.DrawVoxel(GetTargetIOPosition(io), Color.green);
@@ -388,6 +388,7 @@ namespace BuildingModules
 
         private void DrawArrow(BuildingIO io, bool input)
         {
+
             Material arrowMaterial = io.linkStatus switch
             {
                 IOLinkStatus.Unconnected => BuildingManager.Instance.blueArrow,
@@ -402,6 +403,8 @@ namespace BuildingModules
 
             ExtDebug.DrawVoxel(pos, input ? Color.blue : Color.red);
 
+            Quaternion newRotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180, 0);
+
             //pos += Vector3.up * 0.5f;
 
             if (io.arrow != null)
@@ -409,14 +412,16 @@ namespace BuildingModules
                 //Debug.Log("Drawing arrow by changing material!");
                 io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
                 io.arrow.position = pos;
+                io.arrow.rotation = newRotation;
             }
             else
             {
                 //Debug.Log("Drawing arrow by spawning a new arrow at ! " + pos);
                 io.arrow = ObjectPoolManager.Instance.ReuseObject(
                     BuildingManager.Instance.arrowIndicator.gameObject,
-                    pos,
-                    Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180, 0)
+                    pos, newRotation
+
+
                 ).transform;
 
                 io.arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
