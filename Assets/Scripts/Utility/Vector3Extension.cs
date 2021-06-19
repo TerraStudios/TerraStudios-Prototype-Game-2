@@ -4,11 +4,6 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity.Mathematics;
 using UnityEngine;
 

@@ -4,17 +4,15 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
+using System.Collections.Generic;
+using System.Linq;
 using BuildingModules;
 using EconomyManagement;
 using Player;
 using SaveSystem;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using TerrainGeneration;
 using TerrainTypes;
 using TimeSystem;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Utilities;

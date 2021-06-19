@@ -54,7 +54,7 @@ public class TerrainManager : MonoBehaviour
     /// Tries both up and down direction to ensure the terrain is found even when beneath it.
     /// </summary>
     /// <returns>The Distance</returns>
-    private float GetCameraTerrainDistance() 
+    private float GetCameraTerrainDistance()
     {
         if (Physics.Raycast(vCam.position, Vector3.down, out RaycastHit hitDown, Mathf.Infinity, voxelLayer))
             return hitDown.distance;

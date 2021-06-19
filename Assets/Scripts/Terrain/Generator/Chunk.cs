@@ -5,16 +5,12 @@
 //
 
 using System;
-using System.Collections.Generic;
 using System.Collections;
-using UnityEngine;
-using Unity.Mathematics;
-using BuildingManagement;
-using BuildingModules;
-using Utilities;
+using System.Collections.Generic;
 using TerrainTypes;
-using System.Linq;
-using System.Runtime.CompilerServices;
+using Unity.Mathematics;
+using UnityEngine;
+using Utilities;
 
 namespace TerrainGeneration
 {
@@ -459,8 +455,7 @@ namespace TerrainGeneration
         public void SetVoxelData(int x, int y, int z, Voxel newVoxel)
         {
             voxelData[GetVoxelDataIndex(x, y, z)] = newVoxel;
-/*
-            Debug.Log($"voxel at {x}, {y}, {z} is now {(newVoxel is MachineSlaveVoxel)}");*/
+            //Debug.Log($"voxel at {x}, {y}, {z} is now {(newVoxel is MachineSlaveVoxel)}");
         }
 
         //public void OnDrawGizmos()

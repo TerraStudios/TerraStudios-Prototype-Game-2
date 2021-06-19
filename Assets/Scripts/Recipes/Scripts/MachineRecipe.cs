@@ -4,9 +4,9 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
-using ItemManagement;
 using System;
 using System.Collections.Generic;
+using ItemManagement;
 using UnityEngine;
 
 namespace RecipeManagement

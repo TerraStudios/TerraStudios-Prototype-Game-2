@@ -4,8 +4,8 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
-using UnityEngine;
 using BuildingModules;
+using UnityEngine;
 
 /// <summary>
 /// Because C# is bad, an extension method is needed to add a method for each direction. The extension retrieves the <see cref="Vector3Int"/> value for code later on.

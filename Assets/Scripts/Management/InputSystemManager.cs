@@ -6,7 +6,6 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
-using CoreManagement;
 
 namespace CoreManagement
 {

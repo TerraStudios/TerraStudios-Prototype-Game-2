@@ -4,10 +4,10 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
+using System.Collections.Generic;
 using BuildingModules;
 using CoreManagement;
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace BuildingManagement
 {

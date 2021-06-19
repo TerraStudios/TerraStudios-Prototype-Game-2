@@ -4,13 +4,13 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using BuildingManagement;
 using CoreManagement;
 using ItemManagement;
 using RecipeManagement;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Utilities;
 
@@ -292,18 +292,18 @@ namespace BuildingModules
                 {
                     ItemData recipeItem = inputData.item;
 
-                // check if itemsInside contains the item needed from the recipe
-                if (!mc.buildingIOManager.itemsInside.ContainsKey(recipeItem))
+                    // check if itemsInside contains the item needed from the recipe
+                    if (!mc.buildingIOManager.itemsInside.ContainsKey(recipeItem))
                     {
-                    //A required item type is missing from itemsInside!
-                    return false;
+                        //A required item type is missing from itemsInside!
+                        return false;
                     }
 
-                // check if we have the enough quantity of it available to start crafting
-                if (mc.buildingIOManager.itemsInside[recipeItem] < inputData.amount)
+                    // check if we have the enough quantity of it available to start crafting
+                    if (mc.buildingIOManager.itemsInside[recipeItem] < inputData.amount)
                     {
-                    //Still, not all items are present inside
-                    return false;
+                        //Still, not all items are present inside
+                        return false;
                     }
 
                     inputID = CurrentRecipe.inputs.FindIndex(id => id == data);

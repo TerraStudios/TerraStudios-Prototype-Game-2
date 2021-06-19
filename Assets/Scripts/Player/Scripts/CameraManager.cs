@@ -49,7 +49,7 @@ namespace Player
             lastRotation = transform.rotation;
         }
 
-        public void SwitchTopDownCamera() 
+        public void SwitchTopDownCamera()
         {
             if (!cameraMode.Equals(CameraMode.Topdown))
             {

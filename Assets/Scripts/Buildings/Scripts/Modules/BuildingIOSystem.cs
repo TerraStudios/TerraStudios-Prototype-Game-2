@@ -5,7 +5,6 @@
 //
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using BuildingManagement;
 using DebugTools;
@@ -166,7 +165,7 @@ namespace BuildingModules
                 if (output.linkedIO != null)
                     return output.linkedIO;
             }
-            
+
             return null;
         }
 

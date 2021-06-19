@@ -4,7 +4,6 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
-using System.Collections;
 using System.Collections.Generic;
 using BuildingManagement;
 using BuildingModules;

@@ -4,8 +4,8 @@
 // Destroy the file immediately if you are not one of the parties involved.
 //
 
-using ItemManagement;
 using System.Collections;
+using ItemManagement;
 using UnityEngine;
 using Utilities;
 
