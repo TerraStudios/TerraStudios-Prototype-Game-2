@@ -171,11 +171,13 @@ namespace BuildingManagement
 
                 visualization.Value.transform.position = center;
                 visualization.Value.transform.rotation = RotationChange;
+                Debug.LogWarning("Set pos and rot");
                 visualization.Key.meshData = new MeshData()
                 {
                     pos = visualization.Value.position,
                     rot = visualization.Value.rotation,
                 };
+                Debug.LogWarning("Get pos and rot");
                 visualization.Key.mc.buildingIOManager.LinkAll(true);
                 visualization.Key.mc.buildingIOManager.UpdateArrows();
             }
@@ -211,6 +213,7 @@ namespace BuildingManagement
         /// <param name="center">Grid position for the visualization to be instantiated on</param>
         private void ConstructVisualization(Vector3 center)
         {
+            Debug.Log("Constructing new visualization!");
             buildingManager.OnBuildingDeselected();
             //TimeEngine.IsPaused = true;
 

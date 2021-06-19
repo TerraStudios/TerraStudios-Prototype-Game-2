@@ -21,6 +21,8 @@ namespace BuildingModules
     /// </summary>
     public class BuildingIOManager : BuildingIOSystem
     {
+        public GameObject directionArrow = null;
+
         #region Initializers
         private void Awake()
         {
@@ -37,8 +39,6 @@ namespace BuildingModules
                 outputs[i].id = i;
                 outputs[i].type = IOType.Output;
             }
-
-            UpdateArrows();
         }
 
         /// <summary>
@@ -176,7 +176,6 @@ namespace BuildingModules
                         Debug.Log("Successfully linked");
                     }
 
-                    Debug.Log("Set to good!");
                     io.linkStatus = IOLinkStatus.SuccessfulConnection;
                     targetIO.linkStatus = IOLinkStatus.SuccessfulConnection;
                 });
@@ -384,6 +383,8 @@ namespace BuildingModules
             {
                 DrawArrow(io, false);
             }
+
+            DrawDirectionArrow();
         }
 
         private void DrawArrow(BuildingIO io, bool input)
@@ -406,11 +407,13 @@ namespace BuildingModules
 
             if (io.arrow != null)
             {
+                Debug.Log("Drawing arrow by changing material!");
                 io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
                 io.arrow.position = pos;
             }
             else
             {
+                Debug.Log("Drawing arrow by spawning a new arrow at ! " + pos);
                 io.arrow = ObjectPoolManager.Instance.ReuseObject(
                     BuildingManager.Instance.arrowIndicator.gameObject,
                     pos,
@@ -420,6 +423,33 @@ namespace BuildingModules
                 io.arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
                 io.arrow.transform.position += new Vector3(0, 1, 0);
                 io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
+            }
+        }
+
+        private void DrawDirectionArrow()
+        {
+            Debug.LogWarning("Get 2 pos and rot");
+            Vector3 pos = mc.building.meshData.pos + Vector3.up * 0.5f;
+            if (!directionArrow)
+            {
+                directionArrow = ObjectPoolManager.Instance.ReuseObject(
+                                    BuildingManager.Instance.directionIndicator.gameObject,
+                                    pos,
+                                    mc.building.meshData.rot
+                                );
+            } 
+            else
+            {
+                directionArrow.transform.position = pos;
+            }
+        }
+
+        private void DestroyDirectionArrow()
+        {
+            if (directionArrow)
+            {
+                ObjectPoolManager.Instance.DestroyObject(directionArrow);
+                directionArrow = null;
             }
         }
 
@@ -438,6 +468,7 @@ namespace BuildingModules
         /// </summary>
         public void DestroyArrows()
         {
+            Debug.Log("Destroying arrows!");
             // NOTE (by Kosio): If this is going to be low-level code, move to BuildingIOSystem.cs
             // TODO: Update with new code here
             IOForEach(io =>
@@ -447,6 +478,8 @@ namespace BuildingModules
 
                 io.arrow = null;
             });
+
+            DestroyDirectionArrow();
         }
 
         #endregion
