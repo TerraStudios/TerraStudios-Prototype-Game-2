@@ -119,6 +119,14 @@ namespace BuildingModules
         [HideInInspector] public string scriptPrefabLocation;
 
         /// <summary>
+        /// Prepares the building for visualization work.
+        /// </summary>
+        public void PreInit()
+        {
+            mc.buildingIOManager.PreInit();
+        }
+
+        /// <summary>
         /// Initializes the building's properties and work state.
         /// </summary>
         public void Init(Transform meshGO, bool newBasePresent = false)

@@ -25,7 +25,7 @@ namespace BuildingModules
         public GameObject directionArrow = null;
 
         #region Initializers
-        private void Awake()
+        public void PreInit()
         {
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -40,6 +40,8 @@ namespace BuildingModules
                 outputs[i].id = i;
                 outputs[i].type = IOType.Output;
             }
+
+            UpdateArrows();
         }
 
         /// <summary>
@@ -76,7 +78,7 @@ namespace BuildingModules
 #if UNITY_EDITOR
         private void Update()
         {
-            if (GridManager.Instance.debugMode)
+            if (GridManager.Instance && GridManager.Instance.debugMode)
             {
                 IOForEach(io =>
                 {

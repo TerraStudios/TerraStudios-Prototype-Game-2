@@ -16,6 +16,4 @@ MonoBehaviour:
   buildingInputsAmount: 1
   buildingOutputsAmount: 1
   type: 0
-  manualList:
-  - type: 0
-    list: {fileID: 11400000, guid: b41cb8612c5db9343afce4685b698c73, type: 2}
+  manualList: []

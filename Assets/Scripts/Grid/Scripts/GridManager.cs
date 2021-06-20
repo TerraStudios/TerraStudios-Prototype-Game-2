@@ -234,7 +234,7 @@ namespace BuildingManagement
                 rot = visualization.Value.rotation,
             };
 
-            visualization.Key.mc.buildingIOManager.UpdateArrows();
+            visualization.Key.mc.buildingIOManager.PreInit();
         }
 
         /// <summary>
