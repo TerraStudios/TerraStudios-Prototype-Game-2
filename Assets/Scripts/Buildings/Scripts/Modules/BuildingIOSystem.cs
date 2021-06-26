@@ -23,7 +23,7 @@ namespace BuildingModules
         // Value is quantity
         [Tooltip("A list of all the items inside of the building")]
         public Dictionary<ItemData, int> itemsInside = new Dictionary<ItemData, int>();
-        public Queue<ItemQueueData> itemsToSpawn = new Queue<ItemQueueData>();
+        //public Queue<KeyValuePair<int, ItemQueueData>> itemsToSpawn = new Queue<KeyValuePair<int, ItemQueueData>>();
 
         [Header("IOs")]
         [Tooltip("A list of all the BuildingIO inputs for the building")]
@@ -237,12 +237,19 @@ namespace BuildingModules
             return null;
         }
 
-        public BuildingIO GetAttachedToBelt()
+        public BuildingIO GetAttachedToBelt(int outputID = -1)
         {
-            foreach (BuildingIO output in outputs)
+            if (outputID == -1)
             {
-                if (output.linkedIO != null)
-                    return output.linkedIO;
+                foreach (BuildingIO output in outputs)
+                {
+                    if (output.linkedIO != null)
+                        return output.linkedIO;
+                }
+            }
+            else
+            {
+                return outputs[outputID].linkedIO;
             }
 
             return null;
@@ -271,6 +278,8 @@ namespace BuildingModules
         public IOLinkStatus linkStatus = IOLinkStatus.Unconnected;
         [HideInInspector] public BuildingIO linkedIO; // The IO this BuildingIO is connected to, e.g. an input BuildingIO to an output
         [NonSerialized] public Transform arrow;
+
+        public Queue<ItemQueueData> itemsToSpawn = new Queue<ItemQueueData>();
 
         /// <summary>
         /// Called when an <see cref="ItemData"/> attempts to enter this IO.
@@ -327,8 +336,8 @@ namespace BuildingModules
     /// </summary>
     public class ItemQueueData
     {
-        public int outputID;
         public ItemData item;
+        public int outputID;
         public float timeToSpawn;
         public GameObject sceneInstance;
     }

@@ -252,14 +252,15 @@ namespace BuildingModules
 
             ItemQueueData spawnData = new ItemQueueData()
             {
-                outputID = outputID,
                 item = data,
+                outputID = outputID,
                 timeToSpawn = timeToSpawn
             };
 
-            itemsToSpawn.Enqueue(spawnData);
+            outputs[outputID].itemsToSpawn.Enqueue(spawnData);
+            //itemsToSpawn.Enqueue(toSpawn);
 
-            if (itemsToSpawn.Count == 1)
+            if (outputs[outputID].itemsToSpawn.Count == 1)
                 ExecuteSpawn(spawnData);
 
             Debug.Log("Item " + data.name + " added to the ejection queue of the building!");
@@ -316,7 +317,7 @@ namespace BuildingModules
         private IEnumerator ProcessSpawn(ItemQueueData queueData)
         {
             yield return new WaitForSeconds(queueData.timeToSpawn);
-            yield return new WaitWhile(GetAttachedToBelt().manager.mc.conveyor.IsBusy);
+            yield return new WaitWhile(GetAttachedToBelt(queueData.outputID).manager.mc.conveyor.IsBusy);
 
             BuildingIO target = outputs[queueData.outputID].linkedIO;
             if (target != null)
@@ -341,16 +342,16 @@ namespace BuildingModules
                 });
             }*/
 
-            FinishSpawn();
+            FinishSpawn(queueData.outputID);
         }
 
-        private void FinishSpawn()
+        private void FinishSpawn(int outputID)
         {
-            itemsToSpawn.Dequeue();
+            outputs[outputID].itemsToSpawn.Dequeue();
 
-            if (itemsToSpawn.Count != 0)
+            if (outputs[outputID].itemsToSpawn.Count != 0)
             {
-                ItemQueueData next = itemsToSpawn.Peek();
+                ItemQueueData next = outputs[outputID].itemsToSpawn.Peek();
                 ExecuteSpawn(next);
             }
         }
