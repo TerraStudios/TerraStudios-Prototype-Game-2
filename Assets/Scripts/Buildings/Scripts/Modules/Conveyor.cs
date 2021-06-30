@@ -269,9 +269,12 @@ namespace BuildingModules
         /// Removes an item from <c>itemsOnTop</c> when an item successfully moves to the next conveyor.
         /// </summary>
         /// <param name="sceneInstance">Scene Instance GameObject of that item.</param>
-        public void RemoveItemFromBelt(GameObject sceneInstance)
+        public void RemoveItemFromBelt(GameObject sceneInstance, bool destroySceneInstance = false)
         {
             itemsOnTop.Remove(itemsOnTop.Single(i => i.sceneInstance == sceneInstance.transform));
+
+            if (destroySceneInstance)
+                ObjectPoolManager.Instance.DestroyObject(sceneInstance);
         }
 
         /// <summary>

@@ -95,16 +95,11 @@ namespace Player
             {
                 if (removeModeEnabled && !EventSystem.current.IsPointerOverGameObject())
                 {
-                    foreach (ItemBehaviour t in inRange.Item1)
-                    {
-                        if (!DeleteItem(t.data, t.gameObject))
-                            return;
-                    }
+                    DeleteItems();
 
                     foreach (Building b in inRange.Item2)
                     {
-                        if (!DeleteBuilding(b))
-                            return;
+                        DeleteBuilding(b);
                     }
 
                     inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
@@ -192,8 +187,11 @@ namespace Player
             return snappedPos;
         }
 
-        public bool DeleteBuilding(Building b)
+        public void DeleteBuilding(Building b)
         {
+            if (!RemoveBuildings)
+                return;
+
             decimal change = (decimal)((float)b.bBase.healthPercent / 100 * b.bBase.Price - (b.bBase.Price * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier));
             EconomyManager.Instance.Balance += change;
 
@@ -205,6 +203,7 @@ namespace Player
                 ConveyorManager.Instance.conveyors.Remove(b.mc.conveyor);
             }
 
+            // Delete all items inside the building
             foreach (KeyValuePair<ItemData, int> item in b.mc.buildingIOManager.itemsInside)
             {
                 for (int i = 0; i < item.Value; i++)
@@ -213,24 +212,57 @@ namespace Player
                 }
             }
 
+            // Delete all items pending to be outputted
             foreach (BuildingIO io in b.mc.buildingIOManager.outputs)
             {
-                // TODO: Update with new code here
-                /*foreach (ItemSpawnData item in io.itemsToSpawn)
+                foreach (ItemQueueData item in io.itemsToSpawn)
                 {
-                    DeleteItem(item.itemToSpawn);
-                }*/
+                    DeleteItem(item.item);
+                }
+            }
+
+            // If conveyor, delete items on top
+            if (b.mc.buildingIOManager.isConveyor)
+            {
+                foreach(ConveyorItemData item in b.mc.conveyor.itemsOnTop.ToList())
+                {
+                    b.mc.conveyor.RemoveItemFromBelt(item.sceneInstance.gameObject, true);
+                }
             }
 
             BuildingSystem.UnRegisterBuilding(b);
             ObjectPoolManager.Instance.DestroyObject(b.correspondingMesh.gameObject);
             Destroy(b.gameObject); // Destroy game object
-            return true;
         }
 
-        public bool DeleteItem(ItemData data, GameObject obj = null)
+        public void DeleteItems()
         {
-            //Debug.Log($"Adding {data.startingPriceInShop * GameManager.removePenaltyMultiplier} to the balance.");
+            foreach (Building b in inRange.Item2)
+            {
+                if (b.mc.buildingIOManager.isConveyor)
+                {
+                    foreach (ConveyorItemData item in b.mc.conveyor.itemsOnTop.ToList())
+                    {
+                        //Debug.Log($"Adding {data.startingPriceInShop * GameManager.removePenaltyMultiplier} to the balance.");
+                        if (item.data.isGarbage)
+                        {
+                            decimal change = (decimal)(item.data.StartingPriceInShop + (item.data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.garbageRemoveMultiplier));
+                            EconomyManager.Instance.Balance += change;
+                        }
+                        else
+                        {
+                            decimal change = (decimal)(item.data.StartingPriceInShop - (item.data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier));
+                            EconomyManager.Instance.Balance += change;
+                        }
+
+                        b.mc.conveyor.RemoveItemFromBelt(item.sceneInstance.gameObject, true);
+                    }
+                }
+            }
+        }
+
+        public void DeleteItem(ItemData data, GameObject obj = null)
+        {
             if (data.isGarbage)
             {
                 decimal change = (decimal)(data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.garbageRemoveMultiplier));
@@ -244,7 +276,6 @@ namespace Player
 
             if (obj)
                 ObjectPoolManager.Instance.DestroyObject(obj); //destroy object
-            return true;
         }
 
         public void OnBrushSliderValueChanged()
