@@ -1138,6 +1138,9 @@ MonoBehaviour:
     profile: {fileID: 11400000, guid: 398a01efedc0f0e41bb8275eb8c46b12, type: 2}
     isHidden: 0
   defaultUserProfile: {fileID: 11400000, guid: 6ae362b976878474aa82b4e73f780318, type: 2}
+  leakDetectionMode: 2
+  jobWorkerCount: 5
+  conveyorDesiredJobCount: -1
 --- !u!4 &621202238
 Transform:
   m_ObjectHideFlags: 0
@@ -6184,7 +6187,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-3118
+  m_Name: pb_Mesh-3114
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

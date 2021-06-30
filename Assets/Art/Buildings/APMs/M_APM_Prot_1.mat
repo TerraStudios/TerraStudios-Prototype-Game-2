@@ -10,7 +10,7 @@ Material:
   m_Name: M_APM_Prot_1
   m_Shader: {fileID: -6465566751694194690, guid: ab184a3190a377240b9ffb64efa0d8ea,
     type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: BOOLEAN_CANSELECTED_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -82,7 +82,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - BOOLEAN_CANMOVE: 0
-    - BOOLEAN_CANSELECTED: 0
+    - BOOLEAN_CANSELECTED: 1
     - BOOLEAN_CANSHOWDEBUGVIS: 0
     - BOOLEAN_ISEMMISIVE: 0
     - Boolean_04a04311cd4a4019b717e2261fe8b26f: 0
@@ -110,7 +110,7 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SelectedStrenght: 0.25
+    - _SelectedStrenght: 0.989
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -124,7 +124,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MaskMapStrenght: {r: 0, g: 0, b: 0, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _SelectedColor: {r: 0.05666527, g: 0.4716981, b: 0.05562477, a: 0}
+    - _SelectedColor: {r: 0.69166076, g: 0.9339623, b: 0.69166076, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _TIling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
