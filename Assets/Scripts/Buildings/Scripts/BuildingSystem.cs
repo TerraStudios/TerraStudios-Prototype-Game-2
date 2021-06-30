@@ -13,6 +13,7 @@ using SaveSystem;
 using TerrainGeneration;
 using TerrainTypes;
 using TimeSystem;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Utilities;
@@ -121,9 +122,44 @@ namespace BuildingManagement
         public static void UnRegisterBuilding(Building b)
         {
             // Remove List entry of Building b found in the KVP List in RegisteredBuildings.Values
-            foreach (List<KeyValuePair<Building, GameObject>> kvp in PlacedBuildings.Values)
+            foreach (var chunkKvp in PlacedBuildings)
             {
-                kvp.Remove(kvp.Find(kvp => kvp.Key == b));
+                foreach (var kvp in chunkKvp.Value)
+                {
+                    if (kvp.Key == b)
+                    {
+                        chunkKvp.Value.Remove(kvp);
+
+                        int3 voxelPos = b.meshData.pos.FloorToInt3();
+                        Vector3Int buildingSize = b.meshData.size;
+                        TerrainGenerator generator = TerrainGenerator.Instance;
+                        Chunk chunk = generator.currentChunks[chunkKvp.Key];
+
+
+                        for (int x = voxelPos.x - buildingSize.x + 1; x <= voxelPos.x; x++)
+                        {
+                            for (int y = voxelPos.y; y < voxelPos.y + buildingSize.y; y++)
+                            {
+                                for (int z = voxelPos.z - buildingSize.z + 1; z <= voxelPos.z; z++)
+                                {
+                                    if (!chunk.VoxelInsideChunk(x, y, z))
+                                    {
+                                        int3 localPos = generator.GetRelativeChunkPosition(x, y, z);
+                                        generator.currentChunks[generator.GetChunkCoord(x, y, z)]
+                                            .SetVoxelData(localPos.x, localPos.y, localPos.z, null);
+                                    }
+                                    else
+                                    {
+                                        chunk.SetVoxelData(x, y, z, null);
+                                    }
+
+                                }
+                            }
+                        }
+
+                        return;
+                    }
+                }
             }
 
             GameSave.current.worldSaveData.placedBuildings.Where(bSave => bSave.building == b.bBase);
@@ -154,17 +190,10 @@ namespace BuildingManagement
                 Building building = buildingGO.GetComponent<Building>();
 
                 if (building == null) Debug.Log("Building null");
-                //if (building.GetMeshObj(building.scriptPrefabLocation) == null) Debug.Log("Null mesh obj");
-                if (save == null) Debug.Log("Save was null");
-                if (save.position == null) Debug.Log("Save position was null");
-                if (save.rotation == null) Debug.Log("Save rotation was null");
 
                 GameObject meshPrefab = save.GetMeshObj().gameObject;
 
                 Transform meshGO = ObjectPoolManager.Instance.ReuseObject(meshPrefab, save.position, save.rotation).transform;
-
-                //buildingGO.parent = buildingScriptParent.transform;
-                //meshGO.parent = buildingMeshParent.transform;
 
                 ChunkCoord chunkCoord = save.chunkCoord;
 

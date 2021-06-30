@@ -386,8 +386,9 @@ namespace BuildingModules
         {
             if (markedForDelete)
                 return;
+            Debug.Log("marking");
             markedForDelete = true;
-            correspondingMesh.GetComponent<MeshRenderer>().material = BuildingManager.Instance.redArrow;
+            correspondingMesh.GetComponent<MeshRenderer>().material.SetFloat("_IsSelected", 1);
         }
 
         public void UnmarkForDelete()
@@ -395,7 +396,8 @@ namespace BuildingModules
             if (!markedForDelete)
                 return;
             markedForDelete = false;
-            correspondingMesh.GetComponent<MeshRenderer>().material = originalMaterial;
+            Debug.Log("unmarking");
+            correspondingMesh.GetComponent<MeshRenderer>().material.SetFloat("_IsSelected", 0);
         }
     }
 }

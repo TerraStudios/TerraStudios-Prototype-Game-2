@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BuildingManagement;
 using BuildingModules;
 using CoreManagement;
@@ -13,8 +14,11 @@ using DebugTools;
 using EconomyManagement;
 using ItemManagement;
 using Tayx.Graphy.Utils.NumString;
+using TerrainGeneration;
+using TerrainTypes;
 using TimeSystem;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -59,29 +63,30 @@ namespace Player
 
         private void Update()
         {
-            if (removeModeEnabled)
-            {
-                Vector3 snappedPos = GetSnappedPos();
+            if (!removeModeEnabled)
+                return;
 
-                // check if we're at the same position
-                if (snappedPos.Equals(default))
-                    return;
 
-                // unmark for delete all previous items/buildings
-                foreach (ItemBehaviour t in inRange.Item1)
-                    t.UnmarkForDelete();
-                foreach (Building b in inRange.Item2)
-                    b.UnmarkForDelete();
+            Vector3 snappedPos = GetSnappedPos();
 
-                // store new items/buildings inside
-                SaveInRange(snappedPos);
+            // check if we're at the same position
+            if (snappedPos.Equals(default))
+                return;
 
-                // mark for delete all of them
-                foreach (ItemBehaviour t in inRange.Item1)
-                    t.MarkForDelete();
-                foreach (Building b in inRange.Item2)
-                    b.MarkForDelete();
-            }
+            // unmark for delete all previous items/buildings
+            foreach (ItemBehaviour t in inRange.Item1)
+                t.UnmarkForDelete();
+            foreach (Building b in inRange.Item2)
+                b.UnmarkForDelete();
+
+            // store new items/buildings inside
+            SaveInRange(snappedPos);
+
+            // mark for delete all of them
+            foreach (ItemBehaviour t in inRange.Item1)
+                t.MarkForDelete();
+            foreach (Building b in inRange.Item2)
+                b.MarkForDelete();
         }
 
         public void RemoveTrigger(InputAction.CallbackContext context)
@@ -136,22 +141,46 @@ namespace Player
             List<ItemBehaviour> itemsToReturn = new List<ItemBehaviour>();
             List<Building> buildingsToReturn = new List<Building>();
 
-            Vector3 scale = new Vector3() { x = (brushSize.value + 1) / 2 - 0.1f, y = 2, z = (brushSize.value + 1) / 2 - 0.1f };
+            Vector3 scale = new Vector3((brushSize.value + 1) / 2 - 0.1f, 2, (brushSize.value + 1) / 2 - 0.1f);
             ExtDebug.DrawBox(snappedPos, scale, Quaternion.identity, Color.red);
 
-            if (RemoveBuildings)
-                foreach (Collider hit in Physics.OverlapBox(snappedPos, scale, Quaternion.identity, buildingLayer))
-                {
-                    buildingsToReturn.Add(hit.transform.GetComponent<Building>());
-                }
+            int3 initialPos = snappedPos.FloorToInt3();
 
-            if (RemoveItems)
-                foreach (Collider hit in Physics.OverlapBox(snappedPos, scale, Quaternion.identity, itemsLayer))
-                {
-                    itemsToReturn.Add(hit.transform.GetComponent<ItemBehaviour>());
-                }
 
-            inRange = new Tuple<List<ItemBehaviour>, List<Building>>(itemsToReturn, buildingsToReturn);
+            int radius = (int)brushSize.value;
+
+            HashSet<Building> buildingsToRemove = new HashSet<Building>();
+
+            for (int y = -radius; y < radius; y++)
+            {
+                for (int x = -radius; x < radius; x++)
+                {
+                    for (int z = -radius; z < radius; z++)
+                    {
+                        // Check squared distance from the pivot voxel
+                        if (x * x + y * y + z * z <= radius * radius)
+                        {
+                            Voxel voxel = TerrainGenerator.Instance.GetVoxel(new int3(initialPos.x + x, initialPos.y + y,
+                                initialPos.z + z));
+
+                            switch (voxel)
+                            {
+                                case null:
+                                    continue; // Voxel was out of bounds
+                                case MachineSlaveVoxel slaveVoxel:
+                                    // We found a voxel that belongs to a building, go ahead and add it to the hashset
+                                    buildingsToRemove.Add(slaveVoxel.controller);
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            //if (RemoveBuildings) buildingsToReturn.AddRange(Physics.OverlapBox(snappedPos, scale, Quaternion.identity, buildingLayer).Select(hit => hit.transform.GetComponent<Building>()));
+            if (RemoveItems) itemsToReturn.AddRange(Physics.OverlapBox(snappedPos, scale, Quaternion.identity, itemsLayer).Select(hit => hit.transform.GetComponent<ItemBehaviour>()));
+
+            inRange = new Tuple<List<ItemBehaviour>, List<Building>>(itemsToReturn, buildingsToRemove.ToList());
         }
 
         private Vector3 GetSnappedPos()
@@ -194,6 +223,7 @@ namespace Player
             }
 
             BuildingSystem.UnRegisterBuilding(b);
+            ObjectPoolManager.Instance.DestroyObject(b.correspondingMesh.gameObject);
             Destroy(b.gameObject); // Destroy game object
             return true;
         }
