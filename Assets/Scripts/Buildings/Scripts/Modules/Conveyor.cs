@@ -260,7 +260,8 @@ namespace BuildingModules
             {
                 Transform sceneInstance = itemsOnTop[i].sceneInstance;
 
-                sceneInstance.gameObject.SetActive(false);
+                if (sceneInstance)
+                    sceneInstance.gameObject.SetActive(false);
             }
         }
 

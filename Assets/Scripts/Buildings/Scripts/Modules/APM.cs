@@ -301,7 +301,7 @@ namespace BuildingModules
         private bool IsInputStorageSufficient(OnItemEnterEvent ItemEnterInfo)
         {
             // If the items that attempts to enter has a quantity larger that the allowed
-            if (mc.buildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key == ItemEnterInfo.item).Value == inputSpace && APMStatus.Idle == currentStatus)
+            if (mc.buildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key == ItemEnterInfo.item).Value == inputSpace)
             {
                 ItemLog(ItemEnterInfo.item.name, "There's not enough input space for this item!", this);
                 //mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
@@ -314,13 +314,6 @@ namespace BuildingModules
 
         private bool IsOutputStorageSufficient()
         {
-            // doesn't check the BuildingIO specifically
-            /*foreach (BuildingIO output in mc.buildingIOManager.outputs)
-            {
-                if (output.manager.itemsToSpawn.Count >= outputSpace)
-                    return false;
-            }*/
-
             // Loop all recipe outputs
             // Check if the BuildingIO corresponding to the Recipe output has enough space
 
@@ -335,18 +328,13 @@ namespace BuildingModules
                 {
                     int outputIDToCheck = kvp.Value - 1;
 
-                    if (mc.buildingIOManager.outputs[outputIDToCheck].itemsToSpawn.Count >= outputSpace)
+                    // Check the output space based on the items inside
+                    int total = mc.buildingIOManager.outputs[outputIDToCheck].itemsToSpawn.GroupBy(_ => _.item).Where(_ => _.Count() > 1).Sum(_ => _.Count());
+                    if (total >= outputSpace)
                     {
                         Debug.LogWarning("Output " + (kvp.Value - 1) + " is full!");
                         return false;
-                    }
-
-                    /*if (mc.buildingIOManager.outputs[kvp.Value - 1].manager.itemsToSpawn.Count >= outputSpace)
-                    {
-                        Debug.LogWarning("Output " + (kvp.Value - 1) + " is full!");
-                        return false;
-                    }*/
-                        
+                    }     
                 }
             }
 
