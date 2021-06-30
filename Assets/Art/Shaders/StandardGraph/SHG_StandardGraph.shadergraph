@@ -727,6 +727,20 @@
             },
             "m_InputSlot": {
                 "m_Node": {
+                    "m_Id": "01effd0632494e85838cc44533ce7819"
+                },
+                "m_SlotId": 2
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "f56230578985466aafd6d17260fcca4f"
+                },
+                "m_SlotId": 1
+            },
+            "m_InputSlot": {
+                "m_Node": {
                     "m_Id": "855da2db3c8649f7a47411561e670ed3"
                 },
                 "m_SlotId": 0
@@ -1187,8 +1201,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 1253.0,
-            "y": -212.99998474121095,
+            "x": 1257.0,
+            "y": -244.00001525878907,
             "width": 159.0,
             "height": 34.0
         }
@@ -1260,8 +1274,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 1242.0,
-            "y": -178.99996948242188,
+            "x": 1246.0,
+            "y": -210.00001525878907,
             "width": 172.00001525878907,
             "height": 142.00001525878907
         }
@@ -1302,8 +1316,8 @@
         "m_Position": {
             "serializedVersion": "2",
             "x": -2427.0,
-            "y": 683.0000610351563,
-            "width": 164.0,
+            "y": 658.0,
+            "width": 164.00001525878907,
             "height": 34.0
         }
     },
@@ -1549,14 +1563,14 @@
     "m_Group": {
         "m_Id": "5c0aee0c36d7490fb8841a43058a96f1"
     },
-    "m_Name": "Can Texture Move",
+    "m_Name": "K: Can Texture Move",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1420.0,
-            "y": 597.0,
-            "width": 151.0,
+            "x": -1419.9998779296875,
+            "y": 571.9999389648438,
+            "width": 165.0,
             "height": 118.0
         }
     },
@@ -1656,7 +1670,7 @@
     "m_Group": {
         "m_Id": "a46cb9322d74464d98763449e0e16d49"
     },
-    "m_Name": "Can Show DebugVis",
+    "m_Name": "K: Uses DebugVis",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
@@ -2024,7 +2038,7 @@
     "m_Guid": {
         "m_GuidSerialized": "d2f0a526-655c-4f12-8a95-3ff31f60d202"
     },
-    "m_Name": "Can Texture Move",
+    "m_Name": "K: Can Texture Move",
     "m_DefaultReferenceName": "BOOLEAN_36A7C51025694D23847E1A03AB0CC2FA_ON",
     "m_OverrideReferenceName": "BOOLEAN_CANMOVE_ON",
     "m_GeneratePropertyBlock": true,
@@ -2088,8 +2102,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 979.0,
-            "y": -259.0,
+            "x": 983.0,
+            "y": -290.0000305175781,
             "width": 208.0,
             "height": 104.0
         }
@@ -2210,7 +2224,7 @@
     "m_Group": {
         "m_Id": ""
     },
-    "m_Name": "Is Emmisive",
+    "m_Name": "K: Is Emmisive",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
@@ -2383,8 +2397,8 @@
     "m_ObjectId": "5c0aee0c36d7490fb8841a43058a96f1",
     "m_Title": "Movement Logic",
     "m_Position": {
-        "x": -2363.956298828125,
-        "y": 433.00006103515627
+        "x": -2452.0,
+        "y": 396.00006103515627
     }
 }
 
@@ -2571,7 +2585,7 @@
     "m_Guid": {
         "m_GuidSerialized": "b53c245b-e461-4c80-abb9-26f724661c5d"
     },
-    "m_Name": "Can Show DebugVis",
+    "m_Name": "K: Uses DebugVis",
     "m_DefaultReferenceName": "BOOLEAN_653BE824B3864397BF8D9D0045EB5F66_ON",
     "m_OverrideReferenceName": "BOOLEAN_CANSHOWDEBUGVIS_ON",
     "m_GeneratePropertyBlock": true,
@@ -2701,8 +2715,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 979.0,
-            "y": -155.0,
+            "x": 983.0,
+            "y": -186.00001525878907,
             "width": 168.0,
             "height": 118.0
         }
@@ -2776,7 +2790,7 @@
     "m_Guid": {
         "m_GuidSerialized": "543a8d1e-bf07-4ccf-b88a-5fd0d2e59cd0"
     },
-    "m_Name": "Is Emmisive",
+    "m_Name": "K: Is Emmisive",
     "m_DefaultReferenceName": "BOOLEAN_6F4FCC502E2846C9961B3FAAA898057F_ON",
     "m_OverrideReferenceName": "BOOLEAN_ISEMMISIVE_ON",
     "m_GeneratePropertyBlock": true,
@@ -3022,8 +3036,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1605.9998779296875,
-            "y": 551.0,
+            "x": -1606.0,
+            "y": 526.0,
             "width": 140.0,
             "height": 166.0
         }
@@ -3320,8 +3334,8 @@
         "m_Position": {
             "serializedVersion": "2",
             "x": -1501.0,
-            "y": 716.0,
-            "width": 110.00000762939453,
+            "y": 691.0,
+            "width": 110.0,
             "height": 34.0
         }
     },
@@ -3596,10 +3610,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1861.9998779296875,
-            "y": 588.0,
-            "width": 170.0,
-            "height": 142.00001525878907
+            "x": -1862.0,
+            "y": 563.0000610351563,
+            "width": 170.00001525878907,
+            "height": 142.0
         }
     },
     "m_Slots": [
@@ -3784,8 +3798,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1990.9998779296875,
-            "y": 610.0,
+            "x": -1991.0,
+            "y": 585.0,
             "width": 129.0,
             "height": 34.0
         }
@@ -3952,8 +3966,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 809.0,
-            "y": -98.00000762939453,
+            "x": 813.0,
+            "y": -129.00001525878907,
             "width": 156.0,
             "height": 34.0
         }
@@ -4113,7 +4127,7 @@
         "m_Position": {
             "serializedVersion": "2",
             "x": -2414.0,
-            "y": 480.0,
+            "y": 454.9999694824219,
             "width": 126.0,
             "height": 173.0
         }
@@ -4425,7 +4439,7 @@
     "m_Group": {
         "m_Id": "fea8f002704243f7ac62fe1f742cc064"
     },
-    "m_Name": "Can be selected",
+    "m_Name": "K: Can be selected",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
@@ -4549,7 +4563,7 @@
         "m_Position": {
             "serializedVersion": "2",
             "x": -2245.0,
-            "y": 610.0,
+            "y": 585.0,
             "width": 126.0,
             "height": 118.0
         }
@@ -5383,7 +5397,7 @@
     "m_Guid": {
         "m_GuidSerialized": "1e27cf3c-8e3b-4ed4-9f3a-aba5a845ab55"
     },
-    "m_Name": "Can be selected",
+    "m_Name": "K: Can be selected",
     "m_DefaultReferenceName": "BOOLEAN_FAD486B2B4FE47239E7972571BF3BCF2_ON",
     "m_OverrideReferenceName": "BOOLEAN_CANSELECTED_ON",
     "m_GeneratePropertyBlock": true,
@@ -5478,7 +5492,7 @@
         "m_Position": {
             "serializedVersion": "2",
             "x": -2119.0,
-            "y": 610.0,
+            "y": 585.0,
             "width": 128.0,
             "height": 94.0
         }
