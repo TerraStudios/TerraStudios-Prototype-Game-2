@@ -155,7 +155,8 @@ namespace Player
             int3 initialPos = snappedPos.FloorToInt3();
 
             float radius = (brushSize.value + 1) / 2f;
-            int min = Mathf.CeilToInt(-radius);
+
+            int min = Mathf.FloorToInt(-radius) + 1;
             int max = Mathf.FloorToInt(radius);
 
             HashSet<Building> buildingsToRemove = new HashSet<Building>();
