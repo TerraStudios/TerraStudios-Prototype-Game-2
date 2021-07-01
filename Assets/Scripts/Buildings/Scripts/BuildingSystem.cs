@@ -162,7 +162,8 @@ namespace BuildingManagement
                 }
             }
 
-            GameSave.current.worldSaveData.placedBuildings.Where(bSave => bSave.building == b.bBase);
+            BuildingSave buildingToRemove = GameSave.current.worldSaveData.placedBuildings.Single(bSave => bSave.building == b.bBase);
+            GameSave.current.worldSaveData.placedBuildings.Remove(buildingToRemove);
         }
 
         /// <summary>
