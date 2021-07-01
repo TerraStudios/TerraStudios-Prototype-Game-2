@@ -66,7 +66,6 @@ namespace Player
             if (!removeModeEnabled)
                 return;
 
-
             Vector3 snappedPos = GetSnappedPos();
 
             // check if we're at the same position
@@ -89,6 +88,10 @@ namespace Player
                 b.MarkForDelete();
         }
 
+        /// <summary>
+        /// Triggered when the button to remove building/items is pressed.
+        /// </summary>
+        /// <param name="context"></param>
         public void RemoveTrigger(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -107,6 +110,9 @@ namespace Player
             }
         }
 
+        /// <summary>
+        /// Triggered when the remove button is pressed. This enables the remove system.
+        /// </summary>
         public void OnRemoveButtonPressed()
         {
             removePanel.SetActive(true);
@@ -115,6 +121,9 @@ namespace Player
             TimeEngine.IsPaused = true;
         }
 
+        /// <summary>
+        /// Triggered when the remove system is attempted to be stopped.
+        /// </summary>
         public void OnDisableRemoveButtonPressed()
         {
             removePanel.SetActive(false);
@@ -129,6 +138,10 @@ namespace Player
             TimeEngine.IsPaused = false;
         }
 
+        /// <summary>
+        /// Saves buildings and items in the range specified.
+        /// </summary>
+        /// <param name="snappedPos"></param>
         private void SaveInRange(Vector3 snappedPos)
         {
             lastSnappedPos = snappedPos;
@@ -140,7 +153,6 @@ namespace Player
             ExtDebug.DrawBox(snappedPos, scale, Quaternion.identity, Color.red);
 
             int3 initialPos = snappedPos.FloorToInt3();
-
 
             int radius = (int)brushSize.value;
 
@@ -178,6 +190,10 @@ namespace Player
             inRange = new Tuple<List<ItemBehaviour>, List<Building>>(itemsToReturn, buildingsToRemove.ToList());
         }
 
+        /// <summary>
+        /// Retrieves the snapped grid position from the mouse position.
+        /// </summary>
+        /// <returns>Snapped Grid position.</returns>
         private Vector3 GetSnappedPos()
         {
             RaycastHit? gridHit = GridManager.Instance.FindGridHit();
@@ -187,6 +203,10 @@ namespace Player
             return snappedPos;
         }
 
+        /// <summary>
+        /// Delete a building manually. Arguments are usually the ones that were collected from <c>SaveInRange</c>.
+        /// </summary>
+        /// <param name="b">Building to delete</param>
         public void DeleteBuilding(Building b)
         {
             if (!RemoveBuildings)
@@ -235,6 +255,9 @@ namespace Player
             Destroy(b.gameObject); // Destroy game object
         }
 
+        /// <summary>
+        /// Deletes all items collected from <c>SaveInRange</c>.
+        /// </summary>
         public void DeleteItems()
         {
             foreach (Building b in inRange.Item2)
@@ -261,6 +284,11 @@ namespace Player
             }
         }
 
+        /// <summary>
+        /// Delete an item manually. Usually called when attempting to delete an item that's inside a building (with or without scene instance).
+        /// </summary>
+        /// <param name="data">Item Data of the item</param>
+        /// <param name="obj">Scene Instance of the item, if applies.</param>
         public void DeleteItem(ItemData data, GameObject obj = null)
         {
             if (data.isGarbage)
@@ -278,16 +306,24 @@ namespace Player
                 ObjectPoolManager.Instance.DestroyObject(obj); //destroy object
         }
 
+        /// <summary>
+        /// Called from the UI when the value of the Brush slider is changed.
+        /// </summary>
         public void OnBrushSliderValueChanged()
         {
             float brushSizeToDisplay = brushSize.value + 1;
             brushText.text = brushSizeToDisplay + "x" + brushSizeToDisplay;
         }
 
-        // subtract == true => Decrease value by 1
-        // subtract == false => Increase value by 1
+        /// <summary>
+        /// Called when one of the buttons (+ or -) is pressed in the UI.
+        /// </summary>
+        /// <param name="subtract">Whether it should add or subtract to the brush size.</param>
         public void OnManualBrushSizeChange(bool subtract)
         {
+            // subtract == true => Decrease value by 1
+            // subtract == false => Increase value by 1
+
             float newBrushSize;
             if (subtract)
             {

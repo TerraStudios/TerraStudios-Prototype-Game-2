@@ -170,7 +170,7 @@ namespace BuildingModules
         }
 
         /// <summary>
-        /// Retrives the position of the IO to connect to.
+        /// Retrieves the position of the IO to connect to.
         /// </summary>
         /// <param name="io">The IO to be used</param>
         /// <returns>The position of the IO.</returns>

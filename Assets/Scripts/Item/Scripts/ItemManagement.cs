@@ -13,7 +13,7 @@ namespace ItemManagement
 {
     /// <summary>
     /// Manages all items in the game. 
-    /// Loads and retrives items from the items list.
+    /// Loads and retrieves items from the items list.
     /// </summary>
     public class ItemManagement : MonoBehaviour
     {

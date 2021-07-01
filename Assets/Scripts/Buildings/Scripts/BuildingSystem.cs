@@ -241,7 +241,7 @@ namespace BuildingManagement
         }
 
         /// <summary>
-        /// Retrives a list of Script and Mesh GameObjects for all asset locations.
+        /// Retrieves a list of Script and Mesh GameObjects for all asset locations.
         /// </summary>
         /// <returns>A list of all Script and Mesh GameObjects available.</returns>
         public List<KeyValuePair<Building, Transform>> GetAllBuildings()
