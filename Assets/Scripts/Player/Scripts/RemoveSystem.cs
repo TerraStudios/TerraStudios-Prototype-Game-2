@@ -251,6 +251,7 @@ namespace Player
             }
 
             BuildingSystem.UnRegisterBuilding(b);
+            BuildingSystem.RelinkLinkedIOs(b);
             ObjectPoolManager.Instance.DestroyObject(b.correspondingMesh.gameObject);
             Destroy(b.gameObject); // Destroy game object
         }

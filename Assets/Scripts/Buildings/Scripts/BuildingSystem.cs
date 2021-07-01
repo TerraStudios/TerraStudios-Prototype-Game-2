@@ -166,6 +166,15 @@ namespace BuildingManagement
             GameSave.current.worldSaveData.placedBuildings.Remove(buildingToRemove);
         }
 
+        public static void RelinkLinkedIOs(Building b)
+        {
+            b.mc.buildingIOManager.IOForEach(io =>
+            {
+                if (io.linkedIO != null)
+                    io.linkedIO.manager.LinkAll();
+            });
+        }
+
         /// <summary>
         /// Clears the list of registered buildings.
         /// </summary>
