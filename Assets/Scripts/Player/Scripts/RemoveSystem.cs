@@ -154,31 +154,30 @@ namespace Player
 
             int3 initialPos = snappedPos.FloorToInt3();
 
-            int radius = (int)brushSize.value;
+            float radius = (brushSize.value + 1) / 2f;
+            int min = Mathf.CeilToInt(-radius);
+            int max = Mathf.FloorToInt(radius);
 
             HashSet<Building> buildingsToRemove = new HashSet<Building>();
 
-            for (int y = -radius; y < radius; y++)
+            for (int y = min; y <= max; y++)
             {
-                for (int x = -radius; x < radius; x++)
+                for (int x = min; x <= max; x++)
                 {
-                    for (int z = -radius; z < radius; z++)
+                    for (int z = min; z <= max; z++)
                     {
-                        // Check squared distance from the pivot voxel
-                        if (x * x + y * y + z * z <= radius * radius)
-                        {
-                            Voxel voxel = TerrainGenerator.Instance.GetVoxel(new int3(initialPos.x + x, initialPos.y + y,
+                        Voxel voxel = TerrainGenerator.Instance.GetVoxel(new int3(initialPos.x + x, initialPos.y + y,
                                 initialPos.z + z));
 
-                            switch (voxel)
-                            {
-                                case null:
-                                    continue; // Voxel was out of bounds
-                                case MachineSlaveVoxel slaveVoxel:
-                                    // We found a voxel that belongs to a building, go ahead and add it to the hashset
-                                    buildingsToRemove.Add(slaveVoxel.controller);
-                                    break;
-                            }
+                        switch (voxel)
+                        {
+                            case null:
+                                continue; // Voxel was out of bounds
+                            case MachineSlaveVoxel slaveVoxel:
+                                // We found a voxel that belongs to a building, go ahead and add it to the hashset
+                                buildingsToRemove.Add(slaveVoxel.controller);
+                                break;
+
                         }
                     }
                 }
@@ -244,7 +243,7 @@ namespace Player
             // If conveyor, delete items on top
             if (b.mc.buildingIOManager.isConveyor)
             {
-                foreach(ConveyorItemData item in b.mc.conveyor.itemsOnTop.ToList())
+                foreach (ConveyorItemData item in b.mc.conveyor.itemsOnTop.ToList())
                 {
                     b.mc.conveyor.RemoveItemFromBelt(item.sceneInstance.gameObject, true);
                 }
