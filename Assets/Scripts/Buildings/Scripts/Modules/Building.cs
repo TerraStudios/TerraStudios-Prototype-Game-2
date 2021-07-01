@@ -346,8 +346,6 @@ namespace BuildingModules
 
             RemoveIndicator();
             currentIndicator = ObjectPoolManager.Instance.ReuseObject(indicator.gameObject, transform.position + new Vector3(0, correspondingMesh.GetComponent<MeshRenderer>().bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
-            currentIndicator.transform.parent = transform;
-
         }
 
         /// <summary>
