@@ -391,7 +391,6 @@ namespace BuildingModules
 
         private void DrawArrow(BuildingIO io, bool input)
         {
-
             Material arrowMaterial = io.linkStatus switch
             {
                 IOLinkStatus.Unconnected => BuildingManager.Instance.blueArrow,
@@ -400,7 +399,7 @@ namespace BuildingModules
                 _ => null
             };
 
-            Vector3 pos = GetTargetIOPosition(io);
+            Vector3 pos = GetTargetIOPosition(io) + Vector3.up;
             Vector3 direction = -io.direction.GetDirection(mc.building.meshData.rot);
             if (input) direction *= -1;
 
@@ -428,7 +427,6 @@ namespace BuildingModules
                 ).transform;
 
                 io.arrow.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-                io.arrow.transform.position += new Vector3(0, 1, 0);
                 io.arrow.GetComponent<MeshRenderer>().material = arrowMaterial;
             }
         }

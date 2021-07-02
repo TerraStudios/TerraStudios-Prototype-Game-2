@@ -176,7 +176,7 @@ namespace BuildingModules
         /// <returns>The position of the IO.</returns>
         public Vector3 GetIOPosition(BuildingIO io)
         {
-            Vector3 prefabPosition = mc.building.meshData.pos;
+            Vector3 meshPos = mc.building.meshData.pos;
 
             double yEuRot = mc.building.meshData.rot.eulerAngles.y;
 
@@ -191,7 +191,7 @@ namespace BuildingModules
                 _ => -new Vector3(io.localPosition.x, 0, io.localPosition.y)
             };
 
-            ioPos += new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset + prefabPosition;
+            ioPos += new Vector3(0.5f, 0.5f, 0.5f) + buildingOffset + meshPos;
 
             // Prefab position - position of IO relative to prefab - value retrieved from face of IO (see 'direction' variable above)
             return ioPos;

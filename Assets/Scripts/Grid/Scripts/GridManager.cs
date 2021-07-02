@@ -12,6 +12,7 @@ using TerrainGeneration;
 using TerrainTypes;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Utilities;
 
@@ -133,6 +134,8 @@ namespace BuildingManagement
         /// </summary>
         public void UpdateVisualization()
         {
+            if (PauseMenu.isOpen) return;
+
             RaycastHit? hit = FindGridHit();
             if (hit == null) return;
             Vector3 center = GetGridPosition(hit.Value.point);
