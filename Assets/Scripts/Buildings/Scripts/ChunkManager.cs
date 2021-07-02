@@ -64,8 +64,7 @@ public class ChunkManager
                             if (!chunk.VoxelInsideChunk(x, y, z))
                             {
                                 int3 localPos = generator.GetRelativeChunkPosition(x, y, z);
-                                ChunkCoord coord = generator.GetChunkCoord(x, y, z);
-                                generator.chunks[coord.x, coord.z].SetVoxelData(localPos.x, localPos.y, localPos.z, slaveBlock);
+                                generator.currentChunks[generator.GetChunkCoord(x, y, z)].SetVoxelData(localPos.x, localPos.y, localPos.z, slaveBlock);
                             }
                             else
                             {

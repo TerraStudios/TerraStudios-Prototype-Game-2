@@ -278,6 +278,7 @@ namespace BuildingManagement
             data.building.economyManager = economyManager;
             data.building.correspondingMeshPrefab = data.buildingMeshPrefab.gameObject;
             RegisterBuilding(data);
+            data.building.PreInit();
             data.building.Init(data.buildingMesh, !data.register);
 
             if (data.building.mc.buildingIOManager.isConveyor)

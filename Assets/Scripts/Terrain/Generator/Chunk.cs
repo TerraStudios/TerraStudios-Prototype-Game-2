@@ -283,13 +283,8 @@ namespace TerrainGeneration
         {
             ClearChunk();
 
-
-
             // Start terrain generation 
             StartCoroutine(GenerateChunk());
-
-            chunkManager.OnChunkLoaded(this);
-
             //new Task(() => PrepareMesh()).Start();
         }
 
@@ -365,7 +360,7 @@ namespace TerrainGeneration
             // Register chunk in TerrainGenerator
             generator.chunks[chunkCoord.x, chunkCoord.z] = this;
 
-
+            chunkManager.OnChunkLoaded(this);
         }
 
         /// <summary>
