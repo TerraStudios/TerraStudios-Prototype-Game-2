@@ -45,7 +45,7 @@ namespace Player
         public LayerMask itemsLayer;
 
         [Header("Dynamic variables")]
-        public bool removeModeEnabled;
+        public static bool removeModeEnabled;
 
         private Tuple<List<ItemBehaviour>, List<Building>> inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
 
@@ -118,6 +118,7 @@ namespace Player
             removePanel.SetActive(true);
             removeModeEnabled = true;
             BuildingManager.Instance.OnBuildingDeselected();
+            GridManager.Instance.IsInBuildMode = false;
             TimeEngine.IsPaused = true;
         }
 

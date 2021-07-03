@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using BuildingModules;
 using CoreManagement;
 using EconomyManagement;
+using Player;
 using TerrainGeneration;
 using TerrainTypes;
 using Unity.Mathematics;
@@ -51,6 +52,9 @@ namespace BuildingManagement
             get => isInBuildMode;
             set
             {
+                if (RemoveSystem.removeModeEnabled)
+                    return;
+
                 OnBuildModeChanged(value);
                 isInBuildMode = value;
             }
