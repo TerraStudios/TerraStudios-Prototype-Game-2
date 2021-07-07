@@ -31,7 +31,6 @@ namespace BuildingManagement
 
         public EconomyManager economyManager;
         public Camera mainCamera;
-        public GameObject removeModeEnabledText;
 
         [Header("Constant variables")]
         public float tileSize;
@@ -41,7 +40,6 @@ namespace BuildingManagement
         [Header("Dynamic variables")]
         private bool isInBuildMode;
 
-        [HideInInspector] public bool isInDeleteMode;
         [HideInInspector] public bool forceVisualizeAll;
 
         /// <summary>
@@ -92,7 +90,6 @@ namespace BuildingManagement
         public bool debugMode;
 
         private Vector2 mousePos;
-        private float rotationDirection;
         private bool continueBuilding;
 
         #region Unity Events
@@ -216,7 +213,6 @@ namespace BuildingManagement
         /// <param name="center">Grid position for the visualization to be instantiated on</param>
         private void ConstructVisualization(Vector3 center)
         {
-            Debug.Log("Constructing new visualization!");
             buildingManager.OnBuildingDeselected();
             //TimeEngine.IsPaused = true;
 
@@ -290,7 +286,6 @@ namespace BuildingManagement
                 TerrainGenerator generator = TerrainGenerator.Instance;
 
                 // Set position in the chunk it was placed in
-
                 int3 voxelPos = visualization.Value.position.FloorToInt3();
                 Vector3Int buildingSize = GetBuildSize(currentBuilding.Value);
 
@@ -299,9 +294,6 @@ namespace BuildingManagement
                 // TODO: Move this to an enum
                 VoxelType type = new VoxelType { isSolid = true };
                 MachineSlaveVoxel slaveBlock = new MachineSlaveVoxel(type, visualization.Key);
-                //int3 localVoxelPos = generator.GetRelativeChunkPosition(voxelPos.x, voxelPos.y, voxelPos.z);
-
-                //placedChunk.SetVoxelData(localVoxelPos.x, localVoxelPos.y, localVoxelPos.z, slaveBlock);
 
                 for (int x = voxelPos.x - buildingSize.x + 1; x <= voxelPos.x; x++)
                 {
@@ -347,41 +339,6 @@ namespace BuildingManagement
         #endregion
 
         #region Grid Utilities
-
-        // TODO: This code was for showing visualizations of the collision system during the development and is no longer needed. However, if we want to move this to a debugging option this code
-        // TODO: will remain commented for later use.
-        /*
-
-        private Vector3 currentGrid;
-
-        private IEnumerator testGridCheck()
-        {
-
-            while (true)
-            {
-                Vector3 grid = currentGrid;
-
-                Vector3Int buildingSize = GetBuildSize(currentBuilding.Value);
-
-                for (int x = (int)grid.x - buildingSize.x + 1; x <= grid.x; x++)
-                {
-                    for (int y = (int)grid.y; y < grid.y + buildingSize.y; y++)
-                    {
-                        for (int z = (int)grid.z - buildingSize.z + 1; z <= grid.z; z++)
-                        {
-                            ExtDebug.DrawBox(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f), Vector3.one / 2f, Quaternion.identity, Color.cyan);
-                        }
-                    }
-                }
-
-                ExtDebug.DrawBox(grid + Vector3.one / 2f, Vector3.one / 2f, Quaternion.identity, Color.red);
-
-                yield return new WaitForEndOfFrame();
-            }
-            //testGridCheck(grid);
-        }
-
-        */
 
         /// <summary>
         /// Returns whether the currently selected building can be placed with a pivot point from a RaycastHit.
@@ -451,8 +408,6 @@ namespace BuildingManagement
             }
 
             return new Vector3(x, Mathf.FloorToInt(pos.y + 0.1f), z);
-            //ExtDebug.DrawBox(new Vector3(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.RoundToInt(pos.z)), new Vector3(0.5f, 0.5f, 0.5f), RotationChange, Color.white);
-            //return new Vector3(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y + 0.1f), Mathf.RoundToInt(pos.z));
         }
 
         /// <summary>
@@ -465,10 +420,8 @@ namespace BuildingManagement
             {
                 return hit;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         /// <summary>
