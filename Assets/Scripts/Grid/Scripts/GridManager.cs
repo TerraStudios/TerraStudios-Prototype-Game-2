@@ -280,6 +280,9 @@ namespace BuildingManagement
                     return;
                 }
 
+                visualization.Value.transform.position = center;
+                visualization.Value.transform.rotation = RotationChange;
+
                 economyManager.Balance -= (decimal)visualization.Key.bBase.Price;
 
                 visualization.Value.GetComponent<MeshRenderer>().material = tempMat;
