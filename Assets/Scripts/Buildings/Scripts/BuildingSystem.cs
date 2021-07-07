@@ -90,13 +90,15 @@ namespace BuildingManagement
         /// <param name="data">Special data class needed for setting up a building.</param>
         public static void RegisterBuilding(RegisterBuildingData data)
         {
+            GameObject meshToSave = data.building ? data.building.gameObject : null;
+
             if (PlacedBuildings.ContainsKey(data.chunkCoord))
             {
-                PlacedBuildings[data.chunkCoord].Add(new KeyValuePair<Building, GameObject>(data.building, data.buildingMesh.gameObject));
+                PlacedBuildings[data.chunkCoord].Add(new KeyValuePair<Building, GameObject>(data.building, meshToSave));
             }
             else
             {
-                PlacedBuildings.Add(data.chunkCoord, new List<KeyValuePair<Building, GameObject>> { new KeyValuePair<Building, GameObject>(data.building, data.buildingMesh.gameObject) });
+                PlacedBuildings.Add(data.chunkCoord, new List<KeyValuePair<Building, GameObject>> { new KeyValuePair<Building, GameObject>(data.building, meshToSave) });
             }
 
             if (data.register)
@@ -184,7 +186,7 @@ namespace BuildingManagement
 
                 GameObject meshPrefab = save.GetMeshObj().gameObject;
 
-                Transform meshGO = ObjectPoolManager.Instance.ReuseObject(meshPrefab, save.position, save.rotation).transform;
+                //Transform meshGO = ObjectPoolManager.Instance.ReuseObject(meshPrefab, save.position, save.rotation).transform;
 
                 ChunkCoord chunkCoord = save.chunkCoord;
 
@@ -194,12 +196,12 @@ namespace BuildingManagement
                 RegisterBuildingData data = new RegisterBuildingData()
                 {
                     building = building,
-                    buildingMesh = meshGO,
+                    //buildingMesh = meshGO,
                     buildingMeshPrefab = meshPrefab.transform,
                     chunkCoord = chunkCoord,
                     register = false
                 };
-                SetUpBuilding(data);
+                SetUpBuilding(data, false);
             }
         }
 
@@ -250,7 +252,7 @@ namespace BuildingManagement
         /// Initializes all of the needed data for the building in question.
         /// </summary>
         /// <param name="data">Special data class needed for setting up a building.</param>
-        public void SetUpBuilding(RegisterBuildingData data)
+        public void SetUpBuilding(RegisterBuildingData data, bool loadMesh = true)
         {
             //TODO: THESE HAVE BEEN COMMENTED OUT AS OF 2/13/2021, TO BE CHANGED?
             //b.transform.parent = buildingScriptParent.transform;
@@ -260,7 +262,9 @@ namespace BuildingManagement
             data.building.correspondingMeshPrefab = data.buildingMeshPrefab.gameObject;
             RegisterBuilding(data);
             data.building.PreInit();
-            data.building.Init(data.buildingMesh, !data.register);
+            if (loadMesh)
+                data.building.InitMesh(data.buildingMesh);
+            data.building.Init(!data.register);
 
             if (data.building.mc.buildingIOManager.isConveyor)
             {
