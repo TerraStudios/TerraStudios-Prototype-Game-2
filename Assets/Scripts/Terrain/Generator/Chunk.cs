@@ -450,7 +450,50 @@ namespace TerrainGeneration
         public void SetVoxelData(int x, int y, int z, Voxel newVoxel)
         {
             voxelData[GetVoxelDataIndex(x, y, z)] = newVoxel;
-            //Debug.Log($"voxel at {x}, {y}, {z} is now {(newVoxel is MachineSlaveVoxel)}");
+        }
+
+        /// <summary>
+        /// Sets a rectangular region to a given <see cref="Voxel"/>.
+        /// </summary>
+        /// <param name="lowerBoundX"></param>
+        /// <param name="lowerBoundY"></param>
+        /// <param name="lowerBoundZ"></param>
+        /// <param name="upperBoundX"></param>
+        /// <param name="upperBoundY"></param>
+        /// <param name="upperBoundZ"></param>
+        /// <param name="newVoxel">The new voxel to fill the region</param>
+        public void SetVoxelRegion(int lowerBoundX, int lowerBoundY, int lowerBoundZ, int upperBoundX, int upperBoundY,
+            int upperBoundZ, Voxel newVoxel)
+        {
+            SetVoxelRegion(new int3(lowerBoundX, lowerBoundY, lowerBoundZ), new int3(upperBoundX, upperBoundY, upperBoundZ), newVoxel);
+        }
+
+        /// <summary>
+        /// Sets a rectangular region to a given <see cref="Voxel"/>.
+        /// </summary>
+        /// <param name="lowerBound">One corner of the region</param>
+        /// <param name="upperBound">The other corner of the region</param>
+        /// <param name="newVoxel">The new voxel to fill the region</param>
+        public void SetVoxelRegion(int3 lowerBound, int3 upperBound, Voxel newVoxel)
+        {
+            for (int x = lowerBound.x; x <= upperBound.x; x++)
+            {
+                for (int y = lowerBound.y; y <= upperBound.y; y++)
+                {
+                    for (int z = lowerBound.z; z <= upperBound.z; z++)
+                    {
+                        if (!VoxelInsideChunk(x, y, z))
+                        {
+                            int3 localPos = generator.GetRelativeChunkPosition(x, y, z);
+                            generator.currentChunks[generator.GetChunkCoord(x, y, z)].SetVoxelData(localPos.x, localPos.y, localPos.z, newVoxel);
+                        }
+                        else
+                        {
+                            SetVoxelData(x, y, z, newVoxel);
+                        }
+                    }
+                }
+            }
         }
 
         //public void OnDrawGizmos()

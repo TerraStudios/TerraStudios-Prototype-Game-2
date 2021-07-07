@@ -135,27 +135,8 @@ namespace BuildingManagement
                         TerrainGenerator generator = TerrainGenerator.Instance;
                         Chunk chunk = generator.currentChunks[chunkKvp.Key];
 
-
-                        for (int x = voxelPos.x - buildingSize.x + 1; x <= voxelPos.x; x++)
-                        {
-                            for (int y = voxelPos.y; y < voxelPos.y + buildingSize.y; y++)
-                            {
-                                for (int z = voxelPos.z - buildingSize.z + 1; z <= voxelPos.z; z++)
-                                {
-                                    if (!chunk.VoxelInsideChunk(x, y, z))
-                                    {
-                                        int3 localPos = generator.GetRelativeChunkPosition(x, y, z);
-                                        generator.currentChunks[generator.GetChunkCoord(x, y, z)]
-                                            .SetVoxelData(localPos.x, localPos.y, localPos.z, null);
-                                    }
-                                    else
-                                    {
-                                        chunk.SetVoxelData(x, y, z, null);
-                                    }
-
-                                }
-                            }
-                        }
+                        chunk.SetVoxelRegion(voxelPos.x - buildingSize.x + 1, voxelPos.y,
+                            voxelPos.z - buildingSize.z + 1, voxelPos.x, voxelPos.y + buildingSize.y, voxelPos.z, null);
 
                         return;
                     }

@@ -295,25 +295,8 @@ namespace BuildingManagement
                 VoxelType type = new VoxelType { isSolid = true };
                 MachineSlaveVoxel slaveBlock = new MachineSlaveVoxel(type, visualization.Key);
 
-                for (int x = voxelPos.x - buildingSize.x + 1; x <= voxelPos.x; x++)
-                {
-                    for (int y = voxelPos.y; y < voxelPos.y + buildingSize.y; y++)
-                    {
-                        for (int z = voxelPos.z - buildingSize.z + 1; z <= voxelPos.z; z++)
-                        {
-                            if (!placedChunk.VoxelInsideChunk(x, y, z))
-                            {
-                                int3 localPos = generator.GetRelativeChunkPosition(x, y, z);
-                                generator.currentChunks[generator.GetChunkCoord(x, y, z)].SetVoxelData(localPos.x, localPos.y, localPos.z, slaveBlock);
-                            }
-                            else
-                            {
-                                placedChunk.SetVoxelData(x, y, z, slaveBlock);
-                            }
-
-                        }
-                    }
-                }
+                placedChunk.SetVoxelRegion(voxelPos.x - buildingSize.x + 1, voxelPos.y,
+                    voxelPos.z - buildingSize.z + 1, voxelPos.x, voxelPos.y + buildingSize.y, voxelPos.z, slaveBlock);
 
                 visualization.Key.meshData = new MeshData()
                 {

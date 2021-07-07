@@ -36,44 +36,20 @@ public class ChunkManager
 
                 GameObject reused = ObjectPoolManager.Instance.ReuseObject(building.correspondingMeshPrefab.gameObject, building.meshData.pos, building.meshData.rot);
                 building.correspondingMeshPrefab = reused;
+
                 // Overwriting the current KVP so we can Destroy it later with OPM
                 BuildingSystem.PlacedBuildings[chunk.chunkCoord][i] = new KeyValuePair<Building, GameObject>(building, reused);
 
-                // IO Setup \\
-
-                TerrainGenerator generator = TerrainGenerator.Instance;
-
                 // Set position in the chunk it was placed in
-                Debug.Log("Chunk log");
                 int3 voxelPos = reused.transform.position.FloorToInt3();
                 Vector3Int buildingSize = GridManager.Instance.GetBuildSize(reused.transform);
 
                 // TODO: Move this to an enum
                 VoxelType type = new VoxelType { isSolid = true };
                 MachineSlaveVoxel slaveBlock = new MachineSlaveVoxel(type, building);
-                //int3 localVoxelPos = generator.GetRelativeChunkPosition(voxelPos.x, voxelPos.y, voxelPos.z);
 
-                //placedChunk.SetVoxelData(localVoxelPos.x, localVoxelPos.y, localVoxelPos.z, slaveBlock);
-
-                for (int x = voxelPos.x - buildingSize.x + 1; x <= voxelPos.x; x++)
-                {
-                    for (int y = voxelPos.y; y < voxelPos.y + buildingSize.y; y++)
-                    {
-                        for (int z = voxelPos.z - buildingSize.z + 1; z <= voxelPos.z; z++)
-                        {
-                            if (!chunk.VoxelInsideChunk(x, y, z))
-                            {
-                                int3 localPos = generator.GetRelativeChunkPosition(x, y, z);
-                                generator.currentChunks[generator.GetChunkCoord(x, y, z)].SetVoxelData(localPos.x, localPos.y, localPos.z, slaveBlock);
-                            }
-                            else
-                            {
-                                chunk.SetVoxelData(x, y, z, slaveBlock);
-                            }
-
-                        }
-                    }
-                }
+                chunk.SetVoxelRegion(voxelPos.x - buildingSize.x + 1, voxelPos.y,
+                    voxelPos.z - buildingSize.z + 1, voxelPos.x, voxelPos.y + buildingSize.y, voxelPos.z, slaveBlock);
 
                 building.mc.buildingIOManager.LinkAll(); // figure out why they don't link. Voxel found it null.
                 building.OnBuildingShow(); // consider moving bits of code from this function into Building.OnBuildingShow
