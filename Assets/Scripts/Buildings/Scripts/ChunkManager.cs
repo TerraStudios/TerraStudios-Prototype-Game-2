@@ -35,7 +35,6 @@ public class ChunkManager
                 Building building = kvp.Key;
 
                 GameObject reused = ObjectPoolManager.Instance.ReuseObject(building.correspondingMeshPrefab.gameObject, building.meshData.pos, building.meshData.rot);
-                building.correspondingMeshPrefab = reused;
                 building.InitMesh(reused.transform);
 
                 // Overwriting the current KVP so we can Destroy it later with OPM
@@ -52,8 +51,8 @@ public class ChunkManager
                 chunk.SetVoxelRegion(voxelPos.x - buildingSize.x + 1, voxelPos.y,
                     voxelPos.z - buildingSize.z + 1, voxelPos.x, voxelPos.y + buildingSize.y, voxelPos.z, slaveBlock);
 
-                building.mc.buildingIOManager.LinkAll(); // figure out why they don't link. Voxel found it null.
-                building.OnBuildingShow(); // consider moving bits of code from this function into Building.OnBuildingShow
+                building.mc.buildingIOManager.LinkAll();
+                building.OnBuildingShow();
             }
         }
     }
@@ -62,10 +61,10 @@ public class ChunkManager
     /// Called when a Chunk got unloaded.
     /// </summary>
     /// <param name="chunkCoord">The ChunkCoord of the Chunk for which the action should be applied.</param>
-    public void OnChunkUnloaded(ChunkCoord chunkCoord)
+    public void OnChunkUnloaded(ChunkCoord chunkCoord, bool chunkRegenerate)
     {
         // Unload/disable all building mesh GameObjects in this chunk
-        if (BuildingSystem.PlacedBuildings.Count != 0 && BuildingSystem.PlacedBuildings.ContainsKey(chunkCoord))
+        if (!chunkRegenerate && BuildingSystem.PlacedBuildings.Count != 0 && BuildingSystem.PlacedBuildings.ContainsKey(chunkCoord))
         {
             for (int i = 0; i < BuildingSystem.PlacedBuildings[chunkCoord].Count; i++)
             {
@@ -74,6 +73,7 @@ public class ChunkManager
                 if (kvp.Value != null)
                 {
                     ObjectPoolManager.Instance.DestroyObject(kvp.Value);
+
                     // Make the corresponding mesh null so we don't somehow get an invalid one
                     BuildingSystem.PlacedBuildings[chunkCoord][i] = new KeyValuePair<Building, GameObject>(kvp.Key, null);
 

@@ -136,6 +136,7 @@ namespace CoreManagement
         public void InitGame()
         {
             Time.timeScale = GameSave.current.timeSaveData.timeMultiplier;
+            PauseMenu.isOpen = false;
         }
 
         public void GameOver()

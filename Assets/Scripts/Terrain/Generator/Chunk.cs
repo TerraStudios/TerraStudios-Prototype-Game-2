@@ -226,13 +226,13 @@ namespace TerrainGeneration
             meshHandler?.DisposeNatives();
             meshHandler = null;
 
-            ClearChunk();
+            ClearChunk(false);
         }
 
         /// <summary>
         /// Clears all existing values in the chunk for regeneration.
         /// </summary>
-        public void ClearChunk()
+        public void ClearChunk(bool chunkRegenerate)
         {
             dirty = false;
             generated = false;
@@ -240,7 +240,7 @@ namespace TerrainGeneration
             triangles.Clear();
             uvs.Clear();
 
-            chunkManager.OnChunkUnloaded(chunkCoord);
+            chunkManager.OnChunkUnloaded(chunkCoord, chunkRegenerate);
         }
 
         private void Update()
@@ -281,7 +281,7 @@ namespace TerrainGeneration
         /// </summary>
         public void Regenerate()
         {
-            ClearChunk();
+            ClearChunk(true);
 
             // Start terrain generation 
             StartCoroutine(GenerateChunk());
