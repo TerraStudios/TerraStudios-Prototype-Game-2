@@ -129,19 +129,8 @@ namespace BuildingModules
         /// <summary>
         /// Initializes the building's properties and work state.
         /// </summary>
-        public void Init(Transform meshGO, bool newBasePresent = false)
+        public void Init(bool newBasePresent = false)
         {
-            correspondingMesh = meshGO;
-
-            if (mc.buildingIOManager != null)
-            {
-                mc.buildingIOManager.Init();
-                //mc.buildingIOManager.UpdateIOPhysics();
-                mc.buildingIOManager.LinkAll();
-            }
-            else
-                Debug.LogWarning("Skipping Building IO Initialization");
-
             if (mc.apm != null)
                 mc.apm.Init();
 
@@ -157,6 +146,20 @@ namespace BuildingModules
                 StartWorkStateCounters();
                 GenerateBuildingHealth();
             }
+        }
+
+        public void InitMesh(Transform meshGO)
+        {
+            correspondingMesh = meshGO;
+
+            if (mc.buildingIOManager != null)
+            {
+                mc.buildingIOManager.Init();
+                //mc.buildingIOManager.UpdateIOPhysics();
+                mc.buildingIOManager.LinkAll();
+            }
+            else
+                Debug.LogWarning("Skipping Building IO Initialization");
 
             originalMaterial = correspondingMesh.GetComponent<MeshRenderer>().sharedMaterial;
             RemoveIndicator();

@@ -36,7 +36,7 @@ namespace BuildingModules
         public bool isConveyor;
 
         [Header("Events")]
-        public OnItemEnterEvent OnItemEnterInput;
+        public OnItemEnterEvent OnItemEnterInput = new OnItemEnterEvent();
 
         #region IO Visualization
 

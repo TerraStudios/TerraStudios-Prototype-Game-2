@@ -71,8 +71,6 @@ namespace BuildingModules
 
             buildingOffset.x = size.x % 2 != 0 ? -0.5f : 0;
             buildingOffset.z = size.z % 2 != 0 ? -0.5f : 0;
-
-            OnItemEnterInput = new OnItemEnterEvent();
         }
 
 #if UNITY_EDITOR

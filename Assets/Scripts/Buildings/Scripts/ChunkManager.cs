@@ -36,6 +36,7 @@ public class ChunkManager
 
                 GameObject reused = ObjectPoolManager.Instance.ReuseObject(building.correspondingMeshPrefab.gameObject, building.meshData.pos, building.meshData.rot);
                 building.correspondingMeshPrefab = reused;
+                building.InitMesh(reused.transform);
 
                 // Overwriting the current KVP so we can Destroy it later with OPM
                 BuildingSystem.PlacedBuildings[chunk.chunkCoord][i] = new KeyValuePair<Building, GameObject>(building, reused);
