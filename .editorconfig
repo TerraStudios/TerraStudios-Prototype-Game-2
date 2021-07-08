@@ -49,13 +49,36 @@ dotnet_style_prefer_conditional_expression_over_return = true:silent
 ###############################
 # Style Definitions
 dotnet_naming_style.pascal_case_style.capitalization             = pascal_case
-# Use PascalCase for constant fields  
-dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
-dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_style
-dotnet_naming_symbols.constant_fields.applicable_kinds            = field
-dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
-dotnet_naming_symbols.constant_fields.required_modifiers          = const
+dotnet_naming_style.upper_camel_case_style.capitalization = camel_case
+
+
+
+# Force all fields to be camelCase
+dotnet_naming_symbols.all_fields.applicable_kinds           = field
+dotnet_naming_symbols.all_fields.applicable_accessibilities = *
+
+dotnet_naming_rule.all_fields_must_be_camel_case.symbols   = all_fields
+dotnet_naming_rule.all_fields_must_be_camel_case.style    = upper_camel_case_style
+dotnet_naming_rule.all_fields_must_be_camel_case.severity = error
+
+# Consts fields should be PascalCase
+dotnet_naming_symbols.const_fields.applicable_kinds = field 
+dotnet_naming_symbols.const_fields.applicable_accessibilities = *
+dotnet_naming_symbols.const_fields.required_modifiers = const
+
+dotnet_naming_rule.const_fields_must_be_pascal_case.symbols = const_fields
+dotnet_naming_rule.const_fields_must_be_pascal_case.style = pascal_case_style
+dotnet_naming_rule.const_fields_must_be_pascal_case.severity = error
+
+# Static fields should be PascalCase
+dotnet_naming_symbols.const_fields.applicable_kinds = field 
+dotnet_naming_symbols.const_fields.applicable_accessibilities = *
+dotnet_naming_symbols.const_fields.required_modifiers = static
+
+dotnet_naming_rule.const_fields_must_be_pascal_case.symbols = const_fields
+dotnet_naming_rule.const_fields_must_be_pascal_case.style = pascal_case_style
+dotnet_naming_rule.const_fields_must_be_pascal_case.severity = error
+
 ###############################
 # C# Coding Conventions       #
 ###############################
