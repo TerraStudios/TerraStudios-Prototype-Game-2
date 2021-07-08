@@ -353,7 +353,7 @@ namespace TerrainGeneration
 
             // Set mesh to the GO and add the spritemap material from TerrainGenerator
             meshFilter.mesh = mesh;
-            meshRenderer.material = TerrainGenerator.material;
+            meshRenderer.material = TerrainGenerator.Material;
 
             generated = true;
 

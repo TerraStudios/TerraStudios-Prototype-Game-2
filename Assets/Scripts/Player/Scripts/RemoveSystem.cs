@@ -45,11 +45,11 @@ namespace Player
         public LayerMask itemsLayer;
 
         [Header("Dynamic variables")]
-        public static bool removeModeEnabled;
+        public static bool RemoveModeEnabled;
 
         private Tuple<List<ItemBehaviour>, List<Building>> inRange = new Tuple<List<ItemBehaviour>, List<Building>>(new List<ItemBehaviour>(), new List<Building>());
 
-        public static RemoveSystem instance;
+        public static RemoveSystem Instance;
 
         public bool RemoveBuildings { get; set; } = true;
         public bool RemoveItems { get; set; } = true;
@@ -58,12 +58,12 @@ namespace Player
 
         private void Awake()
         {
-            instance = this;
+            Instance = this;
         }
 
         private void Update()
         {
-            if (!removeModeEnabled)
+            if (!RemoveModeEnabled)
                 return;
 
             Vector3 snappedPos = GetSnappedPos();
@@ -96,7 +96,7 @@ namespace Player
         {
             if (context.performed)
             {
-                if (removeModeEnabled && !EventSystem.current.IsPointerOverGameObject())
+                if (RemoveModeEnabled && !EventSystem.current.IsPointerOverGameObject())
                 {
                     DeleteItems();
 
@@ -116,7 +116,7 @@ namespace Player
         public void OnRemoveButtonPressed()
         {
             removePanel.SetActive(true);
-            removeModeEnabled = true;
+            RemoveModeEnabled = true;
             BuildingManager.Instance.OnBuildingDeselected();
             GridManager.Instance.IsInBuildMode = false;
             TimeEngine.IsPaused = true;
@@ -128,7 +128,7 @@ namespace Player
         public void OnDisableRemoveButtonPressed()
         {
             removePanel.SetActive(false);
-            removeModeEnabled = false;
+            RemoveModeEnabled = false;
 
             foreach (ItemBehaviour t in inRange.Item1)
                 t.UnmarkForDelete();

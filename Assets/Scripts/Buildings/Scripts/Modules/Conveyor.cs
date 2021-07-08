@@ -110,7 +110,7 @@ namespace BuildingModules
         /// </summary>
         public void Init()
         {
-            mc.buildingIOManager.OnItemEnterInput.AddListener(OnItemEnterBelt);
+            mc.buildingIOManager.onItemEnterInput.AddListener(OnItemEnterBelt);
 
             // Input 0 and output 0 always correspond to the start and end points no matter
             // the building direction.

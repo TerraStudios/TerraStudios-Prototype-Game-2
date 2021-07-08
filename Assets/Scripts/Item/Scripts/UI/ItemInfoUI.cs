@@ -43,7 +43,7 @@ namespace ItemManagement
 
         public void OnSellItem()
         {
-            RemoveSystem.instance.DeleteItem(currentData, currentItem);
+            RemoveSystem.Instance.DeleteItem(currentData, currentItem);
 
             //clean up 
             currentItem = null;

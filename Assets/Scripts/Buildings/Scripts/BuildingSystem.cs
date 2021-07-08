@@ -278,7 +278,7 @@ namespace BuildingManagement
         /// <param name="mousePos">The Vector3 to start the Raycast from</param>
         public void CheckForHit(Vector3 mousePos)
         {
-            if (EventSystem.current.IsPointerOverGameObject() || RemoveSystem.removeModeEnabled)
+            if (EventSystem.current.IsPointerOverGameObject() || RemoveSystem.RemoveModeEnabled)
                 return;
 
             Ray ray = mainCamera.ScreenPointToRay(mousePos);

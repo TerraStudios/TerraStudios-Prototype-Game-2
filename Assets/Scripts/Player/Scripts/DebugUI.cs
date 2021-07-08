@@ -50,9 +50,9 @@ namespace Player
         {
             isItemsDropdownLoaded = true;
 
-            for (int i = 0; i < ItemManagement.ItemManagement.db.Count; i++)
+            for (int i = 0; i < ItemManagement.ItemManagement.Db.Count; i++)
             {
-                ItemData data = ItemManagement.ItemManagement.db[i];
+                ItemData data = ItemManagement.ItemManagement.Db[i];
                 testItemDropdown.options.Add(new TMP_Dropdown.OptionData() { text = data.name });
             }
 
@@ -60,12 +60,12 @@ namespace Player
 
             testItemDropdown.onValueChanged.AddListener(delegate { OnItemSelected(testItemDropdown); });
 
-            BuildingManager.testItemToSpawn = ItemManagement.ItemManagement.db[0];
+            BuildingManager.TestItemToSpawn = ItemManagement.ItemManagement.Db[0];
         }
 
         public void OnItemSelected(TMP_Dropdown changed)
         {
-            BuildingManager.testItemToSpawn = ItemManagement.ItemManagement.db[changed.value];
+            BuildingManager.TestItemToSpawn = ItemManagement.ItemManagement.Db[changed.value];
         }
 
         public void OnBalanceUpdated(string newValue)

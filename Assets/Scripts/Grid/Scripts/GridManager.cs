@@ -50,7 +50,7 @@ namespace BuildingManagement
             get => isInBuildMode;
             set
             {
-                if (RemoveSystem.removeModeEnabled)
+                if (RemoveSystem.RemoveModeEnabled)
                     return;
 
                 OnBuildModeChanged(value);

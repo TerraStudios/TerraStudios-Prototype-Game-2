@@ -119,7 +119,7 @@ namespace Tests
             manager.mc = mc;
 
             //Allow OnItemEnterEvent listening
-            manager.OnItemEnterInput = new OnItemEnterEvent();
+            manager.onItemEnterInput = new OnItemEnterEvent();
 
             return apmObject;
         }
@@ -140,7 +140,7 @@ namespace Tests
         {
             ItemData data = ScriptableObject.CreateInstance<ItemData>();
             data.name = GetRandomString();
-            data.ID = random.Next(3000);
+            data.id = random.Next(3000);
             data.isBuyable = random.Next(1) == 0;
             return data;
         }

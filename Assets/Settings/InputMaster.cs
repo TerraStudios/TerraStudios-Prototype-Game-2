@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Settings/InputMaster.inputactions'
+﻿// GENERATED AUTOMATICALLY FROM 'Assets/Settings/InputMaster.inputactions'
 
 using System;
 using System.Collections;
@@ -790,34 +790,34 @@ public class @InputMaster : IInputActionCollection, IDisposable
     ]
 }");
         // Gameplay
-        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_Camera_Manager_SwitchTopdownCamera = m_Gameplay.FindAction("Camera_Manager_SwitchTopdownCamera", throwIfNotFound: true);
-        m_Gameplay_Camera_Manager_SwitchFreecam = m_Gameplay.FindAction("Camera_Manager_SwitchFreecam", throwIfNotFound: true);
-        m_Gameplay_Camera_Normal_Move = m_Gameplay.FindAction("Camera_Normal_Move", throwIfNotFound: true);
-        m_Gameplay_Camera_Normal_Rotate = m_Gameplay.FindAction("Camera_Normal_Rotate", throwIfNotFound: true);
-        m_Gameplay_Camera_Normal_UpAndDown = m_Gameplay.FindAction("Camera_Normal_UpAndDown", throwIfNotFound: true);
-        m_Gameplay_Camera_Normal_DragState = m_Gameplay.FindAction("Camera_Normal_DragState", throwIfNotFound: true);
-        m_Gameplay_Camera_Normal_PanRotateState = m_Gameplay.FindAction("Camera_Normal_PanRotateState", throwIfNotFound: true);
-        m_Gameplay_Camera_Normal_PanAndDrag = m_Gameplay.FindAction("Camera_Normal_PanAndDrag", throwIfNotFound: true);
-        m_Gameplay_Camera_Normal_Zoom = m_Gameplay.FindAction("Camera_Normal_Zoom", throwIfNotFound: true);
-        m_Gameplay_Camera_Freecam_Move = m_Gameplay.FindAction("Camera_Freecam_Move", throwIfNotFound: true);
-        m_Gameplay_Camera_Freecam_Look = m_Gameplay.FindAction("Camera_Freecam_Look", throwIfNotFound: true);
-        m_Gameplay_Camera_Freecam_UpAndDown = m_Gameplay.FindAction("Camera_Freecam_UpAndDown", throwIfNotFound: true);
-        m_Gameplay_Camera_Freecam_Faster = m_Gameplay.FindAction("Camera_Freecam_Faster", throwIfNotFound: true);
-        m_Gameplay_RemoveSystem_RemoveTrigger = m_Gameplay.FindAction("RemoveSystem_RemoveTrigger", throwIfNotFound: true);
-        m_Gameplay_EconomyManager_TestBalanceChange = m_Gameplay.FindAction("EconomyManager_TestBalanceChange", throwIfNotFound: true);
-        m_Gameplay_ItemSelector_SelectItem = m_Gameplay.FindAction("ItemSelector_SelectItem", throwIfNotFound: true);
-        m_Gameplay_ItemSelector_Position = m_Gameplay.FindAction("ItemSelector_Position", throwIfNotFound: true);
-        m_Gameplay_GridManager_GridHitPosition = m_Gameplay.FindAction("GridManager_GridHitPosition", throwIfNotFound: true);
-        m_Gameplay_GridManager_PlaceBuilding = m_Gameplay.FindAction("GridManager_PlaceBuilding", throwIfNotFound: true);
-        m_Gameplay_GridManager_RotateBuildingLeft = m_Gameplay.FindAction("GridManager_RotateBuildingLeft", throwIfNotFound: true);
-        m_Gameplay_GridManager_RotateBuildingRight = m_Gameplay.FindAction("GridManager_RotateBuildingRight", throwIfNotFound: true);
-        m_Gameplay_GridManager_ContinueBuilding = m_Gameplay.FindAction("GridManager_ContinueBuilding", throwIfNotFound: true);
-        m_Gameplay_DebugUI_Show = m_Gameplay.FindAction("DebugUI_Show", throwIfNotFound: true);
-        m_Gameplay_PauseMenu_Show = m_Gameplay.FindAction("PauseMenu_Show", throwIfNotFound: true);
+        gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
+        gameplay_Camera_Manager_SwitchTopdownCamera = gameplay.FindAction("Camera_Manager_SwitchTopdownCamera", throwIfNotFound: true);
+        gameplay_Camera_Manager_SwitchFreecam = gameplay.FindAction("Camera_Manager_SwitchFreecam", throwIfNotFound: true);
+        gameplay_Camera_Normal_Move = gameplay.FindAction("Camera_Normal_Move", throwIfNotFound: true);
+        gameplay_Camera_Normal_Rotate = gameplay.FindAction("Camera_Normal_Rotate", throwIfNotFound: true);
+        gameplay_Camera_Normal_UpAndDown = gameplay.FindAction("Camera_Normal_UpAndDown", throwIfNotFound: true);
+        gameplay_Camera_Normal_DragState = gameplay.FindAction("Camera_Normal_DragState", throwIfNotFound: true);
+        gameplay_Camera_Normal_PanRotateState = gameplay.FindAction("Camera_Normal_PanRotateState", throwIfNotFound: true);
+        gameplay_Camera_Normal_PanAndDrag = gameplay.FindAction("Camera_Normal_PanAndDrag", throwIfNotFound: true);
+        gameplay_Camera_Normal_Zoom = gameplay.FindAction("Camera_Normal_Zoom", throwIfNotFound: true);
+        gameplay_Camera_Freecam_Move = gameplay.FindAction("Camera_Freecam_Move", throwIfNotFound: true);
+        gameplay_Camera_Freecam_Look = gameplay.FindAction("Camera_Freecam_Look", throwIfNotFound: true);
+        gameplay_Camera_Freecam_UpAndDown = gameplay.FindAction("Camera_Freecam_UpAndDown", throwIfNotFound: true);
+        gameplay_Camera_Freecam_Faster = gameplay.FindAction("Camera_Freecam_Faster", throwIfNotFound: true);
+        gameplay_RemoveSystem_RemoveTrigger = gameplay.FindAction("RemoveSystem_RemoveTrigger", throwIfNotFound: true);
+        gameplay_EconomyManager_TestBalanceChange = gameplay.FindAction("EconomyManager_TestBalanceChange", throwIfNotFound: true);
+        gameplay_ItemSelector_SelectItem = gameplay.FindAction("ItemSelector_SelectItem", throwIfNotFound: true);
+        gameplay_ItemSelector_Position = gameplay.FindAction("ItemSelector_Position", throwIfNotFound: true);
+        gameplay_GridManager_GridHitPosition = gameplay.FindAction("GridManager_GridHitPosition", throwIfNotFound: true);
+        gameplay_GridManager_PlaceBuilding = gameplay.FindAction("GridManager_PlaceBuilding", throwIfNotFound: true);
+        gameplay_GridManager_RotateBuildingLeft = gameplay.FindAction("GridManager_RotateBuildingLeft", throwIfNotFound: true);
+        gameplay_GridManager_RotateBuildingRight = gameplay.FindAction("GridManager_RotateBuildingRight", throwIfNotFound: true);
+        gameplay_GridManager_ContinueBuilding = gameplay.FindAction("GridManager_ContinueBuilding", throwIfNotFound: true);
+        gameplay_DebugUI_Show = gameplay.FindAction("DebugUI_Show", throwIfNotFound: true);
+        gameplay_PauseMenu_Show = gameplay.FindAction("PauseMenu_Show", throwIfNotFound: true);
         // Pause Menu
-        m_PauseMenu = asset.FindActionMap("Pause Menu", throwIfNotFound: true);
-        m_PauseMenu_PauseMenu_Exit = m_PauseMenu.FindAction("PauseMenu_Exit", throwIfNotFound: true);
+        pauseMenu = asset.FindActionMap("Pause Menu", throwIfNotFound: true);
+        pauseMenu_PauseMenu_Exit = pauseMenu.FindAction("PauseMenu_Exit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -865,143 +865,143 @@ public class @InputMaster : IInputActionCollection, IDisposable
     }
 
     // Gameplay
-    private readonly InputActionMap m_Gameplay;
-    private IGameplayActions m_GameplayActionsCallbackInterface;
-    private readonly InputAction m_Gameplay_Camera_Manager_SwitchTopdownCamera;
-    private readonly InputAction m_Gameplay_Camera_Manager_SwitchFreecam;
-    private readonly InputAction m_Gameplay_Camera_Normal_Move;
-    private readonly InputAction m_Gameplay_Camera_Normal_Rotate;
-    private readonly InputAction m_Gameplay_Camera_Normal_UpAndDown;
-    private readonly InputAction m_Gameplay_Camera_Normal_DragState;
-    private readonly InputAction m_Gameplay_Camera_Normal_PanRotateState;
-    private readonly InputAction m_Gameplay_Camera_Normal_PanAndDrag;
-    private readonly InputAction m_Gameplay_Camera_Normal_Zoom;
-    private readonly InputAction m_Gameplay_Camera_Freecam_Move;
-    private readonly InputAction m_Gameplay_Camera_Freecam_Look;
-    private readonly InputAction m_Gameplay_Camera_Freecam_UpAndDown;
-    private readonly InputAction m_Gameplay_Camera_Freecam_Faster;
-    private readonly InputAction m_Gameplay_RemoveSystem_RemoveTrigger;
-    private readonly InputAction m_Gameplay_EconomyManager_TestBalanceChange;
-    private readonly InputAction m_Gameplay_ItemSelector_SelectItem;
-    private readonly InputAction m_Gameplay_ItemSelector_Position;
-    private readonly InputAction m_Gameplay_GridManager_GridHitPosition;
-    private readonly InputAction m_Gameplay_GridManager_PlaceBuilding;
-    private readonly InputAction m_Gameplay_GridManager_RotateBuildingLeft;
-    private readonly InputAction m_Gameplay_GridManager_RotateBuildingRight;
-    private readonly InputAction m_Gameplay_GridManager_ContinueBuilding;
-    private readonly InputAction m_Gameplay_DebugUI_Show;
-    private readonly InputAction m_Gameplay_PauseMenu_Show;
+    private readonly InputActionMap gameplay;
+    private IGameplayActions gameplayActionsCallbackInterface;
+    private readonly InputAction gameplay_Camera_Manager_SwitchTopdownCamera;
+    private readonly InputAction gameplay_Camera_Manager_SwitchFreecam;
+    private readonly InputAction gameplay_Camera_Normal_Move;
+    private readonly InputAction gameplay_Camera_Normal_Rotate;
+    private readonly InputAction gameplay_Camera_Normal_UpAndDown;
+    private readonly InputAction gameplay_Camera_Normal_DragState;
+    private readonly InputAction gameplay_Camera_Normal_PanRotateState;
+    private readonly InputAction gameplay_Camera_Normal_PanAndDrag;
+    private readonly InputAction gameplay_Camera_Normal_Zoom;
+    private readonly InputAction gameplay_Camera_Freecam_Move;
+    private readonly InputAction gameplay_Camera_Freecam_Look;
+    private readonly InputAction gameplay_Camera_Freecam_UpAndDown;
+    private readonly InputAction gameplay_Camera_Freecam_Faster;
+    private readonly InputAction gameplay_RemoveSystem_RemoveTrigger;
+    private readonly InputAction gameplay_EconomyManager_TestBalanceChange;
+    private readonly InputAction gameplay_ItemSelector_SelectItem;
+    private readonly InputAction gameplay_ItemSelector_Position;
+    private readonly InputAction gameplay_GridManager_GridHitPosition;
+    private readonly InputAction gameplay_GridManager_PlaceBuilding;
+    private readonly InputAction gameplay_GridManager_RotateBuildingLeft;
+    private readonly InputAction gameplay_GridManager_RotateBuildingRight;
+    private readonly InputAction gameplay_GridManager_ContinueBuilding;
+    private readonly InputAction gameplay_DebugUI_Show;
+    private readonly InputAction gameplay_PauseMenu_Show;
     public struct GameplayActions
     {
-        private @InputMaster m_Wrapper;
-        public GameplayActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Camera_Manager_SwitchTopdownCamera => m_Wrapper.m_Gameplay_Camera_Manager_SwitchTopdownCamera;
-        public InputAction @Camera_Manager_SwitchFreecam => m_Wrapper.m_Gameplay_Camera_Manager_SwitchFreecam;
-        public InputAction @Camera_Normal_Move => m_Wrapper.m_Gameplay_Camera_Normal_Move;
-        public InputAction @Camera_Normal_Rotate => m_Wrapper.m_Gameplay_Camera_Normal_Rotate;
-        public InputAction @Camera_Normal_UpAndDown => m_Wrapper.m_Gameplay_Camera_Normal_UpAndDown;
-        public InputAction @Camera_Normal_DragState => m_Wrapper.m_Gameplay_Camera_Normal_DragState;
-        public InputAction @Camera_Normal_PanRotateState => m_Wrapper.m_Gameplay_Camera_Normal_PanRotateState;
-        public InputAction @Camera_Normal_PanAndDrag => m_Wrapper.m_Gameplay_Camera_Normal_PanAndDrag;
-        public InputAction @Camera_Normal_Zoom => m_Wrapper.m_Gameplay_Camera_Normal_Zoom;
-        public InputAction @Camera_Freecam_Move => m_Wrapper.m_Gameplay_Camera_Freecam_Move;
-        public InputAction @Camera_Freecam_Look => m_Wrapper.m_Gameplay_Camera_Freecam_Look;
-        public InputAction @Camera_Freecam_UpAndDown => m_Wrapper.m_Gameplay_Camera_Freecam_UpAndDown;
-        public InputAction @Camera_Freecam_Faster => m_Wrapper.m_Gameplay_Camera_Freecam_Faster;
-        public InputAction @RemoveSystem_RemoveTrigger => m_Wrapper.m_Gameplay_RemoveSystem_RemoveTrigger;
-        public InputAction @EconomyManager_TestBalanceChange => m_Wrapper.m_Gameplay_EconomyManager_TestBalanceChange;
-        public InputAction @ItemSelector_SelectItem => m_Wrapper.m_Gameplay_ItemSelector_SelectItem;
-        public InputAction @ItemSelector_Position => m_Wrapper.m_Gameplay_ItemSelector_Position;
-        public InputAction @GridManager_GridHitPosition => m_Wrapper.m_Gameplay_GridManager_GridHitPosition;
-        public InputAction @GridManager_PlaceBuilding => m_Wrapper.m_Gameplay_GridManager_PlaceBuilding;
-        public InputAction @GridManager_RotateBuildingLeft => m_Wrapper.m_Gameplay_GridManager_RotateBuildingLeft;
-        public InputAction @GridManager_RotateBuildingRight => m_Wrapper.m_Gameplay_GridManager_RotateBuildingRight;
-        public InputAction @GridManager_ContinueBuilding => m_Wrapper.m_Gameplay_GridManager_ContinueBuilding;
-        public InputAction @DebugUI_Show => m_Wrapper.m_Gameplay_DebugUI_Show;
-        public InputAction @PauseMenu_Show => m_Wrapper.m_Gameplay_PauseMenu_Show;
-        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
+        private @InputMaster wrapper;
+        public GameplayActions(@InputMaster wrapper) { this.wrapper = wrapper; }
+        public InputAction @Camera_Manager_SwitchTopdownCamera => wrapper.gameplay_Camera_Manager_SwitchTopdownCamera;
+        public InputAction @Camera_Manager_SwitchFreecam => wrapper.gameplay_Camera_Manager_SwitchFreecam;
+        public InputAction @Camera_Normal_Move => wrapper.gameplay_Camera_Normal_Move;
+        public InputAction @Camera_Normal_Rotate => wrapper.gameplay_Camera_Normal_Rotate;
+        public InputAction @Camera_Normal_UpAndDown => wrapper.gameplay_Camera_Normal_UpAndDown;
+        public InputAction @Camera_Normal_DragState => wrapper.gameplay_Camera_Normal_DragState;
+        public InputAction @Camera_Normal_PanRotateState => wrapper.gameplay_Camera_Normal_PanRotateState;
+        public InputAction @Camera_Normal_PanAndDrag => wrapper.gameplay_Camera_Normal_PanAndDrag;
+        public InputAction @Camera_Normal_Zoom => wrapper.gameplay_Camera_Normal_Zoom;
+        public InputAction @Camera_Freecam_Move => wrapper.gameplay_Camera_Freecam_Move;
+        public InputAction @Camera_Freecam_Look => wrapper.gameplay_Camera_Freecam_Look;
+        public InputAction @Camera_Freecam_UpAndDown => wrapper.gameplay_Camera_Freecam_UpAndDown;
+        public InputAction @Camera_Freecam_Faster => wrapper.gameplay_Camera_Freecam_Faster;
+        public InputAction @RemoveSystem_RemoveTrigger => wrapper.gameplay_RemoveSystem_RemoveTrigger;
+        public InputAction @EconomyManager_TestBalanceChange => wrapper.gameplay_EconomyManager_TestBalanceChange;
+        public InputAction @ItemSelector_SelectItem => wrapper.gameplay_ItemSelector_SelectItem;
+        public InputAction @ItemSelector_Position => wrapper.gameplay_ItemSelector_Position;
+        public InputAction @GridManager_GridHitPosition => wrapper.gameplay_GridManager_GridHitPosition;
+        public InputAction @GridManager_PlaceBuilding => wrapper.gameplay_GridManager_PlaceBuilding;
+        public InputAction @GridManager_RotateBuildingLeft => wrapper.gameplay_GridManager_RotateBuildingLeft;
+        public InputAction @GridManager_RotateBuildingRight => wrapper.gameplay_GridManager_RotateBuildingRight;
+        public InputAction @GridManager_ContinueBuilding => wrapper.gameplay_GridManager_ContinueBuilding;
+        public InputAction @DebugUI_Show => wrapper.gameplay_DebugUI_Show;
+        public InputAction @PauseMenu_Show => wrapper.gameplay_PauseMenu_Show;
+        public InputActionMap Get() { return wrapper.gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
         public void SetCallbacks(IGameplayActions instance)
         {
-            if (m_Wrapper.m_GameplayActionsCallbackInterface != null)
+            if (wrapper.gameplayActionsCallbackInterface != null)
             {
-                @Camera_Manager_SwitchTopdownCamera.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Manager_SwitchTopdownCamera;
-                @Camera_Manager_SwitchTopdownCamera.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Manager_SwitchTopdownCamera;
-                @Camera_Manager_SwitchTopdownCamera.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Manager_SwitchTopdownCamera;
-                @Camera_Manager_SwitchFreecam.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Manager_SwitchFreecam;
-                @Camera_Manager_SwitchFreecam.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Manager_SwitchFreecam;
-                @Camera_Manager_SwitchFreecam.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Manager_SwitchFreecam;
-                @Camera_Normal_Move.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_Move;
-                @Camera_Normal_Move.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_Move;
-                @Camera_Normal_Move.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_Move;
-                @Camera_Normal_Rotate.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_Rotate;
-                @Camera_Normal_Rotate.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_Rotate;
-                @Camera_Normal_Rotate.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_Rotate;
-                @Camera_Normal_UpAndDown.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_UpAndDown;
-                @Camera_Normal_UpAndDown.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_UpAndDown;
-                @Camera_Normal_UpAndDown.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_UpAndDown;
-                @Camera_Normal_DragState.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_DragState;
-                @Camera_Normal_DragState.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_DragState;
-                @Camera_Normal_DragState.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_DragState;
-                @Camera_Normal_PanRotateState.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_PanRotateState;
-                @Camera_Normal_PanRotateState.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_PanRotateState;
-                @Camera_Normal_PanRotateState.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_PanRotateState;
-                @Camera_Normal_PanAndDrag.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_PanAndDrag;
-                @Camera_Normal_PanAndDrag.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_PanAndDrag;
-                @Camera_Normal_PanAndDrag.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_PanAndDrag;
-                @Camera_Normal_Zoom.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_Zoom;
-                @Camera_Normal_Zoom.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_Zoom;
-                @Camera_Normal_Zoom.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Normal_Zoom;
-                @Camera_Freecam_Move.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_Move;
-                @Camera_Freecam_Move.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_Move;
-                @Camera_Freecam_Move.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_Move;
-                @Camera_Freecam_Look.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_Look;
-                @Camera_Freecam_Look.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_Look;
-                @Camera_Freecam_Look.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_Look;
-                @Camera_Freecam_UpAndDown.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_UpAndDown;
-                @Camera_Freecam_UpAndDown.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_UpAndDown;
-                @Camera_Freecam_UpAndDown.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_UpAndDown;
-                @Camera_Freecam_Faster.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_Faster;
-                @Camera_Freecam_Faster.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_Faster;
-                @Camera_Freecam_Faster.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera_Freecam_Faster;
-                @RemoveSystem_RemoveTrigger.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRemoveSystem_RemoveTrigger;
-                @RemoveSystem_RemoveTrigger.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRemoveSystem_RemoveTrigger;
-                @RemoveSystem_RemoveTrigger.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRemoveSystem_RemoveTrigger;
-                @EconomyManager_TestBalanceChange.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEconomyManager_TestBalanceChange;
-                @EconomyManager_TestBalanceChange.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEconomyManager_TestBalanceChange;
-                @EconomyManager_TestBalanceChange.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEconomyManager_TestBalanceChange;
-                @ItemSelector_SelectItem.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItemSelector_SelectItem;
-                @ItemSelector_SelectItem.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItemSelector_SelectItem;
-                @ItemSelector_SelectItem.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItemSelector_SelectItem;
-                @ItemSelector_Position.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItemSelector_Position;
-                @ItemSelector_Position.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItemSelector_Position;
-                @ItemSelector_Position.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItemSelector_Position;
-                @GridManager_GridHitPosition.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_GridHitPosition;
-                @GridManager_GridHitPosition.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_GridHitPosition;
-                @GridManager_GridHitPosition.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_GridHitPosition;
-                @GridManager_PlaceBuilding.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_PlaceBuilding;
-                @GridManager_PlaceBuilding.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_PlaceBuilding;
-                @GridManager_PlaceBuilding.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_PlaceBuilding;
-                @GridManager_RotateBuildingLeft.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_RotateBuildingLeft;
-                @GridManager_RotateBuildingLeft.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_RotateBuildingLeft;
-                @GridManager_RotateBuildingLeft.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_RotateBuildingLeft;
-                @GridManager_RotateBuildingRight.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_RotateBuildingRight;
-                @GridManager_RotateBuildingRight.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_RotateBuildingRight;
-                @GridManager_RotateBuildingRight.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_RotateBuildingRight;
-                @GridManager_ContinueBuilding.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_ContinueBuilding;
-                @GridManager_ContinueBuilding.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_ContinueBuilding;
-                @GridManager_ContinueBuilding.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGridManager_ContinueBuilding;
-                @DebugUI_Show.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDebugUI_Show;
-                @DebugUI_Show.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDebugUI_Show;
-                @DebugUI_Show.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDebugUI_Show;
-                @PauseMenu_Show.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPauseMenu_Show;
-                @PauseMenu_Show.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPauseMenu_Show;
-                @PauseMenu_Show.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPauseMenu_Show;
+                @Camera_Manager_SwitchTopdownCamera.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Manager_SwitchTopdownCamera;
+                @Camera_Manager_SwitchTopdownCamera.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Manager_SwitchTopdownCamera;
+                @Camera_Manager_SwitchTopdownCamera.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Manager_SwitchTopdownCamera;
+                @Camera_Manager_SwitchFreecam.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Manager_SwitchFreecam;
+                @Camera_Manager_SwitchFreecam.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Manager_SwitchFreecam;
+                @Camera_Manager_SwitchFreecam.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Manager_SwitchFreecam;
+                @Camera_Normal_Move.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_Move;
+                @Camera_Normal_Move.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_Move;
+                @Camera_Normal_Move.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_Move;
+                @Camera_Normal_Rotate.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_Rotate;
+                @Camera_Normal_Rotate.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_Rotate;
+                @Camera_Normal_Rotate.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_Rotate;
+                @Camera_Normal_UpAndDown.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_UpAndDown;
+                @Camera_Normal_UpAndDown.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_UpAndDown;
+                @Camera_Normal_UpAndDown.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_UpAndDown;
+                @Camera_Normal_DragState.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_DragState;
+                @Camera_Normal_DragState.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_DragState;
+                @Camera_Normal_DragState.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_DragState;
+                @Camera_Normal_PanRotateState.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_PanRotateState;
+                @Camera_Normal_PanRotateState.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_PanRotateState;
+                @Camera_Normal_PanRotateState.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_PanRotateState;
+                @Camera_Normal_PanAndDrag.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_PanAndDrag;
+                @Camera_Normal_PanAndDrag.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_PanAndDrag;
+                @Camera_Normal_PanAndDrag.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_PanAndDrag;
+                @Camera_Normal_Zoom.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_Zoom;
+                @Camera_Normal_Zoom.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_Zoom;
+                @Camera_Normal_Zoom.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Normal_Zoom;
+                @Camera_Freecam_Move.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Freecam_Move;
+                @Camera_Freecam_Move.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Freecam_Move;
+                @Camera_Freecam_Move.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Freecam_Move;
+                @Camera_Freecam_Look.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Freecam_Look;
+                @Camera_Freecam_Look.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Freecam_Look;
+                @Camera_Freecam_Look.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Freecam_Look;
+                @Camera_Freecam_UpAndDown.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Freecam_UpAndDown;
+                @Camera_Freecam_UpAndDown.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Freecam_UpAndDown;
+                @Camera_Freecam_UpAndDown.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Freecam_UpAndDown;
+                @Camera_Freecam_Faster.started -= wrapper.gameplayActionsCallbackInterface.OnCamera_Freecam_Faster;
+                @Camera_Freecam_Faster.performed -= wrapper.gameplayActionsCallbackInterface.OnCamera_Freecam_Faster;
+                @Camera_Freecam_Faster.canceled -= wrapper.gameplayActionsCallbackInterface.OnCamera_Freecam_Faster;
+                @RemoveSystem_RemoveTrigger.started -= wrapper.gameplayActionsCallbackInterface.OnRemoveSystem_RemoveTrigger;
+                @RemoveSystem_RemoveTrigger.performed -= wrapper.gameplayActionsCallbackInterface.OnRemoveSystem_RemoveTrigger;
+                @RemoveSystem_RemoveTrigger.canceled -= wrapper.gameplayActionsCallbackInterface.OnRemoveSystem_RemoveTrigger;
+                @EconomyManager_TestBalanceChange.started -= wrapper.gameplayActionsCallbackInterface.OnEconomyManager_TestBalanceChange;
+                @EconomyManager_TestBalanceChange.performed -= wrapper.gameplayActionsCallbackInterface.OnEconomyManager_TestBalanceChange;
+                @EconomyManager_TestBalanceChange.canceled -= wrapper.gameplayActionsCallbackInterface.OnEconomyManager_TestBalanceChange;
+                @ItemSelector_SelectItem.started -= wrapper.gameplayActionsCallbackInterface.OnItemSelector_SelectItem;
+                @ItemSelector_SelectItem.performed -= wrapper.gameplayActionsCallbackInterface.OnItemSelector_SelectItem;
+                @ItemSelector_SelectItem.canceled -= wrapper.gameplayActionsCallbackInterface.OnItemSelector_SelectItem;
+                @ItemSelector_Position.started -= wrapper.gameplayActionsCallbackInterface.OnItemSelector_Position;
+                @ItemSelector_Position.performed -= wrapper.gameplayActionsCallbackInterface.OnItemSelector_Position;
+                @ItemSelector_Position.canceled -= wrapper.gameplayActionsCallbackInterface.OnItemSelector_Position;
+                @GridManager_GridHitPosition.started -= wrapper.gameplayActionsCallbackInterface.OnGridManager_GridHitPosition;
+                @GridManager_GridHitPosition.performed -= wrapper.gameplayActionsCallbackInterface.OnGridManager_GridHitPosition;
+                @GridManager_GridHitPosition.canceled -= wrapper.gameplayActionsCallbackInterface.OnGridManager_GridHitPosition;
+                @GridManager_PlaceBuilding.started -= wrapper.gameplayActionsCallbackInterface.OnGridManager_PlaceBuilding;
+                @GridManager_PlaceBuilding.performed -= wrapper.gameplayActionsCallbackInterface.OnGridManager_PlaceBuilding;
+                @GridManager_PlaceBuilding.canceled -= wrapper.gameplayActionsCallbackInterface.OnGridManager_PlaceBuilding;
+                @GridManager_RotateBuildingLeft.started -= wrapper.gameplayActionsCallbackInterface.OnGridManager_RotateBuildingLeft;
+                @GridManager_RotateBuildingLeft.performed -= wrapper.gameplayActionsCallbackInterface.OnGridManager_RotateBuildingLeft;
+                @GridManager_RotateBuildingLeft.canceled -= wrapper.gameplayActionsCallbackInterface.OnGridManager_RotateBuildingLeft;
+                @GridManager_RotateBuildingRight.started -= wrapper.gameplayActionsCallbackInterface.OnGridManager_RotateBuildingRight;
+                @GridManager_RotateBuildingRight.performed -= wrapper.gameplayActionsCallbackInterface.OnGridManager_RotateBuildingRight;
+                @GridManager_RotateBuildingRight.canceled -= wrapper.gameplayActionsCallbackInterface.OnGridManager_RotateBuildingRight;
+                @GridManager_ContinueBuilding.started -= wrapper.gameplayActionsCallbackInterface.OnGridManager_ContinueBuilding;
+                @GridManager_ContinueBuilding.performed -= wrapper.gameplayActionsCallbackInterface.OnGridManager_ContinueBuilding;
+                @GridManager_ContinueBuilding.canceled -= wrapper.gameplayActionsCallbackInterface.OnGridManager_ContinueBuilding;
+                @DebugUI_Show.started -= wrapper.gameplayActionsCallbackInterface.OnDebugUI_Show;
+                @DebugUI_Show.performed -= wrapper.gameplayActionsCallbackInterface.OnDebugUI_Show;
+                @DebugUI_Show.canceled -= wrapper.gameplayActionsCallbackInterface.OnDebugUI_Show;
+                @PauseMenu_Show.started -= wrapper.gameplayActionsCallbackInterface.OnPauseMenu_Show;
+                @PauseMenu_Show.performed -= wrapper.gameplayActionsCallbackInterface.OnPauseMenu_Show;
+                @PauseMenu_Show.canceled -= wrapper.gameplayActionsCallbackInterface.OnPauseMenu_Show;
             }
-            m_Wrapper.m_GameplayActionsCallbackInterface = instance;
+            wrapper.gameplayActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Camera_Manager_SwitchTopdownCamera.started += instance.OnCamera_Manager_SwitchTopdownCamera;
@@ -1082,28 +1082,28 @@ public class @InputMaster : IInputActionCollection, IDisposable
     public GameplayActions @Gameplay => new GameplayActions(this);
 
     // Pause Menu
-    private readonly InputActionMap m_PauseMenu;
-    private IPauseMenuActions m_PauseMenuActionsCallbackInterface;
-    private readonly InputAction m_PauseMenu_PauseMenu_Exit;
+    private readonly InputActionMap pauseMenu;
+    private IPauseMenuActions pauseMenuActionsCallbackInterface;
+    private readonly InputAction pauseMenu_PauseMenu_Exit;
     public struct PauseMenuActions
     {
-        private @InputMaster m_Wrapper;
-        public PauseMenuActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
-        public InputAction @PauseMenu_Exit => m_Wrapper.m_PauseMenu_PauseMenu_Exit;
-        public InputActionMap Get() { return m_Wrapper.m_PauseMenu; }
+        private @InputMaster wrapper;
+        public PauseMenuActions(@InputMaster wrapper) { this.wrapper = wrapper; }
+        public InputAction @PauseMenu_Exit => wrapper.pauseMenu_PauseMenu_Exit;
+        public InputActionMap Get() { return wrapper.pauseMenu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(PauseMenuActions set) { return set.Get(); }
         public void SetCallbacks(IPauseMenuActions instance)
         {
-            if (m_Wrapper.m_PauseMenuActionsCallbackInterface != null)
+            if (wrapper.pauseMenuActionsCallbackInterface != null)
             {
-                @PauseMenu_Exit.started -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnPauseMenu_Exit;
-                @PauseMenu_Exit.performed -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnPauseMenu_Exit;
-                @PauseMenu_Exit.canceled -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnPauseMenu_Exit;
+                @PauseMenu_Exit.started -= wrapper.pauseMenuActionsCallbackInterface.OnPauseMenu_Exit;
+                @PauseMenu_Exit.performed -= wrapper.pauseMenuActionsCallbackInterface.OnPauseMenu_Exit;
+                @PauseMenu_Exit.canceled -= wrapper.pauseMenuActionsCallbackInterface.OnPauseMenu_Exit;
             }
-            m_Wrapper.m_PauseMenuActionsCallbackInterface = instance;
+            wrapper.pauseMenuActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @PauseMenu_Exit.started += instance.OnPauseMenu_Exit;
@@ -1113,13 +1113,13 @@ public class @InputMaster : IInputActionCollection, IDisposable
         }
     }
     public PauseMenuActions @PauseMenu => new PauseMenuActions(this);
-    private int m_KeyboardandMouseSchemeIndex = -1;
+    private int keyboardandMouseSchemeIndex = -1;
     public InputControlScheme KeyboardandMouseScheme
     {
         get
         {
-            if (m_KeyboardandMouseSchemeIndex == -1) m_KeyboardandMouseSchemeIndex = asset.FindControlSchemeIndex("Keyboard and Mouse");
-            return asset.controlSchemes[m_KeyboardandMouseSchemeIndex];
+            if (keyboardandMouseSchemeIndex == -1) keyboardandMouseSchemeIndex = asset.FindControlSchemeIndex("Keyboard and Mouse");
+            return asset.controlSchemes[keyboardandMouseSchemeIndex];
         }
     }
     public interface IGameplayActions

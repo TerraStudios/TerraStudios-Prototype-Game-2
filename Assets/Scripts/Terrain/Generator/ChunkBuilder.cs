@@ -305,7 +305,7 @@ namespace TerrainGeneration
                 {
                     // Checks each side whether it contains a block, used for omitting sides that don't need to be rendered
 
-                    if (!CheckBlock(pos + VoxelTables.faces[p]))
+                    if (!CheckBlock(pos + VoxelTables.Faces[p]))
                     {
                         // 0, 0, 0 ; face 0 
                         // vert 1 - (0, 0, 0)
@@ -315,10 +315,10 @@ namespace TerrainGeneration
 
                         // Add 4 vertices of cube side
 
-                        float3 v1 = pos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p * 4]];
-                        float3 v2 = pos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p * 4 + 1]];
-                        float3 v3 = pos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p * 4 + 2]];
-                        float3 v4 = pos + VoxelTables.voxelVerts[VoxelTables.voxelTris[p * 4 + 3]];
+                        float3 v1 = pos + VoxelTables.VoxelVerts[VoxelTables.VoxelTris[p * 4]];
+                        float3 v2 = pos + VoxelTables.VoxelVerts[VoxelTables.VoxelTris[p * 4 + 1]];
+                        float3 v3 = pos + VoxelTables.VoxelVerts[VoxelTables.VoxelTris[p * 4 + 2]];
+                        float3 v4 = pos + VoxelTables.VoxelVerts[VoxelTables.VoxelTris[p * 4 + 3]];
 
                         // (currentIndex * 24 [24 vertices in previous cube]) + (p [current face] * 4 [verts per face])
                         // (currentIndex * 36 [36 indices in previous cube]) + (p [current face] * 6 [indices per face])

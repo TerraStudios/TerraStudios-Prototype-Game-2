@@ -70,9 +70,9 @@ dotnet_naming_rule.const_fields_must_be_pascal_case.symbols = const_fields
 dotnet_naming_rule.const_fields_must_be_pascal_case.style = pascal_case_style
 dotnet_naming_rule.const_fields_must_be_pascal_case.severity = error
 
-# Static fields should be PascalCase
+# Public static fields should be PascalCase
 dotnet_naming_symbols.const_fields.applicable_kinds = field 
-dotnet_naming_symbols.const_fields.applicable_accessibilities = *
+dotnet_naming_symbols.const_fields.applicable_accessibilities = public
 dotnet_naming_symbols.const_fields.required_modifiers = static
 
 dotnet_naming_rule.const_fields_must_be_pascal_case.symbols = const_fields

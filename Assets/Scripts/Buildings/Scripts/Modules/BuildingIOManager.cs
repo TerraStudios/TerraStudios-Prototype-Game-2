@@ -203,7 +203,7 @@ namespace BuildingModules
                 caller = caller
             };
 
-            OnItemEnterInput.Invoke(args);
+            onItemEnterInput.Invoke(args);
         }
 
         public void AddItem(ItemData data)
@@ -292,7 +292,7 @@ namespace BuildingModules
                     sceneInstance = conveyorItemData.sceneInstance.gameObject
                 };
 
-                attachedIO.manager.OnItemEnterInput.Invoke(args);
+                attachedIO.manager.onItemEnterInput.Invoke(args);
 
                 return true;
             }
