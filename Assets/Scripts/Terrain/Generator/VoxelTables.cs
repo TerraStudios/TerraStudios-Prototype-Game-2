@@ -17,7 +17,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Lookup table for the vertices in a cube
         /// </summary>
-        public static readonly float3[] voxelVerts = {
+        public static readonly float3[] VoxelVerts = {
 
         new float3(0, 0, 0),
         new float3(1, 0, 0),
@@ -34,7 +34,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Lookup table for the faces of a cube
         /// </summary>
-        public static readonly int3[] faces =
+        public static readonly int3[] Faces =
         {
         new int3(0, 0, -1),
         new int3(0, 0, 1),
@@ -47,7 +47,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Lookup table for the triangles of a cube
         /// </summary>
-        public static readonly int[] voxelTris = {
+        public static readonly int[] VoxelTris = {
 
         0, 3, 1, 2, // Back Face
 		5, 6, 4, 7, // Front Face
@@ -61,7 +61,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Lookup table for the UVs of a cube
         /// </summary>
-        public static readonly Vector2[] voxelUvs = new Vector2[4] {
+        public static readonly Vector2[] VoxelUvs = new Vector2[4] {
 
         new Vector2 (0.0f, 0.0f),
         new Vector2 (0.0f, 1.0f),

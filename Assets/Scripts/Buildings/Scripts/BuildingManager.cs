@@ -21,7 +21,7 @@ namespace BuildingManagement
     /// </summary>
     public class BuildingManager : BuildingSystem
     {
-        public static ItemData testItemToSpawn;
+        public static ItemData TestItemToSpawn;
         public bool enableDebugSpawn;
         public void EnableDebugSpawn(bool value) => enableDebugSpawn = value;
         [Header("BuildingInfo UI Components")]
@@ -90,7 +90,7 @@ namespace BuildingManagement
             RefreshIOUI();
 
             if (b.mc.buildingIOManager.isConveyor && enableDebugSpawn)
-                b.mc.buildingIOManager.AttemptItemEnter(testItemToSpawn, 0, null, null);
+                b.mc.buildingIOManager.AttemptItemEnter(TestItemToSpawn, 0, null, null);
         }
 
         /// <summary>

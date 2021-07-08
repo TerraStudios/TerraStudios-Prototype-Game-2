@@ -30,7 +30,7 @@ namespace ItemManagement
         {
             if (context.performed)
             {
-                if (!RemoveSystem.removeModeEnabled)
+                if (!RemoveSystem.RemoveModeEnabled)
                 {
                     Transform hit = GetItemHit(mouseDelta);
 

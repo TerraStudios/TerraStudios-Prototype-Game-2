@@ -11,19 +11,19 @@ public unsafe struct NativeCounter
 {
     // The actual pointer to the allocated count needs to have restrictions relaxed so jobs can be schedled with this container
     [NativeDisableUnsafePtrRestriction]
-    int* m_Counter;
+    int* counter;
 
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-    AtomicSafetyHandle m_Safety;
+    AtomicSafetyHandle safety;
     // The dispose sentinel tracks memory leaks. It is a managed type so it is cleared to null when scheduling a job
     // The job cannot dispose the container, and no one else can dispose it until the job has run so it is ok to not pass it along
     // This attribute is required, without it this native container cannot be passed to a job since that would give the job access to a managed object
     [NativeSetClassTypeToNullOnSchedule]
-    DisposeSentinel m_DisposeSentinel;
+    DisposeSentinel disposeSentinel;
 #endif
 
     // Keep track of where the memory for this was allocated
-    Allocator m_AllocatorLabel;
+    Allocator allocatorLabel;
 
     public NativeCounter(Allocator label)
     {
@@ -33,15 +33,15 @@ public unsafe struct NativeCounter
         if (!UnsafeUtility.IsBlittable<int>())
             throw new ArgumentException(string.Format("{0} used in NativeQueue<{0}> must be blittable", typeof(int)));
 #endif
-        m_AllocatorLabel = label;
+        allocatorLabel = label;
 
         // Allocate native memory for a single integer
-        m_Counter = (int*)UnsafeUtility.Malloc(UnsafeUtility.SizeOf<int>(), 4, label);
+        counter = (int*)UnsafeUtility.Malloc(UnsafeUtility.SizeOf<int>(), 4, label);
 
         // Create a dispose sentinel to track memory leaks. This also creates the AtomicSafetyHandle
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
 #if UNITY_2018_3_OR_NEWER
-        DisposeSentinel.Create(out m_Safety, out m_DisposeSentinel, 0, label);
+        DisposeSentinel.Create(out safety, out disposeSentinel, 0, label);
 #else
         DisposeSentinel.Create(out m_Safety, out m_DisposeSentinel, 0);
 #endif
@@ -55,10 +55,10 @@ public unsafe struct NativeCounter
         // Verify that the caller has write permission on this data.
         // This is the race condition protection, without these checks the AtomicSafetyHandle is useless
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-        AtomicSafetyHandle.CheckWriteAndThrow(m_Safety);
+        AtomicSafetyHandle.CheckWriteAndThrow(safety);
 #endif
-        (*m_Counter)++;
-        return (*m_Counter) - 1;
+        (*counter)++;
+        return (*counter) - 1;
     }
 
     public int Count
@@ -68,23 +68,23 @@ public unsafe struct NativeCounter
             // Verify that the caller has read permission on this data.
             // This is the race condition protection, without these checks the AtomicSafetyHandle is useless
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-            AtomicSafetyHandle.CheckReadAndThrow(m_Safety);
+            AtomicSafetyHandle.CheckReadAndThrow(safety);
 #endif
-            return *m_Counter;
+            return *counter;
         }
         set
         {
             // Verify that the caller has write permission on this data. This is the race condition protection, without these checks the AtomicSafetyHandle is useless
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-            AtomicSafetyHandle.CheckWriteAndThrow(m_Safety);
+            AtomicSafetyHandle.CheckWriteAndThrow(safety);
 #endif
-            *m_Counter = value;
+            *counter = value;
         }
     }
 
     public bool IsCreated
     {
-        get { return m_Counter != null; }
+        get { return counter != null; }
     }
 
     public void Dispose()
@@ -92,14 +92,14 @@ public unsafe struct NativeCounter
         // Let the dispose sentinel know that the data has been freed so it does not report any memory leaks
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
 #if UNITY_2018_3_OR_NEWER
-        DisposeSentinel.Dispose(ref m_Safety, ref m_DisposeSentinel);
+        DisposeSentinel.Dispose(ref safety, ref disposeSentinel);
 #else
         DisposeSentinel.Dispose(m_Safety, ref m_DisposeSentinel);
 #endif
 #endif
 
-        UnsafeUtility.Free(m_Counter, m_AllocatorLabel);
-        m_Counter = null;
+        UnsafeUtility.Free(counter, allocatorLabel);
+        counter = null;
     }
 
     public Concurrent ToConcurrent()
@@ -107,12 +107,12 @@ public unsafe struct NativeCounter
         Concurrent concurrent;
 
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-        AtomicSafetyHandle.CheckWriteAndThrow(m_Safety);
-        concurrent.m_Safety = m_Safety;
-        AtomicSafetyHandle.UseSecondaryVersion(ref concurrent.m_Safety);
+        AtomicSafetyHandle.CheckWriteAndThrow(safety);
+        concurrent.safety = safety;
+        AtomicSafetyHandle.UseSecondaryVersion(ref concurrent.safety);
 #endif
 
-        concurrent.m_Counter = m_Counter;
+        concurrent.counter = counter;
         return concurrent;
     }
 
@@ -123,21 +123,21 @@ public unsafe struct NativeCounter
     {
         // Copy of the pointer from the full NativeCounter
         [NativeDisableUnsafePtrRestriction]
-        internal int* m_Counter;
+        internal int* counter;
 
         // Copy of the AtomicSafetyHandle from the full NativeCounter. The dispose sentinel is not copied since this inner struct does not own the memory and is not responsible for freeing it
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-        internal AtomicSafetyHandle m_Safety;
+        internal AtomicSafetyHandle safety;
 #endif
 
         public int Increment()
         {
             // Increment still needs to check for write permissions
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-            AtomicSafetyHandle.CheckWriteAndThrow(m_Safety);
+            AtomicSafetyHandle.CheckWriteAndThrow(safety);
 #endif
             // The actual increment is implemented with an atomic since it can be incremented by multiple threads at the same time
-            return Interlocked.Increment(ref *m_Counter) - 1;
+            return Interlocked.Increment(ref *counter) - 1;
         }
     }
 }
@@ -148,19 +148,19 @@ public unsafe struct NativePerThreadCounter
 {
     // The actual pointer to the allocated count needs to have restrictions relaxed so jobs can be schedled with this container
     [NativeDisableUnsafePtrRestriction]
-    int* m_Counter;
+    int* counter;
 
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-    AtomicSafetyHandle m_Safety;
+    AtomicSafetyHandle safety;
     // The dispose sentinel tracks memory leaks. It is a managed type so it is cleared to null when scheduling a job
     // The job cannot dispose the container, and no one else can dispose it until the job has run so it is ok to not pass it along
     // This attribute is required, without it this native container cannot be passed to a job since that would give the job access to a managed object
     [NativeSetClassTypeToNullOnSchedule]
-    DisposeSentinel m_DisposeSentinel;
+    DisposeSentinel disposeSentinel;
 #endif
 
     // Keep track of where the memory for this was allocated
-    Allocator m_AllocatorLabel;
+    Allocator allocatorLabel;
 
     public const int IntsPerCacheLine = JobsUtility.CacheLineSize / sizeof(int);
 
@@ -172,15 +172,15 @@ public unsafe struct NativePerThreadCounter
         if (!UnsafeUtility.IsBlittable<int>())
             throw new ArgumentException(string.Format("{0} used in NativeQueue<{0}> must be blittable", typeof(int)));
 #endif
-        m_AllocatorLabel = label;
+        allocatorLabel = label;
 
         // One full cache line (integers per cacheline * size of integer) for each potential worker index, JobsUtility.MaxJobThreadCount
-        m_Counter = (int*)UnsafeUtility.Malloc(UnsafeUtility.SizeOf<int>() * IntsPerCacheLine * JobsUtility.MaxJobThreadCount, 4, label);
+        counter = (int*)UnsafeUtility.Malloc(UnsafeUtility.SizeOf<int>() * IntsPerCacheLine * JobsUtility.MaxJobThreadCount, 4, label);
 
         // Create a dispose sentinel to track memory leaks. This also creates the AtomicSafetyHandle
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
 #if UNITY_2018_3_OR_NEWER
-        DisposeSentinel.Create(out m_Safety, out m_DisposeSentinel, 0, label);
+        DisposeSentinel.Create(out safety, out disposeSentinel, 0, label);
 #else
         DisposeSentinel.Create(out m_Safety, out m_DisposeSentinel, 0);
 #endif
@@ -194,9 +194,9 @@ public unsafe struct NativePerThreadCounter
         // Verify that the caller has write permission on this data.
         // This is the race condition protection, without these checks the AtomicSafetyHandle is useless
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-        AtomicSafetyHandle.CheckWriteAndThrow(m_Safety);
+        AtomicSafetyHandle.CheckWriteAndThrow(safety);
 #endif
-        (*m_Counter)++;
+        (*counter)++;
     }
 
     public int Count
@@ -206,11 +206,11 @@ public unsafe struct NativePerThreadCounter
             // Verify that the caller has read permission on this data.
             // This is the race condition protection, without these checks the AtomicSafetyHandle is useless
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-            AtomicSafetyHandle.CheckReadAndThrow(m_Safety);
+            AtomicSafetyHandle.CheckReadAndThrow(safety);
 #endif
             int count = 0;
             for (int i = 0; i < JobsUtility.MaxJobThreadCount; ++i)
-                count += m_Counter[IntsPerCacheLine * i];
+                count += counter[IntsPerCacheLine * i];
             return count;
         }
         set
@@ -218,19 +218,19 @@ public unsafe struct NativePerThreadCounter
             // Verify that the caller has write permission on this data.
             // This is the race condition protection, without these checks the AtomicSafetyHandle is useless
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-            AtomicSafetyHandle.CheckWriteAndThrow(m_Safety);
+            AtomicSafetyHandle.CheckWriteAndThrow(safety);
 #endif
             // Clear all locally cached counts,
             // set the first one to the required value
             for (int i = 1; i < JobsUtility.MaxJobThreadCount; ++i)
-                m_Counter[IntsPerCacheLine * i] = 0;
-            *m_Counter = value;
+                counter[IntsPerCacheLine * i] = 0;
+            *counter = value;
         }
     }
 
     public bool IsCreated
     {
-        get { return m_Counter != null; }
+        get { return counter != null; }
     }
 
     public void Dispose()
@@ -238,27 +238,27 @@ public unsafe struct NativePerThreadCounter
         // Let the dispose sentinel know that the data has been freed so it does not report any memory leaks
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
 #if UNITY_2018_3_OR_NEWER
-        DisposeSentinel.Dispose(ref m_Safety, ref m_DisposeSentinel);
+        DisposeSentinel.Dispose(ref safety, ref disposeSentinel);
 #else
         DisposeSentinel.Dispose(m_Safety, ref m_DisposeSentinel);
 #endif
 #endif
 
-        UnsafeUtility.Free(m_Counter, m_AllocatorLabel);
-        m_Counter = null;
+        UnsafeUtility.Free(counter, allocatorLabel);
+        counter = null;
     }
 
     public Concurrent ToConcurrent()
     {
         Concurrent concurrent;
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-        AtomicSafetyHandle.CheckWriteAndThrow(m_Safety);
-        concurrent.m_Safety = m_Safety;
-        AtomicSafetyHandle.UseSecondaryVersion(ref concurrent.m_Safety);
+        AtomicSafetyHandle.CheckWriteAndThrow(safety);
+        concurrent.safety = safety;
+        AtomicSafetyHandle.UseSecondaryVersion(ref concurrent.safety);
 #endif
 
-        concurrent.m_Counter = m_Counter;
-        concurrent.m_ThreadIndex = 0;
+        concurrent.counter = counter;
+        concurrent.threadIndex = 0;
         return concurrent;
     }
 
@@ -268,23 +268,23 @@ public unsafe struct NativePerThreadCounter
     unsafe public struct Concurrent
     {
         [NativeDisableUnsafePtrRestriction]
-        internal int* m_Counter;
+        internal int* counter;
 
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-        internal AtomicSafetyHandle m_Safety;
+        internal AtomicSafetyHandle safety;
 #endif
 
         // The current worker thread index, it must use this exact name since it is injected
         [NativeSetThreadIndex]
-        internal int m_ThreadIndex;
+        internal int threadIndex;
 
         public void Increment()
         {
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-            AtomicSafetyHandle.CheckWriteAndThrow(m_Safety);
+            AtomicSafetyHandle.CheckWriteAndThrow(safety);
 #endif
             // No need for atomics any more since we are just incrementing the local count
-            ++m_Counter[IntsPerCacheLine * m_ThreadIndex];
+            ++counter[IntsPerCacheLine * threadIndex];
         }
     }
 }

@@ -63,7 +63,7 @@ namespace TerrainGeneration
         /// <summary>
         /// The tilemap of the terrain
         /// </summary>
-        public static Material material;
+        public static Material Material;
 
         /// <summary>
         /// Contains a list of <see cref="ChunkCoord"/>s to be loaded
@@ -120,7 +120,7 @@ namespace TerrainGeneration
 
             //ObjectPoolManager.instance.CreatePool(emptyChunk, 100);
 
-            material = cubeMaterial;
+            Material = cubeMaterial;
 
             //for (int x = 0; x < 100; x++)
             //{

@@ -95,7 +95,7 @@ namespace BuildingModules
 
         public void Init()
         {
-            mc.buildingIOManager.OnItemEnterInput.AddListener(OnItemEnterInput);
+            mc.buildingIOManager.onItemEnterInput.AddListener(OnItemEnterInput);
 
             if (CurrentRecipe)
                 InitIOData();
@@ -205,7 +205,7 @@ namespace BuildingModules
             {
                 foreach (MachineRecipe.InputData inputData in data.inputs)
                 {
-                    if (inputData.item.ID == ItemEnterInfo.item.ID)
+                    if (inputData.item.id == ItemEnterInfo.item.id)
                     {
                         if (inputData.inputID != -1)
                         {
@@ -334,7 +334,7 @@ namespace BuildingModules
                     {
                         Debug.LogWarning("Output " + (kvp.Value - 1) + " is full!");
                         return false;
-                    }     
+                    }
                 }
             }
 

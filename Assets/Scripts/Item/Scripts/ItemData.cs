@@ -19,7 +19,7 @@ namespace ItemManagement
     public class ItemData : ScriptableObject
     {
         [Header("Basic Properties")]
-        [HideInInspector] public int ID;
+        [HideInInspector] public int id;
         public new string name;
         [TextArea] public string description;
         public ItemBehaviour obj;
@@ -35,7 +35,7 @@ namespace ItemManagement
         public int maxProductPrice;
         public int maxConsumersAmount;
         public float[] seasonalPopularityOfProduct;
-        public ItemData[] Dependencies;
+        public ItemData[] dependencies;
 
         //[Header("Health System Properties")]
 

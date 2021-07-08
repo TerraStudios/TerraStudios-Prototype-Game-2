@@ -59,8 +59,8 @@ namespace TerrainGeneration
 
     public class FastNoiseLite
     {
-        private const short INLINE = 256; // MethodImplOptions.AggressiveInlining;
-        private const short OPTIMISE = 512; // MethodImplOptions.AggressiveOptimization;
+        private const short iNLINE = 256; // MethodImplOptions.AggressiveInlining;
+        private const short oPTIMISE = 512; // MethodImplOptions.AggressiveOptimization;
 
         public enum NoiseType
         {
@@ -309,7 +309,7 @@ namespace TerrainGeneration
         /// <returns>
         /// Noise output bounded between -1...1
         /// </returns>
-        [MethodImpl(OPTIMISE)]
+        [MethodImpl(oPTIMISE)]
         public float GetNoise(FNLfloat x, FNLfloat y)
         {
             TransformNoiseCoordinate(ref x, ref y);
@@ -333,7 +333,7 @@ namespace TerrainGeneration
         /// <returns>
         /// Noise output bounded between -1...1
         /// </returns>
-        [MethodImpl(OPTIMISE)]
+        [MethodImpl(oPTIMISE)]
         public float GetNoise(FNLfloat x, FNLfloat y, FNLfloat z)
         {
             TransformNoiseCoordinate(ref x, ref y, ref z);
@@ -360,7 +360,7 @@ namespace TerrainGeneration
         /// <code>DomainWarp(ref x, ref y)
         /// noise = GetNoise(x, y)</code>
         /// </example>
-        [MethodImpl(OPTIMISE)]
+        [MethodImpl(oPTIMISE)]
         public void DomainWarp(ref FNLfloat x, ref FNLfloat y)
         {
             switch (mFractalType)
@@ -385,7 +385,7 @@ namespace TerrainGeneration
         /// <code>DomainWarp(ref x, ref y, ref z)
         /// noise = GetNoise(x, y, z)</code>
         /// </example>
-        [MethodImpl(OPTIMISE)]
+        [MethodImpl(oPTIMISE)]
         public void DomainWarp(ref FNLfloat x, ref FNLfloat y, ref FNLfloat z)
         {
             switch (mFractalType)
@@ -403,7 +403,7 @@ namespace TerrainGeneration
         }
 
 
-        private static readonly float[] Gradients2D =
+        private static readonly float[] gradients2D =
         {
          0.130526192220052f,  0.99144486137381f,   0.38268343236509f,   0.923879532511287f,  0.608761429008721f,  0.793353340291235f,  0.793353340291235f,  0.608761429008721f,
          0.923879532511287f,  0.38268343236509f,   0.99144486137381f,   0.130526192220051f,  0.99144486137381f,  -0.130526192220051f,  0.923879532511287f, -0.38268343236509f,
@@ -439,7 +439,7 @@ namespace TerrainGeneration
         -0.38268343236509f,  -0.923879532511287f, -0.923879532511287f, -0.38268343236509f,  -0.923879532511287f,  0.38268343236509f,  -0.38268343236509f,   0.923879532511287f,
     };
 
-        private static readonly float[] RandVecs2D =
+        private static readonly float[] randVecs2D =
         {
         -0.2700222198f, -0.9628540911f, 0.3863092627f, -0.9223693152f, 0.04444859006f, -0.999011673f, -0.5992523158f, -0.8005602176f, -0.7819280288f, 0.6233687174f, 0.9464672271f, 0.3227999196f, -0.6514146797f, -0.7587218957f, 0.9378472289f, 0.347048376f,
         -0.8497875957f, -0.5271252623f, -0.879042592f, 0.4767432447f, -0.892300288f, -0.4514423508f, -0.379844434f, -0.9250503802f, -0.9951650832f, 0.0982163789f, 0.7724397808f, -0.6350880136f, 0.7573283322f, -0.6530343002f, -0.9928004525f, -0.119780055f,
@@ -475,7 +475,7 @@ namespace TerrainGeneration
         0.01426758847f, -0.9998982128f, -0.6734383991f, 0.7392433447f, 0.639412098f, -0.7688642071f, 0.9211571421f, 0.3891908523f, -0.146637214f, -0.9891903394f, -0.782318098f, 0.6228791163f, -0.5039610839f, -0.8637263605f, -0.7743120191f, -0.6328039957f,
     };
 
-        private static readonly float[] Gradients3D =
+        private static readonly float[] gradients3D =
         {
         0, 1, 1, 0,  0,-1, 1, 0,  0, 1,-1, 0,  0,-1,-1, 0,
         1, 0, 1, 0, -1, 0, 1, 0,  1, 0,-1, 0, -1, 0,-1, 0,
@@ -495,7 +495,7 @@ namespace TerrainGeneration
         1, 1, 0, 0,  0,-1, 1, 0, -1, 1, 0, 0,  0,-1,-1, 0
     };
 
-        private static readonly float[] RandVecs3D =
+        private static readonly float[] randVecs3D =
         {
         -0.7292736885f, -0.6618439697f, 0.1735581948f, 0, 0.790292081f, -0.5480887466f, -0.2739291014f, 0, 0.7217578935f, 0.6226212466f, -0.3023380997f, 0, 0.565683137f, -0.8208298145f, -0.0790000257f, 0, 0.760049034f, -0.5555979497f, -0.3370999617f, 0, 0.3713945616f, 0.5011264475f, 0.7816254623f, 0, -0.1277062463f, -0.4254438999f, -0.8959289049f, 0, -0.2881560924f, -0.5815838982f, 0.7607405838f, 0,
         0.5849561111f, -0.662820239f, -0.4674352136f, 0, 0.3307171178f, 0.0391653737f, 0.94291689f, 0, 0.8712121778f, -0.4113374369f, -0.2679381538f, 0, 0.580981015f, 0.7021915846f, 0.4115677815f, 0, 0.503756873f, 0.6330056931f, -0.5878203852f, 0, 0.4493712205f, 0.601390195f, 0.6606022552f, 0, -0.6878403724f, 0.09018890807f, -0.7202371714f, 0, -0.5958956522f, -0.6469350577f, 0.475797649f, 0,
@@ -532,41 +532,41 @@ namespace TerrainGeneration
     };
 
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float FastMin(float a, float b) { return a < b ? a : b; }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float FastMax(float a, float b) { return a > b ? a : b; }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float FastAbs(float f) { return f < 0 ? -f : f; }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float FastSqrt(float f) { return (float)Math.Sqrt(f); }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static int FastFloor(FNLfloat f) { return f >= 0 ? (int)f : (int)f - 1; }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static int FastRound(FNLfloat f) { return f >= 0 ? (int)(f + 0.5f) : (int)(f - 0.5f); }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float Lerp(float a, float b, float t) { return a + t * (b - a); }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float InterpHermite(float t) { return t * t * (3 - 2 * t); }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float InterpQuintic(float t) { return t * t * t * (t * (t * 6 - 15) + 10); }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float CubicLerp(float a, float b, float c, float d, float t)
         {
             float p = (d - c) - (a - b);
             return t * t * t * p + t * t * ((a - b) - p) + t * (c - a) + b;
         }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float PingPong(float t)
         {
             t -= (int)(t * 0.5f) * 2;
@@ -587,11 +587,11 @@ namespace TerrainGeneration
         }
 
         // Hashing
-        private const int PrimeX = 501125321;
-        private const int PrimeY = 1136930381;
-        private const int PrimeZ = 1720413743;
+        private const int primeX = 501125321;
+        private const int primeY = 1136930381;
+        private const int primeZ = 1720413743;
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static int Hash(int seed, int xPrimed, int yPrimed)
         {
             int hash = seed ^ xPrimed ^ yPrimed;
@@ -600,7 +600,7 @@ namespace TerrainGeneration
             return hash;
         }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static int Hash(int seed, int xPrimed, int yPrimed, int zPrimed)
         {
             int hash = seed ^ xPrimed ^ yPrimed ^ zPrimed;
@@ -609,7 +609,7 @@ namespace TerrainGeneration
             return hash;
         }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float ValCoord(int seed, int xPrimed, int yPrimed)
         {
             int hash = Hash(seed, xPrimed, yPrimed);
@@ -619,7 +619,7 @@ namespace TerrainGeneration
             return hash * (1 / 2147483648.0f);
         }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float ValCoord(int seed, int xPrimed, int yPrimed, int zPrimed)
         {
             int hash = Hash(seed, xPrimed, yPrimed, zPrimed);
@@ -629,85 +629,85 @@ namespace TerrainGeneration
             return hash * (1 / 2147483648.0f);
         }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float GradCoord(int seed, int xPrimed, int yPrimed, float xd, float yd)
         {
             int hash = Hash(seed, xPrimed, yPrimed);
             hash ^= hash >> 15;
             hash &= 127 << 1;
 
-            float xg = Gradients2D[hash];
-            float yg = Gradients2D[hash | 1];
+            float xg = gradients2D[hash];
+            float yg = gradients2D[hash | 1];
 
             return xd * xg + yd * yg;
         }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static float GradCoord(int seed, int xPrimed, int yPrimed, int zPrimed, float xd, float yd, float zd)
         {
             int hash = Hash(seed, xPrimed, yPrimed, zPrimed);
             hash ^= hash >> 15;
             hash &= 63 << 2;
 
-            float xg = Gradients3D[hash];
-            float yg = Gradients3D[hash | 1];
-            float zg = Gradients3D[hash | 2];
+            float xg = gradients3D[hash];
+            float yg = gradients3D[hash | 1];
+            float zg = gradients3D[hash | 2];
 
             return xd * xg + yd * yg + zd * zg;
         }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static void GradCoordOut(int seed, int xPrimed, int yPrimed, out float xo, out float yo)
         {
             int hash = Hash(seed, xPrimed, yPrimed) & (255 << 1);
 
-            xo = RandVecs2D[hash];
-            yo = RandVecs2D[hash | 1];
+            xo = randVecs2D[hash];
+            yo = randVecs2D[hash | 1];
         }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static void GradCoordOut(int seed, int xPrimed, int yPrimed, int zPrimed, out float xo, out float yo, out float zo)
         {
             int hash = Hash(seed, xPrimed, yPrimed, zPrimed) & (255 << 2);
 
-            xo = RandVecs3D[hash];
-            yo = RandVecs3D[hash | 1];
-            zo = RandVecs3D[hash | 2];
+            xo = randVecs3D[hash];
+            yo = randVecs3D[hash | 1];
+            zo = randVecs3D[hash | 2];
         }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static void GradCoordDual(int seed, int xPrimed, int yPrimed, float xd, float yd, out float xo, out float yo)
         {
             int hash = Hash(seed, xPrimed, yPrimed);
             int index1 = hash & (127 << 1);
             int index2 = (hash >> 7) & (255 << 1);
 
-            float xg = Gradients2D[index1];
-            float yg = Gradients2D[index1 | 1];
+            float xg = gradients2D[index1];
+            float yg = gradients2D[index1 | 1];
             float value = xd * xg + yd * yg;
 
-            float xgo = RandVecs2D[index2];
-            float ygo = RandVecs2D[index2 | 1];
+            float xgo = randVecs2D[index2];
+            float ygo = randVecs2D[index2 | 1];
 
             xo = value * xgo;
             yo = value * ygo;
         }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private static void GradCoordDual(int seed, int xPrimed, int yPrimed, int zPrimed, float xd, float yd, float zd, out float xo, out float yo, out float zo)
         {
             int hash = Hash(seed, xPrimed, yPrimed, zPrimed);
             int index1 = hash & (63 << 2);
             int index2 = (hash >> 6) & (255 << 2);
 
-            float xg = Gradients3D[index1];
-            float yg = Gradients3D[index1 | 1];
-            float zg = Gradients3D[index1 | 2];
+            float xg = gradients3D[index1];
+            float yg = gradients3D[index1 | 1];
+            float zg = gradients3D[index1 | 2];
             float value = xd * xg + yd * yg + zd * zg;
 
-            float xgo = RandVecs3D[index2];
-            float ygo = RandVecs3D[index2 | 1];
-            float zgo = RandVecs3D[index2 | 2];
+            float xgo = randVecs3D[index2];
+            float ygo = randVecs3D[index2 | 1];
+            float zgo = randVecs3D[index2 | 2];
 
             xo = value * xgo;
             yo = value * ygo;
@@ -762,7 +762,7 @@ namespace TerrainGeneration
 
         // Noise Coordinate Transforms (frequency, and possible skew or rotation)
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private void TransformNoiseCoordinate(ref FNLfloat x, ref FNLfloat y)
         {
             x *= mFrequency;
@@ -785,7 +785,7 @@ namespace TerrainGeneration
             }
         }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private void TransformNoiseCoordinate(ref FNLfloat x, ref FNLfloat y, ref FNLfloat z)
         {
             x *= mFrequency;
@@ -856,7 +856,7 @@ namespace TerrainGeneration
 
         // Domain Warp Coordinate Transforms
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private void TransformDomainWarpCoordinate(ref FNLfloat x, ref FNLfloat y)
         {
             switch (mDomainWarpType)
@@ -875,7 +875,7 @@ namespace TerrainGeneration
             }
         }
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(iNLINE)]
         private void TransformDomainWarpCoordinate(ref FNLfloat x, ref FNLfloat y, ref FNLfloat z)
         {
             switch (mWarpTransformType3D)
@@ -1096,8 +1096,8 @@ namespace TerrainGeneration
             float x0 = (float)(xi - t);
             float y0 = (float)(yi - t);
 
-            i *= PrimeX;
-            j *= PrimeY;
+            i *= primeX;
+            j *= primeY;
 
             float n0, n1, n2;
 
@@ -1114,7 +1114,7 @@ namespace TerrainGeneration
             {
                 float x2 = x0 + (2 * (float)G2 - 1);
                 float y2 = y0 + (2 * (float)G2 - 1);
-                n2 = (c * c) * (c * c) * GradCoord(seed, i + PrimeX, j + PrimeY, x2, y2);
+                n2 = (c * c) * (c * c) * GradCoord(seed, i + primeX, j + primeY, x2, y2);
             }
 
             if (y0 > x0)
@@ -1125,7 +1125,7 @@ namespace TerrainGeneration
                 if (b <= 0) n1 = 0;
                 else
                 {
-                    n1 = (b * b) * (b * b) * GradCoord(seed, i, j + PrimeY, x1, y1);
+                    n1 = (b * b) * (b * b) * GradCoord(seed, i, j + primeY, x1, y1);
                 }
             }
             else
@@ -1136,7 +1136,7 @@ namespace TerrainGeneration
                 if (b <= 0) n1 = 0;
                 else
                 {
-                    n1 = (b * b) * (b * b) * GradCoord(seed, i + PrimeX, j, x1, y1);
+                    n1 = (b * b) * (b * b) * GradCoord(seed, i + primeX, j, x1, y1);
                 }
             }
 
@@ -1169,9 +1169,9 @@ namespace TerrainGeneration
             float ay0 = yNSign * -y0;
             float az0 = zNSign * -z0;
 
-            i *= PrimeX;
-            j *= PrimeY;
-            k *= PrimeZ;
+            i *= primeX;
+            j *= primeY;
+            k *= primeZ;
 
             float value = 0;
             float a = (0.6f - x0 * x0) - (y0 * y0 + z0 * z0);
@@ -1189,7 +1189,7 @@ namespace TerrainGeneration
                     if (b > 1)
                     {
                         b -= 1;
-                        value += (b * b) * (b * b) * GradCoord(seed, i - xNSign * PrimeX, j, k, x0 + xNSign, y0, z0);
+                        value += (b * b) * (b * b) * GradCoord(seed, i - xNSign * primeX, j, k, x0 + xNSign, y0, z0);
                     }
                 }
                 else if (ay0 > ax0 && ay0 >= az0)
@@ -1198,7 +1198,7 @@ namespace TerrainGeneration
                     if (b > 1)
                     {
                         b -= 1;
-                        value += (b * b) * (b * b) * GradCoord(seed, i, j - yNSign * PrimeY, k, x0, y0 + yNSign, z0);
+                        value += (b * b) * (b * b) * GradCoord(seed, i, j - yNSign * primeY, k, x0, y0 + yNSign, z0);
                     }
                 }
                 else
@@ -1207,7 +1207,7 @@ namespace TerrainGeneration
                     if (b > 1)
                     {
                         b -= 1;
-                        value += (b * b) * (b * b) * GradCoord(seed, i, j, k - zNSign * PrimeZ, x0, y0, z0 + zNSign);
+                        value += (b * b) * (b * b) * GradCoord(seed, i, j, k - zNSign * primeZ, x0, y0, z0 + zNSign);
                     }
                 }
 
@@ -1223,9 +1223,9 @@ namespace TerrainGeneration
 
                 a += (0.75f - ax0) - (ay0 + az0);
 
-                i += (xNSign >> 1) & PrimeX;
-                j += (yNSign >> 1) & PrimeY;
-                k += (zNSign >> 1) & PrimeZ;
+                i += (xNSign >> 1) & primeX;
+                j += (yNSign >> 1) & primeY;
+                k += (zNSign >> 1) & primeZ;
 
                 xNSign = -xNSign;
                 yNSign = -yNSign;
@@ -1259,10 +1259,10 @@ namespace TerrainGeneration
             float xi = (float)(x - i);
             float yi = (float)(y - j);
 
-            i *= PrimeX;
-            j *= PrimeY;
-            int i1 = i + PrimeX;
-            int j1 = j + PrimeY;
+            i *= primeX;
+            j *= primeY;
+            int i1 = i + primeX;
+            int j1 = j + primeY;
 
             float t = (xi + yi) * (float)G2;
             float x0 = xi - t;
@@ -1287,7 +1287,7 @@ namespace TerrainGeneration
                     float a2 = (2.0f / 3.0f) - x2 * x2 - y2 * y2;
                     if (a2 > 0)
                     {
-                        value += (a2 * a2) * (a2 * a2) * GradCoord(seed, i + (PrimeX << 1), j + PrimeY, x2, y2);
+                        value += (a2 * a2) * (a2 * a2) * GradCoord(seed, i + (primeX << 1), j + primeY, x2, y2);
                     }
                 }
                 else
@@ -1297,7 +1297,7 @@ namespace TerrainGeneration
                     float a2 = (2.0f / 3.0f) - x2 * x2 - y2 * y2;
                     if (a2 > 0)
                     {
-                        value += (a2 * a2) * (a2 * a2) * GradCoord(seed, i, j + PrimeY, x2, y2);
+                        value += (a2 * a2) * (a2 * a2) * GradCoord(seed, i, j + primeY, x2, y2);
                     }
                 }
 
@@ -1308,7 +1308,7 @@ namespace TerrainGeneration
                     float a3 = (2.0f / 3.0f) - x3 * x3 - y3 * y3;
                     if (a3 > 0)
                     {
-                        value += (a3 * a3) * (a3 * a3) * GradCoord(seed, i + PrimeX, j + (PrimeY << 1), x3, y3);
+                        value += (a3 * a3) * (a3 * a3) * GradCoord(seed, i + primeX, j + (primeY << 1), x3, y3);
                     }
                 }
                 else
@@ -1318,7 +1318,7 @@ namespace TerrainGeneration
                     float a3 = (2.0f / 3.0f) - x3 * x3 - y3 * y3;
                     if (a3 > 0)
                     {
-                        value += (a3 * a3) * (a3 * a3) * GradCoord(seed, i + PrimeX, j, x3, y3);
+                        value += (a3 * a3) * (a3 * a3) * GradCoord(seed, i + primeX, j, x3, y3);
                     }
                 }
             }
@@ -1331,7 +1331,7 @@ namespace TerrainGeneration
                     float a2 = (2.0f / 3.0f) - x2 * x2 - y2 * y2;
                     if (a2 > 0)
                     {
-                        value += (a2 * a2) * (a2 * a2) * GradCoord(seed, i - PrimeX, j, x2, y2);
+                        value += (a2 * a2) * (a2 * a2) * GradCoord(seed, i - primeX, j, x2, y2);
                     }
                 }
                 else
@@ -1341,7 +1341,7 @@ namespace TerrainGeneration
                     float a2 = (2.0f / 3.0f) - x2 * x2 - y2 * y2;
                     if (a2 > 0)
                     {
-                        value += (a2 * a2) * (a2 * a2) * GradCoord(seed, i + PrimeX, j, x2, y2);
+                        value += (a2 * a2) * (a2 * a2) * GradCoord(seed, i + primeX, j, x2, y2);
                     }
                 }
 
@@ -1352,7 +1352,7 @@ namespace TerrainGeneration
                     float a2 = (2.0f / 3.0f) - x2 * x2 - y2 * y2;
                     if (a2 > 0)
                     {
-                        value += (a2 * a2) * (a2 * a2) * GradCoord(seed, i, j - PrimeY, x2, y2);
+                        value += (a2 * a2) * (a2 * a2) * GradCoord(seed, i, j - primeY, x2, y2);
                     }
                 }
                 else
@@ -1362,7 +1362,7 @@ namespace TerrainGeneration
                     float a2 = (2.0f / 3.0f) - x2 * x2 - y2 * y2;
                     if (a2 > 0)
                     {
-                        value += (a2 * a2) * (a2 * a2) * GradCoord(seed, i, j + PrimeY, x2, y2);
+                        value += (a2 * a2) * (a2 * a2) * GradCoord(seed, i, j + primeY, x2, y2);
                     }
                 }
             }
@@ -1388,9 +1388,9 @@ namespace TerrainGeneration
             float yi = (float)(y - j);
             float zi = (float)(z - k);
 
-            i *= PrimeX;
-            j *= PrimeY;
-            k *= PrimeZ;
+            i *= primeX;
+            j *= primeY;
+            k *= primeZ;
             int seed2 = seed + 1293373;
 
             int xNMask = (int)(-0.5f - xi);
@@ -1402,14 +1402,14 @@ namespace TerrainGeneration
             float z0 = zi + zNMask;
             float a0 = 0.75f - x0 * x0 - y0 * y0 - z0 * z0;
             float value = (a0 * a0) * (a0 * a0) * GradCoord(seed,
-                i + (xNMask & PrimeX), j + (yNMask & PrimeY), k + (zNMask & PrimeZ), x0, y0, z0);
+                i + (xNMask & primeX), j + (yNMask & primeY), k + (zNMask & primeZ), x0, y0, z0);
 
             float x1 = xi - 0.5f;
             float y1 = yi - 0.5f;
             float z1 = zi - 0.5f;
             float a1 = 0.75f - x1 * x1 - y1 * y1 - z1 * z1;
             value += (a1 * a1) * (a1 * a1) * GradCoord(seed2,
-                i + PrimeX, j + PrimeY, k + PrimeZ, x1, y1, z1);
+                i + primeX, j + primeY, k + primeZ, x1, y1, z1);
 
             float xAFlipMask0 = ((xNMask | 1) << 1) * x1;
             float yAFlipMask0 = ((yNMask | 1) << 1) * y1;
@@ -1426,7 +1426,7 @@ namespace TerrainGeneration
                 float y2 = y0;
                 float z2 = z0;
                 value += (a2 * a2) * (a2 * a2) * GradCoord(seed,
-                    i + (~xNMask & PrimeX), j + (yNMask & PrimeY), k + (zNMask & PrimeZ), x2, y2, z2);
+                    i + (~xNMask & primeX), j + (yNMask & primeY), k + (zNMask & primeZ), x2, y2, z2);
             }
             else
             {
@@ -1437,7 +1437,7 @@ namespace TerrainGeneration
                     float y3 = y0 - (yNMask | 1);
                     float z3 = z0 - (zNMask | 1);
                     value += (a3 * a3) * (a3 * a3) * GradCoord(seed,
-                        i + (xNMask & PrimeX), j + (~yNMask & PrimeY), k + (~zNMask & PrimeZ), x3, y3, z3);
+                        i + (xNMask & primeX), j + (~yNMask & primeY), k + (~zNMask & primeZ), x3, y3, z3);
                 }
 
                 float a4 = xAFlipMask1 + a1;
@@ -1447,7 +1447,7 @@ namespace TerrainGeneration
                     float y4 = y1;
                     float z4 = z1;
                     value += (a4 * a4) * (a4 * a4) * GradCoord(seed2,
-                        i + (xNMask & (PrimeX * 2)), j + PrimeY, k + PrimeZ, x4, y4, z4);
+                        i + (xNMask & (primeX * 2)), j + primeY, k + primeZ, x4, y4, z4);
                     skip5 = true;
                 }
             }
@@ -1460,7 +1460,7 @@ namespace TerrainGeneration
                 float y6 = y0 - (yNMask | 1);
                 float z6 = z0;
                 value += (a6 * a6) * (a6 * a6) * GradCoord(seed,
-                    i + (xNMask & PrimeX), j + (~yNMask & PrimeY), k + (zNMask & PrimeZ), x6, y6, z6);
+                    i + (xNMask & primeX), j + (~yNMask & primeY), k + (zNMask & primeZ), x6, y6, z6);
             }
             else
             {
@@ -1471,7 +1471,7 @@ namespace TerrainGeneration
                     float y7 = y0;
                     float z7 = z0 - (zNMask | 1);
                     value += (a7 * a7) * (a7 * a7) * GradCoord(seed,
-                        i + (~xNMask & PrimeX), j + (yNMask & PrimeY), k + (~zNMask & PrimeZ), x7, y7, z7);
+                        i + (~xNMask & primeX), j + (yNMask & primeY), k + (~zNMask & primeZ), x7, y7, z7);
                 }
 
                 float a8 = yAFlipMask1 + a1;
@@ -1481,7 +1481,7 @@ namespace TerrainGeneration
                     float y8 = (yNMask | 1) + y1;
                     float z8 = z1;
                     value += (a8 * a8) * (a8 * a8) * GradCoord(seed2,
-                        i + PrimeX, j + (yNMask & (PrimeY << 1)), k + PrimeZ, x8, y8, z8);
+                        i + primeX, j + (yNMask & (primeY << 1)), k + primeZ, x8, y8, z8);
                     skip9 = true;
                 }
             }
@@ -1494,7 +1494,7 @@ namespace TerrainGeneration
                 float yA = y0;
                 float zA = z0 - (zNMask | 1);
                 value += (aA * aA) * (aA * aA) * GradCoord(seed,
-                    i + (xNMask & PrimeX), j + (yNMask & PrimeY), k + (~zNMask & PrimeZ), xA, yA, zA);
+                    i + (xNMask & primeX), j + (yNMask & primeY), k + (~zNMask & primeZ), xA, yA, zA);
             }
             else
             {
@@ -1505,7 +1505,7 @@ namespace TerrainGeneration
                     float yB = y0 - (yNMask | 1);
                     float zB = z0;
                     value += (aB * aB) * (aB * aB) * GradCoord(seed,
-                        i + (~xNMask & PrimeX), j + (~yNMask & PrimeY), k + (zNMask & PrimeZ), xB, yB, zB);
+                        i + (~xNMask & primeX), j + (~yNMask & primeY), k + (zNMask & primeZ), xB, yB, zB);
                 }
 
                 float aC = zAFlipMask1 + a1;
@@ -1515,7 +1515,7 @@ namespace TerrainGeneration
                     float yC = y1;
                     float zC = (zNMask | 1) + z1;
                     value += (aC * aC) * (aC * aC) * GradCoord(seed2,
-                        i + PrimeX, j + PrimeY, k + (zNMask & (PrimeZ << 1)), xC, yC, zC);
+                        i + primeX, j + primeY, k + (zNMask & (primeZ << 1)), xC, yC, zC);
                     skipD = true;
                 }
             }
@@ -1529,7 +1529,7 @@ namespace TerrainGeneration
                     float y5 = (yNMask | 1) + y1;
                     float z5 = (zNMask | 1) + z1;
                     value += (a5 * a5) * (a5 * a5) * GradCoord(seed2,
-                        i + PrimeX, j + (yNMask & (PrimeY << 1)), k + (zNMask & (PrimeZ << 1)), x5, y5, z5);
+                        i + primeX, j + (yNMask & (primeY << 1)), k + (zNMask & (primeZ << 1)), x5, y5, z5);
                 }
             }
 
@@ -1542,7 +1542,7 @@ namespace TerrainGeneration
                     float y9 = y1;
                     float z9 = (zNMask | 1) + z1;
                     value += (a9 * a9) * (a9 * a9) * GradCoord(seed2,
-                        i + (xNMask & (PrimeX * 2)), j + PrimeY, k + (zNMask & (PrimeZ << 1)), x9, y9, z9);
+                        i + (xNMask & (primeX * 2)), j + primeY, k + (zNMask & (primeZ << 1)), x9, y9, z9);
                 }
             }
 
@@ -1555,7 +1555,7 @@ namespace TerrainGeneration
                     float yD = (yNMask | 1) + y1;
                     float zD = z1;
                     value += (aD * aD) * (aD * aD) * GradCoord(seed2,
-                        i + (xNMask & (PrimeX << 1)), j + (yNMask & (PrimeY << 1)), k + PrimeZ, xD, yD, zD);
+                        i + (xNMask & (primeX << 1)), j + (yNMask & (primeY << 1)), k + primeZ, xD, yD, zD);
                 }
             }
 
@@ -1576,8 +1576,8 @@ namespace TerrainGeneration
 
             float cellularJitter = 0.43701595f * mCellularJitterModifier;
 
-            int xPrimed = (xr - 1) * PrimeX;
-            int yPrimedBase = (yr - 1) * PrimeY;
+            int xPrimed = (xr - 1) * primeX;
+            int yPrimedBase = (yr - 1) * primeY;
 
             switch (mCellularDistanceFunction)
             {
@@ -1593,8 +1593,8 @@ namespace TerrainGeneration
                             int hash = Hash(seed, xPrimed, yPrimed);
                             int idx = hash & (255 << 1);
 
-                            float vecX = (float)(xi - x) + RandVecs2D[idx] * cellularJitter;
-                            float vecY = (float)(yi - y) + RandVecs2D[idx | 1] * cellularJitter;
+                            float vecX = (float)(xi - x) + randVecs2D[idx] * cellularJitter;
+                            float vecY = (float)(yi - y) + randVecs2D[idx | 1] * cellularJitter;
 
                             float newDistance = vecX * vecX + vecY * vecY;
 
@@ -1604,9 +1604,9 @@ namespace TerrainGeneration
                                 distance0 = newDistance;
                                 closestHash = hash;
                             }
-                            yPrimed += PrimeY;
+                            yPrimed += primeY;
                         }
-                        xPrimed += PrimeX;
+                        xPrimed += primeX;
                     }
                     break;
                 case CellularDistanceFunction.Manhattan:
@@ -1619,8 +1619,8 @@ namespace TerrainGeneration
                             int hash = Hash(seed, xPrimed, yPrimed);
                             int idx = hash & (255 << 1);
 
-                            float vecX = (float)(xi - x) + RandVecs2D[idx] * cellularJitter;
-                            float vecY = (float)(yi - y) + RandVecs2D[idx | 1] * cellularJitter;
+                            float vecX = (float)(xi - x) + randVecs2D[idx] * cellularJitter;
+                            float vecY = (float)(yi - y) + randVecs2D[idx | 1] * cellularJitter;
 
                             float newDistance = FastAbs(vecX) + FastAbs(vecY);
 
@@ -1630,9 +1630,9 @@ namespace TerrainGeneration
                                 distance0 = newDistance;
                                 closestHash = hash;
                             }
-                            yPrimed += PrimeY;
+                            yPrimed += primeY;
                         }
-                        xPrimed += PrimeX;
+                        xPrimed += primeX;
                     }
                     break;
                 case CellularDistanceFunction.Hybrid:
@@ -1645,8 +1645,8 @@ namespace TerrainGeneration
                             int hash = Hash(seed, xPrimed, yPrimed);
                             int idx = hash & (255 << 1);
 
-                            float vecX = (float)(xi - x) + RandVecs2D[idx] * cellularJitter;
-                            float vecY = (float)(yi - y) + RandVecs2D[idx | 1] * cellularJitter;
+                            float vecX = (float)(xi - x) + randVecs2D[idx] * cellularJitter;
+                            float vecY = (float)(yi - y) + randVecs2D[idx | 1] * cellularJitter;
 
                             float newDistance = (FastAbs(vecX) + FastAbs(vecY)) + (vecX * vecX + vecY * vecY);
 
@@ -1656,9 +1656,9 @@ namespace TerrainGeneration
                                 distance0 = newDistance;
                                 closestHash = hash;
                             }
-                            yPrimed += PrimeY;
+                            yPrimed += primeY;
                         }
-                        xPrimed += PrimeX;
+                        xPrimed += primeX;
                     }
                     break;
             }
@@ -1706,9 +1706,9 @@ namespace TerrainGeneration
 
             float cellularJitter = 0.39614353f * mCellularJitterModifier;
 
-            int xPrimed = (xr - 1) * PrimeX;
-            int yPrimedBase = (yr - 1) * PrimeY;
-            int zPrimedBase = (zr - 1) * PrimeZ;
+            int xPrimed = (xr - 1) * primeX;
+            int yPrimedBase = (yr - 1) * primeY;
+            int zPrimedBase = (zr - 1) * primeZ;
 
             switch (mCellularDistanceFunction)
             {
@@ -1727,9 +1727,9 @@ namespace TerrainGeneration
                                 int hash = Hash(seed, xPrimed, yPrimed, zPrimed);
                                 int idx = hash & (255 << 2);
 
-                                float vecX = (float)(xi - x) + RandVecs3D[idx] * cellularJitter;
-                                float vecY = (float)(yi - y) + RandVecs3D[idx | 1] * cellularJitter;
-                                float vecZ = (float)(zi - z) + RandVecs3D[idx | 2] * cellularJitter;
+                                float vecX = (float)(xi - x) + randVecs3D[idx] * cellularJitter;
+                                float vecY = (float)(yi - y) + randVecs3D[idx | 1] * cellularJitter;
+                                float vecZ = (float)(zi - z) + randVecs3D[idx | 2] * cellularJitter;
 
                                 float newDistance = vecX * vecX + vecY * vecY + vecZ * vecZ;
 
@@ -1739,11 +1739,11 @@ namespace TerrainGeneration
                                     distance0 = newDistance;
                                     closestHash = hash;
                                 }
-                                zPrimed += PrimeZ;
+                                zPrimed += primeZ;
                             }
-                            yPrimed += PrimeY;
+                            yPrimed += primeY;
                         }
-                        xPrimed += PrimeX;
+                        xPrimed += primeX;
                     }
                     break;
                 case CellularDistanceFunction.Manhattan:
@@ -1760,9 +1760,9 @@ namespace TerrainGeneration
                                 int hash = Hash(seed, xPrimed, yPrimed, zPrimed);
                                 int idx = hash & (255 << 2);
 
-                                float vecX = (float)(xi - x) + RandVecs3D[idx] * cellularJitter;
-                                float vecY = (float)(yi - y) + RandVecs3D[idx | 1] * cellularJitter;
-                                float vecZ = (float)(zi - z) + RandVecs3D[idx | 2] * cellularJitter;
+                                float vecX = (float)(xi - x) + randVecs3D[idx] * cellularJitter;
+                                float vecY = (float)(yi - y) + randVecs3D[idx | 1] * cellularJitter;
+                                float vecZ = (float)(zi - z) + randVecs3D[idx | 2] * cellularJitter;
 
                                 float newDistance = FastAbs(vecX) + FastAbs(vecY) + FastAbs(vecZ);
 
@@ -1772,11 +1772,11 @@ namespace TerrainGeneration
                                     distance0 = newDistance;
                                     closestHash = hash;
                                 }
-                                zPrimed += PrimeZ;
+                                zPrimed += primeZ;
                             }
-                            yPrimed += PrimeY;
+                            yPrimed += primeY;
                         }
-                        xPrimed += PrimeX;
+                        xPrimed += primeX;
                     }
                     break;
                 case CellularDistanceFunction.Hybrid:
@@ -1793,9 +1793,9 @@ namespace TerrainGeneration
                                 int hash = Hash(seed, xPrimed, yPrimed, zPrimed);
                                 int idx = hash & (255 << 2);
 
-                                float vecX = (float)(xi - x) + RandVecs3D[idx] * cellularJitter;
-                                float vecY = (float)(yi - y) + RandVecs3D[idx | 1] * cellularJitter;
-                                float vecZ = (float)(zi - z) + RandVecs3D[idx | 2] * cellularJitter;
+                                float vecX = (float)(xi - x) + randVecs3D[idx] * cellularJitter;
+                                float vecY = (float)(yi - y) + randVecs3D[idx | 1] * cellularJitter;
+                                float vecZ = (float)(zi - z) + randVecs3D[idx | 2] * cellularJitter;
 
                                 float newDistance = (FastAbs(vecX) + FastAbs(vecY) + FastAbs(vecZ)) + (vecX * vecX + vecY * vecY + vecZ * vecZ);
 
@@ -1805,11 +1805,11 @@ namespace TerrainGeneration
                                     distance0 = newDistance;
                                     closestHash = hash;
                                 }
-                                zPrimed += PrimeZ;
+                                zPrimed += primeZ;
                             }
-                            yPrimed += PrimeY;
+                            yPrimed += primeY;
                         }
-                        xPrimed += PrimeX;
+                        xPrimed += primeX;
                     }
                     break;
                 default:
@@ -1863,10 +1863,10 @@ namespace TerrainGeneration
             float xs = InterpQuintic(xd0);
             float ys = InterpQuintic(yd0);
 
-            x0 *= PrimeX;
-            y0 *= PrimeY;
-            int x1 = x0 + PrimeX;
-            int y1 = y0 + PrimeY;
+            x0 *= primeX;
+            y0 *= primeY;
+            int x1 = x0 + primeX;
+            int y1 = y0 + primeY;
 
             float xf0 = Lerp(GradCoord(seed, x0, y0, xd0, yd0), GradCoord(seed, x1, y0, xd1, yd0), xs);
             float xf1 = Lerp(GradCoord(seed, x0, y1, xd0, yd1), GradCoord(seed, x1, y1, xd1, yd1), xs);
@@ -1891,12 +1891,12 @@ namespace TerrainGeneration
             float ys = InterpQuintic(yd0);
             float zs = InterpQuintic(zd0);
 
-            x0 *= PrimeX;
-            y0 *= PrimeY;
-            z0 *= PrimeZ;
-            int x1 = x0 + PrimeX;
-            int y1 = y0 + PrimeY;
-            int z1 = z0 + PrimeZ;
+            x0 *= primeX;
+            y0 *= primeY;
+            z0 *= primeZ;
+            int x1 = x0 + primeX;
+            int y1 = y0 + primeY;
+            int z1 = z0 + primeZ;
 
             float xf00 = Lerp(GradCoord(seed, x0, y0, z0, xd0, yd0, zd0), GradCoord(seed, x1, y0, z0, xd1, yd0, zd0), xs);
             float xf10 = Lerp(GradCoord(seed, x0, y1, z0, xd0, yd1, zd0), GradCoord(seed, x1, y1, z0, xd1, yd1, zd0), xs);
@@ -1920,14 +1920,14 @@ namespace TerrainGeneration
             float xs = (float)(x - x1);
             float ys = (float)(y - y1);
 
-            x1 *= PrimeX;
-            y1 *= PrimeY;
-            int x0 = x1 - PrimeX;
-            int y0 = y1 - PrimeY;
-            int x2 = x1 + PrimeX;
-            int y2 = y1 + PrimeY;
-            int x3 = x1 + unchecked(PrimeX * 2);
-            int y3 = y1 + unchecked(PrimeY * 2);
+            x1 *= primeX;
+            y1 *= primeY;
+            int x0 = x1 - primeX;
+            int y0 = y1 - primeY;
+            int x2 = x1 + primeX;
+            int y2 = y1 + primeY;
+            int x3 = x1 + unchecked(primeX * 2);
+            int y3 = y1 + unchecked(primeY * 2);
 
             return CubicLerp(
                 CubicLerp(ValCoord(seed, x0, y0), ValCoord(seed, x1, y0), ValCoord(seed, x2, y0), ValCoord(seed, x3, y0),
@@ -1951,19 +1951,19 @@ namespace TerrainGeneration
             float ys = (float)(y - y1);
             float zs = (float)(z - z1);
 
-            x1 *= PrimeX;
-            y1 *= PrimeY;
-            z1 *= PrimeZ;
+            x1 *= primeX;
+            y1 *= primeY;
+            z1 *= primeZ;
 
-            int x0 = x1 - PrimeX;
-            int y0 = y1 - PrimeY;
-            int z0 = z1 - PrimeZ;
-            int x2 = x1 + PrimeX;
-            int y2 = y1 + PrimeY;
-            int z2 = z1 + PrimeZ;
-            int x3 = x1 + unchecked(PrimeX * 2);
-            int y3 = y1 + unchecked(PrimeY * 2);
-            int z3 = z1 + unchecked(PrimeZ * 2);
+            int x0 = x1 - primeX;
+            int y0 = y1 - primeY;
+            int z0 = z1 - primeZ;
+            int x2 = x1 + primeX;
+            int y2 = y1 + primeY;
+            int z2 = z1 + primeZ;
+            int x3 = x1 + unchecked(primeX * 2);
+            int y3 = y1 + unchecked(primeY * 2);
+            int z3 = z1 + unchecked(primeZ * 2);
 
 
             return CubicLerp(
@@ -2005,10 +2005,10 @@ namespace TerrainGeneration
             float xs = InterpHermite((float)(x - x0));
             float ys = InterpHermite((float)(y - y0));
 
-            x0 *= PrimeX;
-            y0 *= PrimeY;
-            int x1 = x0 + PrimeX;
-            int y1 = y0 + PrimeY;
+            x0 *= primeX;
+            y0 *= primeY;
+            int x1 = x0 + primeX;
+            int y1 = y0 + primeY;
 
             float xf0 = Lerp(ValCoord(seed, x0, y0), ValCoord(seed, x1, y0), xs);
             float xf1 = Lerp(ValCoord(seed, x0, y1), ValCoord(seed, x1, y1), xs);
@@ -2026,12 +2026,12 @@ namespace TerrainGeneration
             float ys = InterpHermite((float)(y - y0));
             float zs = InterpHermite((float)(z - z0));
 
-            x0 *= PrimeX;
-            y0 *= PrimeY;
-            z0 *= PrimeZ;
-            int x1 = x0 + PrimeX;
-            int y1 = y0 + PrimeY;
-            int z1 = z0 + PrimeZ;
+            x0 *= primeX;
+            y0 *= primeY;
+            z0 *= primeZ;
+            int x1 = x0 + primeX;
+            int y1 = y0 + primeY;
+            int z1 = z0 + primeZ;
 
             float xf00 = Lerp(ValCoord(seed, x0, y0, z0), ValCoord(seed, x1, y0, z0), xs);
             float xf10 = Lerp(ValCoord(seed, x0, y1, z0), ValCoord(seed, x1, y1, z0), xs);
@@ -2210,22 +2210,22 @@ namespace TerrainGeneration
             float xs = InterpHermite((float)(xf - x0));
             float ys = InterpHermite((float)(yf - y0));
 
-            x0 *= PrimeX;
-            y0 *= PrimeY;
-            int x1 = x0 + PrimeX;
-            int y1 = y0 + PrimeY;
+            x0 *= primeX;
+            y0 *= primeY;
+            int x1 = x0 + primeX;
+            int y1 = y0 + primeY;
 
             int hash0 = Hash(seed, x0, y0) & (255 << 1);
             int hash1 = Hash(seed, x1, y0) & (255 << 1);
 
-            float lx0x = Lerp(RandVecs2D[hash0], RandVecs2D[hash1], xs);
-            float ly0x = Lerp(RandVecs2D[hash0 | 1], RandVecs2D[hash1 | 1], xs);
+            float lx0x = Lerp(randVecs2D[hash0], randVecs2D[hash1], xs);
+            float ly0x = Lerp(randVecs2D[hash0 | 1], randVecs2D[hash1 | 1], xs);
 
             hash0 = Hash(seed, x0, y1) & (255 << 1);
             hash1 = Hash(seed, x1, y1) & (255 << 1);
 
-            float lx1x = Lerp(RandVecs2D[hash0], RandVecs2D[hash1], xs);
-            float ly1x = Lerp(RandVecs2D[hash0 | 1], RandVecs2D[hash1 | 1], xs);
+            float lx1x = Lerp(randVecs2D[hash0], randVecs2D[hash1], xs);
+            float ly1x = Lerp(randVecs2D[hash0 | 1], randVecs2D[hash1 | 1], xs);
 
             xr += Lerp(lx0x, lx1x, ys) * warpAmp;
             yr += Lerp(ly0x, ly1x, ys) * warpAmp;
@@ -2245,26 +2245,26 @@ namespace TerrainGeneration
             float ys = InterpHermite((float)(yf - y0));
             float zs = InterpHermite((float)(zf - z0));
 
-            x0 *= PrimeX;
-            y0 *= PrimeY;
-            z0 *= PrimeZ;
-            int x1 = x0 + PrimeX;
-            int y1 = y0 + PrimeY;
-            int z1 = z0 + PrimeZ;
+            x0 *= primeX;
+            y0 *= primeY;
+            z0 *= primeZ;
+            int x1 = x0 + primeX;
+            int y1 = y0 + primeY;
+            int z1 = z0 + primeZ;
 
             int hash0 = Hash(seed, x0, y0, z0) & (255 << 2);
             int hash1 = Hash(seed, x1, y0, z0) & (255 << 2);
 
-            float lx0x = Lerp(RandVecs3D[hash0], RandVecs3D[hash1], xs);
-            float ly0x = Lerp(RandVecs3D[hash0 | 1], RandVecs3D[hash1 | 1], xs);
-            float lz0x = Lerp(RandVecs3D[hash0 | 2], RandVecs3D[hash1 | 2], xs);
+            float lx0x = Lerp(randVecs3D[hash0], randVecs3D[hash1], xs);
+            float ly0x = Lerp(randVecs3D[hash0 | 1], randVecs3D[hash1 | 1], xs);
+            float lz0x = Lerp(randVecs3D[hash0 | 2], randVecs3D[hash1 | 2], xs);
 
             hash0 = Hash(seed, x0, y1, z0) & (255 << 2);
             hash1 = Hash(seed, x1, y1, z0) & (255 << 2);
 
-            float lx1x = Lerp(RandVecs3D[hash0], RandVecs3D[hash1], xs);
-            float ly1x = Lerp(RandVecs3D[hash0 | 1], RandVecs3D[hash1 | 1], xs);
-            float lz1x = Lerp(RandVecs3D[hash0 | 2], RandVecs3D[hash1 | 2], xs);
+            float lx1x = Lerp(randVecs3D[hash0], randVecs3D[hash1], xs);
+            float ly1x = Lerp(randVecs3D[hash0 | 1], randVecs3D[hash1 | 1], xs);
+            float lz1x = Lerp(randVecs3D[hash0 | 2], randVecs3D[hash1 | 2], xs);
 
             float lx0y = Lerp(lx0x, lx1x, ys);
             float ly0y = Lerp(ly0x, ly1x, ys);
@@ -2273,16 +2273,16 @@ namespace TerrainGeneration
             hash0 = Hash(seed, x0, y0, z1) & (255 << 2);
             hash1 = Hash(seed, x1, y0, z1) & (255 << 2);
 
-            lx0x = Lerp(RandVecs3D[hash0], RandVecs3D[hash1], xs);
-            ly0x = Lerp(RandVecs3D[hash0 | 1], RandVecs3D[hash1 | 1], xs);
-            lz0x = Lerp(RandVecs3D[hash0 | 2], RandVecs3D[hash1 | 2], xs);
+            lx0x = Lerp(randVecs3D[hash0], randVecs3D[hash1], xs);
+            ly0x = Lerp(randVecs3D[hash0 | 1], randVecs3D[hash1 | 1], xs);
+            lz0x = Lerp(randVecs3D[hash0 | 2], randVecs3D[hash1 | 2], xs);
 
             hash0 = Hash(seed, x0, y1, z1) & (255 << 2);
             hash1 = Hash(seed, x1, y1, z1) & (255 << 2);
 
-            lx1x = Lerp(RandVecs3D[hash0], RandVecs3D[hash1], xs);
-            ly1x = Lerp(RandVecs3D[hash0 | 1], RandVecs3D[hash1 | 1], xs);
-            lz1x = Lerp(RandVecs3D[hash0 | 2], RandVecs3D[hash1 | 2], xs);
+            lx1x = Lerp(randVecs3D[hash0], randVecs3D[hash1], xs);
+            ly1x = Lerp(randVecs3D[hash0 | 1], randVecs3D[hash1 | 1], xs);
+            lz1x = Lerp(randVecs3D[hash0 | 2], randVecs3D[hash1 | 2], xs);
 
             xr += Lerp(lx0y, Lerp(lx0x, lx1x, ys), zs) * warpAmp;
             yr += Lerp(ly0y, Lerp(ly0x, ly1x, ys), zs) * warpAmp;
@@ -2315,8 +2315,8 @@ namespace TerrainGeneration
             float x0 = (float)(xi - t);
             float y0 = (float)(yi - t);
 
-            i *= PrimeX;
-            j *= PrimeY;
+            i *= primeX;
+            j *= primeY;
 
             float vx, vy;
             vx = vy = 0;
@@ -2342,9 +2342,9 @@ namespace TerrainGeneration
                 float cccc = (c * c) * (c * c);
                 float xo, yo;
                 if (outGradOnly)
-                    GradCoordOut(seed, i + PrimeX, j + PrimeY, out xo, out yo);
+                    GradCoordOut(seed, i + primeX, j + primeY, out xo, out yo);
                 else
-                    GradCoordDual(seed, i + PrimeX, j + PrimeY, x2, y2, out xo, out yo);
+                    GradCoordDual(seed, i + primeX, j + primeY, x2, y2, out xo, out yo);
                 vx += cccc * xo;
                 vy += cccc * yo;
             }
@@ -2359,9 +2359,9 @@ namespace TerrainGeneration
                     float bbbb = (b * b) * (b * b);
                     float xo, yo;
                     if (outGradOnly)
-                        GradCoordOut(seed, i, j + PrimeY, out xo, out yo);
+                        GradCoordOut(seed, i, j + primeY, out xo, out yo);
                     else
-                        GradCoordDual(seed, i, j + PrimeY, x1, y1, out xo, out yo);
+                        GradCoordDual(seed, i, j + primeY, x1, y1, out xo, out yo);
                     vx += bbbb * xo;
                     vy += bbbb * yo;
                 }
@@ -2376,9 +2376,9 @@ namespace TerrainGeneration
                     float bbbb = (b * b) * (b * b);
                     float xo, yo;
                     if (outGradOnly)
-                        GradCoordOut(seed, i + PrimeX, j, out xo, out yo);
+                        GradCoordOut(seed, i + primeX, j, out xo, out yo);
                     else
-                        GradCoordDual(seed, i + PrimeX, j, x1, y1, out xo, out yo);
+                        GradCoordDual(seed, i + primeX, j, x1, y1, out xo, out yo);
                     vx += bbbb * xo;
                     vy += bbbb * yo;
                 }
@@ -2416,9 +2416,9 @@ namespace TerrainGeneration
             float ay0 = yNSign * -y0;
             float az0 = zNSign * -z0;
 
-            i *= PrimeX;
-            j *= PrimeY;
-            k *= PrimeZ;
+            i *= primeX;
+            j *= primeY;
+            k *= primeZ;
 
             float vx, vy, vz;
             vx = vy = vz = 0;
@@ -2451,19 +2451,19 @@ namespace TerrainGeneration
                 {
                     x1 += xNSign;
                     b = b + ax0 + ax0;
-                    i1 -= xNSign * PrimeX;
+                    i1 -= xNSign * primeX;
                 }
                 else if (ay0 > ax0 && ay0 >= az0)
                 {
                     y1 += yNSign;
                     b = b + ay0 + ay0;
-                    j1 -= yNSign * PrimeY;
+                    j1 -= yNSign * primeY;
                 }
                 else
                 {
                     z1 += zNSign;
                     b = b + az0 + az0;
-                    k1 -= zNSign * PrimeZ;
+                    k1 -= zNSign * primeZ;
                 }
 
                 if (b > 1)
@@ -2492,9 +2492,9 @@ namespace TerrainGeneration
 
                 a += (0.75f - ax0) - (ay0 + az0);
 
-                i += (xNSign >> 1) & PrimeX;
-                j += (yNSign >> 1) & PrimeY;
-                k += (zNSign >> 1) & PrimeZ;
+                i += (xNSign >> 1) & primeX;
+                j += (yNSign >> 1) & primeY;
+                k += (zNSign >> 1) & primeZ;
 
                 xNSign = -xNSign;
                 yNSign = -yNSign;

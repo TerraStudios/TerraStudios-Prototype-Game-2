@@ -19,24 +19,24 @@ namespace Utilities
     /// </summary>
     public class UMTD : MonoBehaviour
     {
-        private readonly Queue<Action> _executionQueue = new Queue<Action>();
+        private readonly Queue<Action> executionQueue = new Queue<Action>();
 
         public void Update()
         {
-            lock (_executionQueue)
+            lock (executionQueue)
             {
-                while (_executionQueue.Count > 0)
+                while (executionQueue.Count > 0)
                 {
-                    _executionQueue.Dequeue().Invoke();
+                    executionQueue.Dequeue().Invoke();
                 }
             }
         }
 
         public void Enqueue(IEnumerator action)
         {
-            lock (_executionQueue)
+            lock (executionQueue)
             {
-                _executionQueue.Enqueue(() =>
+                executionQueue.Enqueue(() =>
                 {
                     StartCoroutine(action);
                 });

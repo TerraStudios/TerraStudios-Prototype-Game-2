@@ -32,7 +32,7 @@ namespace CoreManagement
     {
         public static GameManager Instance;
 
-        public bool DebugMode; //May be moved to Super Secret Settings later on
+        public bool debugMode; //May be moved to Super Secret Settings later on
 
         [HideInInspector] public CultureInfo currentCultureTimeDate;
         [HideInInspector] public CultureInfo currentCultureCurrency;
@@ -93,7 +93,7 @@ namespace CoreManagement
 
             GenerateCultures();
 
-            Log.DEBUG_MODE = DebugMode; //Set the debug mode for logging
+            Log.DEBUG_MODE = debugMode; //Set the debug mode for logging
 
             JobsUtility.JobWorkerCount = jobWorkerCount;
         }

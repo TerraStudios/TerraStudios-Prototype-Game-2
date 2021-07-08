@@ -20,7 +20,7 @@ namespace ItemManagement
         [Tooltip("Determines the initial pool size for each item")]
         public int initialPoolSize = 100;
 
-        public static List<ItemData> db = new List<ItemData>();
+        public static List<ItemData> Db = new List<ItemData>();
 
         private void Awake()
         {
@@ -29,10 +29,10 @@ namespace ItemManagement
 
         public ItemData GetItemFromDB(int ID)
         {
-            for (int i = 0; i < db.Count; i++)
+            for (int i = 0; i < Db.Count; i++)
             {
-                if (db[i].ID == ID)
-                    return db[i];
+                if (Db[i].id == ID)
+                    return Db[i];
             }
 
             return null;
@@ -40,18 +40,18 @@ namespace ItemManagement
 
         private void LoadItemDB()
         {
-            db.Clear();
+            Db.Clear();
             ItemData[] itemDB = Resources.LoadAll<ItemData>("");
             for (int i = 0; i < itemDB.Count(); i++)
             {
                 ItemData data = itemDB[i];
-                data.ID = i;
-                db.Insert(i, data);
+                data.id = i;
+                Db.Insert(i, data);
             }
 
-            Debug.Log("[Item Management] Loaded " + db.Count + " items");
+            Debug.Log("[Item Management] Loaded " + Db.Count + " items");
 
-            foreach (ItemData data in db)
+            foreach (ItemData data in Db)
             {
                 ObjectPoolManager.Instance.CreatePool(data.obj.gameObject, initialPoolSize);
             }
