@@ -14,7 +14,10 @@ public unsafe struct NativeCounter
     int* counter;
 
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-    AtomicSafetyHandle safety;
+#pragma warning disable IDE1006 // Naming Styles
+    AtomicSafetyHandle m_Safety;
+#pragma warning restore IDE1006 // Naming Styles
+
     // The dispose sentinel tracks memory leaks. It is a managed type so it is cleared to null when scheduling a job
     // The job cannot dispose the container, and no one else can dispose it until the job has run so it is ok to not pass it along
     // This attribute is required, without it this native container cannot be passed to a job since that would give the job access to a managed object
@@ -41,7 +44,7 @@ public unsafe struct NativeCounter
         // Create a dispose sentinel to track memory leaks. This also creates the AtomicSafetyHandle
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
 #if UNITY_2018_3_OR_NEWER
-        DisposeSentinel.Create(out safety, out disposeSentinel, 0, label);
+        DisposeSentinel.Create(out m_Safety, out disposeSentinel, 0, label);
 #else
         DisposeSentinel.Create(out m_Safety, out m_DisposeSentinel, 0);
 #endif
@@ -55,7 +58,7 @@ public unsafe struct NativeCounter
         // Verify that the caller has write permission on this data.
         // This is the race condition protection, without these checks the AtomicSafetyHandle is useless
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-        AtomicSafetyHandle.CheckWriteAndThrow(safety);
+        AtomicSafetyHandle.CheckWriteAndThrow(m_Safety);
 #endif
         (*counter)++;
         return (*counter) - 1;
@@ -68,7 +71,7 @@ public unsafe struct NativeCounter
             // Verify that the caller has read permission on this data.
             // This is the race condition protection, without these checks the AtomicSafetyHandle is useless
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-            AtomicSafetyHandle.CheckReadAndThrow(safety);
+            AtomicSafetyHandle.CheckReadAndThrow(m_Safety);
 #endif
             return *counter;
         }
@@ -76,7 +79,7 @@ public unsafe struct NativeCounter
         {
             // Verify that the caller has write permission on this data. This is the race condition protection, without these checks the AtomicSafetyHandle is useless
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-            AtomicSafetyHandle.CheckWriteAndThrow(safety);
+            AtomicSafetyHandle.CheckWriteAndThrow(m_Safety);
 #endif
             *counter = value;
         }
@@ -92,7 +95,7 @@ public unsafe struct NativeCounter
         // Let the dispose sentinel know that the data has been freed so it does not report any memory leaks
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
 #if UNITY_2018_3_OR_NEWER
-        DisposeSentinel.Dispose(ref safety, ref disposeSentinel);
+        DisposeSentinel.Dispose(ref m_Safety, ref disposeSentinel);
 #else
         DisposeSentinel.Dispose(m_Safety, ref m_DisposeSentinel);
 #endif
@@ -107,8 +110,8 @@ public unsafe struct NativeCounter
         Concurrent concurrent;
 
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-        AtomicSafetyHandle.CheckWriteAndThrow(safety);
-        concurrent.m_Safety = safety;
+        AtomicSafetyHandle.CheckWriteAndThrow(m_Safety);
+        concurrent.m_Safety = m_Safety;
         AtomicSafetyHandle.UseSecondaryVersion(ref concurrent.m_Safety);
 #endif
 
