@@ -108,8 +108,8 @@ public unsafe struct NativeCounter
 
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
         AtomicSafetyHandle.CheckWriteAndThrow(safety);
-        concurrent.safety = safety;
-        AtomicSafetyHandle.UseSecondaryVersion(ref concurrent.safety);
+        concurrent.m_Safety = safety;
+        AtomicSafetyHandle.UseSecondaryVersion(ref concurrent.m_Safety);
 #endif
 
         concurrent.counter = counter;
@@ -127,14 +127,16 @@ public unsafe struct NativeCounter
 
         // Copy of the AtomicSafetyHandle from the full NativeCounter. The dispose sentinel is not copied since this inner struct does not own the memory and is not responsible for freeing it
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-        internal AtomicSafetyHandle safety;
+#pragma warning disable IDE1006 // Naming Styles
+        internal AtomicSafetyHandle m_Safety;
+#pragma warning restore IDE1006 // Naming Styles
 #endif
 
         public int Increment()
         {
             // Increment still needs to check for write permissions
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
-            AtomicSafetyHandle.CheckWriteAndThrow(safety);
+            AtomicSafetyHandle.CheckWriteAndThrow(m_Safety);
 #endif
             // The actual increment is implemented with an atomic since it can be incremented by multiple threads at the same time
             return Interlocked.Increment(ref *counter) - 1;
