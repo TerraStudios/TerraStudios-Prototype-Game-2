@@ -1,10 +1,16 @@
-﻿using BuildingManagement;
-using CoreManagement;
-using ItemManagement;
-using RecipeManagement;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BuildingManagement;
+using CoreManagement;
+using ItemManagement;
+using RecipeManagement;
 using UnityEngine;
 using Utilities;
 
@@ -20,32 +26,6 @@ namespace BuildingModules
         public MachineRecipe currentRecipe;
         public int inputID;
         public int outputID;
-
-        private Dictionary<MachineRecipe.InputData, int> inputData;
-        public Dictionary<MachineRecipe.InputData, int> InputData
-        {
-            get
-            {
-                return inputData;
-            }
-            set
-            {
-                inputData = new Dictionary<MachineRecipe.InputData, int>(value);
-            }
-        }
-
-        private Dictionary<MachineRecipe.OutputData, int> outputData;
-        public Dictionary<MachineRecipe.OutputData, int> OutputData
-        {
-            get
-            {
-                return outputData;
-            }
-            set
-            {
-                outputData = new Dictionary<MachineRecipe.OutputData, int>(value);
-            }
-        }
     }
 
     /// <summary>
@@ -115,7 +95,7 @@ namespace BuildingModules
 
         public void Init()
         {
-            mc.buildingIOManager.OnItemEnterInput.AddListener(OnItemEnterInput);
+            mc.buildingIOManager.onItemEnterInput.AddListener(OnItemEnterInput);
 
             if (CurrentRecipe)
                 InitIOData();
@@ -123,11 +103,6 @@ namespace BuildingModules
                 CurrentStatus = APMStatus.Blocked;
 
             allowedRecipes = RecipeManager.GetRecipes(recipeFilter).allowed;
-
-            foreach (BuildingIO io in mc.buildingIOManager.outputs)
-            {
-                io.outputMaxQueueSize = outputSpace;
-            }
         }
 
         private void InitIOData()
@@ -230,7 +205,7 @@ namespace BuildingModules
             {
                 foreach (MachineRecipe.InputData inputData in data.inputs)
                 {
-                    if (inputData.item.ID == ItemEnterInfo.item.ID)
+                    if (inputData.item.id == ItemEnterInfo.item.id)
                     {
                         if (inputData.inputID != -1)
                         {
@@ -271,17 +246,17 @@ namespace BuildingModules
             int inputID = 0;
             int outputID = 0;
 
-            // check if the outputs' queues have enough space to fit the output items
+            /*// check if the outputs' queues have enough space to fit the output items
             foreach (KeyValuePair<MachineRecipe.OutputData, int> kvp in outputData)
             {
-                BuildingIO io = mc.buildingIOManager.outputs[kvp.Value - 1];
-                if (io.itemsToSpawn.Count + kvp.Key.amount > io.outputMaxQueueSize)
+                //BuildingIO io = mc.buildingIOManager.outputs[kvp.Value - 1];
+                if (mc.buildingIOManager.itemsToSpawn.Count + kvp.Key.amount > outputSpace)
                 {
                     ItemLog(ItemEnterInfo.item.name, "Not enough space to one or more of the output/s", this);
                     mc.building.SetIndicator(BuildingManager.Instance.errorIndicator);
                     return (false, inputID, outputID);
                 }
-            }
+            }*/
 
             mc.building.RemoveIndicator();
 
@@ -291,18 +266,18 @@ namespace BuildingModules
                 {
                     ItemData recipeItem = inputData.item;
 
-                // check if itemsInside contains the item needed from the recipe
-                if (!mc.buildingIOManager.itemsInside.ContainsKey(recipeItem))
+                    // check if itemsInside contains the item needed from the recipe
+                    if (!mc.buildingIOManager.itemsInside.ContainsKey(recipeItem))
                     {
-                    //A required item type is missing from itemsInside!
-                    return false;
+                        //A required item type is missing from itemsInside!
+                        return false;
                     }
 
-                // check if we have the enough quantity of it available to start crafting
-                if (mc.buildingIOManager.itemsInside[recipeItem] < inputData.amount)
+                    // check if we have the enough quantity of it available to start crafting
+                    if (mc.buildingIOManager.itemsInside[recipeItem] < inputData.amount)
                     {
-                    //Still, not all items are present inside
-                    return false;
+                        //Still, not all items are present inside
+                        return false;
                     }
 
                     inputID = CurrentRecipe.inputs.FindIndex(id => id == data);
@@ -326,7 +301,7 @@ namespace BuildingModules
         private bool IsInputStorageSufficient(OnItemEnterEvent ItemEnterInfo)
         {
             // If the items that attempts to enter has a quantity larger that the allowed
-            if (mc.buildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key == ItemEnterInfo.item).Value == inputSpace && APMStatus.Idle == currentStatus)
+            if (mc.buildingIOManager.itemsInside.FirstOrDefault(kvp => kvp.Key == ItemEnterInfo.item).Value == inputSpace)
             {
                 ItemLog(ItemEnterInfo.item.name, "There's not enough input space for this item!", this);
                 //mc.Building.SetIndicator(BuildingManager.instance.ErrorIndicator);
@@ -339,10 +314,28 @@ namespace BuildingModules
 
         private bool IsOutputStorageSufficient()
         {
-            foreach (BuildingIO output in mc.buildingIOManager.outputs)
+            // Loop all recipe outputs
+            // Check if the BuildingIO corresponding to the Recipe output has enough space
+
+            CraftingData currentlyCrafting = this.currentlyCrafting.Peek();
+
+            foreach (MachineRecipe.OutputData data in currentlyCrafting.currentRecipe.outputs[currentlyCrafting.outputID].outputs) // get items needed to be ejected
             {
-                if (output.itemsToSpawn.Count >= outputSpace)
-                    return false;
+                // find their corresponding outputID
+                KeyValuePair<MachineRecipe.OutputData, int> kvp = new KeyValuePair<MachineRecipe.OutputData, int>(data, outputData[data]);
+
+                for (int t = 0; t < kvp.Key.amount; t++)
+                {
+                    int outputIDToCheck = kvp.Value - 1;
+
+                    // Check the output space based on the items inside
+                    int total = mc.buildingIOManager.outputs[outputIDToCheck].itemsToSpawn.GroupBy(_ => _.item).Where(_ => _.Count() > 1).Sum(_ => _.Count());
+                    if (total >= outputSpace)
+                    {
+                        Debug.LogWarning("Output " + (kvp.Value - 1) + " is full!");
+                        return false;
+                    }
+                }
             }
 
             return true;
@@ -358,8 +351,6 @@ namespace BuildingModules
             {
                 inputID = inputID,
                 outputID = outputID,
-                InputData = inputData,
-                OutputData = outputData,
                 currentRecipe = currentRecipe
             };
 
@@ -383,7 +374,7 @@ namespace BuildingModules
             CraftingData data = currentlyCrafting.Peek();
             foreach (MachineRecipe.InputData toRemove in data.currentRecipe.inputs[data.inputID].inputs)
             {
-                mc.buildingIOManager.itemsInside.Remove(toRemove.item);
+                mc.buildingIOManager.RemoveItem(toRemove.item);
             }
 
             StartCoroutine(RunCraftingTimer());
@@ -392,7 +383,7 @@ namespace BuildingModules
         private IEnumerator RunCraftingTimer()
         {
             yield return new WaitForSeconds(currentlyCrafting.Peek().currentRecipe.baseTime * baseTimeMultiplier * GameManager.Instance.CurrentGameProfile.globalBaseTimeMultiplier);
-            while (!IsOutputStorageSufficient()) ;
+            yield return new WaitUntil(IsOutputStorageSufficient);
             ExecuteCrafting();
         }
 
@@ -403,11 +394,12 @@ namespace BuildingModules
             foreach (MachineRecipe.OutputData data in currentlyCrafting.currentRecipe.outputs[currentlyCrafting.outputID].outputs) // get items needed to be ejected
             {
                 // find their corresponding outputID
-                KeyValuePair<MachineRecipe.OutputData, int> kvp = new KeyValuePair<MachineRecipe.OutputData, int>(data, currentlyCrafting.OutputData[data]);
+                KeyValuePair<MachineRecipe.OutputData, int> kvp = new KeyValuePair<MachineRecipe.OutputData, int>(data, outputData[data]);
 
                 for (int t = 0; t < kvp.Key.amount; t++)
                 {
-                    mc.buildingIOManager.outputs[kvp.Value - 1].AddToSpawnQueue(kvp.Key.item);
+                    Debug.Log("Spawning on outputID" + (kvp.Value - 1));
+                    mc.buildingIOManager.EjectItem(kvp.Key.item, kvp.Value - 1, false);
                 }
             }
 
@@ -426,17 +418,22 @@ namespace BuildingModules
         private void AcceptItemInside(OnItemEnterEvent ItemEnterInfo)
         {
             if (ItemEnterInfo.sceneInstance)
-            {
                 ObjectPoolManager.Instance.DestroyObject(ItemEnterInfo.sceneInstance);
-                mc.buildingIOManager.itemsInside = ItemEnterInfo.proposedItems;
-            }
+
+            if (ItemEnterInfo.caller.mc.conveyor)
+                ItemEnterInfo.caller.mc.conveyor.RemoveItemFromBelt(ItemEnterInfo.sceneInstance);
+
+            mc.buildingIOManager.AddItem(ItemEnterInfo.item);
         }
 
         #endregion
 
-        private void ItemLog(string itemName, string message, UnityEngine.Object highlight = null)
+        private void ItemLog(string itemName, string message, Object highlight = null)
         {
-            Debug.Log($"[Recipe: {CurrentRecipe.name}] [Item: {itemName}] {message}", highlight);
+            if (CurrentRecipe)
+                Debug.Log($"[Recipe: {CurrentRecipe.name}] [Item: {itemName}] {message}", highlight);
+            else
+                Debug.Log($"[Recipe: None] [Item: {itemName}] {message}", highlight);
         }
     }
 }

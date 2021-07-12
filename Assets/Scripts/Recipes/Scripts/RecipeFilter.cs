@@ -1,4 +1,10 @@
-﻿using System;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +35,6 @@ namespace RecipeManagement
         public RecipeType type;
 
         [Header("Manual List")]
-        public List<ManualRecipeList> manualList;
+        public List<ManualRecipeList> manualList = new List<ManualRecipeList>();
     }
 }

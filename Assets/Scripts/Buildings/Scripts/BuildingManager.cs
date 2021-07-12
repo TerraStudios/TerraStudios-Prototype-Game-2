@@ -1,8 +1,14 @@
-﻿using BuildingModules;
-using ItemManagement;
-using RecipeManagement;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
 using System.Collections.Generic;
 using System.Linq;
+using BuildingModules;
+using ItemManagement;
+using RecipeManagement;
 using TMPro;
 using UnityEngine;
 using Utilities;
@@ -15,7 +21,7 @@ namespace BuildingManagement
     /// </summary>
     public class BuildingManager : BuildingSystem
     {
-        public static ItemData testItemToSpawn;
+        public static ItemData TestItemToSpawn;
         public bool enableDebugSpawn;
         public void EnableDebugSpawn(bool value) => enableDebugSpawn = value;
         [Header("BuildingInfo UI Components")]
@@ -47,11 +53,11 @@ namespace BuildingManagement
 
         public static BuildingManager Instance;
 
-        private void Awake() => Instance = this;
-
         //! Probably has to be moved to BuildingSystem since this script should only handle UI
-        public void Start()
+        public void Awake()
         {
+            Instance = this;
+
             //Create pools for each indicator
             ObjectPoolManager.Instance.CreatePool(directionIndicator.gameObject, 80);
             ObjectPoolManager.Instance.CreatePool(arrowIndicator.gameObject, 8);
@@ -60,7 +66,11 @@ namespace BuildingManagement
             ObjectPoolManager.Instance.CreatePool(fixingIndicator.gameObject, 50);
 
             ClearRegisteredBuildings();
+            PoolAllBuildingMeshes();
             LoadAllBuildingsFromSave();
+
+            buildingScriptParent = buildingScriptParent ? buildingScriptParent : (buildingScriptParent = new GameObject("Building GO Scripts"));
+            buildingMeshParent = buildingMeshParent ? buildingMeshParent : (buildingMeshParent = new GameObject("Building GO Meshes"));
         }
 
         //Static because the building manager doesn't have access to BuildingManager, and it doesn't make sense to put it in BuildingIOManager (multiple instances)
@@ -72,7 +82,7 @@ namespace BuildingManagement
         {
             base.OnBuildingSelected(b);
 
-            b.mc.buildingIOManager.VisualizeAll();
+            b.mc.buildingIOManager.UpdateArrows();
 
             buildingInfo.SetActive(true);
 
@@ -80,7 +90,7 @@ namespace BuildingManagement
             RefreshIOUI();
 
             if (b.mc.buildingIOManager.isConveyor && enableDebugSpawn)
-                b.mc.buildingIOManager.outputs[0].AddToSpawnQueue(testItemToSpawn, 0);
+                b.mc.buildingIOManager.AttemptItemEnter(TestItemToSpawn, 0, null, null);
         }
 
         /// <summary>
@@ -90,12 +100,13 @@ namespace BuildingManagement
         {
             if (!focusedBuilding)
                 return;
-            focusedBuilding.mc.buildingIOManager.DevisualizeAll();
+            focusedBuilding.mc.buildingIOManager.DestroyArrows();
 
-            foreach (Building building in RegisteredBuildings)
-            {
-                building.mc.buildingIOManager.DevisualizeAll();
-            }
+            foreach (List<KeyValuePair<Building, GameObject>> kvp in PlacedBuildings.Values)
+                foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
+                {
+                    buildingKVP.Key.mc.buildingIOManager.DestroyArrows();
+                }
 
             base.OnBuildingDeselected();
             buildingInfo.SetActive(false);
@@ -255,11 +266,11 @@ namespace BuildingManagement
                     os.button.interactable = false;
             }
         }
-        #endregion
 
         private bool IsOutputSetupSupported()
         {
             return focusedBuilding && focusedBuilding.mc.apm && !focusedBuilding.mc.conveyor;
         }
+        #endregion
     }
 }

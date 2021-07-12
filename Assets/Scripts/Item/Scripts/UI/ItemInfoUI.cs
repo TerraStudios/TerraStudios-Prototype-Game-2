@@ -1,4 +1,10 @@
-﻿using Player;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,7 +43,7 @@ namespace ItemManagement
 
         public void OnSellItem()
         {
-            RemoveSystem.instance.DeleteItem(currentData, currentItem);
+            RemoveSystem.Instance.DeleteItem(currentData, currentItem);
 
             //clean up 
             currentItem = null;

@@ -1,15 +1,56 @@
-﻿using BuildingModules;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using System.Collections.Generic;
+using System.Linq;
+using BuildingModules;
 using EconomyManagement;
 using Player;
 using SaveSystem;
-using System.Collections.Generic;
-using System.Linq;
+using TerrainGeneration;
+using TerrainTypes;
 using TimeSystem;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Utilities;
 
 namespace BuildingManagement
 {
+    /// <summary>
+    /// Class that contains all necessary data for registering a Building.
+    /// </summary>
+    public class RegisterBuildingData
+    {
+        /// <summary>
+        /// The Building script of the Building Script GO.
+        /// </summary>
+        public Building building;
+
+        /// <summary>
+        /// The Mesh GameObject of the Building Mesh GO.
+        /// </summary>
+        public Transform buildingMesh;
+
+        /// <summary>
+        /// The Mesh Prefab of the Building.
+        /// </summary>
+        public Transform buildingMeshPrefab;
+
+        /// <summary>
+        /// The chunk coordinate where the building is placed.
+        /// </summary>
+        public ChunkCoord chunkCoord;
+
+        /// <summary>
+        /// Whether the Building should be initialized with Building.Init. Make false if loading buildings from save.
+        /// </summary>
+        public bool register = true;
+    }
+
     /// <summary>
     /// This class acts like a layer between the <c>GridManager</c> and the <c>BuildingSystem</c>.
     /// Handles registering buildings as well as loading and setting them up.
@@ -17,7 +58,8 @@ namespace BuildingManagement
     public class BuildingSystem : MonoBehaviour
     {
         [HideInInspector] public Building focusedBuilding;
-        public LayerMask ignoreFocusLayers;
+        public LayerMask buildingFocusLayer;
+        public int meshPoolSize;
 
         [Header("Components")]
         public TimeManager timeManager;
@@ -26,39 +68,100 @@ namespace BuildingManagement
         public GridManager gridManager;
         public EconomyManager economyManager;
 
-        public static readonly List<Building> RegisteredBuildings = new List<Building>();
+        /// <summary>
+        /// A dictionary that stores the following things:
+        /// Key - Coordinates of the chunk where the Building is placed.
+        /// Value - List of KeyValuePairs (Buildings in ChunkCoord) containing the Building (Script Prefab) as a key and GameObject (Mesh Prefab) as a value.
+        /// </summary>
+        public static Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>> PlacedBuildings = new Dictionary<ChunkCoord, List<KeyValuePair<Building, GameObject>>>();
 
-        private GameObject _buildingHolder;
+        public GameObject buildingScriptParent;
+        public GameObject buildingMeshParent;
 
-        private GameObject buildingHolder
+        //0 = apm1
+        //1 = apm2
+        //2 = apm3
+        //3 = conveyor
+        public string[] buildingLocations;
+
+        /// <summary>
+        /// Executes necessary logic for newly placed buildings.
+        /// </summary>
+        /// <param name="data">Special data class needed for setting up a building.</param>
+        public static void RegisterBuilding(RegisterBuildingData data)
         {
-            get
+            GameObject meshToSave = data.building ? data.building.gameObject : null;
+
+            if (PlacedBuildings.ContainsKey(data.chunkCoord))
             {
-                return _buildingHolder ? _buildingHolder : (_buildingHolder = new GameObject("Buildings"));
+                PlacedBuildings[data.chunkCoord].Add(new KeyValuePair<Building, GameObject>(data.building, meshToSave));
+            }
+            else
+            {
+                PlacedBuildings.Add(data.chunkCoord, new List<KeyValuePair<Building, GameObject>> { new KeyValuePair<Building, GameObject>(data.building, meshToSave) });
+            }
+
+            if (data.register)
+            {
+                BuildingSave toSave = new BuildingSave()
+                {
+                    chunkCoord = data.chunkCoord,
+                    position = data.building.correspondingMesh.position,
+                    rotation = data.building.correspondingMesh.rotation,
+                    building = data.building.bBase,
+                    meshData = data.building.meshData,
+                    scriptPrefabPath = data.building.scriptPrefabLocation
+                };
+
+                GameSave.current.worldSaveData.placedBuildings.Add(toSave);
             }
         }
 
-        public static void RegisterBuilding(Building b, bool save = true)
-        {
-            RegisteredBuildings.Add(b);
-            BuildingSave toSave = new BuildingSave()
-            {
-                location = b.transform.position,
-                rotation = b.transform.rotation,
-                building = b.bBase,
-                prefabLocation = b.prefabLocation
-            };
-            if (save)
-                GameSave.current.worldSaveData.placedBuildings.Add(toSave);
-        }
-
+        /// <summary>
+        /// Executes necessary logic for unregistering placed buildings.
+        /// </summary>
+        /// <param name="b">The Building component of the building to unregister.</param>
         public static void UnRegisterBuilding(Building b)
         {
-            RegisteredBuildings.Remove(b);
-            GameSave.current.worldSaveData.placedBuildings.Where(bSave => bSave.building == b.bBase);
+            // Remove List entry of Building b found in the KVP List in RegisteredBuildings.Values
+            foreach (var chunkKvp in PlacedBuildings)
+            {
+                foreach (var kvp in chunkKvp.Value)
+                {
+                    if (kvp.Key == b)
+                    {
+                        chunkKvp.Value.Remove(kvp);
+
+                        int3 voxelPos = b.meshData.pos.FloorToInt3();
+                        Vector3Int buildingSize = b.meshData.size;
+                        TerrainGenerator generator = TerrainGenerator.Instance;
+                        Chunk chunk = generator.currentChunks[chunkKvp.Key];
+
+                        chunk.SetVoxelRegion(voxelPos.x - buildingSize.x + 1, voxelPos.y,
+                            voxelPos.z - buildingSize.z + 1, voxelPos.x, voxelPos.y + buildingSize.y, voxelPos.z, null);
+
+                        return;
+                    }
+                }
+            }
+
+            BuildingSave buildingToRemove = GameSave.current.worldSaveData.placedBuildings.Single(bSave => bSave.building == b.bBase);
+            GameSave.current.worldSaveData.placedBuildings.Remove(buildingToRemove);
         }
 
-        public void ClearRegisteredBuildings() { RegisteredBuildings.Clear(); }
+        public static void RelinkLinkedIOs(Building b)
+        {
+            b.mc.buildingIOManager.IOForEach(io =>
+            {
+                if (io.linkedIO != null)
+                    io.linkedIO.manager.LinkAll();
+            });
+        }
+
+        /// <summary>
+        /// Clears the list of registered buildings.
+        /// </summary>
+        public void ClearRegisteredBuildings() { PlacedBuildings.Clear(); }
 
         /// <summary>
         /// Main update loop for the BuildingSystem, refreshes the UI with OnBuildingUpdateUI
@@ -68,32 +171,104 @@ namespace BuildingManagement
             OnBuildingUpdateUI();
         }
 
+        /// <summary>
+        /// Loads all BuildingSave data from the current GameSave.
+        /// </summary>
         public void LoadAllBuildingsFromSave()
         {
-            foreach (BuildingSave b in GameSave.current.worldSaveData.placedBuildings)
+            foreach (BuildingSave save in GameSave.current.worldSaveData.placedBuildings)
             {
-                Transform t = Instantiate(b.GetObj().gameObject, b.location, b.rotation).transform;
-                Building building = t.GetComponent<Building>();
-                building.bBase = b.building;
-                SetUpBuilding(building, false);
+                Transform buildingGO = Instantiate(save.GetScriptObj().gameObject, Vector3.zero, Quaternion.identity).transform;
+
+                Building building = buildingGO.GetComponent<Building>();
+
+                if (building == null) Debug.Log("Building null");
+
+                GameObject meshPrefab = save.GetMeshObj().gameObject;
+
+                //Transform meshGO = ObjectPoolManager.Instance.ReuseObject(meshPrefab, save.position, save.rotation).transform;
+
+                ChunkCoord chunkCoord = save.chunkCoord;
+
+                building.bBase = save.building;
+                building.meshData = save.meshData;
+
+                RegisterBuildingData data = new RegisterBuildingData()
+                {
+                    building = building,
+                    //buildingMesh = meshGO,
+                    buildingMeshPrefab = meshPrefab.transform,
+                    chunkCoord = chunkCoord,
+                    register = false
+                };
+                SetUpBuilding(data, false);
             }
         }
 
-        /// <summary>
-        /// Initializes all of the needed data for the building in question
-        /// </summary>
-        /// <param name="b"></param>
-        public void SetUpBuilding(Building b, bool register = true)
+        public void PoolAllBuildingMeshes()
         {
-            b.transform.parent = buildingHolder.transform;
-            b.timeManager = timeManager;
-            b.economyManager = economyManager;
-            RegisterBuilding(b, register);
-            b.Init(!register);
-
-            if (b.mc.buildingIOManager.isConveyor)
+            for (int i = 0; i < buildingLocations.Length; i++)
             {
-                ConveyorManager.Instance.conveyors.Add(b.GetComponent<Conveyor>());
+                ObjectPoolManager.Instance.CreatePool(Resources.Load<Transform>(buildingLocations[i] + "_Mesh").gameObject, meshPoolSize);
+            }
+            Debug.Log("Pooled all Building Meshes, in total: " + buildingLocations.Length);
+        }
+
+        /// <summary>
+        /// Retrieves Script and Mesh GameObjects for the corresponding asset location.
+        /// </summary>
+        /// <param name="resourcesID">The ID of the Resources locations available in the buildingLocations list.</param>
+        /// <returns>Script and Mesh GameObjects for the corresponding Building.</returns>
+        public KeyValuePair<Building, Transform> GetBuildingFromLocation(int resourcesID)
+        {
+            string resourcesLocation = buildingLocations[resourcesID];
+            Transform scriptGO = Resources.Load<Transform>(resourcesLocation);
+
+            //Transform meshGO = scriptGO.GetChild(0);
+            Transform meshGO = Resources.Load<Transform>(resourcesLocation + "_Mesh");
+
+            Building b = scriptGO.GetComponent<Building>();
+            b.scriptPrefabLocation = resourcesLocation;
+            return new KeyValuePair<Building, Transform>(b, meshGO);
+        }
+
+        /// <summary>
+        /// Retrieves a list of Script and Mesh GameObjects for all asset locations.
+        /// </summary>
+        /// <returns>A list of all Script and Mesh GameObjects available.</returns>
+        public List<KeyValuePair<Building, Transform>> GetAllBuildings()
+        {
+            List<KeyValuePair<Building, Transform>> toReturn = new List<KeyValuePair<Building, Transform>>();
+
+            for (int i = 0; i < buildingLocations.Length; i++)
+            {
+                toReturn.Add(GetBuildingFromLocation(i));
+            }
+
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Initializes all of the needed data for the building in question.
+        /// </summary>
+        /// <param name="data">Special data class needed for setting up a building.</param>
+        public void SetUpBuilding(RegisterBuildingData data, bool loadMesh = true)
+        {
+            //TODO: THESE HAVE BEEN COMMENTED OUT AS OF 2/13/2021, TO BE CHANGED?
+            //b.transform.parent = buildingScriptParent.transform;
+            //t.transform.parent = buildingMeshParent.transform;
+            data.building.timeManager = timeManager;
+            data.building.economyManager = economyManager;
+            data.building.correspondingMeshPrefab = data.buildingMeshPrefab.gameObject;
+            RegisterBuilding(data);
+            data.building.PreInit();
+            if (loadMesh)
+                data.building.InitMesh(data.buildingMesh);
+            data.building.Init(!data.register);
+
+            if (data.building.mc.buildingIOManager.isConveyor)
+            {
+                ConveyorManager.Instance.conveyors.Add(data.building.GetComponent<Conveyor>());
             }
         }
 
@@ -103,31 +278,22 @@ namespace BuildingManagement
         /// <param name="mousePos">The Vector3 to start the Raycast from</param>
         public void CheckForHit(Vector3 mousePos)
         {
-            if (EventSystem.current.IsPointerOverGameObject() || RemoveSystem.instance.removeModeEnabled)
+            if (EventSystem.current.IsPointerOverGameObject() || RemoveSystem.RemoveModeEnabled)
                 return;
 
             Ray ray = mainCamera.ScreenPointToRay(mousePos);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ~ignoreFocusLayers))
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, buildingFocusLayer))
             {
-                Building b = hit.transform.GetComponent<Building>();
-                if (b)
+                Building b = (TerrainGenerator.Instance.GetVoxel(hit.transform.position.FloorToInt3()) as MachineSlaveVoxel).controller;
+
+                if (b.isSetUp)
                 {
-                    if (b.isSetUp)
-                    {
-                        if (focusedBuilding && !(b.Equals(focusedBuilding)))
-                        {
-                            OnBuildingDeselected();
-                        }
-                        OnBuildingSelected(b);
-                    }
-                }
-                else
-                {
-                    if (focusedBuilding)
+                    if (focusedBuilding && !(b.Equals(focusedBuilding)))
                     {
                         OnBuildingDeselected();
                     }
+                    OnBuildingSelected(b);
                 }
             }
             else

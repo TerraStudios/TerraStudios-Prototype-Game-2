@@ -1,4 +1,11 @@
-﻿using System.Collections.Generic;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Utilities
@@ -63,13 +70,15 @@ namespace Utilities
         /// <param name="prefab">The prefab to instantiate</param>
         /// <param name="position">The position for the prefab to spawn as</param>
         /// <param name="rotation">The rotation for the prefab to be angled at</param>
-        public GameObject ReuseObject(GameObject prefab, Vector3 position, Quaternion rotation)
+        /// <param name="activate">Determines whether the <see cref="GameObject"/> should be activated automatically in the method, or left for manual activation.</param>
+        public GameObject ReuseObject(GameObject prefab, Vector3 position, Quaternion rotation, bool activate = true)
         {
             string key = prefab.name;
 
             if (!pooledObjects.ContainsKey(key))
             {
                 //If a pool does not already exist for the GameObject, create a new one with the default pool size
+                Debug.LogWarning("Creating a new pool when ReuseObject is called! Probably a bug!");
                 CreatePool(prefab, defaultPoolSize);
             }
 
@@ -83,7 +92,11 @@ namespace Utilities
                 pooledObjects[key].Enqueue(newInstance);
             }
 
-            pooledObject.gameObject.SetActive(true);
+            if (activate)
+            {
+                pooledObject.gameObject.SetActive(true);
+            }
+
             Transform t = pooledObject.gameObject.transform;
             t.position = position;
             t.rotation = rotation;
@@ -102,10 +115,17 @@ namespace Utilities
         /// <param name="gameObject">The <see cref="GameObject"/> to be destroyed</param>
         public void DestroyObject(GameObject gameObject)
         {
-            PoolInstance newInstance = new PoolInstance(gameObject, gameObject.transform.parent);
+            try
+            {
+                PoolInstance newInstance = new PoolInstance(gameObject, gameObject.transform.parent);
 
-            newInstance.Disable();
-            pooledObjects[gameObject.name.Replace("(Clone)", "")].Enqueue(newInstance); //requeue object for use
+                newInstance.Disable();
+                pooledObjects[gameObject.name.Replace("(Clone)", "")].Enqueue(newInstance); //requeue object for use
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
 
         /// <summary>

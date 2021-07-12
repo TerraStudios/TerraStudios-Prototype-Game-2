@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BuildingManagement
@@ -6,6 +12,7 @@ namespace BuildingManagement
     public interface IConveyorBase
     {
         void UpdateConveyor();
+        void LateUpdateConveyor();
     }
 
     /// <summary>
@@ -22,9 +29,14 @@ namespace BuildingManagement
             Instance = this;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             conveyors.ForEach(conveyor => conveyor.UpdateConveyor());
+        }
+
+        private void LateUpdate()
+        {
+            conveyors.ForEach(conveyor => conveyor.LateUpdateConveyor());
         }
     }
 }

@@ -1,5 +1,11 @@
-﻿using BuildingManagement;
-using BuildingModules;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using System;
+using BuildingManagement;
 using UnityEngine;
 
 namespace ItemManagement
@@ -8,13 +14,14 @@ namespace ItemManagement
     /// This script is placed on each Item GameObjects.
     /// Its purpose is to hold properties of Items as well as handling physics events.
     /// </summary>
+    [SerializeField]
     [ExecuteInEditMode]
     public class ItemBehaviour : MonoBehaviour
     {
         public ItemData data;
-        private BuildingIO insideIO;
+        //private BuildingIO insideIO;
 
-        private Material originalMaterial;
+        [NonSerialized] private Material originalMaterial;
         private bool markedForDelete;
 
         private void Awake()
@@ -38,33 +45,10 @@ namespace ItemManagement
             GetComponent<MeshRenderer>().material = originalMaterial;
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.layer.Equals(12))
-            {
-                insideIO = other.transform.parent.GetComponent<BuildingIO>();
-                insideIO.itemInside = this;
-                if (insideIO.isInput && !insideIO.ioManager.isConveyor)
-                    insideIO.OnItemEnter(this);
-            }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.layer.Equals(12))
-            {
-                BuildingIO bIO = other.transform.parent.GetComponent<BuildingIO>();
-                bIO.itemInside = null;
-                if (bIO.isInput && !bIO.ioManager.isConveyor)
-                    bIO.OnItemExit(this);
-                insideIO = null;
-            }
-        }
-
         private void OnDisable()
         {
-            if (insideIO)
-                insideIO.itemInside = null;
+            //if (insideIO)
+            //    insideIO.itemInside = null;
             UnmarkForDelete();
         }
     }

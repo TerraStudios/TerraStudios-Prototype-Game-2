@@ -1,10 +1,17 @@
-﻿using DebugTools;
-using SaveSystem;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using DebugTools;
+using SaveSystem;
 using Unity.Collections;
+using Unity.Jobs.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace CoreManagement
@@ -25,7 +32,7 @@ namespace CoreManagement
     {
         public static GameManager Instance;
 
-        public bool DebugMode; //May be moved to Super Secret Settings later on
+        public bool debugMode; //May be moved to Super Secret Settings later on
 
         [HideInInspector] public CultureInfo currentCultureTimeDate;
         [HideInInspector] public CultureInfo currentCultureCurrency;
@@ -57,11 +64,14 @@ namespace CoreManagement
             }
         }
 
-        private void Update()
-        {
-            Debug.Log(CurrentGameProfile.enableBankruptcy);
-            Debug.Log(CurrentUserProfile.currencyCC);
-        }
+        [Header("Editor - Performance")]
+        public NativeLeakDetectionMode leakDetectionMode = NativeLeakDetectionMode.Enabled;
+
+        [Header("Job System - Performance")]
+        [Tooltip("Worker threads available to the Job Queue. Recommended: Job Worker Count = number of available CPU cores - 1")]
+        public int jobWorkerCount = 5;
+        [Tooltip("Desired Job Count used for scheduling a conveyor item movement job.")]
+        public int conveyorDesiredJobCount = -1;
 
         private void Awake()
         {
@@ -83,7 +93,15 @@ namespace CoreManagement
 
             GenerateCultures();
 
-            Log.DEBUG_MODE = DebugMode; //Set the debug mode for logging
+            Log.DEBUG_MODE = debugMode; //Set the debug mode for logging
+
+            JobsUtility.JobWorkerCount = jobWorkerCount;
+        }
+
+        private void Update()
+        {
+            if (Application.isEditor)
+                NativeLeakDetection.Mode = leakDetectionMode;
         }
 
         private void GenerateCultures()
@@ -118,6 +136,7 @@ namespace CoreManagement
         public void InitGame()
         {
             Time.timeScale = GameSave.current.timeSaveData.timeMultiplier;
+            PauseMenu.isOpen = false;
         }
 
         public void GameOver()

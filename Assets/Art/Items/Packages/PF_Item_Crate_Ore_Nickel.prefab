@@ -9,18 +9,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 108273060170467808, guid: e08ce273640539e4193cf43c47e6e99a,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 108273060170467808, guid: e08ce273640539e4193cf43c47e6e99a,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.540777
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108273060170467808, guid: e08ce273640539e4193cf43c47e6e99a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.6940403
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108273060170467808, guid: e08ce273640539e4193cf43c47e6e99a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.768906
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 108273060170467808, guid: e08ce273640539e4193cf43c47e6e99a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 108273060170467808, guid: e08ce273640539e4193cf43c47e6e99a,
         type: 3}
@@ -30,21 +40,11 @@ PrefabInstance:
     - target: {fileID: 108273060170467808, guid: e08ce273640539e4193cf43c47e6e99a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108273060170467808, guid: e08ce273640539e4193cf43c47e6e99a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 108273060170467808, guid: e08ce273640539e4193cf43c47e6e99a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108273060170467808, guid: e08ce273640539e4193cf43c47e6e99a,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108273060170467808, guid: e08ce273640539e4193cf43c47e6e99a,
@@ -73,5 +73,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ef4b8c074a198d54aa5c829d49a35d82,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e08ce273640539e4193cf43c47e6e99a, type: 3}

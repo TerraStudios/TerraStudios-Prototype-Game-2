@@ -1,4 +1,11 @@
-﻿using BuildingManagement;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using System.Collections.Generic;
+using BuildingManagement;
 using BuildingModules;
 using EconomyManagement;
 using ItemManagement;
@@ -43,9 +50,9 @@ namespace Player
         {
             isItemsDropdownLoaded = true;
 
-            for (int i = 0; i < ItemManagement.ItemManagement.db.Count; i++)
+            for (int i = 0; i < ItemManagement.ItemManagement.Db.Count; i++)
             {
-                ItemData data = ItemManagement.ItemManagement.db[i];
+                ItemData data = ItemManagement.ItemManagement.Db[i];
                 testItemDropdown.options.Add(new TMP_Dropdown.OptionData() { text = data.name });
             }
 
@@ -53,12 +60,12 @@ namespace Player
 
             testItemDropdown.onValueChanged.AddListener(delegate { OnItemSelected(testItemDropdown); });
 
-            BuildingManager.testItemToSpawn = ItemManagement.ItemManagement.db[0];
+            BuildingManager.TestItemToSpawn = ItemManagement.ItemManagement.Db[0];
         }
 
         public void OnItemSelected(TMP_Dropdown changed)
         {
-            BuildingManager.testItemToSpawn = ItemManagement.ItemManagement.db[changed.value];
+            BuildingManager.TestItemToSpawn = ItemManagement.ItemManagement.Db[changed.value];
         }
 
         public void OnBalanceUpdated(string newValue)
@@ -77,19 +84,17 @@ namespace Player
             {
                 // show all
                 GridManager.Instance.forceVisualizeAll = true;
-                foreach (Building registered in BuildingSystem.RegisteredBuildings)
-                {
-                    registered.mc.buildingIOManager.VisualizeAll();
-                }
+                foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
+                    foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
+                        buildingKVP.Key.mc.buildingIOManager.UpdateArrows();
             }
             else
             {
                 // hide all
                 GridManager.Instance.forceVisualizeAll = false;
-                foreach (Building registered in BuildingSystem.RegisteredBuildings)
-                {
-                    registered.mc.buildingIOManager.DevisualizeAll();
-                }
+                foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
+                    foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
+                        buildingKVP.Key.mc.buildingIOManager.DestroyArrows();
             }
         }
 

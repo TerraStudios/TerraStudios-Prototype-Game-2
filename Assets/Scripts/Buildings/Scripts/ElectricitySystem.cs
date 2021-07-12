@@ -1,4 +1,11 @@
-﻿using BuildingModules;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using System.Collections.Generic;
+using BuildingModules;
 using CoreManagement;
 using UnityEngine;
 
@@ -19,10 +26,11 @@ namespace BuildingManagement
             if (!GameManager.Instance.CurrentGameProfile.enableElectricityCalculations)
                 return 0;
 
-            foreach (Building b in BuildingSystem.RegisteredBuildings)
-            {
-                toReturn += b.GetUsedElectricity(ws);
-            }
+            foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
+                foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
+                {
+                    toReturn += buildingKVP.Key.GetUsedElectricity(ws);
+                }
             return toReturn;
         }
     }

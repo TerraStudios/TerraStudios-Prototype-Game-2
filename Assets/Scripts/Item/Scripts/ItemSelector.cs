@@ -1,4 +1,10 @@
-﻿using Player;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using Player;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -24,7 +30,7 @@ namespace ItemManagement
         {
             if (context.performed)
             {
-                if (!RemoveSystem.instance.removeModeEnabled)
+                if (!RemoveSystem.RemoveModeEnabled)
                 {
                     Transform hit = GetItemHit(mouseDelta);
 

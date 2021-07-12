@@ -1,9 +1,16 @@
-﻿using BuildingModules;
-using ItemManagement;
-using NUnit.Framework;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BuildingModules;
+using ItemManagement;
+using NUnit.Framework;
+using RecipeManagement;
 using UnityEngine;
 
 namespace Tests
@@ -27,37 +34,47 @@ namespace Tests
             ItemData input1 = GetFakeItem();
 
             // Create fake recipe for testing
-            /*MachineRecipe recipe = ScriptableObject.CreateInstance<MachineRecipe>();
+            MachineRecipe recipe = ScriptableObject.CreateInstance<MachineRecipe>();
+            RecipeFilter filter = ScriptableObject.CreateInstance<RecipeFilter>();
 
-            recipe.inputs = new List<MachineRecipe.InputsData>
+            recipe.inputs = new List<MachineRecipe.InputBatch>
                 {
-                    new MachineRecipe.InputsData
+                    new MachineRecipe.InputBatch
                     {
-                        new MachineRecipe.InputData
+                        inputs = new MachineRecipe.InputData[]
                         {
-                            item = input1, amount = 1, inputID = 0
+                            new MachineRecipe.InputData { item = input1, amount = 1, inputID = 0 }
                         }
                     }
                 };
-            recipe.outputs = new List<MachineRecipe.OutputsData>
+
+            recipe.outputs = new List<MachineRecipe.OutputBatch>
                 {
-                     new MachineRecipe.OutputsData
-                     {
-                         new MachineRecipe.OutputData
-                         {
-                             item = GetFakeItemData(), amount = random.Next(1, 3)
-                         }
-                     }
-                };*/
-            //recipe.baseTime = random.Next(1, 10);
+                    new MachineRecipe.OutputBatch
+                    {
+                        outputs = new MachineRecipe.OutputData[]
+                        {
+                            new MachineRecipe.OutputData { item = GetFakeItemData(), amount = random.Next(1, 3) }
+                        }
+                    }
+                };
+
+            // Set name so it doesn't look weird
+            recipe.name = "Random Test Recipe";
+
+            // Set random time for executing the recipe.
+            recipe.baseTime = random.Next(1, 10);
 
             //Set current recipe for apm
-            //apm.CurrentRecipe = recipe;
+            apm.CurrentRecipe = recipe;
+
+            //Set current recipe filter for apm
+            apm.recipeFilter = filter;
+
+            apm.inputSpace = 1;
 
             //Initialize APM, which listens in to the OnItemEnterEvent
             apm.Init();
-
-            GameObject sceneInstance = new GameObject("Fake scene instance");
 
             Dictionary<ItemData, int> proposedItems = new Dictionary<ItemData, int>();
 
@@ -70,8 +87,6 @@ namespace Tests
             {
                 inputID = 0,
                 item = toInput,
-                sceneInstance = sceneInstance,
-                proposedItems = proposedItems
             };
 
             //
@@ -87,6 +102,7 @@ namespace Tests
         private GameObject CreateAPM()
         {
             GameObject apmObject = new GameObject("APM_GO");
+            Building building = apmObject.AddComponent<Building>();
             BuildingIOManager manager = apmObject.AddComponent<BuildingIOManager>();
             //Add APM Component
             APM apm = apmObject.AddComponent<APM>();
@@ -95,6 +111,7 @@ namespace Tests
 
             // Attach modules
             mc.apm = apm;
+            mc.building = building;
             mc.buildingIOManager = manager;
 
             //Add ModuleConnector
@@ -102,7 +119,7 @@ namespace Tests
             manager.mc = mc;
 
             //Allow OnItemEnterEvent listening
-            manager.OnItemEnterInput = new OnItemEnterEvent();
+            manager.onItemEnterInput = new OnItemEnterEvent();
 
             return apmObject;
         }
@@ -123,7 +140,7 @@ namespace Tests
         {
             ItemData data = ScriptableObject.CreateInstance<ItemData>();
             data.name = GetRandomString();
-            data.ID = random.Next(3000);
+            data.id = random.Next(3000);
             data.isBuyable = random.Next(1) == 0;
             return data;
         }
@@ -134,8 +151,9 @@ namespace Tests
 
             try
             {
-                BuildingIO io = obj.AddComponent<BuildingIO>();
-                io.arrow = new GameObject("BuildingIO Output Arrow").transform;
+                BuildingIO io = new BuildingIO();
+                // TODO: Update with new code here
+                //io.arrow = new GameObject("BuildingIO Output Arrow").transform;
 
                 return io;
             }

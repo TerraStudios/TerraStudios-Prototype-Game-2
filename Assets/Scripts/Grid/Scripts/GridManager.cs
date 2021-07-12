@@ -1,9 +1,21 @@
-﻿using BuildingModules;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using System.Collections.Generic;
+using BuildingModules;
 using CoreManagement;
-using DebugTools;
 using EconomyManagement;
+using Player;
+using TerrainGeneration;
+using TerrainTypes;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using Utilities;
 
 namespace BuildingManagement
 {
@@ -19,7 +31,6 @@ namespace BuildingManagement
 
         public EconomyManager economyManager;
         public Camera mainCamera;
-        public GameObject removeModeEnabledText;
 
         [Header("Constant variables")]
         public float tileSize;
@@ -29,7 +40,6 @@ namespace BuildingManagement
         [Header("Dynamic variables")]
         private bool isInBuildMode;
 
-        [HideInInspector] public bool isInDeleteMode;
         [HideInInspector] public bool forceVisualizeAll;
 
         /// <summary>
@@ -40,21 +50,20 @@ namespace BuildingManagement
             get => isInBuildMode;
             set
             {
+                if (RemoveSystem.RemoveModeEnabled)
+                    return;
+
                 OnBuildModeChanged(value);
                 isInBuildMode = value;
             }
         }
 
-        private Building currentBuilding;
-        public string apm1Location;
-        public string apm2Location;
-        public string apm3Location;
-        public string conveyorLocation;
+        private KeyValuePair<Building, Transform> currentBuilding;
 
         private Vector3 lastVisualize;
         private Quaternion lastRotation;
 
-        public Transform visualization;
+        public KeyValuePair<Building, Transform> visualization;
 
         private Quaternion rotationChange = Quaternion.identity;
 
@@ -81,7 +90,6 @@ namespace BuildingManagement
         public bool debugMode;
 
         private Vector2 mousePos;
-        private float rotationDirection;
         private bool continueBuilding;
 
         #region Unity Events
@@ -100,7 +108,7 @@ namespace BuildingManagement
                 UpdateVisualization();
         }
 
-        #endregion Unity Events
+        #endregion
 
         #region Rotation
 
@@ -116,7 +124,7 @@ namespace BuildingManagement
                 RotationChange *= Quaternion.Euler(0, 90, 0);
         }
 
-        #endregion Rotation
+        #endregion
 
         #region Visualization
 
@@ -127,51 +135,58 @@ namespace BuildingManagement
         /// </summary>
         public void UpdateVisualization()
         {
+            if (PauseMenu.isOpen) return;
+
             RaycastHit? hit = FindGridHit();
             if (hit == null) return;
             Vector3 center = GetGridPosition(hit.Value.point);
 
             //If debug mode is enabled, this will loop through every registered building as well as the visualization and call the VisualizeColliders() method
-            if (debugMode && visualization)
+            if (debugMode && visualization.Key)
             {
-                foreach (Building building in BuildingSystem.RegisteredBuildings) building.mc.buildingIOManager.VisualizeColliders();
-                visualization.GetComponent<Building>().mc.buildingIOManager.VisualizeColliders();
+                foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
+                    foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
+                        buildingKVP.Key.mc.buildingIOManager.VisualizeColliders();
+
+                visualization.Key.mc.buildingIOManager.VisualizeColliders();
             }
 
             if (center != lastVisualize || !lastRotation.Equals(RotationChange))
             {
                 //Debug.Log("Found new position, updating");
 
-                if (visualization == null)
+                if (!visualization.Value)
                 {
                     ConstructVisualization(center);
                 }
-
-                Building b = visualization.GetComponent<Building>();
 
                 canPlace = CanPlace(center);
 
                 if (canPlace)
                 {
-                    visualization.GetComponent<MeshRenderer>().material = buildingManager.greenArrow;
+                    visualization.Value.GetComponent<MeshRenderer>().material = buildingManager.greenArrow;
                 }
                 else
                 {
-                    visualization.GetComponent<MeshRenderer>().material = buildingManager.redArrow;
+                    visualization.Value.GetComponent<MeshRenderer>().material = buildingManager.redArrow;
                 }
 
-                visualization.transform.position = center;
-                visualization.transform.rotation = RotationChange;
-
-                b.mc.buildingIOManager.UpdateIOPhysics();
-                b.mc.buildingIOManager.UpdateArrows();
+                visualization.Value.transform.position = center;
+                visualization.Value.transform.rotation = RotationChange;
+                visualization.Key.meshData = new MeshData()
+                {
+                    pos = visualization.Value.position,
+                    rot = visualization.Value.rotation,
+                };
+                visualization.Key.mc.buildingIOManager.LinkAll(true);
+                visualization.Key.mc.buildingIOManager.UpdateArrows();
             }
 
             lastRotation = RotationChange;
             lastVisualize = center;
         }
 
-        #endregion Visualization
+        #endregion
 
         #region Building
 
@@ -200,9 +215,29 @@ namespace BuildingManagement
         {
             buildingManager.OnBuildingDeselected();
             //TimeEngine.IsPaused = true;
-            visualization = Instantiate(currentBuilding.prefab, center, RotationChange).transform;
-            visualization.GetComponent<Building>().SetIndicator(BuildingManager.Instance.directionIndicator);
-            tempMat = currentBuilding.prefab.GetComponent<MeshRenderer>().sharedMaterial;
+
+            visualization = new KeyValuePair<Building, Transform>(
+                 Instantiate(currentBuilding.Key.prefab, Vector3.zero, RotationChange).GetComponent<Building>(),
+                 ObjectPoolManager.Instance.ReuseObject(currentBuilding.Value.gameObject, center, RotationChange).transform
+                );
+
+            visualization.Key.correspondingMesh = visualization.Value;
+
+            if (visualization.Key.transform.childCount != 0)
+                Destroy(visualization.Key.transform.GetChild(0).gameObject);
+            else
+                Debug.LogWarning("Building script GO doesn't have a mesh!");
+
+            visualization.Key.SetIndicator(BuildingManager.Instance.directionIndicator);
+            tempMat = currentBuilding.Value.GetComponent<MeshRenderer>().sharedMaterial;
+
+            visualization.Key.meshData = new MeshData()
+            {
+                pos = visualization.Value.position,
+                rot = visualization.Value.rotation,
+            };
+
+            visualization.Key.mc.buildingIOManager.PreInit();
         }
 
         /// <summary>
@@ -210,11 +245,13 @@ namespace BuildingManagement
         /// </summary>
         private void DeconstructVisualization()
         {
-            if (!visualization)
+            if (!visualization.Value)
                 return;
 
-            visualization.GetComponent<BuildingIOManager>().DevisualizeAll();
-            Destroy(visualization.gameObject);
+            visualization.Key.correspondingMesh = null;
+            visualization.Key.mc.buildingIOManager.DestroyArrows();
+            visualization.Key.meshData = null;
+            ObjectPoolManager.Instance.DestroyObject(visualization.Value.gameObject);
         }
 
         /// <summary>
@@ -227,29 +264,62 @@ namespace BuildingManagement
 
             Vector3 center = GetGridPosition(hit.Value.point);
 
+            ChunkCoord chunkCoord = new ChunkCoord { x = Mathf.FloorToInt(center.x) / TerrainGenerator.Instance.chunkXSize, z = Mathf.FloorToInt(center.z) / TerrainGenerator.Instance.chunkZSize }; //! Figure out this somehow
+
             if (center == Vector3.zero)
                 return;
             if (CanPlace(center))
             {
-                Building b = visualization.GetComponent<Building>();
-
-                if (!GameManager.Instance.CurrentGameProfile.allowBuildingIfBalanceInsufficient && economyManager.Balance - (decimal)b.bBase.Price < 0)
+                if (!GameManager.Instance.CurrentGameProfile.allowBuildingIfBalanceInsufficient && economyManager.Balance - (decimal)visualization.Key.bBase.Price < 0)
                 {
                     Debug.LogWarning("Can't build because allowBuildingIfBalanceInsufficient is false");
                     return;
                 }
 
-                economyManager.Balance -= (decimal)b.bBase.Price;
+                visualization.Value.transform.position = center;
+                visualization.Value.transform.rotation = RotationChange;
 
-                visualization.GetComponent<MeshRenderer>().material = tempMat;
+                economyManager.Balance -= (decimal)visualization.Key.bBase.Price;
 
-                buildingManager.SetUpBuilding(b);
+                visualization.Value.GetComponent<MeshRenderer>().material = tempMat;
+
+                TerrainGenerator generator = TerrainGenerator.Instance;
+
+                // Set position in the chunk it was placed in
+                int3 voxelPos = visualization.Value.position.FloorToInt3();
+                Vector3Int buildingSize = GetBuildSize(currentBuilding.Value);
+
+                Chunk placedChunk = generator.currentChunks[chunkCoord];
+
+                // TODO: Move this to an enum
+                VoxelType type = new VoxelType { isSolid = true };
+                MachineSlaveVoxel slaveBlock = new MachineSlaveVoxel(type, visualization.Key);
+
+                placedChunk.SetVoxelRegion(voxelPos.x - buildingSize.x + 1, voxelPos.y,
+                    voxelPos.z - buildingSize.z + 1, voxelPos.x, voxelPos.y + buildingSize.y, voxelPos.z, slaveBlock);
+
+                visualization.Key.meshData = new MeshData()
+                {
+                    pos = visualization.Value.position,
+                    rot = visualization.Value.rotation,
+                    size = buildingSize
+                };
+
+                RegisterBuildingData data = new RegisterBuildingData()
+                {
+                    building = visualization.Key,
+                    buildingMesh = visualization.Value,
+                    buildingMeshPrefab = currentBuilding.Value,
+                    chunkCoord = chunkCoord
+                };
+
+                buildingManager.SetUpBuilding(data);
 
                 IsInBuildMode = continueBuilding;
             }
         }
 
-        #endregion Building
+        #endregion
 
         #region Grid Utilities
 
@@ -260,14 +330,37 @@ namespace BuildingManagement
         /// <returns>Whether the current building can be placed at this position</returns>
         private bool CanPlace(Vector3 grid)
         {
-            Vector2 buildingSize = currentBuilding.GetBuildSize();
+            // Part of above TODO statement
+            //currentGrid = grid;
+            //StartCoroutine(testGridCheck());
 
-            ExtDebug.DrawBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange, Color.red);
+            Vector3Int buildingSize = GetBuildSize(currentBuilding.Value);
 
-            if (Physics.CheckBox(grid + Vector3.up, new Vector3(buildingSize.x * 0.5f * 0.9f, 0.9f, buildingSize.y * 0.5f * 0.9f), RotationChange, ~canPlaceIgnoreLayers))
-                return false;
-            else
-                return true;
+            for (int x = (int)grid.x - buildingSize.x + 1; x <= grid.x; x++)
+            {
+                for (int y = (int)grid.y; y < grid.y + buildingSize.y; y++)
+                {
+                    for (int z = (int)grid.z - buildingSize.z + 1; z <= grid.z; z++)
+                    {
+                        // Check if the floor below IS all solid
+                        if (y == (int)grid.y)
+                        {
+                            if (!TerrainGenerator.Instance.voxelTypes[TerrainGenerator.Instance.GetVoxelValue(new int3(x, y - 1, z))].isSolid)
+                            {
+                                return false;
+                            }
+                        }
+
+                        // Check if the entire space the building will occupy IS NOT solid
+                        if (TerrainGenerator.Instance.voxelTypes[TerrainGenerator.Instance.GetVoxelValue(new int3(x, y, z))].isSolid)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -275,29 +368,29 @@ namespace BuildingManagement
         /// </summary>
         /// <param name="pos"></param>
         /// <returns>A locked grid position</returns>
-        public Vector3 GetGridPosition(Vector3 pos, Vector2Int gridSize = default) // when argument is supplied - use it instead of GetBuildSize
+        public Vector3 GetGridPosition(Vector3 pos, Vector3Int gridSize = default) // when argument is supplied - use it instead of GetBuildSize
         {
-            Vector2Int buildSize;
-            if (!Equals(gridSize, default(Vector2Int)))
+            Vector3Int buildSize;
+            if (!Equals(gridSize, default(Vector3Int)))
                 buildSize = gridSize;
             else
-                buildSize = currentBuilding.GetBuildSize();
+                buildSize = GetBuildSize(currentBuilding.Value);
 
             float x;
             float z;
 
             if (isFlipped)
             {
-                x = buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
+                x = buildSize.z % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
                 z = buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
             }
             else
             {
                 x = buildSize.x % 2 != 0 ? (Mathf.FloorToInt(pos.x) + tileSize / 2f) : Mathf.FloorToInt(pos.x);
-                z = buildSize.y % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
+                z = buildSize.z % 2 != 0 ? (Mathf.FloorToInt(pos.z) + tileSize / 2f) : Mathf.FloorToInt(pos.z);
             }
 
-            return new Vector3(x, pos.y, z);
+            return new Vector3(x, Mathf.FloorToInt(pos.y + 0.1f), z);
         }
 
         /// <summary>
@@ -306,17 +399,25 @@ namespace BuildingManagement
         /// <returns>The RayCastHit of the floor, or null if nothing is found.</returns>
         public RaycastHit? FindGridHit()
         {
-            if (Physics.Raycast(mainCamera.ScreenPointToRay(mousePos), out RaycastHit hit, 30000f, LayerMask.GetMask("GridFloor")))
+            if (Physics.Raycast(mainCamera.ScreenPointToRay(mousePos), out RaycastHit hit, 300000f, ~canPlaceIgnoreLayers))
             {
                 return hit;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
-        #endregion Grid Utilities
+        /// <summary>
+        /// Retrieves the grid size of the building
+        /// </summary>
+        /// <returns>A <see cref="Vector2Int"/> representing the grid size</returns>
+        public Vector3Int GetBuildSize(Transform mesh)
+        {
+            Vector3 e = mesh.GetComponent<MeshRenderer>().bounds.size;
+            return new Vector3Int(Mathf.CeilToInt(Mathf.Round(e.x * 10f) / 10f), Mathf.CeilToInt(Mathf.Round(e.y * 10f) / 10f), Mathf.CeilToInt(Mathf.Round(e.z * 10f) / 10f));
+        }
+
+        #endregion
 
         #region Events
 
@@ -338,16 +439,17 @@ namespace BuildingManagement
             else
             {
                 //TimeEngine.IsPaused = false;
-                visualization = null;
+                visualization = new KeyValuePair<Building, Transform>(null, null);
                 if (!forceVisualizeAll)
                 {
-                    foreach (Building b in BuildingSystem.RegisteredBuildings)
-                    {
-                        if (b.mc.buildingIOManager)
+                    foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
+                        foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
                         {
-                            b.mc.buildingIOManager.DevisualizeAll();
+                            if (buildingKVP.Key.mc.buildingIOManager)
+                            {
+                                buildingKVP.Key.mc.buildingIOManager.DestroyArrows();
+                            }
                         }
-                    }
                 }
             }
         }
@@ -359,20 +461,10 @@ namespace BuildingManagement
         {
             DeconstructVisualization();
 
-            switch (buildingID)
-            {
-                case 1:
-                    currentBuilding = GetBuildingFromLocation(apm1Location);
-                    break;
+            int resourceID = buildingID - 1;
 
-                case 2:
-                    currentBuilding = GetBuildingFromLocation(apm2Location);
-                    break;
-
-                case 3:
-                    currentBuilding = GetBuildingFromLocation(apm3Location);
-                    break;
-            }
+            currentBuilding = BuildingManager.Instance.GetBuildingFromLocation(resourceID);
+            currentBuilding.Key.correspondingMesh = currentBuilding.Value;
 
             IsInBuildMode = true;
         }
@@ -383,18 +475,12 @@ namespace BuildingManagement
         public void OnConveyorBuildButtonPressed()
         {
             DeconstructVisualization();
-            currentBuilding = GetBuildingFromLocation(conveyorLocation);
+            currentBuilding = BuildingManager.Instance.GetBuildingFromLocation(3);
             IsInBuildMode = true;
         }
 
-        public Building GetBuildingFromLocation(string resourcesLocation)
-        {
-            Transform tr = Resources.Load<Transform>(resourcesLocation);
-            Building b = tr.GetComponent<Building>();
-            b.prefabLocation = resourcesLocation;
-            return b;
-        }
+
     }
 
-    #endregion Events
+    #endregion
 }

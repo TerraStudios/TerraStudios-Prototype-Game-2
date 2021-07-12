@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player
@@ -27,6 +33,7 @@ namespace Player
         public GameObject normalCamera;
         public GameObject topDownCamera;
         public GameObject freeCamera;
+        public GameObject dynamicPointers;
 
         public CameraMovement cameraMovement;
         public PhotoCameraMovement photoCameraMovement;
@@ -42,7 +49,7 @@ namespace Player
             lastRotation = transform.rotation;
         }
 
-        public void SwitchTopDownCamera() 
+        public void SwitchTopDownCamera()
         {
             if (!cameraMode.Equals(CameraMode.Topdown))
             {
@@ -62,10 +69,9 @@ namespace Player
 
         public void SwitchToNormalCamera()
         {
-            cameraMode = CameraMode.Normal;
-
             // apply pos and rot from the last camera pos and rot
-            transform.position = lastPosition;
+            if (cameraMode != CameraMode.Topdown)
+                transform.position = lastPosition;
             transform.rotation = lastRotation;
 
             normalCamera.SetActive(true);
@@ -75,14 +81,14 @@ namespace Player
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
+            cameraMode = CameraMode.Normal;
             cameraMovement.enabled = true;
             photoCameraMovement.enabled = false;
+            dynamicPointers.SetActive(true);
         }
 
         public void SwitchToTopdownCamera()
         {
-            cameraMode = CameraMode.Topdown;
-
             // set lastRot
             // apply pos and rot from the last camera pos and rot. the rot is 0 because the camera has to look straight down
             lastRotation = transform.rotation;
@@ -96,8 +102,10 @@ namespace Player
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
+            cameraMode = CameraMode.Topdown;
             cameraMovement.enabled = true;
             photoCameraMovement.enabled = false;
+            dynamicPointers.SetActive(false);
         }
 
         public void SwitchToFreecam()
@@ -109,8 +117,6 @@ namespace Player
                 lastRotation = transform.rotation;
             }
 
-            cameraMode = CameraMode.Freecam;
-
             normalCamera.SetActive(false);
             topDownCamera.SetActive(false);
             freeCamera.SetActive(true);
@@ -118,8 +124,10 @@ namespace Player
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
+            cameraMode = CameraMode.Freecam;
             cameraMovement.enabled = false;
             photoCameraMovement.enabled = true;
+            dynamicPointers.SetActive(false);
         }
     }
 }

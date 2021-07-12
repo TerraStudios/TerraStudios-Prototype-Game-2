@@ -1,8 +1,14 @@
-﻿using BuildingModules;
-using NUnit.Framework;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BuildingModules;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace Assets.Tests
@@ -21,8 +27,12 @@ namespace Assets.Tests
 
                 if (building)
                 {
-                    Assert.IsFalse(go.GetComponent<MeshRenderer>().receiveShadows, $"Receive Shadows needs to be disabled on GameObject {go.name}");
-                    Assert.IsTrue(go.GetComponent<MeshRenderer>().shadowCastingMode == UnityEngine.Rendering.ShadowCastingMode.Off, $"Cast Shadows needs to be disabled on GameObject {go.name}");
+                    MeshRenderer renderer = go.GetComponent<MeshRenderer>();
+                    if (!renderer)
+                        continue;
+
+                    Assert.IsFalse(renderer.receiveShadows, $"Receive Shadows needs to be disabled on GameObject {go.name}");
+                    Assert.IsTrue(renderer.shadowCastingMode == UnityEngine.Rendering.ShadowCastingMode.Off, $"Cast Shadows needs to be disabled on GameObject {go.name}");
                 }
             }
         }
@@ -66,7 +76,7 @@ namespace Assets.Tests
                 if (conveyor)
                 {
                     Assert.AreNotEqual(conveyor.speed, 0, $"{go.name} found with a speed of 0");
-                    Assert.IsNotNull(conveyor.rb, $"{go.name} found with a null rb field");
+                    //Assert.IsNotNull(conveyor.rb, $"{go.name} found with a null rb field"); //TODO: Evaluate whether a replacement is needed.
                 }
             }
         }

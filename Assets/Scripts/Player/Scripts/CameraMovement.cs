@@ -1,4 +1,10 @@
-﻿using Cinemachine;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,47 +15,66 @@ namespace Player
     /// </summary>
     public class CameraMovement : MonoBehaviour
     {
-        public CinemachineFollowZoom cinemachineFollowZoom;
+        public CinemachineVirtualCamera cinemachineVCam;
+        private CinemachineTransposer cinemachineTransposer;
 
         public float movementSpeed;
-        public float movementTime;
+        public float upAndDownSpeed;
         public float rotationSpeed = 100;
         public float dragSpeed;
+        public float topDownDragMultiplier;
         public float panSpeed = 0.5f;
-        public float zoomSpeed;
+
+        [Header("Zooming")]
+        public float zoomMultiplier;
+        public float zoomSmoothnessMultiplier;
+        public float minFollowOffsetY;
+        //public float followProgress;
+        public float followProgressApplied;
+        public float maxFollowOffsetY;
+        public AnimationCurve followOffsetCurve;
+
+        public float minFOVZoom;
+        //public float fovZoomLevel;
+        public float fovZoomLevelApplied;
+        public float maxFOVZoom;
+        public AnimationCurve fovZoomCurve;
+
+        [Header("Zooming Experimental - You most likely shouldn't need to touch this")]
+        public float minZoomProgress;
+        public float zoomProgress = 1;
+        public float maxZoomProgress = 1;
 
         private Vector3 moveDirection;
         private float rotationDirection;
+        private float upAndDownDirection;
         private bool isDragging;
         private Vector2 mouseDelta;
         private bool isPanning;
         private float mouseScrollY;
 
         private float mouseYawXForPanning;
-        private float zoomLevel;
-        private float maxFOV;
-        private float minFOV;
 
         [Header("World Boundaries")]
         public bool enableWorldBoundaries = true;
         public bool showGizmo = true;
-        public float maxX;
-        public float minX;
-        public float maxZ;
-        public float minZ;
+
+        public Vector3 boundariesMin;
+        public Vector3 boundariesMax;
 
         private void Start()
         {
             mouseYawXForPanning = transform.rotation.eulerAngles.x;
-            zoomLevel = cinemachineFollowZoom.m_MaxFOV;
-            maxFOV = cinemachineFollowZoom.m_MaxFOV;
-            minFOV = cinemachineFollowZoom.m_MinFOV;
+            //fovZoomLevel = cinemachineVCam.m_Lens.FieldOfView;
+            cinemachineTransposer = cinemachineVCam.GetCinemachineComponent<CinemachineTransposer>();
+            //followProgress = cinemachineTransposer.m_FollowOffset.y;
         }
 
         private void Update()
         {
             ApplyMovement();
             ApplyRotation();
+            ApplyUpAndDownMovement();
             ApplyDrag();
             ApplyZoom();
         }
@@ -57,6 +82,8 @@ namespace Player
         public void Move(InputAction.CallbackContext context) => moveDirection = context.ReadValue<Vector3>();
 
         public void Rotate(InputAction.CallbackContext context) => rotationDirection = context.ReadValue<float>();
+
+        public void UpAndDown(InputAction.CallbackContext context) => upAndDownDirection = context.ReadValue<float>();
 
         public void DragState(InputAction.CallbackContext context)
         {
@@ -88,7 +115,15 @@ namespace Player
         {
             if (CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
-                transform.rotation *= Quaternion.Euler(0, rotationSpeed * rotationDirection / 200f, 0);
+                transform.rotation *= Quaternion.Euler(0, rotationSpeed * rotationDirection / 200f * Time.unscaledDeltaTime, 0);
+            }
+        }
+
+        private void ApplyUpAndDownMovement()
+        {
+            if (CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
+            {
+                transform.position = GetMovement(transform.position + (transform.TransformDirection(Vector3.up * upAndDownDirection) * upAndDownSpeed * Time.unscaledDeltaTime));
             }
         }
 
@@ -97,6 +132,10 @@ namespace Player
             if (isDragging)
             {
                 float speed = dragSpeed * Time.unscaledDeltaTime;
+
+                if (CameraManager.Instance.cameraMode.Equals(CameraMode.Topdown))
+                    speed *= topDownDragMultiplier;
+
                 transform.position = GetMovement(transform.position - (mouseDelta.x * speed * transform.right + mouseDelta.y * speed * transform.forward));
             }
 
@@ -111,25 +150,36 @@ namespace Player
         {
             if (CameraManager.Instance.cameraMode.Equals(CameraMode.Normal))
             {
-                if (mouseScrollY > 0 && zoomLevel >= minFOV)
+                if (mouseScrollY > 0) // Scroll up
                 {
-                    // scroll up
-                    zoomLevel -= Time.unscaledDeltaTime * zoomSpeed * 10;
-                }
-                else if (mouseScrollY < 0 && zoomLevel <= maxFOV)
-                {
-                    // scroll down
-                    zoomLevel += Time.unscaledDeltaTime * zoomSpeed * 10;
+                    if (zoomProgress >= minZoomProgress)
+                        zoomProgress -= Time.unscaledDeltaTime * zoomMultiplier;
                 }
 
-                cinemachineFollowZoom.m_MaxFOV = Mathf.Lerp(cinemachineFollowZoom.m_MaxFOV, zoomLevel, Time.unscaledDeltaTime * zoomSpeed);
+                else if (mouseScrollY < 0) // Scroll down
+                {
+                    if (zoomProgress <= maxZoomProgress)
+                        zoomProgress += Time.unscaledDeltaTime * zoomMultiplier;
+                }
+
+                zoomProgress = Mathf.Clamp(zoomProgress, minZoomProgress, maxZoomProgress);
+
+                // Camera FOV
+                //fovZoomLevel = Mathf.Lerp(minFOVZoom, maxFOVZoom, zoomProgress);
+                fovZoomLevelApplied = Mathf.Lerp(minFOVZoom, maxFOVZoom, fovZoomCurve.Evaluate(zoomProgress));
+                cinemachineVCam.m_Lens.FieldOfView = Mathf.Lerp(cinemachineVCam.m_Lens.FieldOfView, fovZoomLevelApplied, Time.unscaledDeltaTime * zoomSmoothnessMultiplier);
+
+                // Camera Offset
+                //followProgress = Mathf.Lerp(minFollowOffsetY, maxFollowOffsetY, zoomProgress);
+                followProgressApplied = Mathf.Lerp(minFollowOffsetY, maxFollowOffsetY, followOffsetCurve.Evaluate(zoomProgress));
+                cinemachineTransposer.m_FollowOffset.y = Mathf.Lerp(cinemachineTransposer.m_FollowOffset.y, followProgressApplied, Time.unscaledDeltaTime * zoomSmoothnessMultiplier);
             }
         }
 
         private Vector3 GetMovement(Vector3 newPos)
         {
             if (enableWorldBoundaries)
-                return new Vector3(Mathf.Clamp(newPos.x, minX, maxX), transform.position.y, Mathf.Clamp(newPos.z, minZ, maxZ));
+                return new Vector3(Mathf.Clamp(newPos.x, boundariesMin.x, boundariesMax.x), Mathf.Clamp(newPos.y, boundariesMin.y, boundariesMax.y), Mathf.Clamp(newPos.z, boundariesMin.z, boundariesMax.z));
             else
                 return new Vector3(newPos.x, transform.position.y, newPos.z);
         }
@@ -139,7 +189,7 @@ namespace Player
             if (showGizmo)
             {
                 Gizmos.color = Color.cyan;
-                Gizmos.DrawCube(new Vector3((maxX + minX) / 2, 0, (maxZ + minZ) / 2), new Vector3(Mathf.Abs(maxX) + Mathf.Abs(minX), 100, Mathf.Abs(maxZ) + Mathf.Abs(minZ)));
+                Gizmos.DrawCube(new Vector3((boundariesMax.x + boundariesMin.x) / 2, (boundariesMax.y + boundariesMin.y) / 2, (boundariesMax.z + boundariesMin.z) / 2), new Vector3(Mathf.Abs(boundariesMax.x) + Mathf.Abs(boundariesMin.x), Mathf.Abs(boundariesMax.y) + Mathf.Abs(boundariesMin.y), Mathf.Abs(boundariesMax.z) + Mathf.Abs(boundariesMin.z)));
             }
         }
     }

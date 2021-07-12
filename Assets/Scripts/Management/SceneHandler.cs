@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -46,10 +52,13 @@ namespace CoreManagement
             while (!load1.isDone)
                 yield return null;
 
-            AsyncOperation load2 = SceneManager.LoadSceneAsync(staticSceneIndex, LoadSceneMode.Additive);
+            if (SceneManager.GetSceneByBuildIndex(baseSceneIndex).name != "Prototype Scene 2")
+            {
+                AsyncOperation load2 = SceneManager.LoadSceneAsync(staticSceneIndex, LoadSceneMode.Additive);
 
-            while (!load2.isDone)
-                yield return null;
+                while (!load2.isDone)
+                    yield return null;
+            }
         }
     }
 }

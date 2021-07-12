@@ -1,5 +1,11 @@
-﻿using CoreManagement;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
 using System;
+using CoreManagement;
 using UnityEngine;
 
 namespace ItemManagement
@@ -9,13 +15,11 @@ namespace ItemManagement
     /// </summary>
     [Serializable]
     [ExecuteInEditMode]
-    [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(BoxCollider))]
     [CreateAssetMenu(fileName = "New Item Data", menuName = "Item/Item")]
     public class ItemData : ScriptableObject
     {
         [Header("Basic Properties")]
-        [HideInInspector] public int ID;
+        [HideInInspector] public int id;
         public new string name;
         [TextArea] public string description;
         public ItemBehaviour obj;
@@ -31,7 +35,7 @@ namespace ItemManagement
         public int maxProductPrice;
         public int maxConsumersAmount;
         public float[] seasonalPopularityOfProduct;
-        public ItemData[] Dependencies;
+        public ItemData[] dependencies;
 
         //[Header("Health System Properties")]
 

@@ -1,10 +1,16 @@
-﻿using BuildingManagement;
-using CoreManagement;
-using EconomyManagement;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BuildingManagement;
+using CoreManagement;
+using EconomyManagement;
 using TimeSystem;
 using UnityEngine;
 using Utilities;
@@ -14,7 +20,7 @@ namespace BuildingModules
     public enum WorkStateEnum { On, Idle, Off }
 
     /// <summary>
-    /// This class contains properties for class <c>Building</c> that can be changed
+    /// This class contains properties for class <see cref="Building"/> that can be changed
     /// in runtime by the Save and Load System.
     /// </summary>
     [Serializable]
@@ -29,7 +35,7 @@ namespace BuildingModules
         [Header("Work States")]
         public WorkStateEnum workState;
 
-        public Dictionary<WorkStateEnum, Guid> workStateTimes = new Dictionary<WorkStateEnum, Guid>();
+        public Dictionary<WorkStateEnum, int> workStateTimes = new Dictionary<WorkStateEnum, int>();
 
         [Tooltip("The minimum TimeSpan the machine will last in months")]
         public int monthsLifespanMin;
@@ -56,15 +62,35 @@ namespace BuildingModules
     }
 
     /// <summary>
+    /// Persistent data class about the Mesh GameObject.
+    /// </summary>
+    [Serializable]
+    public class MeshData
+    {
+        // We save GO here so when we reload chunks, we don't do Resources.Load
+        //public Transform go;
+
+        // Save pos and rot since there isn't any other way to persistently save them.
+        public Vector3 pos;
+        public Quaternion rot;
+        public Vector3Int size;
+    }
+
+    /// <summary>
     /// General Building class, contained on all GameObjects that function as a Building.
     /// Handles Building Initialization, work states, building health, electricity and visualizations.
     /// </summary>
     [RequireComponent(typeof(ModuleConnector))]
+    [RequireComponent(typeof(BuildingIO))]
     public class Building : MonoBehaviour
     {
         public BuildingBase bBase;
+        public MeshData meshData;
         public ModuleConnector mc;
+        [HideInInspector] public GameObject correspondingMeshPrefab;
+        [HideInInspector] public Transform correspondingMesh;
         [HideInInspector] public bool isSetUp;
+        [HideInInspector] public bool isVisible = true;
 
         [Header("Grid Building Properties")]
         public Transform prefab;
@@ -84,32 +110,32 @@ namespace BuildingModules
             }
         }
 
-
         // Required Components (Systems)
         [HideInInspector] public TimeManager timeManager;
         [HideInInspector] public EconomyManager economyManager;
 
         private int healthUpdateID;
 
-        [HideInInspector] public string prefabLocation;
+        [HideInInspector] public string scriptPrefabLocation;
+
+        /// <summary>
+        /// Prepares the building for visualization work.
+        /// </summary>
+        public void PreInit()
+        {
+            mc.buildingIOManager.PreInit();
+        }
 
         /// <summary>
         /// Initializes the building's properties and work state.
         /// </summary>
         public void Init(bool newBasePresent = false)
         {
-            gameObject.AddComponent<BoxCollider>();
-            if (mc.buildingIOManager != null)
-            {
-                mc.buildingIOManager.Init();
-                mc.buildingIOManager.UpdateIOPhysics();
-                mc.buildingIOManager.LinkAll();
-            }
-            else
-                Debug.LogWarning("Skipping Building IO Initialization");
-
             if (mc.apm != null)
                 mc.apm.Init();
+
+            if (mc.conveyor != null)
+                mc.conveyor.Init();
 
             isSetUp = true;
 
@@ -120,9 +146,27 @@ namespace BuildingModules
                 StartWorkStateCounters();
                 GenerateBuildingHealth();
             }
+        }
 
-            originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
+        public void InitMesh(Transform meshGO)
+        {
+            correspondingMesh = meshGO;
+
+            if (mc.buildingIOManager != null)
+            {
+                mc.buildingIOManager.Init();
+                //mc.buildingIOManager.UpdateIOPhysics();
+                mc.buildingIOManager.LinkAll();
+            }
+            else
+                Debug.LogWarning("Skipping Building IO Initialization");
+
+            originalMaterial = correspondingMesh.GetComponent<MeshRenderer>().sharedMaterial;
             RemoveIndicator();
+
+            // Add collider to the mesh so the Building can be selected
+            BoxCollider collider = correspondingMesh.gameObject.AddComponent<BoxCollider>();
+            collider.isTrigger = true;
         }
 
         #region Health Submodule
@@ -152,6 +196,20 @@ namespace BuildingModules
         private void DepleteHealthEvent()
         {
             bBase.healthWaitEvents.Add(timeManager.RegisterTimeWaiter(bBase.timeToDrainHealth, healthUpdateID));
+        }
+
+        public void OnBuildingShow()
+        {
+            isVisible = true;
+            if (mc.buildingIOManager.isConveyor)
+                mc.conveyor.LoadItemMeshes();
+        }
+
+        public void OnBuildingHide()
+        {
+            isVisible = false;
+            if (mc.buildingIOManager.isConveyor)
+                mc.conveyor.UnloadItemMeshes();
         }
 
         public virtual void OnBuildingBreak()
@@ -202,7 +260,7 @@ namespace BuildingModules
             foreach (WorkStateEnum ws in (WorkStateEnum[])Enum.GetValues(typeof(WorkStateEnum)))
             {
                 TimeCountEvent ev = timeManager.StartTimeCounter();
-                bBase.workStateTimes.Add(ws, ev.hash);
+                bBase.workStateTimes.Add(ws, timeManager.timeCounters.IndexOf(ev));
             }
 
             WorkState = WorkStateEnum.On;
@@ -228,7 +286,7 @@ namespace BuildingModules
             for (int i = 0; i < bBase.workStateTimes.Count; i++)
             {
                 WorkStateEnum key = bBase.workStateTimes.Keys.ElementAt(i);
-                Guid value = bBase.workStateTimes[key];
+                int value = bBase.workStateTimes[key];
 
                 if (key != newValue)
                 {
@@ -290,9 +348,7 @@ namespace BuildingModules
             if (currentIndicator != null && currentIndicator.GetComponent<MeshRenderer>().Equals(indicator.GetComponent<MeshRenderer>())) return;
 
             RemoveIndicator();
-            currentIndicator = ObjectPoolManager.Instance.ReuseObject(indicator.gameObject, transform.position + new Vector3(0, GetComponent<MeshRenderer>().bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
-            currentIndicator.transform.parent = transform;
-
+            currentIndicator = ObjectPoolManager.Instance.ReuseObject(indicator.gameObject, transform.position + new Vector3(0, correspondingMesh.GetComponent<MeshRenderer>().bounds.size.y + 1f, 0), transform.rotation * Quaternion.Euler(0, 180, 0)).gameObject;
         }
 
         /// <summary>
@@ -317,16 +373,6 @@ namespace BuildingModules
         }
 
         /// <summary>
-        /// Retrieves the grid size of the building
-        /// </summary>
-        /// <returns>A <see cref="Vector2Int"/> representing the grid size</returns>
-        public Vector2Int GetBuildSize()
-        {
-            Vector3 e = GetComponent<MeshRenderer>().bounds.size;
-            return new Vector2Int((int)Math.Round(e.x), (int)Math.Round(e.z));
-        }
-
-        /// <summary>
         /// Sets the workstate without triggering the OnWorkstateChanged event
         /// </summary>
         public void SetWorkstateSilent(WorkStateEnum newWorkState)
@@ -341,8 +387,9 @@ namespace BuildingModules
         {
             if (markedForDelete)
                 return;
+            Debug.Log("marking");
             markedForDelete = true;
-            GetComponent<MeshRenderer>().material = BuildingManager.Instance.redArrow;
+            correspondingMesh.GetComponent<MeshRenderer>().material.SetFloat("_IsSelected", 1);
         }
 
         public void UnmarkForDelete()
@@ -350,7 +397,8 @@ namespace BuildingModules
             if (!markedForDelete)
                 return;
             markedForDelete = false;
-            GetComponent<MeshRenderer>().material = originalMaterial;
+            Debug.Log("unmarking");
+            correspondingMesh.GetComponent<MeshRenderer>().material.SetFloat("_IsSelected", 0);
         }
     }
 }

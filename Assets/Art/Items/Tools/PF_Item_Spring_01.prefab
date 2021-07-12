@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 1047042725130339442}
   - component: {fileID: 8348778091270782532}
   - component: {fileID: 2368990281179185853}
-  - component: {fileID: -5213472983340452429}
-  - component: {fileID: 2998758184064674810}
   - component: {fileID: 3893063280966480604}
   m_Layer: 11
   m_Name: PF_Item_Spring_01
@@ -28,8 +26,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4097305991771321953}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.7377001, y: 0.10274172, z: 0.5717572}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,35 +82,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &-5213472983340452429
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4097305991771321953}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 2
-  m_Constraints: 0
-  m_CollisionDetection: 3
---- !u!65 &2998758184064674810
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4097305991771321953}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.09999851, y: 0.22699074, z: 0.09995183}
-  m_Center: {x: -0.00000074133277, y: 0.000000014901161, z: -0.000011572614}
 --- !u!114 &3893063280966480604
 MonoBehaviour:
   m_ObjectHideFlags: 0

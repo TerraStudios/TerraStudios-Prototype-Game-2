@@ -1,6 +1,12 @@
-﻿using CoreManagement;
-using SaveSystem;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
 using System;
+using CoreManagement;
+using SaveSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -33,7 +39,6 @@ namespace EconomyManagement
         {
             if (context.performed)
             {
-                Debug.Log("Filtered");
                 Balance += balanceChangeTest;
             }
         }

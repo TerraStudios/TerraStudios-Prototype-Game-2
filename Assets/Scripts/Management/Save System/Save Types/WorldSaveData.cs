@@ -1,6 +1,13 @@
-﻿using BuildingModules;
+﻿//
+// Developed by TerraStudios.
+// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
+// Destroy the file immediately if you are not one of the parties involved.
+//
+
 using System;
 using System.Collections.Generic;
+using BuildingModules;
+using TerrainGeneration;
 using UnityEngine;
 
 namespace SaveSystem
@@ -11,16 +18,21 @@ namespace SaveSystem
     [Serializable]
     public class BuildingSave
     {
-#pragma warning disable CA2235 // Uses serialization surrogate
-        public Vector3 location;
+        public ChunkCoord chunkCoord;
+        public Vector3 position;
         public Quaternion rotation;
-#pragma warning restore CA2235 // End serialization surrogate usage
         public BuildingBase building;
-        public string prefabLocation;
+        public MeshData meshData;
+        public string scriptPrefabPath;
 
-        public Transform GetObj()
+        public Transform GetScriptObj()
         {
-            return Resources.Load<Transform>(prefabLocation);
+            return Resources.Load<Transform>(scriptPrefabPath);
+        }
+
+        public Transform GetMeshObj()
+        {
+            return Resources.Load<Transform>(scriptPrefabPath + "_Mesh");
         }
     }
 
