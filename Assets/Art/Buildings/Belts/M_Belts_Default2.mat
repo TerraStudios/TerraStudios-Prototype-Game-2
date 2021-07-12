@@ -24,7 +24,7 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: ab184a3190a377240b9ffb64efa0d8ea,
     type: 3}
   m_ShaderKeywords: BOOLEAN_2D9E21A388CB4804B19182816D9E8D8F_ON BOOLEAN_CANMOVE_ON
-    _NORMALMAP
+    BOOLEAN_CANSELECTED_ON _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -60,6 +60,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 5814b18dc0e97f347a003747fac182ed, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskMapTex:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetalicGlossMap:
@@ -98,11 +102,14 @@ Material:
     - BOOLEAN_2D9E21A388CB4804B19182816D9E8D8F: 1
     - BOOLEAN_653BE824B3864397BF8D9D0045EB5F66: 0
     - BOOLEAN_CANMOVE: 1
+    - BOOLEAN_CANSELECTED: 1
+    - BOOLEAN_CANSHOWDEBUGVIS: 0
     - BOOLEAN_E7064B75FB954F0C81F6000A9B2E5898: 0
     - BOOLEAN_ISEMMISIVE: 0
     - BOOLEAN_ISMOVING: 0
     - BOOLEAN_ISSELECTED: 0
     - Boolean_04a04311cd4a4019b717e2261fe8b26f: 0
+    - Boolean_1f99d49190ed4d5299e0c760231f2f36: 0
     - _AlphaClip: 0
     - _BeltSpeed: 0.1
     - _Blend: 0
@@ -120,6 +127,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.888
     - _GlossyReflections: 1
+    - _IsSelected: 0
     - _Metalic: 0
     - _Metallic: 0.316
     - _Mode: 0
@@ -143,6 +151,7 @@ Material:
     - _BaseColor: {r: 0.30289295, g: 0.6886792, b: 0, a: 1}
     - _Color: {r: 0.019607844, g: 0.7372549, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MaskMapStrenght: {r: 0, g: 0, b: 0, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SelectedColor: {r: 0.05858613, g: 0.47058824, b: 0.054901965, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
