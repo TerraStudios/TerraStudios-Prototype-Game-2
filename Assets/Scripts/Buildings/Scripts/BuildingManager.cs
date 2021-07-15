@@ -36,8 +36,8 @@ namespace BuildingManagement
         public Transform inputsSelector;
         public Transform outputsParent;
         public Transform outputsSelector;
-        private List<Transform> inputSelectorFields = new List<Transform>();
-        private List<Transform> outputSelectorFields = new List<Transform>();
+        private readonly List<Transform> inputSelectorFields = new List<Transform>();
+        private readonly List<Transform> outputSelectorFields = new List<Transform>();
 
         [Header("Building Indicators")]
         public Transform directionIndicator;
@@ -72,8 +72,6 @@ namespace BuildingManagement
             buildingScriptParent = buildingScriptParent ? buildingScriptParent : (buildingScriptParent = new GameObject("Building GO Scripts"));
             buildingMeshParent = buildingMeshParent ? buildingMeshParent : (buildingMeshParent = new GameObject("Building GO Meshes"));
         }
-
-        //Static because the building manager doesn't have access to BuildingManager, and it doesn't make sense to put it in BuildingIOManager (multiple instances)
 
         /// <summary>
         /// Event called when the building is selected, sets the UI to active and calls the OnBuildingSelected event
