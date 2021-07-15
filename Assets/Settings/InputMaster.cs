@@ -1,4 +1,4 @@
-﻿// GENERATED AUTOMATICALLY FROM 'Assets/Settings/InputMaster.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Settings/InputMaster.inputactions'
 
 using System;
 using System.Collections;
@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-#pragma warning disable IDE1006 // Naming Styles
 public class @InputMaster : IInputActionCollection, IDisposable
 {
     public InputActionAsset asset { get; }
@@ -869,7 +868,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Gameplay;
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Camera_Manager_SwitchTopdownCamera;
-
     private readonly InputAction m_Gameplay_Camera_Manager_SwitchFreecam;
     private readonly InputAction m_Gameplay_Camera_Normal_Move;
     private readonly InputAction m_Gameplay_Camera_Normal_Rotate;
@@ -1156,4 +1154,3 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnPauseMenu_Exit(InputAction.CallbackContext context);
     }
 }
-#pragma warning restore IDE1006 // Naming Styles
