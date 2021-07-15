@@ -270,16 +270,20 @@ namespace BuildingManagement
                 return;
             if (CanPlace(center))
             {
-                if (!GameManager.Instance.CurrentGameProfile.allowBuildingIfBalanceInsufficient && economyManager.Balance - (decimal)visualization.Key.bBase.Price < 0)
+                if (!GameManager.Instance.CurrentGameProfile.allowBuildingIfBalanceInsufficient)
                 {
-                    Debug.LogWarning("Can't build because allowBuildingIfBalanceInsufficient is false");
-                    return;
+                    bool balanceSufficient = EconomyManager.Instance.CheckForSufficientFunds(visualization.Key.bBase.Price).Succeeded;
+                    if (!balanceSufficient)
+                    {
+                        Debug.LogWarning("Can't build because allowBuildingIfBalanceInsufficient is false");
+                        return;
+                    }
                 }
 
                 visualization.Value.transform.position = center;
                 visualization.Value.transform.rotation = RotationChange;
 
-                economyManager.Balance -= (decimal)visualization.Key.bBase.Price;
+                EconomyManager.Instance.AttemptWithdrawal(visualization.Key.bBase.Price);
 
                 visualization.Value.GetComponent<MeshRenderer>().material = tempMat;
 

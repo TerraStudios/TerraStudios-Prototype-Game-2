@@ -39,7 +39,7 @@ namespace EconomyManagement
         {
             if (context.performed)
             {
-                Balance += balanceChangeTest;
+                ProcessSum(balanceChangeTest);
             }
         }
 
@@ -71,8 +71,8 @@ namespace EconomyManagement
             Debug.Log("Recovered from bankruptcy!");
 
             currentBalanceText.color = Color.green;
-            TimeSpan howMuchBankruptcyLasted = lastBankruptcyEnd - lastBankruptcyStart;
-            Debug.Log("The bankrupt lasted: " + howMuchBankruptcyLasted);
+            TimeSpan bankruptcyDuration = lastBankruptcyEnd - lastBankruptcyStart;
+            Debug.Log("The bankrupt lasted: " + bankruptcyDuration);
         }
     }
 }

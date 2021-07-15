@@ -213,8 +213,8 @@ namespace Player
             if (!RemoveBuildings)
                 return;
 
-            decimal change = (decimal)((float)b.bBase.healthPercent / 100 * b.bBase.Price - (b.bBase.Price * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier));
-            EconomyManager.Instance.Balance += change;
+            float change = (float)b.bBase.healthPercent / 100 * b.bBase.Price - (b.bBase.Price * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier);
+            EconomyManager.Instance.ProcessSum(change);
 
             b.mc.buildingIOManager.DestroyArrows();
             b.mc.buildingIOManager.UnlinkAll();
@@ -271,13 +271,13 @@ namespace Player
                         //Debug.Log($"Adding {data.startingPriceInShop * GameManager.removePenaltyMultiplier} to the balance.");
                         if (item.data.isGarbage)
                         {
-                            decimal change = (decimal)(item.data.StartingPriceInShop + (item.data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.garbageRemoveMultiplier));
-                            EconomyManager.Instance.Balance += change;
+                            float change = item.data.StartingPriceInShop + (item.data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.garbageRemoveMultiplier);
+                            EconomyManager.Instance.ProcessSum(change);
                         }
                         else
                         {
-                            decimal change = (decimal)(item.data.StartingPriceInShop - (item.data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier));
-                            EconomyManager.Instance.Balance += change;
+                            float change = item.data.StartingPriceInShop - (item.data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier);
+                            EconomyManager.Instance.ProcessSum(change);
                         }
 
                         b.mc.conveyor.RemoveItemFromBelt(item.sceneInstance.gameObject, true);
@@ -295,13 +295,13 @@ namespace Player
         {
             if (data.isGarbage)
             {
-                decimal change = (decimal)(data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.garbageRemoveMultiplier));
-                EconomyManager.Instance.Balance += change;
+                float change = data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.garbageRemoveMultiplier);
+                EconomyManager.Instance.ProcessSum(change);
             }
             else
             {
-                decimal change = (decimal)(data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier));
-                EconomyManager.Instance.Balance += change;
+                float change = data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier);
+                EconomyManager.Instance.ProcessSum(change);
             }
 
             if (obj)

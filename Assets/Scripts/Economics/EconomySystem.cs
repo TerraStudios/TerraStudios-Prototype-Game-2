@@ -13,8 +13,20 @@ using UnityEngine;
 
 namespace EconomyManagement
 {
+    public struct TransactionResponse
+    {
+        public enum ResponseType { UNKNOWN_ERROR, INSUFFICIENT_BALANCE, SUCCESS }
+
+        public ResponseType response;
+
+        public bool Succeeded
+        {
+            get => response.Equals(ResponseType.SUCCESS);
+        }
+    }
+
     /// <summary>
-    /// Handles the calculations for the economy calculations.
+    /// Handles the economy calculations.
     /// </summary>
     public class EconomySystem : MonoBehaviour
     {
@@ -49,12 +61,83 @@ namespace EconomyManagement
 
         public virtual void OnBalanceUpdate() { MakeBankruptcyCheck(); }
 
-        public bool CheckForSufficientFunds(int price)
+        public TransactionResponse ProcessSum(float sum)
         {
-            if (Balance >= price)
-                return true;
+            if (sum >= 0)
+                return Deposit(sum);
             else
-                return false;
+                return AttemptWithdrawal(-sum);
+        }
+
+        public TransactionResponse Deposit(float sum)
+        {
+            try
+            {
+                if (sum <= 0)
+                    throw new UnityException("Attempted to deposit with a negative sum! " + sum);
+
+                Balance += (decimal)sum;
+
+                return new TransactionResponse
+                {
+                    response = TransactionResponse.ResponseType.SUCCESS
+                };
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.ToString());
+
+                return new TransactionResponse
+                {
+                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR
+                };
+            }
+        }
+
+        public TransactionResponse AttemptWithdrawal(float price)
+        {
+            TransactionResponse response;
+            try
+            {
+                if (price <= 0)
+                    throw new UnityException("Attempted to withdraw with a negative price! " + price);
+
+                response = CheckForSufficientFunds(price);
+
+                if (response.Succeeded)
+                {
+                    Balance -= (decimal)price;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.ToString());
+
+                return new TransactionResponse
+                {
+                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR
+                };
+            }
+
+            return response;
+        }
+
+        public TransactionResponse CheckForSufficientFunds(double price)
+        {
+            if (Balance >= (decimal) price)
+            {
+                return new TransactionResponse
+                {
+                    response = TransactionResponse.ResponseType.SUCCESS
+                };
+            }
+            else
+            {
+                return new TransactionResponse
+                {
+                    response = TransactionResponse.ResponseType.INSUFFICIENT_BALANCE
+                };
+            }
         }
 
         private void MakeBankruptcyCheck()
