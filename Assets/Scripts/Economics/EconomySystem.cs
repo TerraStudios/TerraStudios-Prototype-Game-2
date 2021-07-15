@@ -18,7 +18,7 @@ namespace EconomyManagement
     /// </summary>
     public struct TransactionResponse
     {
-        public enum ResponseType { UNKNOWN_ERROR, INSUFFICIENT_BALANCE, SUCCESS }
+        public enum ResponseType { SUM_INVALID_FORMAT, UNKNOWN_ERROR, INSUFFICIENT_BALANCE, SUCCESS }
 
         public ResponseType response;
 
@@ -92,7 +92,7 @@ namespace EconomyManagement
                 {
                     return new TransactionResponse
                     {
-                        response = TransactionResponse.ResponseType.UNKNOWN_ERROR,
+                        response = TransactionResponse.ResponseType.SUM_INVALID_FORMAT,
                         error = "Attempted to deposit with a negative sum! " + sum
                     };
                 }
@@ -130,7 +130,7 @@ namespace EconomyManagement
                 {
                     return new TransactionResponse
                     {
-                        response = TransactionResponse.ResponseType.UNKNOWN_ERROR,
+                        response = TransactionResponse.ResponseType.SUM_INVALID_FORMAT,
                         error = "Attempted to withdraw with a negative price! " + price
                     };
                 }
