@@ -89,7 +89,13 @@ namespace EconomyManagement
             try
             {
                 if (sum <= 0)
-                    throw new UnityException("Attempted to deposit with a negative sum! " + sum);
+                {
+                    return new TransactionResponse
+                    {
+                        response = TransactionResponse.ResponseType.UNKNOWN_ERROR,
+                        error = "Attempted to deposit with a negative sum! " + sum
+                    };
+                }
 
                 Balance += (decimal)sum;
 
@@ -105,8 +111,7 @@ namespace EconomyManagement
 
                 return new TransactionResponse
                 {
-                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR,
-                    error = errorText
+                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR
                 };
             }
         }
@@ -122,7 +127,13 @@ namespace EconomyManagement
             try
             {
                 if (price <= 0)
-                    throw new UnityException("Attempted to withdraw with a negative price! " + price);
+                {
+                    return new TransactionResponse
+                    {
+                        response = TransactionResponse.ResponseType.UNKNOWN_ERROR,
+                        error = "Attempted to withdraw with a negative price! " + price
+                    };
+                }
 
                 response = CheckForSufficientFunds(price);
 
@@ -138,8 +149,7 @@ namespace EconomyManagement
 
                 return new TransactionResponse
                 {
-                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR,
-                    error = errorText
+                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR
                 };
             }
 
