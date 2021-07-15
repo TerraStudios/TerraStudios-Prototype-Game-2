@@ -13,6 +13,9 @@ using UnityEngine;
 
 namespace EconomyManagement
 {
+    /// <summary>
+    /// A struct containing information about the result of a transaction.
+    /// </summary>
     public struct TransactionResponse
     {
         public enum ResponseType { UNKNOWN_ERROR, INSUFFICIENT_BALANCE, SUCCESS }
@@ -61,14 +64,24 @@ namespace EconomyManagement
 
         public virtual void OnBalanceUpdate() { MakeBankruptcyCheck(); }
 
+        /// <summary>
+        /// Processes a sum of money. Withdrawals or deposits depending if the sum is positive or negative.
+        /// </summary>
+        /// <param name="sum">Sum to add or remove.</param>
+        /// <returns></returns>
         public TransactionResponse ProcessSum(float sum)
         {
             if (sum >= 0)
                 return Deposit(sum);
             else
-                return AttemptWithdrawal(-sum);
+                return AttemptWithdrawal(-sum); // We flip the sign of the sum here to ensure it doesn't get flipped inside AttemptWithdrawal
         }
 
+        /// <summary>
+        /// Deposits a sum to the balance.
+        /// </summary>
+        /// <param name="sum">Sum to add to the balance.</param>
+        /// <returns></returns>
         public TransactionResponse Deposit(float sum)
         {
             try
@@ -94,6 +107,11 @@ namespace EconomyManagement
             }
         }
 
+        /// <summary>
+        /// Attempts to withdraw an amount of money from the balance.
+        /// </summary>
+        /// <param name="price">Amount to remove.</param>
+        /// <returns></returns>
         public TransactionResponse AttemptWithdrawal(float price)
         {
             TransactionResponse response;
@@ -122,6 +140,11 @@ namespace EconomyManagement
             return response;
         }
 
+        /// <summary>
+        /// Checks whether there are enough funds in the balance to pay for that price.
+        /// </summary>
+        /// <param name="price">Price to check against the balance.</param>
+        /// <returns></returns>
         public TransactionResponse CheckForSufficientFunds(double price)
         {
             if (Balance >= (decimal) price)
@@ -140,6 +163,9 @@ namespace EconomyManagement
             }
         }
 
+        /// <summary>
+        /// Checks whether we're in bankruptcy and takes the appropriate actions.
+        /// </summary>
         private void MakeBankruptcyCheck()
         {
             if (!GameManager.Instance.CurrentGameProfile.enableBankruptcy)
@@ -157,6 +183,9 @@ namespace EconomyManagement
             }
         }
 
+        /// <summary>
+        /// Called when the Economy System enter a state of bankruptcy.
+        /// </summary>
         public virtual void OnEnterBankruptcy()
         {
             isInBankruptcy = true;
@@ -165,11 +194,17 @@ namespace EconomyManagement
             bankruptcyTimers.Add(timeManager.RegisterTimeWaiter(TimeSpan.FromDays(GameManager.Instance.CurrentGameProfile.daysBeforeSeriousBankruptcy), seriousBankruptcyID));
         }
 
+        /// <summary>
+        /// Called when the Economy System enter a serious state of bankruptcy.
+        /// </summary>
         public virtual void OnSeriousBankruptcy()
         {
             bankruptcyTimers.Add(timeManager.RegisterTimeWaiter(TimeSpan.FromDays(GameManager.Instance.CurrentGameProfile.daysBeforeGameOverBankruptcy), gameOverID));
         }
 
+        /// <summary>
+        /// Called when the Economy System exists from state of bankruptcy.
+        /// </summary>
         public virtual void OnEndBankruptcy()
         {
             isInBankruptcy = false;
@@ -178,6 +213,10 @@ namespace EconomyManagement
             foreach (TimeWaitEvent ev in bankruptcyTimers) { timeManager.UnregisterTimeWaiter(ev); }
         }
 
+        /// <summary>
+        /// Returns the current balance in a format decided by the current culture.
+        /// </summary>
+        /// <returns>Readable balance text.</returns>
         public string GetReadableBalance()
         {
             return "Balance: " + Balance.ToString("C", GameManager.Instance.currentCultureCurrency);
