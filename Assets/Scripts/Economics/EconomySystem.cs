@@ -22,6 +22,8 @@ namespace EconomyManagement
 
         public ResponseType response;
 
+        public string error;
+
         public bool Succeeded
         {
             get => response.Equals(ResponseType.SUCCESS);
@@ -98,11 +100,13 @@ namespace EconomyManagement
             }
             catch (Exception e)
             {
-                Debug.LogError(e.ToString());
+                string errorText = e.ToString();
+                Debug.LogError(errorText);
 
                 return new TransactionResponse
                 {
-                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR
+                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR,
+                    error = errorText
                 };
             }
         }
@@ -129,11 +133,13 @@ namespace EconomyManagement
             }
             catch (Exception e)
             {
-                Debug.LogError(e.ToString());
+                string errorText = e.ToString();
+                Debug.LogError(errorText);
 
                 return new TransactionResponse
                 {
-                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR
+                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR,
+                    error = errorText
                 };
             }
 
