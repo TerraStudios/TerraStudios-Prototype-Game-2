@@ -13,7 +13,6 @@ using CoreManagement;
 using DebugTools;
 using EconomyManagement;
 using ItemManagement;
-using Tayx.Graphy.Utils.NumString;
 using TerrainGeneration;
 using TerrainTypes;
 using TimeSystem;
@@ -199,7 +198,7 @@ namespace Player
         {
             RaycastHit? gridHit = GridManager.Instance.FindGridHit();
             if (gridHit == null) return default;
-            Vector3 snappedPos = GridManager.Instance.GetGridPosition(gridHit.Value.point, new Vector3Int() { x = brushSize.value.ToInt() + 1, y = brushSize.value.ToInt() + 1, z = 1 });
+            Vector3 snappedPos = GridManager.Instance.GetGridPosition(gridHit.Value.point, new Vector3Int() { x = (int)brushSize.value + 1, y = (int)brushSize.value + 1, z = 1 });
             if (snappedPos == lastSnappedPos) return default;
             return snappedPos;
         }

@@ -12,27 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d63baff16e30749bd501f20d3688cd, type: 3}
   m_Name: gProfile_Default
   m_EditorClassIdentifier: 
-  enableIncomeTax: 1
-  incomeTaxType: 0
-  enableSalesTax: 1
-  enableEcoTax: 1
-  enableElectricityTax: 1
-  enableBuildingDamage: 1
-  monthsLifespanMultiplier: 1
-  timeToFixMultiplier: 1
-  buildingPenaltyForFixMultiplier: 1
-  enableElectricityCalculations: 1
-  wattsPerHourIdleMultiplier: 1
-  wattsPerHourWorkMultiplier: 1
-  globalBaseTimeMultiplier: 1
-  removePenaltyMultiplier: 5
-  garbageRemoveMultiplier: 2
-  globalPriceMultiplierItems: 1
-  globalPriceMultiplierBuildings: 1
-  forceManualCurrencyCC: 0
-  currencyCC: 
-  enableGodMode: 0
-  allowBuildingIfBalanceInsufficient: 1
-  enableBankruptcy: 1
-  daysBeforeSeriousBankruptcy: 5
-  daysBeforeGameOverBankruptcy: 7
+  data:
+    enableIncomeTax: 1
+    incomeTaxType: 0
+    enableSalesTax: 1
+    enableEcoTax: 1
+    enableElectricityTax: 1
+    enableBuildingDamage: 1
+    monthsLifespanMultiplier: 1
+    timeToFixMultiplier: 1
+    buildingPenaltyForFixMultiplier: 1
+    enableElectricityCalculations: 1
+    wattsPerHourIdleMultiplier: 1
+    wattsPerHourWorkMultiplier: 1
+    globalBaseTimeMultiplier: 1
+    removePenaltyMultiplier: 0.4
+    garbageRemoveMultiplier: 2
+    globalPriceMultiplierItems: 1
+    globalPriceMultiplierBuildings: 1
+    forceManualCurrencyCC: 0
+    currencyCC: 
+    enableGodMode: 0
+    allowBuildingIfBalanceInsufficient: 0
+    enableBankruptcy: 1
+    daysBeforeSeriousBankruptcy: 5
+    daysBeforeGameOverBankruptcy: 7
