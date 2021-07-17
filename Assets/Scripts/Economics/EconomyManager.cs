@@ -39,7 +39,7 @@ namespace EconomyManagement
         {
             if (context.performed)
             {
-                ProcessSum(balanceChangeTest);
+                ProcessSum(balanceChangeTest, true);
             }
         }
 

@@ -18,6 +18,8 @@ namespace EconomyManagement
     /// </summary>
     public struct TransactionResponse
     {
+        public float amount;
+
         public enum ResponseType { SUM_INVALID_FORMAT, UNKNOWN_ERROR, INSUFFICIENT_BALANCE, SUCCESS }
 
         public ResponseType response;
@@ -71,12 +73,12 @@ namespace EconomyManagement
         /// </summary>
         /// <param name="sum">Sum to add or remove.</param>
         /// <returns></returns>
-        public TransactionResponse ProcessSum(float sum)
+        public TransactionResponse ProcessSum(float sum, bool bypassBalanceCheck = false)
         {
             if (sum >= 0)
                 return Deposit(sum);
             else
-                return AttemptWithdrawal(-sum); // We flip the sign of the sum here to ensure it doesn't get flipped inside AttemptWithdrawal
+                return AttemptWithdrawal(-sum, bypassBalanceCheck); // We flip the sign of the sum here to ensure it doesn't get flipped inside AttemptWithdrawal
         }
 
         /// <summary>
@@ -121,9 +123,8 @@ namespace EconomyManagement
         /// </summary>
         /// <param name="price">Amount to remove.</param>
         /// <returns></returns>
-        public TransactionResponse AttemptWithdrawal(float price)
+        public TransactionResponse AttemptWithdrawal(float price, bool bypassBalanceCheck = false)
         {
-            TransactionResponse response;
             try
             {
                 if (price <= 0)
@@ -135,25 +136,36 @@ namespace EconomyManagement
                     };
                 }
 
-                response = CheckForSufficientFunds(price);
-
-                if (response.Succeeded)
+                if (CheckForSufficientFunds(price, bypassBalanceCheck).Succeeded)
                 {
                     Balance -= (decimal)price;
+
+                    return new TransactionResponse
+                    {
+                        response = TransactionResponse.ResponseType.SUCCESS,
+                        amount = price
+                    };
+                }
+                else
+                {
+                    return new TransactionResponse
+                    {
+                        response = TransactionResponse.ResponseType.INSUFFICIENT_BALANCE,
+                        amount = price
+                    };
                 }
             }
             catch (Exception e)
             {
-                string errorText = e.ToString();
-                Debug.LogError(errorText);
+                // If this triggers, something has REALLY gone wrong
+                Debug.LogError(e.ToString());
 
                 return new TransactionResponse
                 {
-                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR
+                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR,
+                    amount = price
                 };
             }
-
-            return response;
         }
 
         /// <summary>
@@ -161,8 +173,16 @@ namespace EconomyManagement
         /// </summary>
         /// <param name="price">Price to check against the balance.</param>
         /// <returns></returns>
-        public TransactionResponse CheckForSufficientFunds(double price)
+        public TransactionResponse CheckForSufficientFunds(double price, bool bypassBalanceCheck = false)
         {
+            if (bypassBalanceCheck)
+            {
+                return new TransactionResponse
+                {
+                    response = TransactionResponse.ResponseType.SUCCESS
+                };
+            }
+
             if (Balance >= (decimal) price)
             {
                 return new TransactionResponse

@@ -25,7 +25,7 @@ namespace RecipeManagement
         {
             Instance = this;
             LoadResources();
-            Debug.Log("Loaded " + recipes.Count() + " recipes");
+            Debug.Log("Loaded " + recipes.Count + " recipes");
         }
 
         public List<MachineRecipe> RetrieveRecipes()

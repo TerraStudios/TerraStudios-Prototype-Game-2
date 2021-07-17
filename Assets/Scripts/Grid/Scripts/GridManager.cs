@@ -270,20 +270,32 @@ namespace BuildingManagement
                 return;
             if (CanPlace(center))
             {
+                // Not allowed to build if balance insufficient
+                // Balance insufficient to place a building
                 if (!GameManager.Instance.CurrentGameProfile.allowBuildingIfBalanceInsufficient)
                 {
-                    bool balanceSufficient = EconomyManager.Instance.CheckForSufficientFunds(visualization.Key.bBase.Price).Succeeded;
-                    if (!balanceSufficient)
+                    TransactionResponse result = EconomyManager.Instance.AttemptWithdrawal(visualization.Key.bBase.Price);
+
+                    switch (result.response)
                     {
-                        Debug.LogWarning("Can't build because allowBuildingIfBalanceInsufficient is false");
-                        return;
+                        case TransactionResponse.ResponseType.SUCCESS:
+                            break;
+                        case TransactionResponse.ResponseType.INSUFFICIENT_BALANCE:
+                            Debug.LogWarning("Can't build because the ballance is insufficient!");
+                            return;
+                        default:
+                            Debug.LogError("UNKNOWN OR UNDEFINED ERROR: Can't build because of an error when withdrawing!");
+                            return;
                     }
+                }
+                else
+                {
+                    // Withdraw the money
+                    EconomyManager.Instance.AttemptWithdrawal(visualization.Key.bBase.Price, true);
                 }
 
                 visualization.Value.transform.position = center;
                 visualization.Value.transform.rotation = RotationChange;
-
-                EconomyManager.Instance.AttemptWithdrawal(visualization.Key.bBase.Price);
 
                 visualization.Value.GetComponent<MeshRenderer>().material = tempMat;
 
