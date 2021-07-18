@@ -89,7 +89,7 @@ namespace EconomyManagement
         {
             if (context.performed)
             {
-                ProcessSum(balanceChangeTest, true);
+                AttemptTransaction(balanceChangeTest, true);
             }
         }
 
@@ -145,7 +145,7 @@ namespace EconomyManagement
         /// </summary>
         /// <param name="sum">Sum to add or remove.</param>
         /// <returns></returns>
-        public TransactionResponse ProcessSum(float sum, bool bypassBalanceCheck = false)
+        public TransactionResponse AttemptTransaction(float sum, bool bypassBalanceCheck = false)
         {
             try
             {

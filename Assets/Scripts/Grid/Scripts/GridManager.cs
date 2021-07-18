@@ -274,7 +274,7 @@ namespace BuildingManagement
                 // Balance insufficient to place a building
                 if (!GameManager.Instance.CurrentGameProfile.allowBuildingIfBalanceInsufficient)
                 {
-                    TransactionResponse result = EconomyManager.Instance.ProcessSum(-visualization.Key.bBase.Price);
+                    TransactionResponse result = EconomyManager.Instance.AttemptTransaction(-visualization.Key.bBase.Price);
 
                     switch (result.response)
                     {
@@ -291,7 +291,7 @@ namespace BuildingManagement
                 else
                 {
                     // Withdraw the money
-                    EconomyManager.Instance.ProcessSum(-visualization.Key.bBase.Price, true);
+                    EconomyManager.Instance.AttemptTransaction(-visualization.Key.bBase.Price, true);
                 }
 
                 visualization.Value.transform.position = center;

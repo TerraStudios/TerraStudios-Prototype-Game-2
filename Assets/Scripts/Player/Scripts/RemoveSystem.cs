@@ -213,7 +213,7 @@ namespace Player
                 return;
 
             float change = (float)b.bBase.healthPercent / 100 * b.bBase.Price - (b.bBase.Price * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier);
-            EconomyManager.Instance.ProcessSum(change);
+            EconomyManager.Instance.AttemptTransaction(change);
 
             b.mc.buildingIOManager.DestroyArrows();
             b.mc.buildingIOManager.UnlinkAll();
@@ -271,12 +271,12 @@ namespace Player
                         if (item.data.isGarbage)
                         {
                             float change = item.data.StartingPriceInShop + (item.data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.garbageRemoveMultiplier);
-                            EconomyManager.Instance.ProcessSum(change);
+                            EconomyManager.Instance.AttemptTransaction(change);
                         }
                         else
                         {
                             float change = item.data.StartingPriceInShop - (item.data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier);
-                            EconomyManager.Instance.ProcessSum(change);
+                            EconomyManager.Instance.AttemptTransaction(change);
                         }
 
                         b.mc.conveyor.RemoveItemFromBelt(item.sceneInstance.gameObject, true);
@@ -295,12 +295,12 @@ namespace Player
             if (data.isGarbage)
             {
                 float change = data.StartingPriceInShop + (data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.garbageRemoveMultiplier);
-                EconomyManager.Instance.ProcessSum(change);
+                EconomyManager.Instance.AttemptTransaction(change);
             }
             else
             {
                 float change = data.StartingPriceInShop - (data.StartingPriceInShop * GameManager.Instance.CurrentGameProfile.removePenaltyMultiplier);
-                EconomyManager.Instance.ProcessSum(change);
+                EconomyManager.Instance.AttemptTransaction(change);
             }
 
             if (obj)
