@@ -34,7 +34,12 @@ jobs:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           targetPlatform: StandaloneWindows64
-
+      
+      - uses: kolpav/purge-artifacts-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          expire-in: 0days # Setting this to 0 will delete all artifacts
+      
       # Output
       - uses: actions/upload-artifact@v2
         with:
