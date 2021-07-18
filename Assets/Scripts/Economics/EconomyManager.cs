@@ -113,7 +113,7 @@ namespace EconomyManagement
             bankruptcyTimers.Add(timeManager.RegisterTimeWaiter(TimeSpan.FromDays(GameManager.Instance.CurrentGameProfile.daysBeforeSeriousBankruptcy), seriousBankruptcyID));
 
             // UI
-            
+
             currentBalanceText.color = Color.red;
         }
 
@@ -147,27 +147,39 @@ namespace EconomyManagement
         /// <returns></returns>
         public TransactionResponse ProcessSum(float sum, bool bypassBalanceCheck = false)
         {
-            if (sum >= 0)
-                return Deposit(sum);
-            else
-                return AttemptWithdrawal(-sum, bypassBalanceCheck); // We flip the sign of the sum here to ensure it doesn't get flipped inside AttemptWithdrawal
-        }
-
-        /// <summary>
-        /// Deposits a sum to the balance.
-        /// </summary>
-        /// <param name="sum">Sum to add to the balance.</param>
-        /// <returns></returns>
-        private TransactionResponse Deposit(float sum)
-        {
             try
             {
-                Balance += (decimal)sum;
-
-                return new TransactionResponse
+                if (sum >= 0)
                 {
-                    response = TransactionResponse.ResponseType.SUCCESS
-                };
+                    Balance += (decimal)sum;
+
+                    return new TransactionResponse
+                    {
+                        response = TransactionResponse.ResponseType.SUCCESS
+                    };
+                }
+                else
+                {
+                    float price = -sum;
+                    if (CheckForSufficientFunds(price, bypassBalanceCheck))
+                    {
+                        Balance -= (decimal)price;
+
+                        return new TransactionResponse
+                        {
+                            response = TransactionResponse.ResponseType.SUCCESS,
+                            amount = price
+                        };
+                    }
+                    else
+                    {
+                        return new TransactionResponse
+                        {
+                            response = TransactionResponse.ResponseType.INSUFFICIENT_BALANCE,
+                            amount = price
+                        };
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -177,47 +189,6 @@ namespace EconomyManagement
                 return new TransactionResponse
                 {
                     response = TransactionResponse.ResponseType.UNKNOWN_ERROR
-                };
-            }
-        }
-
-        /// <summary>
-        /// Attempts to withdraw an amount of money from the balance.
-        /// </summary>
-        /// <param name="price">Amount to remove.</param>
-        /// <returns></returns>
-        private TransactionResponse AttemptWithdrawal(float price, bool bypassBalanceCheck = false)
-        {
-            try
-            {
-                if (CheckForSufficientFunds(price, bypassBalanceCheck))
-                {
-                    Balance -= (decimal)price;
-
-                    return new TransactionResponse
-                    {
-                        response = TransactionResponse.ResponseType.SUCCESS,
-                        amount = price
-                    };
-                }
-                else
-                {
-                    return new TransactionResponse
-                    {
-                        response = TransactionResponse.ResponseType.INSUFFICIENT_BALANCE,
-                        amount = price
-                    };
-                }
-            }
-            catch (Exception e)
-            {
-                // If this triggers, something has REALLY gone wrong
-                Debug.LogError(e.ToString());
-
-                return new TransactionResponse
-                {
-                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR,
-                    amount = price
                 };
             }
         }
