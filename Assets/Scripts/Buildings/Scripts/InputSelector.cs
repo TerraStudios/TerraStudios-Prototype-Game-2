@@ -38,7 +38,7 @@ namespace BuildingManagement
             }
         }
 
-        private void Awake()
+        private void Start()
         {
             button.onClick.AddListener(OnChangeInputIDButtonClicked);
         }
