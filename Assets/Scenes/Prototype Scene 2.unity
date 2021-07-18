@@ -2962,13 +2962,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6ef16e145d9a741b87fb0ec32cbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBalanceText: {fileID: 126700195}
   timeManager: {fileID: 1029902788}
   startBalance: 1456536
   balanceChangeTest: -99999
   isInBankruptcy: 0
   seriousBankruptcyID: 0
   gameOverID: 0
-  currentBalanceText: {fileID: 126700195}
 --- !u!114 &1029902783
 MonoBehaviour:
   m_ObjectHideFlags: 0

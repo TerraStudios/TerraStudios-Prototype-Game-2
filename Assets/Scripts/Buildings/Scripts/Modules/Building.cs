@@ -223,7 +223,7 @@ namespace BuildingModules
                 return;
 
             float priceForFix = (float)(bBase.healthPercent + 1) / 100 * bBase.price * bBase.penaltyForFix * GameManager.Instance.CurrentGameProfile.buildingPenaltyForFixMultiplier;
-            EconomyManager.Instance.AttemptWithdrawal(priceForFix);
+            EconomyManager.Instance.ProcessSum(priceForFix);
             WorkState = WorkStateEnum.Off;
 
             SetIndicator(BuildingManager.Instance.fixingIndicator);
