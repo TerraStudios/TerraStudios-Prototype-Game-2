@@ -38,7 +38,7 @@ jobs:
       - uses: kolpav/purge-artifacts-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          expire-in: 0days # Setting this to 0 will delete all artifacts
+          expire-in: 0 # Setting this to 0 will delete all artifacts
       
       # Output
       - uses: actions/upload-artifact@v2
