@@ -55,7 +55,7 @@ namespace Tests
                             {
                                 foreach (MachineRecipe.InputData input in batch.inputs)
                                 {
-                                    int requiredInputs = input.inputID;
+                                    int requiredInputs = input.inputId;
                                     Assert.IsFalse(io.inputs.Length < requiredInputs,
                                         "Recipe inputs size is higher than APM inputs size. " +
                                         $"APM '{obj.name}' has '{io.inputs.Length}' inputs while recipe '{recipe}' attached from the recipe filter '{filter.name}' requires '{requiredInputs}' inputs");
@@ -66,7 +66,7 @@ namespace Tests
                             {
                                 foreach (MachineRecipe.OutputData input in batch.outputs)
                                 {
-                                    int requiredOutputs = input.outputID;
+                                    int requiredOutputs = input.outputId;
                                     Assert.IsFalse(io.inputs.Length < requiredOutputs,
                                         "Recipe inputs size is higher than APM inputs size. " +
                                         $"APM '{obj.name}' has '{io.inputs.Length}' inputs while recipe '{recipe}' attached from the recipe filter '{filter.name}' requires '{requiredOutputs}' inputs");

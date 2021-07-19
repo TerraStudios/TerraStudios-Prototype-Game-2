@@ -141,10 +141,10 @@ namespace BuildingManagement
         /// <summary>
         /// Sets the appropriate WorkState of the machine based off of button input
         /// </summary>
-        /// <param name="buttonID">The button pressed</param>
-        public void OnStateButtonPressed(int buttonID)
+        /// <param name="buttonId">The button pressed</param>
+        public void OnStateButtonPressed(int buttonId)
         {
-            switch (buttonID)
+            switch (buttonId)
             {
                 case 1:
                     focusedBuilding.WorkState = WorkStateEnum.On;
@@ -232,7 +232,7 @@ namespace BuildingManagement
                 Transform fieldToAdd = Instantiate(inputsSelector, inputsParent);
                 InputSelector os = fieldToAdd.GetComponent<InputSelector>();
                 os.value = entry.Key;
-                os.InputID = entry.Value;
+                os.InputId = entry.Value;
                 os.itemNameText.text = entry.Key.item.name;
                 inputSelectorFields.Add(fieldToAdd);
 
@@ -256,7 +256,7 @@ namespace BuildingManagement
                 Transform fieldToAdd = Instantiate(outputsSelector, outputsParent);
                 OutputSelector os = fieldToAdd.GetComponent<OutputSelector>();
                 os.value = entry.Key;
-                os.OutputID = entry.Value;
+                os.OutputId = entry.Value;
                 os.itemNameText.text = entry.Key.item.name;
                 outputSelectorFields.Add(fieldToAdd);
 

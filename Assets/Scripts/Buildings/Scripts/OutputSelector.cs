@@ -18,29 +18,29 @@ namespace BuildingManagement
     {
         // Dictionary values
         [HideInInspector] public MachineRecipe.OutputData value;
-        private int outputID;
+        private int outputId;
 
         [Header("UI Components")]
         public TMP_Text itemNameText;
         public Button button;
         public TMP_Text buttonText;
 
-        public int OutputID
+        public int OutputId
         {
-            get => outputID;
+            get => outputId;
             set
             {
-                outputID = value;
+                outputId = value;
                 buttonText.text = "Output " + value;
             }
         }
 
         private void Start()
         {
-            button.onClick.AddListener(OnChangeOutputIDButtonClicked);
+            button.onClick.AddListener(OnChangeOutputIdButtonClicked);
         }
 
-        private void OnChangeOutputIDButtonClicked()
+        private void OnChangeOutputIdButtonClicked()
         {
             BuildingManager.Instance.focusedBuilding.mc.apm.OnOutputButtonPressed(this);
         }

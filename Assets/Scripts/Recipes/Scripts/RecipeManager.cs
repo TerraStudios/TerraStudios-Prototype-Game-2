@@ -55,7 +55,7 @@ namespace RecipeManagement
                     {
                         foreach (MachineRecipe.InputData inputData in data.inputs)
                         {
-                            if (inputData.inputID < filter.buildingInputsAmount)
+                            if (inputData.inputId < filter.buildingInputsAmount)
                                 inputsFit = true;
                             else
                             {
@@ -89,7 +89,7 @@ namespace RecipeManagement
                     {
                         foreach (MachineRecipe.OutputData inputData in data.outputs)
                         {
-                            if (inputData.outputID < filter.buildingOutputsAmount)
+                            if (inputData.outputId < filter.buildingOutputsAmount)
                                 outputsFit = true;
                             else
                             {

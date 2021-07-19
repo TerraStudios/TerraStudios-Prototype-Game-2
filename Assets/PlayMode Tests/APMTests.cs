@@ -43,7 +43,7 @@ namespace Tests
                     {
                         inputs = new MachineRecipe.InputData[]
                         {
-                            new MachineRecipe.InputData { item = input1, amount = 1, inputID = 0 }
+                            new MachineRecipe.InputData { item = input1, amount = 1, inputId = 0 }
                         }
                     }
                 };
@@ -85,7 +85,7 @@ namespace Tests
             //Invoke OnItemEnterEvent
             OnItemEnterEvent args = new OnItemEnterEvent()
             {
-                inputID = 0,
+                inputId = 0,
                 item = toInput,
             };
 

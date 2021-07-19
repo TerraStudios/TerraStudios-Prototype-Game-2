@@ -473,13 +473,13 @@ namespace BuildingManagement
         /// <summary>
         /// Event for when the building build button is pressed. Currently turns on IsInBuildMode and sets the current structure.
         /// </summary>
-        public void OnBuildButtonPressed(int buildingID)
+        public void OnBuildButtonPressed(int buildingId)
         {
             DeconstructVisualization();
 
-            int resourceID = buildingID - 1;
+            int resourceId = buildingId - 1;
 
-            currentBuilding = BuildingManager.Instance.GetBuildingFromLocation(resourceID);
+            currentBuilding = BuildingManager.Instance.GetBuildingFromLocation(resourceId);
             currentBuilding.Key.correspondingMesh = currentBuilding.Value;
 
             IsInBuildMode = true;

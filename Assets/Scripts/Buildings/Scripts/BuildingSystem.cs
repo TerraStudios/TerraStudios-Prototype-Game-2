@@ -217,11 +217,11 @@ namespace BuildingManagement
         /// <summary>
         /// Retrieves Script and Mesh GameObjects for the corresponding asset location.
         /// </summary>
-        /// <param name="resourcesID">The ID of the Resources locations available in the buildingLocations list.</param>
+        /// <param name="resourcesId">The ID of the Resources locations available in the buildingLocations list.</param>
         /// <returns>Script and Mesh GameObjects for the corresponding Building.</returns>
-        public KeyValuePair<Building, Transform> GetBuildingFromLocation(int resourcesID)
+        public KeyValuePair<Building, Transform> GetBuildingFromLocation(int resourcesId)
         {
-            string resourcesLocation = buildingLocations[resourcesID];
+            string resourcesLocation = buildingLocations[resourcesId];
             Transform scriptGO = Resources.Load<Transform>(resourcesLocation);
 
             //Transform meshGO = scriptGO.GetChild(0);

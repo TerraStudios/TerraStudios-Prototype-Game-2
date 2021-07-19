@@ -190,14 +190,14 @@ namespace BuildingModules
         /// Called when an <see cref="ItemData"/> attempts to enter a <see cref="BuildingIO"/>.
         /// </summary>
         /// <param name="data">The Item that attempts to enter.</param>
-        /// <param name="inputID">The input ID from which it attempts to enter.</param>
-        public void AttemptItemEnter(ItemData data, int inputID, GameObject sceneInstance, BuildingIOManager caller)
+        /// <param name="inputId">The input ID from which it attempts to enter.</param>
+        public void AttemptItemEnter(ItemData data, int inputId, GameObject sceneInstance, BuildingIOManager caller)
         {
             Debug.Log("[Item Enter] Item attempts to enter! Item is " + data.name);
 
             OnItemEnterEvent args = new OnItemEnterEvent()
             {
-                inputID = inputID,
+                inputId = inputId,
                 item = data,
                 sceneInstance = sceneInstance,
                 caller = caller
@@ -225,7 +225,7 @@ namespace BuildingModules
         /// Called when an <see cref="ItemData"/> is ejected/dropped out of a Building
         /// </summary>
         /// <param name="data"></param>
-        public void EjectItem(ItemData data, int outputID, bool removeFromItems = true, float timeToSpawn = 1)
+        public void EjectItem(ItemData data, int outputId, bool removeFromItems = true, float timeToSpawn = 1)
         {
             // maybe add an event in the future
 
@@ -251,14 +251,14 @@ namespace BuildingModules
             ItemQueueData spawnData = new ItemQueueData()
             {
                 item = data,
-                outputID = outputID,
+                outputId = outputId,
                 timeToSpawn = timeToSpawn
             };
 
-            outputs[outputID].itemsToSpawn.Enqueue(spawnData);
+            outputs[outputId].itemsToSpawn.Enqueue(spawnData);
             //itemsToSpawn.Enqueue(toSpawn);
 
-            if (outputs[outputID].itemsToSpawn.Count == 1)
+            if (outputs[outputId].itemsToSpawn.Count == 1)
                 ExecuteSpawn(spawnData);
 
             Debug.Log("Item " + data.name + " added to the ejection queue of the building!");
@@ -287,7 +287,7 @@ namespace BuildingModules
                 OnItemEnterEvent args = new OnItemEnterEvent()
                 {
                     caller = this,
-                    inputID = 0, // not sure if it's good to hard code this...
+                    inputId = 0, // not sure if it's good to hard code this...
                     item = conveyorItemData.data,
                     sceneInstance = conveyorItemData.sceneInstance.gameObject
                 };
@@ -315,9 +315,9 @@ namespace BuildingModules
         private IEnumerator ProcessSpawn(ItemQueueData queueData)
         {
             yield return new WaitForSeconds(queueData.timeToSpawn);
-            yield return new WaitWhile(GetAttachedToBelt(queueData.outputID).manager.mc.conveyor.IsBusy);
+            yield return new WaitWhile(GetAttachedToBelt(queueData.outputId).manager.mc.conveyor.IsBusy);
 
-            BuildingIO target = outputs[queueData.outputID].linkedIO;
+            BuildingIO target = outputs[queueData.outputId].linkedIO;
             if (target != null)
             {
                 if (queueData.sceneInstance)
@@ -335,21 +335,21 @@ namespace BuildingModules
                 {
                     if (io.isInput && io.itemInside)
                     {
-                        ProceedItemEnter(io.itemInside.gameObject, io.itemInside.data, io.ID);
+                        ProceedItemEnter(io.itemInside.gameObject, io.itemInside.data, io.Id);
                     }
                 });
             }*/
 
-            FinishSpawn(queueData.outputID);
+            FinishSpawn(queueData.outputId);
         }
 
-        private void FinishSpawn(int outputID)
+        private void FinishSpawn(int outputId)
         {
-            outputs[outputID].itemsToSpawn.Dequeue();
+            outputs[outputId].itemsToSpawn.Dequeue();
 
-            if (outputs[outputID].itemsToSpawn.Count != 0)
+            if (outputs[outputId].itemsToSpawn.Count != 0)
             {
-                ItemQueueData next = outputs[outputID].itemsToSpawn.Peek();
+                ItemQueueData next = outputs[outputId].itemsToSpawn.Peek();
                 ExecuteSpawn(next);
             }
         }

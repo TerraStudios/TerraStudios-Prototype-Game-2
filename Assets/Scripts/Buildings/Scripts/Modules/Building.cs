@@ -114,7 +114,7 @@ namespace BuildingModules
         [HideInInspector] public TimeManager timeManager;
         [HideInInspector] public EconomyManager economyManager;
 
-        private int healthUpdateID;
+        private int healthUpdateId;
 
         [HideInInspector] public string scriptPrefabLocation;
 
@@ -139,7 +139,7 @@ namespace BuildingModules
 
             isSetUp = true;
 
-            healthUpdateID = CallbackHandler.Instance.RegisterCallback(OnHealthTimeUpdate);
+            healthUpdateId = CallbackHandler.Instance.RegisterCallback(OnHealthTimeUpdate);
 
             if (!newBasePresent)
             {
@@ -195,7 +195,7 @@ namespace BuildingModules
 
         private void DepleteHealthEvent()
         {
-            bBase.healthWaitEvents.Add(timeManager.RegisterTimeWaiter(bBase.timeToDrainHealth, healthUpdateID));
+            bBase.healthWaitEvents.Add(timeManager.RegisterTimeWaiter(bBase.timeToDrainHealth, healthUpdateId));
         }
 
         public void OnBuildingShow()

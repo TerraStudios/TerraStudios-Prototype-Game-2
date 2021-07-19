@@ -23,7 +23,7 @@ namespace RecipeManagement
         [Serializable]
         public class InputBatch
         {
-            public int outputListID;
+            public int outputListId;
             public InputData[] inputs;
         }
 
@@ -34,7 +34,7 @@ namespace RecipeManagement
             public int amount;
 
             [Tooltip("Specifies the input ID from which the item should be expected to enter. -1 for undefined")]
-            public int inputID = -1;
+            public int inputId = -1;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace RecipeManagement
         {
             public ItemData item;
             public int amount;
-            public int outputID;
+            public int outputId;
         }
 
         [Header("Items")]

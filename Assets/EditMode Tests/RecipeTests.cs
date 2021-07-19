@@ -38,7 +38,7 @@ namespace Assets.Tests
                 {
                     foreach (MachineRecipe.OutputData data in batch.outputs)
                     {
-                        Assert.IsFalse(data.outputID == -1, $"Recipe {recipe.name} has an OutputData with outputID = -1!");
+                        Assert.IsFalse(data.outputId == -1, $"Recipe {recipe.name} has an OutputData with outputID = -1!");
                     }
                 }
             }

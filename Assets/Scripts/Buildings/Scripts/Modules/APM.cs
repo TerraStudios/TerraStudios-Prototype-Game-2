@@ -24,8 +24,8 @@ namespace BuildingModules
     public class CraftingData
     {
         public MachineRecipe currentRecipe;
-        public int inputID;
-        public int outputID;
+        public int inputId;
+        public int outputId;
     }
 
     /// <summary>
@@ -44,12 +44,12 @@ namespace BuildingModules
         private APMStatus currentStatus;
 
         // Key is the needed recipe item
-        // Value is inputID
+        // Value is inputId
         [HideInInspector]
         public Dictionary<MachineRecipe.InputData, int> inputData = new Dictionary<MachineRecipe.InputData, int>();
 
         // Key is the needed recipe item
-        // Value is outputID
+        // Value is outputId
         [HideInInspector]
         public Dictionary<MachineRecipe.OutputData, int> outputData = new Dictionary<MachineRecipe.OutputData, int>();
 
@@ -117,18 +117,18 @@ namespace BuildingModules
                 {
                     for (int i = 0; i < data.inputs.Length; i++)
                     {
-                        int inputIDToApply = data.inputs[i].inputID + 1;
-                        if (data.inputs[i].inputID == -1)
+                        int inputIdToApply = data.inputs[i].inputId + 1;
+                        if (data.inputs[i].inputId == -1)
                         {
-                            inputIDToApply = -1;
+                            inputIdToApply = -1;
                         }
                         else
                         {
-                            if (inputIDToApply >= buildingInputs)
-                                inputIDToApply = buildingInputs;
+                            if (inputIdToApply >= buildingInputs)
+                                inputIdToApply = buildingInputs;
                         }
 
-                        inputData.Add(data.inputs[i], inputIDToApply);
+                        inputData.Add(data.inputs[i], inputIdToApply);
                     }
                 }
 
@@ -137,11 +137,11 @@ namespace BuildingModules
                 {
                     for (int i = 0; i < data.outputs.Length; i++)
                     {
-                        int outputIDToApply = data.outputs[i].outputID + 1;
-                        if (outputIDToApply >= buildingOutputs)
-                            outputIDToApply = buildingOutputs;
+                        int outputIdToApply = data.outputs[i].outputId + 1;
+                        if (outputIdToApply >= buildingOutputs)
+                            outputIdToApply = buildingOutputs;
 
-                        outputData.Add(data.outputs[i], outputIDToApply);
+                        outputData.Add(data.outputs[i], outputIdToApply);
                     }
                 }
             }
@@ -149,34 +149,34 @@ namespace BuildingModules
 
         public void OnInputButtonPressed(InputSelector caller)
         {
-            int newInputID = caller.InputID + 1;
+            int newInputId = caller.InputId + 1;
 
-            if (caller.InputID == -1)
+            if (caller.InputId == -1)
                 return;
-            else if (newInputID <= mc.buildingIOManager.inputs.Length)
-                inputData[caller.value] = newInputID;
+            else if (newInputId <= mc.buildingIOManager.inputs.Length)
+                inputData[caller.value] = newInputId;
             else
             {
-                newInputID = 1;
-                inputData[caller.value] = newInputID;
+                newInputId = 1;
+                inputData[caller.value] = newInputId;
             }
 
-            caller.InputID = newInputID;
+            caller.InputId = newInputId;
         }
 
         public void OnOutputButtonPressed(OutputSelector caller)
         {
-            int newOutputID = caller.OutputID + 1;
+            int newOutputId = caller.OutputId + 1;
 
-            if (newOutputID <= mc.buildingIOManager.outputs.Length)
-                outputData[caller.value] = newOutputID;
+            if (newOutputId <= mc.buildingIOManager.outputs.Length)
+                outputData[caller.value] = newOutputId;
             else
             {
-                newOutputID = 1;
-                outputData[caller.value] = newOutputID;
+                newOutputId = 1;
+                outputData[caller.value] = newOutputId;
             }
 
-            caller.OutputID = newOutputID;
+            caller.OutputId = newOutputId;
         }
 
         private void OnItemEnterInput(OnItemEnterEvent ItemEnterInfo)
@@ -207,14 +207,14 @@ namespace BuildingModules
                 {
                     if (inputData.item.id == ItemEnterInfo.item.id)
                     {
-                        if (inputData.inputID != -1)
+                        if (inputData.inputId != -1)
                         {
-                            if (inputData.inputID != ItemEnterInfo.inputID)
+                            if (inputData.inputId != ItemEnterInfo.inputId)
                                 return false;
                             else
                                 return true;
                         }
-                        else if (inputData.inputID == -1)
+                        else if (inputData.inputId == -1)
                         {
                             return true;
                         }
@@ -243,8 +243,8 @@ namespace BuildingModules
 
         private (bool, int, int) IsAllowedToStartCrafting(OnItemEnterEvent ItemEnterInfo)
         {
-            int inputID = 0;
-            int outputID = 0;
+            int inputId = 0;
+            int outputId = 0;
 
             /*// check if the outputs' queues have enough space to fit the output items
             foreach (KeyValuePair<MachineRecipe.OutputData, int> kvp in outputData)
@@ -254,7 +254,7 @@ namespace BuildingModules
                 {
                     ItemLog(ItemEnterInfo.item.name, "Not enough space to one or more of the output/s", this);
                     mc.building.SetIndicator(BuildingManager.Instance.errorIndicator);
-                    return (false, inputID, outputID);
+                    return (false, inputId, outputId);
                 }
             }*/
 
@@ -280,8 +280,8 @@ namespace BuildingModules
                         return false;
                     }
 
-                    inputID = CurrentRecipe.inputs.FindIndex(id => id == data);
-                    outputID = data.outputListID;
+                    inputId = CurrentRecipe.inputs.FindIndex(id => id == data);
+                    outputId = data.outputListId;
                 }
 
                 return true;
@@ -289,12 +289,12 @@ namespace BuildingModules
 
             if (recipeData.Count == 1)
             {
-                Debug.Log("Starting crafting with inputID: " + inputID + " outputID: " + outputID);
-                return (true, inputID, outputID);
+                Debug.Log("Starting crafting with inputId: " + inputId + " outputId: " + outputId);
+                return (true, inputId, outputId);
             }
             else
             {
-                return (false, inputID, outputID);
+                return (false, inputId, outputId);
             }
         }
 
@@ -319,17 +319,17 @@ namespace BuildingModules
 
             CraftingData currentlyCrafting = this.currentlyCrafting.Peek();
 
-            foreach (MachineRecipe.OutputData data in currentlyCrafting.currentRecipe.outputs[currentlyCrafting.outputID].outputs) // get items needed to be ejected
+            foreach (MachineRecipe.OutputData data in currentlyCrafting.currentRecipe.outputs[currentlyCrafting.outputId].outputs) // get items needed to be ejected
             {
-                // find their corresponding outputID
+                // find their corresponding outputIds
                 KeyValuePair<MachineRecipe.OutputData, int> kvp = new KeyValuePair<MachineRecipe.OutputData, int>(data, outputData[data]);
 
                 for (int t = 0; t < kvp.Key.amount; t++)
                 {
-                    int outputIDToCheck = kvp.Value - 1;
+                    int outputIdToCheck = kvp.Value - 1;
 
                     // Check the output space based on the items inside
-                    int total = mc.buildingIOManager.outputs[outputIDToCheck].itemsToSpawn.GroupBy(_ => _.item).Where(_ => _.Count() > 1).Sum(_ => _.Count());
+                    int total = mc.buildingIOManager.outputs[outputIdToCheck].itemsToSpawn.GroupBy(_ => _.item).Where(_ => _.Count() > 1).Sum(_ => _.Count());
                     if (total >= outputSpace)
                     {
                         Debug.LogWarning("Output " + (kvp.Value - 1) + " is full!");
@@ -343,14 +343,14 @@ namespace BuildingModules
 
         #region Crafting procedure
 
-        private void StartCrafting(int inputID, int outputID)
+        private void StartCrafting(int inputId, int outputId)
         {
             Debug.Log("Start crafting!", this);
 
             CraftingData data = new CraftingData()
             {
-                inputID = inputID,
-                outputID = outputID,
+                inputId = inputId,
+                outputId = outputId,
                 currentRecipe = currentRecipe
             };
 
@@ -372,7 +372,7 @@ namespace BuildingModules
         private void ProcessToCraft()
         {
             CraftingData data = currentlyCrafting.Peek();
-            foreach (MachineRecipe.InputData toRemove in data.currentRecipe.inputs[data.inputID].inputs)
+            foreach (MachineRecipe.InputData toRemove in data.currentRecipe.inputs[data.inputId].inputs)
             {
                 mc.buildingIOManager.RemoveItem(toRemove.item);
             }
@@ -391,14 +391,14 @@ namespace BuildingModules
         {
             CraftingData currentlyCrafting = this.currentlyCrafting.Peek();
 
-            foreach (MachineRecipe.OutputData data in currentlyCrafting.currentRecipe.outputs[currentlyCrafting.outputID].outputs) // get items needed to be ejected
+            foreach (MachineRecipe.OutputData data in currentlyCrafting.currentRecipe.outputs[currentlyCrafting.outputId].outputs) // get items needed to be ejected
             {
-                // find their corresponding outputID
+                // find their corresponding outputId
                 KeyValuePair<MachineRecipe.OutputData, int> kvp = new KeyValuePair<MachineRecipe.OutputData, int>(data, outputData[data]);
 
                 for (int t = 0; t < kvp.Key.amount; t++)
                 {
-                    Debug.Log("Spawning on outputID" + (kvp.Value - 1));
+                    Debug.Log("Spawning on outputId" + (kvp.Value - 1));
                     mc.buildingIOManager.EjectItem(kvp.Key.item, kvp.Value - 1, false);
                 }
             }

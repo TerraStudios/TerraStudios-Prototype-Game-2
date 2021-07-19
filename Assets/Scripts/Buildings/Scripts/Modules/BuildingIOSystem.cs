@@ -237,9 +237,9 @@ namespace BuildingModules
             return null;
         }
 
-        public BuildingIO GetAttachedToBelt(int outputID = -1)
+        public BuildingIO GetAttachedToBelt(int outputId = -1)
         {
-            if (outputID == -1)
+            if (outputId == -1)
             {
                 foreach (BuildingIO output in outputs)
                 {
@@ -249,7 +249,7 @@ namespace BuildingModules
             }
             else
             {
-                return outputs[outputID].linkedIO;
+                return outputs[outputId].linkedIO;
             }
 
             return null;
@@ -326,7 +326,7 @@ namespace BuildingModules
     public class OnItemEnterEvent : UnityEvent<OnItemEnterEvent>
     {
         public BuildingIOManager caller;
-        public int inputID;
+        public int inputId;
         public ItemData item;
         public GameObject sceneInstance;
     }
@@ -337,7 +337,7 @@ namespace BuildingModules
     public class ItemQueueData
     {
         public ItemData item;
-        public int outputID;
+        public int outputId;
         public float timeToSpawn;
         public GameObject sceneInstance;
     }

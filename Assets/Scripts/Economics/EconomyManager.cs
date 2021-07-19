@@ -70,8 +70,8 @@ namespace EconomyManagement
 
         public List<TimeWaitEvent> bankruptcyTimers { get => GameSave.current.economySaveData.bankruptcyTimers; set => GameSave.current.economySaveData.bankruptcyTimers = value; }
 
-        public int seriousBankruptcyID;
-        public int gameOverID;
+        public int seriousBankruptcyId;
+        public int gameOverId;
 
         private void Awake()
         {
@@ -81,8 +81,8 @@ namespace EconomyManagement
             else
                 Balance = GameSave.current.economySaveData.balance;
 
-            seriousBankruptcyID = CallbackHandler.Instance.RegisterCallback(EnterSeriousBankruptcy);
-            gameOverID = CallbackHandler.Instance.RegisterCallback(GameManager.Instance.GameOver);
+            seriousBankruptcyId = CallbackHandler.Instance.RegisterCallback(EnterSeriousBankruptcy);
+            gameOverId = CallbackHandler.Instance.RegisterCallback(GameManager.Instance.GameOver);
         }
 
         public void TestBalanceChange(InputAction.CallbackContext context)
@@ -110,7 +110,7 @@ namespace EconomyManagement
             isInBankruptcy = true;
             lastBankruptcyStart = timeManager.CurrentTime;
 
-            bankruptcyTimers.Add(timeManager.RegisterTimeWaiter(TimeSpan.FromDays(GameManager.Instance.CurrentGameProfile.daysBeforeSeriousBankruptcy), seriousBankruptcyID));
+            bankruptcyTimers.Add(timeManager.RegisterTimeWaiter(TimeSpan.FromDays(GameManager.Instance.CurrentGameProfile.daysBeforeSeriousBankruptcy), seriousBankruptcyId));
 
             // UI
 
@@ -119,7 +119,7 @@ namespace EconomyManagement
 
         public void EnterSeriousBankruptcy()
         {
-            bankruptcyTimers.Add(timeManager.RegisterTimeWaiter(TimeSpan.FromDays(GameManager.Instance.CurrentGameProfile.daysBeforeGameOverBankruptcy), gameOverID));
+            bankruptcyTimers.Add(timeManager.RegisterTimeWaiter(TimeSpan.FromDays(GameManager.Instance.CurrentGameProfile.daysBeforeGameOverBankruptcy), gameOverId));
 
 
             Debug.Log("Extremely critical condition! Your're now in Serious Bankruptcy!");

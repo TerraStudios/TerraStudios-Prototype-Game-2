@@ -18,19 +18,19 @@ namespace BuildingManagement
     {
         // Dictionary values
         [HideInInspector] public MachineRecipe.InputData value;
-        private int inputID;
+        private int inputId;
 
         [Header("UI Components")]
         public TMP_Text itemNameText;
         public Button button;
         public TMP_Text buttonText;
 
-        public int InputID
+        public int InputId
         {
-            get => inputID;
+            get => inputId;
             set
             {
-                inputID = value;
+                inputId = value;
                 if (value == -1)
                     buttonText.text = "Input Any";
                 else
@@ -40,10 +40,10 @@ namespace BuildingManagement
 
         private void Start()
         {
-            button.onClick.AddListener(OnChangeInputIDButtonClicked);
+            button.onClick.AddListener(OnChangeInputIdButtonClicked);
         }
 
-        private void OnChangeInputIDButtonClicked()
+        private void OnChangeInputIdButtonClicked()
         {
             BuildingManager.Instance.focusedBuilding.mc.apm.OnInputButtonPressed(this);
         }

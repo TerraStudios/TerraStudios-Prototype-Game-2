@@ -33,10 +33,10 @@ public class CallbackHandler : MonoBehaviour
     /// <summary>
     /// Gets the method from the unique ID
     /// </summary>
-    /// <param name="ID">Unique ID</param>
+    /// <param name="id">Unique ID</param>
     /// <returns>The method action</returns>
-    public Action GetEvent(int ID)
+    public Action GetEvent(int id)
     {
-        return callbacks[ID];
+        return callbacks[id];
     }
 }
