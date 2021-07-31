@@ -22,11 +22,26 @@ namespace EconomyManagement
     {
         public float amount;
 
-        public enum ResponseType { UNKNOWN_ERROR, INSUFFICIENT_BALANCE, SUCCESS }
+        public class ResponseType
+        {
+            public static readonly ResponseType UNKNOWN_ERROR = new ResponseType("An unknown error has occured:\n{0}");
+            public static readonly ResponseType INSUFFICIENT_BALANCE = new ResponseType("You don't have enough money!");
+            public static readonly ResponseType SUCCESS = new ResponseType();
+
+            private string errorMessage;
+
+            public string GetErrorMessage(params object[] args)
+            {
+                return string.Format(errorMessage, args);
+            }
+
+            private ResponseType(string errorMessage = "")
+            {
+                this.errorMessage = errorMessage;
+            }
+        }
 
         public ResponseType response;
-
-        public string error;
 
         public bool Succeeded
         {
@@ -183,12 +198,11 @@ namespace EconomyManagement
             }
             catch (Exception e)
             {
-                string errorText = e.ToString();
-                Debug.LogError(errorText);
+                Debug.LogException(e);
 
                 return new TransactionResponse
                 {
-                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR
+                    response = TransactionResponse.ResponseType.UNKNOWN_ERROR,
                 };
             }
         }
