@@ -391,9 +391,9 @@ namespace BuildingModules
         {
             Material arrowMaterial = io.linkStatus switch
             {
-                IOLinkStatus.Unconnected => BuildingManager.Instance.blueArrow,
-                IOLinkStatus.InvalidConnection => BuildingManager.Instance.redArrow,
-                IOLinkStatus.SuccessfulConnection => BuildingManager.Instance.greenArrow,
+                IOLinkStatus.Unconnected => BuildingManager.Instance.blueMat,
+                IOLinkStatus.InvalidConnection => BuildingManager.Instance.redMat,
+                IOLinkStatus.SuccessfulConnection => BuildingManager.Instance.greenMat,
                 _ => null
             };
 
