@@ -47,9 +47,9 @@ namespace BuildingManagement
         public Transform fixingIndicator;
 
         [Header("Color Indicators")]
-        public Material blueMat;
-        public Material greenMat;
-        public Material redMat;
+        public Material blueColor;
+        public Material greenColor;
+        public Material redColor;
 
         public static BuildingManager Instance;
 

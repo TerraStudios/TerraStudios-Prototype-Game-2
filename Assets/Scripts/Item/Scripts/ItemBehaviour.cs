@@ -34,7 +34,7 @@ namespace ItemManagement
             if (markedForDelete)
                 return;
             markedForDelete = true;
-            GetComponent<MeshRenderer>().material = BuildingManager.Instance.redMat;
+            GetComponent<MeshRenderer>().material = BuildingManager.Instance.redColor;
         }
 
         public void UnmarkForDelete()

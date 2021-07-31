@@ -164,11 +164,11 @@ namespace BuildingManagement
 
                 if (canPlace)
                 {
-                    visualization.Value.GetComponent<MeshRenderer>().material = buildingManager.greenMat;
+                    visualization.Value.GetComponent<MeshRenderer>().material = buildingManager.greenColor;
                 }
                 else
                 {
-                    visualization.Value.GetComponent<MeshRenderer>().material = buildingManager.redMat;
+                    visualization.Value.GetComponent<MeshRenderer>().material = buildingManager.redColor;
                 }
 
                 visualization.Value.transform.position = center;
