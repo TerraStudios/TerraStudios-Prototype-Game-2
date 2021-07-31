@@ -53,7 +53,11 @@ namespace BuildingManagement
                 if (RemoveSystem.RemoveModeEnabled)
                     return;
 
-                OnBuildModeChanged(value);
+                if (value)
+                    OnBuildModeEnabled();
+                else
+                    OnBuildModeDisabled();
+
                 isInBuildMode = value;
             }
         }
@@ -428,32 +432,35 @@ namespace BuildingManagement
         /// Method called when IsInBuildMode is changed. Currently visualizes IO Ports for convenience.
         /// </summary>
         /// <param name="value">The new value for IsInBuildMode</param>
-        private void OnBuildModeChanged(bool value)
+        private void OnBuildModeEnabled()
         {
             RaycastHit? hit = FindGridHit();
             if (hit == null) return;
 
             Vector3 center = GetGridPosition(hit.Value.point);
 
-            if (value)
+            ConstructVisualization(center);
+        }
+
+        private void OnBuildModeDisabled()
+        {
+            RaycastHit? hit = FindGridHit();
+            if (hit == null) return;
+
+            Vector3 center = GetGridPosition(hit.Value.point);
+
+            //TimeEngine.IsPaused = false;
+            visualization = new KeyValuePair<Building, Transform>(null, null);
+            if (!forceVisualizeAll)
             {
-                ConstructVisualization(center);
-            }
-            else
-            {
-                //TimeEngine.IsPaused = false;
-                visualization = new KeyValuePair<Building, Transform>(null, null);
-                if (!forceVisualizeAll)
-                {
-                    foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
-                        foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
+                foreach (List<KeyValuePair<Building, GameObject>> kvp in BuildingSystem.PlacedBuildings.Values)
+                    foreach (KeyValuePair<Building, GameObject> buildingKVP in kvp)
+                    {
+                        if (buildingKVP.Key.mc.buildingIOManager)
                         {
-                            if (buildingKVP.Key.mc.buildingIOManager)
-                            {
-                                buildingKVP.Key.mc.buildingIOManager.DestroyArrows();
-                            }
+                            buildingKVP.Key.mc.buildingIOManager.DestroyArrows();
                         }
-                }
+                    }
             }
         }
 
