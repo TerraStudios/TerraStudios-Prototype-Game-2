@@ -173,11 +173,10 @@ namespace BuildingManagement
 
                 visualization.Value.transform.position = center;
                 visualization.Value.transform.rotation = RotationChange;
-                visualization.Key.meshData = new MeshData()
-                {
-                    pos = visualization.Value.position,
-                    rot = visualization.Value.rotation,
-                };
+
+                visualization.Key.meshData.pos = visualization.Value.position;
+                visualization.Key.meshData.rot = visualization.Value.rotation;
+
                 visualization.Key.mc.buildingIOManager.LinkAll(true);
                 visualization.Key.mc.buildingIOManager.UpdateArrows();
             }
@@ -231,11 +230,8 @@ namespace BuildingManagement
             visualization.Key.SetIndicator(BuildingManager.Instance.directionIndicator);
             tempMat = currentBuilding.Value.GetComponent<MeshRenderer>().sharedMaterial;
 
-            visualization.Key.meshData = new MeshData()
-            {
-                pos = visualization.Value.position,
-                rot = visualization.Value.rotation,
-            };
+            visualization.Key.meshData.pos = visualization.Value.position;
+            visualization.Key.meshData.rot = visualization.Value.rotation;
 
             visualization.Key.mc.buildingIOManager.PreInit();
         }
@@ -314,12 +310,9 @@ namespace BuildingManagement
                 placedChunk.SetVoxelRegion(voxelPos.x - buildingSize.x + 1, voxelPos.y,
                     voxelPos.z - buildingSize.z + 1, voxelPos.x, voxelPos.y + buildingSize.y, voxelPos.z, slaveBlock);
 
-                visualization.Key.meshData = new MeshData()
-                {
-                    pos = visualization.Value.position,
-                    rot = visualization.Value.rotation,
-                    size = buildingSize
-                };
+                visualization.Key.meshData.pos = visualization.Value.position;
+                visualization.Key.meshData.rot = visualization.Value.rotation;
+                visualization.Key.meshData.size = buildingSize;
 
                 RegisterBuildingData data = new RegisterBuildingData()
                 {
