@@ -272,16 +272,10 @@ namespace BuildingManagement
                 {
                     TransactionResponse result = EconomyManager.Instance.AttemptTransaction(-visualization.Key.bBase.Price);
 
-                    switch (result.response)
+                    if (!result.Succeeded)
                     {
-                        case TransactionResponse.ResponseType.SUCCESS:
-                            break;
-                        case TransactionResponse.ResponseType.INSUFFICIENT_BALANCE:
-                            Debug.LogWarning("Can't build because the ballance is insufficient!");
-                            return;
-                        default:
-                            Debug.LogError("UNKNOWN OR UNDEFINED ERROR: Can't build because of an error when withdrawing!");
-                            return;
+                        Debug.LogWarning(result.response.GetErrorMessage());
+                        return;
                     }
                 }
                 else
