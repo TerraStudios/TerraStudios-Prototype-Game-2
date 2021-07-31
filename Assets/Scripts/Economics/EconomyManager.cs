@@ -42,7 +42,6 @@ namespace EconomyManagement
         }
 
         public ResponseType response;
-        public string errorMessage;
 
         public bool Succeeded
         {
@@ -204,7 +203,6 @@ namespace EconomyManagement
                 return new TransactionResponse
                 {
                     response = TransactionResponse.ResponseType.UNKNOWN_ERROR,
-                    errorMessage = TransactionResponse.ResponseType.UNKNOWN_ERROR.GetErrorMessage(e.ToString())
                 };
             }
         }

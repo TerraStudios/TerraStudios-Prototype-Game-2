@@ -278,7 +278,7 @@ namespace BuildingManagement
 
                     if (!result.Succeeded)
                     {
-                        Debug.LogWarning(result.errorMessage);
+                        Debug.LogWarning(result.response.GetErrorMessage());
                         return;
                     }
                 }
