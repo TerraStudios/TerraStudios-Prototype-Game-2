@@ -11,6 +11,7 @@ Global Life Survival Linux/
 Server Console/Server Console/bin
 Server Console/Server Console/obj
 AssetLogs/
+UserSettings/
 
 # Github Actions artifacts folder to prevent dirty branch creation
 artifacts/
