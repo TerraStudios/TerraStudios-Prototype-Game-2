@@ -93,8 +93,6 @@ namespace CoreManagement
 
             GenerateCultures();
 
-            Log.DEBUG_MODE = debugMode; //Set the debug mode for logging
-
             JobsUtility.JobWorkerCount = jobWorkerCount;
         }
 
