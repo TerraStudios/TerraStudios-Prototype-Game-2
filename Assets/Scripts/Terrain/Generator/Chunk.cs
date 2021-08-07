@@ -45,7 +45,7 @@ namespace TerrainGeneration
         }
 
         /// <summary>
-        /// I have no idea how this works but visual studio generated it for me
+        /// Provide a way of comparing ChunkCoord objects by only checking their x and z variables.
         /// </summary>
         /// <returns>The hash code of the object</returns>
         public override int GetHashCode()
