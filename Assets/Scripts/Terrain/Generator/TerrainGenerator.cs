@@ -95,7 +95,6 @@ namespace TerrainGeneration
 
         private void Awake()
         {
-            NativeLeakDetection.Mode = NativeLeakDetectionMode.EnabledWithStackTrace;
             Instance = this;
         }
 
