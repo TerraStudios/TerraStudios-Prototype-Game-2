@@ -68,7 +68,7 @@ namespace TerrainGeneration
         /// <summary>
         /// Contains a list of <see cref="ChunkCoord"/>s to be loaded
         /// </summary>
-        private FastPriorityQueue<ChunkCoordNode> chunkQueue = new FastPriorityQueue<ChunkCoordNode>(100000);
+        private FastPriorityQueue<ChunkCoordNode> chunkQueue = new FastPriorityQueue<ChunkCoordNode>(15000);
 
         /// <summary>
         /// Represents the last chunk position the player was at
