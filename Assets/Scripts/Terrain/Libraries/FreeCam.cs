@@ -1,11 +1,9 @@
 ﻿//
-// Developed by TerraStudios.
-// This script is covered by a Mutual Non-Disclosure Agreement and is Confidential.
-// Destroy the file immediately if you are not one of the parties involved.
+// Propery of ashleydavis. Under MIT license.
+// https://gist.github.com/ashleydavis/f025c03a9221bc840a2b
 //
 
 using UnityEngine;
-
 
 namespace TerrainGeneration
 {
